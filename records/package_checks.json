@@ -9,5 +9,7 @@
   "independent_simulation_checks_passed": 53,
   "document_language": "English",
   "software_language_options_preserved": true,
-  "documentation_links_checked": 5
+  "documentation_links_checked": 5,
+  "additional_files_checked_for_comments": 37,
+  "additional_comment_issues": 0
 }
