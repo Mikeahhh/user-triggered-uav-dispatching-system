@@ -1,0 +1,25 @@
+hover_seconds: 5.0
+
+
+mqtt_broker: localhost
+mqtt_port: 1883
+
+
+topic_target_legacy: alin1/mission/target_gps
+topic_target_multi:  alin1/mission/multi_waypoint
+topic_status:        alin1/mission/status
+topic_abort:         alin1/mission/abort
+
+
+execution_journal_path: /home/mike/drone_system/data/mission_state/executions.json
+
+
+log_dir: /home/mike/drone_system/logs
+log_level: INFO
+
+
+gps_timeout_seconds: 5.0
+
+target_acceptance_timeout_seconds: 5.0
+target_retry_limit: 3
+topic_operator_reset: "alin1/mission/operator_reset"

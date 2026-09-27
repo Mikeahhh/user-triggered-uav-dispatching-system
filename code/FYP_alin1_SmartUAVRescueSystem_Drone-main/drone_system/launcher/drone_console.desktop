@@ -1,0 +1,10 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Drone Mission Control
+Comment=On-board mission control center for the rescue UAV
+Exec=python3 /home/mike/drone_system/launcher/drone_console.py
+Icon=/home/mike/drone_system/launcher/icon.png
+Terminal=false
+Categories=Utility;Development;
+StartupNotify=true

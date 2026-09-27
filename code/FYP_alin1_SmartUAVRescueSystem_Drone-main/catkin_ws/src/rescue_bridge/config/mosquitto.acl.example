@@ -1,0 +1,24 @@
+user ground_station_role
+
+
+topic write alin1/mission/target_gps
+topic write alin1/mission/multi_waypoint
+topic write alin1/mission/abort
+topic write alin1/mission/operator_reset
+
+
+topic read alin1/mission/status
+topic read alin1/rescue/onboard_record
+topic read alin1/rescue/receiver_ready
+
+
+topic write alin1/rescue/ground_ack
+topic write alin1/rescue/sync_request
+
+
+user receiver_role
+topic read alin1/mission/status
+topic read alin1/rescue/ground_ack
+topic read alin1/rescue/sync_request
+topic write alin1/rescue/onboard_record
+topic write alin1/rescue/receiver_ready

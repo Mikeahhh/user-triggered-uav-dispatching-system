@@ -1,0 +1,117 @@
+apply plugin: "com.android.application"
+apply plugin: "org.jetbrains.kotlin.android"
+apply plugin: "com.facebook.react"
+apply plugin: "com.google.gms.google-services"
+
+
+react {
+
+
+    autolinkLibrariesWithApp()
+}
+
+
+def enableProguardInReleaseBuilds = false
+
+
+def jscFlavor = 'io.github.react-native-community:jsc-android:2026004.+'
+
+def mapsApiKey = project.findProperty('MAPS_API_KEY') ?: System.getenv('MAPS_API_KEY') ?: 'MISSING_MAPS_API_KEY'
+def uploadStoreFile = project.findProperty('MYAPP_UPLOAD_STORE_FILE') ?: System.getenv('MYAPP_UPLOAD_STORE_FILE')
+def uploadKeyAlias = project.findProperty('MYAPP_UPLOAD_KEY_ALIAS') ?: System.getenv('MYAPP_UPLOAD_KEY_ALIAS')
+def uploadStorePassword = project.findProperty('MYAPP_UPLOAD_STORE_PASSWORD') ?: System.getenv('MYAPP_UPLOAD_STORE_PASSWORD')
+def uploadKeyPassword = project.findProperty('MYAPP_UPLOAD_KEY_PASSWORD') ?: System.getenv('MYAPP_UPLOAD_KEY_PASSWORD')
+def hasReleaseSigning = [
+    uploadStoreFile,
+    uploadKeyAlias,
+    uploadStorePassword,
+    uploadKeyPassword,
+].every { value -> value != null && !value.toString().isBlank() }
+android {
+    ndkVersion rootProject.ext.ndkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdk rootProject.ext.compileSdkVersion
+
+    namespace "com.fypproject"
+    defaultConfig {
+        applicationId "com.fypproject"
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+        versionCode 3
+        versionName "1.2.0"
+        manifestPlaceholders = [MAPS_API_KEY: mapsApiKey]
+    }
+
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+
+
+        if (hasReleaseSigning) {
+            release {
+                storeFile file(uploadStoreFile)
+                storePassword uploadStorePassword
+                keyAlias uploadKeyAlias
+                keyPassword uploadKeyPassword
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            signingConfig signingConfigs.debug
+        }
+        screenshot {
+            initWith release
+            debuggable false
+            signingConfig signingConfigs.debug
+            applicationIdSuffix ".screenshot"
+            versionNameSuffix "-local-demo"
+            matchingFallbacks = ["release", "debug"]
+            minifyEnabled false
+        }
+        release {
+            if (hasReleaseSigning) {
+                signingConfig signingConfigs.release
+            }
+            minifyEnabled enableProguardInReleaseBuilds
+            proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
+        }
+    }
+}
+
+gradle.taskGraph.whenReady { taskGraph ->
+    def buildsReleaseVariant = taskGraph.allTasks.any { task ->
+        task.project == project && task.name.toLowerCase().contains('release')
+    }
+    if (buildsReleaseVariant && mapsApiKey == 'MISSING_MAPS_API_KEY') {
+        throw new GradleException('MAPS_API_KEY is required for a release build.')
+    }
+    if (buildsReleaseVariant && !hasReleaseSigning) {
+        throw new GradleException('All four MYAPP_UPLOAD_* signing values are required for a release build.')
+    }
+}
+
+dependencies {
+
+    implementation("com.facebook.react:react-android")
+
+
+    implementation platform('com.google.firebase:firebase-bom:34.8.0')
+    implementation 'com.google.firebase:firebase-firestore'
+    implementation 'com.google.firebase:firebase-analytics'
+    implementation 'com.google.firebase:firebase-database'
+
+
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
+
+    if (hermesEnabled.toBoolean()) {
+        implementation("com.facebook.react:hermes-android")
+    } else {
+        implementation jscFlavor
+    }
+}

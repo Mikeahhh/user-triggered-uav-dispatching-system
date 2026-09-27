@@ -1,0 +1,2 @@
+export const SCREENSHOT_DEMO = true;
+export const SCREENSHOT_DEMO_BANNER = 'LOCAL DEMO — NO FIREBASE / NO UAV';

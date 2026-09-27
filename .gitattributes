@@ -1,0 +1,15 @@
+* -text
+*.py text eol=lf
+*.m text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.sh text eol=lf
+*.bat -text
+*.png binary
+*.jpg binary
+*.pdf binary
+*.docx binary
+*.fig binary
+*.mat binary
+*.hgt binary
+*.mp4 binary

@@ -1,0 +1,17 @@
+步行估时参考
+Ordnance Survey, Map Reading, Timing, printed page 23.
+https://shop.ordnancesurvey.co.uk/content/downloads/map%20reading%20booklet-a5.pdf
+
+高程文件
+Mapzen / Tilezen Skadi, N22E114.hgt, 1 arc-second.
+https://elevation-tiles-prod.s3.amazonaws.com/skadi/N22/N22E114.hgt.gz
+SHA-256: 433a57a6558821033957c2f2014682a259d7079e0e64843634430913a97b439a
+
+手机端上游
+https://github.com/donlee612/FYP_alin1_SmartUAVRescueSystem_Mobile_APP
+
+无人机端上游
+https://github.com/Mikeahhh/FYP_alin1_SmartUAVRescueSystem_Drone
+
+地面站上游
+https://github.com/Mikeahhh/FYP_alin1_SmartUAVRescueSystem_Ground_Station

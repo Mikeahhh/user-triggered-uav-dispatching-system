@@ -1,0 +1,445 @@
+{
+  "header": {
+    "currentPage": "當前頁面"
+  },
+  "footer": {
+    "map": "地圖",
+    "sos": "SOS",
+    "settings": "設置"
+  },
+  "mapPage": {
+    "title": "地圖與救援服務",
+    "subtitle": "快速啟動或預約救援",
+    "selectAction": "選擇行動",
+    "chooseAction": "請選擇",
+    "quickStart": "快速啟動救援",
+    "booking": "預約服務",
+    "cancel": "取消"
+  },
+  "sosPage": {
+    "title": "緊急求救",
+    "legalWarning": "任何人濫用此緊急服務可能會承擔法律責任",
+    "confirmText": "請確認這是真正的緊急情況。\n點擊 SOS 按鈕後，999 報案中心可能會聯絡您。",
+    "sosButton": "SOS",
+    "callButton": "立即撥打 999",
+    "successTitle": "成功",
+    "successMessage": "求救訊號已發送！",
+    "successBoth": "Firebase 已接收 SOS，UAV 也確認資料已保存於機載電腦。",
+    "successFirebaseQueued": "Firebase 已接收 SOS；UAV 副本已保存於本機待傳佇列，24 小時內可傳送，請連接 UAV Wi-Fi 後同步。",
+    "successFirebaseNotQueued": "Firebase 已接收 SOS，但 UAV 副本無法排入佇列；重試前請檢查機載接收器設定。",
+    "successUavOnly": "UAV 已確認 SOS/GPS 保存於機載電腦；Firebase 目前無法連線。",
+    "savedLocallyOnly": "Firebase 和 UAV 均未即時接收；UAV 副本仍保存於本機待傳佇列，24 小時後失去傳送資格。請重新連線並同步，成功前不得視為已送達。",
+    "errorTitle": "錯誤",
+    "requestFailed": "無法發送求救訊號，請稍後再試。",
+    "callFailed": "無法開啟撥號，請稍後再試。",
+    "noPhoneApp": "此裝置沒有電話應用程式",
+    "locationPermissionDenied": "建立救援請求需要定位權限。",
+    "locationFailed": "無法取得目前 GPS 位置（錯誤碼 {{code}}）。",
+    "uav": {
+      "notSent": "尚未嘗試機載傳輸",
+      "sending": "正在向 UAV 傳送已保存的 SOS/GPS...",
+      "queued": "已保存於本機待傳佇列；24 小時後失去傳送資格",
+      "notQueued": "未連接 UAV，且本機佇列不可用",
+      "stored": "已保存於 UAV — 請求 {{requestId}}",
+      "retryButton": "重傳原始 SOS 記錄",
+      "connectingWifi": "正在等待 Android 系统确认 UAV Wi-Fi 连接……",
+      "wifiNotConfigured": "同步前请先在设置页填写 UAV Wi-Fi SSID。",
+      "wifiConnectionFailed": "未能连接 UAV Wi-Fi；待传记录已保留。",
+      "wifiConnectionLost": "UAV Wi-Fi 连接已中断；发送已停止，待传记录仍保留。",
+      "disconnectFailed": "Android 无法恢复默认网络。使用云端功能前，请关闭并重新打开 App。",
+      "retrySuccess": "UAV 已確認保存 SOS/GPS 記錄。",
+      "retryFailed": "無法連接 UAV 接收器，請檢查 UAV Wi-Fi、工作階段令牌和接收器設定。",
+      "retrySummary": "已保存：{{sent}}；失敗：{{failed}}；已過期並移除：{{expired}}；屬於其他接收器：{{differentReceiver}}；屬於其他 UAV Wi-Fi：{{differentWifi}}；剩餘：{{remaining}}。",
+      "resultTitle": "UAV 傳輸結果",
+      "empty": "沒有待傳送的 UAV 記錄",
+      "partial": "傳輸未全部完成 — 尚餘 {{remaining}} 條",
+      "expired": "已移除 {{count}} 條過期記錄，未曾傳送",
+      "configInvalid": "UAV 接收器設定無效，請在設定頁重新儲存",
+      "testBanner": "測試模式 — 只屬台架證據，不是戶外飛行",
+      "captureButton": "採集目前位置並傳送",
+      "retryCaptureButton": "重傳已儲存的位置",
+      "captureExplanation": "接入無人機 Wi-Fi 後，重新取得位置並連同目前 SOS 傳送。重傳只傳送已儲存的內容，不會重新定位。",
+      "captureStored": "目前 SOS 和新位置已儲存在無人機上。",
+      "currentSosRequired": "此用戶尚未儲存原始 SOS，請先發出 SOS，再採集新位置。",
+      "sourceSaveFailed": "目前 SOS 未能儲存在此手機，傳送新位置前請再次發出 SOS。",
+      "noCollectionContext": "無人機目前尚未準備好為你收集位置，請等候無人機到達後再試。",
+      "freshLocationFailed": "未能取得新位置，系統沒有改用舊位置。請按「採集目前位置並傳送」再試。",
+      "captureRetryFailed": "傳送尚未完成。如位置已儲存，請按「重傳已儲存的位置」傳送相同內容。",
+      "captureConflict": "已儲存的傳送內容與無人機記錄不符，手機仍保留原內容，請聯絡操作員。",
+      "captureStorageInvalid": "未能安全讀取已儲存的傳送資料，原資料仍保留，請聯絡操作員。",
+      "captureOutboxFull": "待傳送記錄已滿，請先重傳待處理的內容，再採集新位置。",
+      "captureStage_context": "正在確認無人機任務…",
+      "captureStage_location": "正在取得新位置…",
+      "captureStage_sending": "正在傳送已儲存的 SOS 和位置…",
+      "captureRetrySummary": "已傳送：{{sent}}；失敗：{{failed}}；無人機設定不同：{{differentReceiver}}；仍需取得新位置：{{needsLocation}}；待處理：{{remaining}}。",
+      "manualWifiTitle": "確認無人機 Wi-Fi",
+      "manualWifiMessage": "請先在手機設定接入無人機 Wi-Fi，再於下方確認繼續。",
+      "cancel": "取消",
+      "wifiConfirmed": "我已接入無人機 Wi-Fi"
+    },
+    "slogan": "Help is just a Ping Away"
+  },
+  "settingPage": {
+    "title": "設定",
+    "profile": "個人資料",
+    "profileSubtitle": "姓名、電話、緊急聯絡人",
+    "language": "語言",
+    "aboutApp": "關於 MyDrone",
+    "systemHealth": "發布與運行健康狀態",
+    "systemHealthSubtitle": "已脱敏截圖頁面",
+    "uav": {
+      "title": "UAV Wi-Fi 接收器",
+      "url": "接收器網址",
+      "wifiSsid": "UAV Wi-Fi SSID",
+      "wifiHelp": "Android 10 或以上版本会在同步时显示系统确认框；App 不能静默加入任意 Wi-Fi 网络。",
+      "wifiPassphrase": "Wi-Fi 密码（仅本次工作階段）",
+      "wifiPassphraseHelp": "只有开放式 UAV 网络才可留空。WPA2 密码须为 8–63 个字符，且不会写入 App 储存。",
+      "token": "工作階段令牌",
+      "tokenHelp": "只保存在記憶體；App 程序重新啟動後即清除。待傳 SOS/GPS 副本會另行保存，但不包含此令牌或 Wi-Fi 密碼；24 小時後不再允許傳送，並在下次存取待傳佇列時移除。",
+      "testMode": "證據模式",
+      "testModeOn": "TEST 已開啟，記錄會明確標示為台架測試資料。",
+      "testModeOff": "PRODUCTION 已開啟；只有真正的非測試操作才應關閉 TEST。",
+      "testBanner": "測試模式已開啟 — 產生的記錄不是戶外飛行證據",
+      "save": "儲存 UAV 連線設定",
+      "savedTitle": "已儲存",
+      "savedMessage": "接收器網址、UAV Wi-Fi SSID 和模式已儲存；接收器令牌与 Wi-Fi 密码只在本次 App 工作階段有效。",
+      "savedWithoutToken": "接收器網址、UAV Wi-Fi SSID 和模式已儲存；目前没有接收器令牌，Wi-Fi 密码仍只在本次工作階段有效。",
+      "errorTitle": "設定無效",
+      "invalidUrl": "請輸入有效的 HTTP 或 HTTPS 接收器網址。",
+      "invalidConnection": "請檢查接收器網址、UAV Wi-Fi SSID，以及 8–63 字符的 WPA2 密码。",
+      "reenterConfig": "已儲存的接收器設定無效，請重新輸入並儲存。"
+    },
+    "section": {
+      "legal": "法律與政策"
+    },
+    "about": {
+      "title": "關於 MyDrone",
+      "message": "MyDrone 救援無人機求助系統\n版本：1.2.0\n\n幫助用戶在緊急情況下快速求助，記錄路線並上傳位置資訊。\n\n設計與開發：你的團隊"
+    },
+    "terms": {
+      "title": "條款與條件",
+      "message": "歡迎使用 MyDrone。\n\n使用本應用即表示您同意遵守以下條款：\n- 不得濫用 SOS 緊急求助功能\n- 所有上傳的位置與個人資料僅用於救援目的\n- 本應用不承擔因誤用或網路問題導致的任何責任\n- 如有違反條款，本應用有權暫停或終止您的使用權限\n\n如有疑問，請聯絡我們。"
+    },
+    "privacy": {
+      "title": "隱私政策",
+      "message": "我們非常重視您的隱私。\n\n我們收集的資料包括：電話號碼、即時位置、緊急聯絡人、醫療備註等。\n\n資料用途：\n- 發送 SOS 求救請求\n- 記錄與顯示您的路線\n- 協助救援單位協調\n\n保護方式與限制：\n- 不會出售或出租您的個人資料\n- 待傳 UAV SOS/GPS 副本在 24 小時後不再允許傳送，並在下次存取待傳佇列時移除\n- UAV 接收器令牌和 Wi-Fi 密碼只保存在程序記憶體，絕不與待傳佇列一同儲存\n- 私人區域網路 HTTP 並非端對端加密，只可在可信任的 UAV Wi-Fi 使用；公網接收器必須使用 HTTPS\n- 您有權隨時查閱、更正或要求刪除您的資料\n\n如需行使權利，請聯絡我們。"
+    }
+  },
+  "systemHealth": {
+    "eyebrow": "已脱敏截圖頁面",
+    "title": "Mobile 發布與運行健康狀態",
+    "disclaimer": "本頁只顯示程式版本與本機運行狀態，不顯示電話、GPS、接收器地址、SSID、令牌或 Wi-Fi 密碼，也不能作為實體飛行證據。",
+    "release": {
+      "title": "發布元資料",
+      "app": "Mobile App",
+      "androidBuild": "Android versionCode",
+      "iosBuild": "iOS build",
+      "releaseId": "系統發布 ID",
+      "protocol": "UAV 協定",
+      "outboxSchema": "待傳佇列儲存版本"
+    },
+    "runtime": {
+      "title": "本機就緒狀態",
+      "storage": "待傳佇列可讀",
+      "pending": "待傳記錄",
+      "retention": "最長保存時間",
+      "hours": "{{count}} 小時",
+      "receiverConfigured": "接收器地址已設定",
+      "wifiConfigured": "UAV SSID 已設定",
+      "androidSelector": "Android 系統 Wi-Fi 確認",
+      "mode": "證據模式",
+      "redaction": "本頁只顯示是否就緒與記錄數量。令牌和密碼只在記憶體中；持久待傳佇列只保存白名單中的 SOS/GPS 記錄及目標綁定。"
+    },
+    "workflow": {
+      "title": "用戶確認的 UAV 同步流程",
+      "one": "用戶建立 SOS 記錄，App 只加入一個目前 GPS 點。",
+      "two": "App 將白名單欄位保存至本機待傳佇列，傳送資格限 24 小時；不保存令牌或 Wi-Fi 密碼。",
+      "three": "用戶點擊同步，Android 顯示系統提供的 UAV Wi-Fi 確認對話框。",
+      "four": "用戶確認後，App 將程序流量綁定到該 WLAN，並向已設定的機載接收器傳送記錄。",
+      "five": "App 只接受 ID 相符的 STORED 回執，隨後解除 WLAN 綁定並恢復預設網路。"
+    },
+    "value": {
+      "yes": "是",
+      "no": "否",
+      "unavailable": "不可用"
+    },
+    "back": "返回設定"
+  },
+  "quickStartPage": {
+    "title": "快速定位追蹤",
+    "subtitle": "每 5 秒記錄一次",
+    "quickStart": "快速開始",
+    "endTracking": "結束追蹤",
+    "startTracking": "已開始每 5 秒記錄定位",
+    "trackingEnded": "追蹤已結束",
+    "showRoute": "已停止記錄並顯示路線",
+    "status": {
+      "active": "追蹤中",
+      "inactive": "未追蹤",
+      "locating": "正在取得定位並啟動監測…",
+      "notReady": "監測尚未就緒"
+    },
+    "session": {
+      "label": "Session ID",
+      "generating": "產生中...",
+      "notStarted": "尚未開始"
+    },
+    "route": {
+      "label": "路線 ID"
+    },
+    "button": {
+      "start": "開始追蹤",
+      "stop": "停止追蹤",
+      "locating": "正在啟動…"
+    },
+    "map": {
+      "title": "路線地圖",
+      "noData": "尚無路線資料",
+      "waitingForLocation": "等待定位資料...",
+      "promptToStart": "點擊「開始追蹤」以查看地圖"
+    },
+    "history": {
+      "title": "最近記錄"
+    },
+    "stats": {
+      "points": "點數",
+      "distance": "距離",
+      "duration": "時長",
+      "zeroDistance": "0m",
+      "zeroDuration": "0 分",
+      "meters": "{{value}}m",
+      "kilometers": "{{value}}km",
+      "minutes": "{{value}} 分"
+    },
+    "firebase": {
+      "uploads": "上傳次數",
+      "last": "最近"
+    },
+    "lastUpdate": "最後更新",
+    "permission": {
+      "title": "位置權限",
+      "message": "此應用需要您的位置權限來追蹤路線。",
+      "neutral": "稍後詢問",
+      "negative": "取消",
+      "positive": "確定"
+    },
+    "alert": {
+      "initFailed": {
+        "title": "初始化失敗",
+        "message": "資料庫無法啟動，追蹤記錄可能無法儲存"
+      },
+      "permissionDenied": {
+        "title": "權限被拒絕",
+        "message": "位置權限被拒絕，無法開始追蹤"
+      },
+      "locationError": {
+        "title": "位置錯誤",
+        "default": "無法取得位置",
+        "permission": "位置權限被拒絕",
+        "unavailable": "位置服務不可用，請檢查 GPS 或網路",
+        "timeout": "定位請求超時",
+        "invalid": "取得的位置資料無效",
+        "freshSample": "未收到新鮮有效的定位樣本，請重新取得位置。"
+      },
+      "trackingStarted": {
+        "title": "開始追蹤",
+        "message": "Session ID: {{sessionId}}\n每 5 秒記錄一次位置"
+      },
+      "trackingStopped": {
+        "title": "追蹤結束",
+        "message": "本次共記錄 {{count}} 個點"
+      },
+      "startFailed": {
+        "title": "啟動失敗",
+        "message": "無法建立追蹤路線",
+        "missingPhone": "請先在個人資料頁設定電話號碼。",
+        "upload": "無法儲存首次定位，請檢查網路後重試。"
+      },
+      "uploadFailed": {
+        "title": "定位上傳尚未確認",
+        "message": "位置已保存在本機，但尚未確認上傳至雲端。請檢查網路，系統會繼續採集新定位。"
+      },
+      "stopFailed": {
+        "title": "雲端結束狀態尚未確認"
+      }
+    },
+    "retryHint": "請檢查位置權限、定位服務及網路，再點擊「開始追蹤」重試。",
+    "initializing": "正在初始化...",
+    "stopPending": {
+      "message": "本機已停止追蹤此會話，但尚未確認雲端已結束此會話。請在離開本頁前重試；地面站可能仍將此會話視為活動中。",
+      "sending": "正在確認雲端結束狀態…",
+      "retry": "重試結束雲端會話"
+    }
+  },
+  "eventBookingPage": {
+    "title": "行程預約管理",
+    "subtitle": "已預訂行程與新增路線規劃",
+    "loading": "載入中...",
+    "events": {
+      "title": "已預訂行程 ({{count}})",
+      "empty": "尚未有任何預訂行程",
+      "date": "日期",
+      "time": "時間",
+      "waypoints": "路線點數"
+    },
+    "button": {
+      "addNew": "＋ 新增行程",
+      "cancelAdd": "取消新增",
+      "cancelEdit": "取消編輯",
+      "removeLast": "移除最後一個點",
+      "save": "儲存行程至雲端",
+      "update": "更新行程",
+      "edit": "編輯",
+      "delete": "刪除",
+      "cancel": "取消"
+    },
+    "form": {
+      "titlePlaceholder": "行程名稱（例如：沙田救援演練）",
+      "date": "日期",
+      "startTime": "開始時間",
+      "endTime": "結束時間",
+      "map": {
+        "title": "路線規劃（長按地圖新增點，已有 {{count}} 個點）",
+        "marker": "點 {{index}}"
+      },
+      "editTitle": "編輯行程",
+      "addTitle": "新增行程",
+      "estimatedEnd": "預計結束時間",
+      "estimateMethod": "按照規劃路線及每小時 4 公里自動估算。",
+      "routeNeeded": "請加入至少兩個不同的路線位置。"
+    },
+    "alert": {
+      "loadFailed": {
+        "title": "錯誤",
+        "message": "無法從 Firebase 載入行程"
+      },
+      "noPhone": {
+        "title": "未設定電話",
+        "message": "請先在個人資料頁設定電話號碼"
+      },
+      "validation": {
+        "title": "提示",
+        "titleRequired": "請輸入行程名稱",
+        "waypointsRequired": "請至少在地圖上標記起點與終點"
+      },
+      "saveSuccess": {
+        "title": "成功",
+        "message": "行程已新增並同步到雲端",
+        "updated": "行程已更新並同步到雲端"
+      },
+      "saveFailed": {
+        "title": "錯誤",
+        "message": "無法儲存行程，請稍後再試"
+      },
+      "deleteConfirm": {
+        "title": "確認刪除",
+        "message": "確定要刪除此行程嗎？此操作無法復原。"
+      },
+      "deleteSuccess": {
+        "title": "刪除成功",
+        "message": "行程已刪除"
+      },
+      "deleteFailed": {
+        "title": "刪除失敗",
+        "message": "無法刪除行程，請稍後再試"
+      }
+    }
+  },
+  "profilePage": {
+    "title": {
+      "existing": "我的救援個人檔案",
+      "new": "設定救援個人檔案"
+    },
+    "loading": "載入個人檔案中…",
+    "myDetails": "我的資料",
+    "section": {
+      "personal": "個人資料",
+      "medical": "醫療資訊",
+      "emergencyContacts": "緊急聯絡人"
+    },
+    "form": {
+      "firstName": {
+        "label": "名字 *"
+      },
+      "lastName": {
+        "label": "姓氏 *"
+      },
+      "gender": {
+        "label": "性別 / 不願透露（可留空）"
+      },
+      "phone": {
+        "label": "電話號碼 *"
+      },
+      "email": {
+        "label": "電子郵件"
+      },
+      "medicalNotes": {
+        "label": "醫療備註",
+        "placeholder": "過敏史、慢性病、正在服用的藥物、特殊醫療需求等（可留空）"
+      },
+      "placeholder": {
+        "firstName": "請輸入你的名字",
+        "lastName": "請輸入你的姓氏",
+        "gender": "不願透露可留空",
+        "phoneNumber": "例如：+852 9123 4567",
+        "name": "聯絡人姓名",
+        "phone": "聯絡人電話",
+        "email": "例如：example@email.com"
+      }
+    },
+    "emergencyContacts": {
+      "title": "緊急聯絡人",
+      "addButton": "新增緊急聯絡人",
+      "name": "姓名",
+      "phone": "電話號碼",
+      "remove": "移除"
+    },
+    "button": {
+      "save": "儲存個人檔案",
+      "update": "更新個人檔案",
+      "cancel": "取消",
+      "clear": "清除所有資料",
+      "clearDatabase": "清除本地資料庫（測試用）"
+    },
+    "alert": {
+      "loadFailed": {
+        "title": "載入失敗",
+        "message": "無法載入個人檔案，請稍後再試或檢查網路。"
+      },
+      "saveSuccess": {
+        "title": "儲存成功",
+        "message": "你的救援個人檔案已更新，並同步至雲端。"
+      },
+      "saveFailed": {
+        "title": "儲存失敗",
+        "message": "儲存時發生錯誤，請檢查網路或稍後再試。"
+      },
+      "validation": {
+        "title": "資料不完整",
+        "requiredFields": "名字、姓氏與電話號碼為必填項目。"
+      },
+      "syncSuccess": "已從雲端同步最新資料",
+      "clearDatabase": {
+        "title": "確認清除資料？",
+        "message": "這將刪除本地所有個人檔案資料（雲端不會受影響），確定繼續？"
+      },
+      "clearSuccess": {
+        "title": "清除成功",
+        "message": "本地資料已重置。"
+      },
+      "clearFailed": {
+        "title": "清除失敗",
+        "message": "清除過程中發生錯誤。"
+      }
+    }
+  },
+  "pages": {
+    "map": "地圖",
+    "sos": "緊急求救",
+    "settings": "設置",
+    "quickStart": "快速追蹤",
+    "booking": "行程預約",
+    "profile": "個人檔案",
+    "health": "系統健康狀態"
+  }
+}

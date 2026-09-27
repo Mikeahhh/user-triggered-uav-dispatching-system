@@ -1,0 +1,445 @@
+{
+  "header": {
+    "currentPage": "Current Page"
+  },
+  "footer": {
+    "map": "Map",
+    "sos": "SOS",
+    "settings": "Settings"
+  },
+  "mapPage": {
+    "title": "Map & Rescue Services",
+    "subtitle": "Quick start or book a service",
+    "selectAction": "Choose Action",
+    "chooseAction": "Select an Option",
+    "quickStart": "Quick Start Rescue",
+    "booking": "Book Service",
+    "cancel": "Cancel"
+  },
+  "sosPage": {
+    "title": "Emergency SOS",
+    "legalWarning": "Anyone Who Abuses This Emergency Service May Incur Legal Liabilities",
+    "confirmText": "Please confirm this is a real emergency.\nUpon clicking the SOS button, the 999 Report Centre may contact you.",
+    "sosButton": "SOS",
+    "callButton": "Call 999 Now",
+    "successTitle": "Success",
+    "successMessage": "Rescue signal sent!",
+    "successBoth": "Firebase accepted the SOS and the UAV confirmed it was stored onboard.",
+    "successFirebaseQueued": "Firebase accepted the SOS. The UAV copy is stored in the local outbox and remains eligible for sending for 24 hours; connect to the UAV Wi-Fi and sync.",
+    "successFirebaseNotQueued": "Firebase accepted the SOS, but the UAV copy could not be queued. Check onboard receiver settings before retrying.",
+    "successUavOnly": "The UAV confirmed the SOS/GPS was stored onboard. Firebase is currently unavailable.",
+    "savedLocallyOnly": "Neither live receiver accepted the request. A UAV copy remains in the local outbox and expires for sending after 24 hours; reconnect and sync before treating it as delivered.",
+    "errorTitle": "Error",
+    "requestFailed": "Failed to send rescue signal. Please try again.",
+    "callFailed": "Failed to open dialer. Please try again.",
+    "noPhoneApp": "No phone app available on this device",
+    "locationPermissionDenied": "Location permission is required to create a rescue request.",
+    "locationFailed": "Unable to obtain the current GPS location (code {{code}}).",
+    "uav": {
+      "notSent": "No onboard transfer attempted",
+      "sending": "Sending stored SOS/GPS to UAV...",
+      "queued": "Saved in the local outbox; sending expires after 24 hours",
+      "notQueued": "UAV not reached and local outbox unavailable",
+      "stored": "Stored onboard — request {{requestId}}",
+      "retryButton": "Retry original SOS records",
+      "connectingWifi": "Waiting for Android to confirm the UAV Wi-Fi connection...",
+      "wifiNotConfigured": "Set the UAV Wi-Fi SSID in Settings before syncing.",
+      "wifiConnectionFailed": "UAV Wi-Fi was not connected. The queued record was kept.",
+      "wifiConnectionLost": "The UAV Wi-Fi connection was lost. Sending stopped and the queued record was kept.",
+      "disconnectFailed": "Android could not restore the default network. Close and reopen the app before using cloud features.",
+      "retrySuccess": "The UAV confirmed the stored SOS/GPS record.",
+      "retryFailed": "UAV receiver not reached. Check the UAV Wi-Fi, session token, and receiver settings.",
+      "retrySummary": "Stored: {{sent}}; failed: {{failed}}; expired and removed: {{expired}}; bound to another receiver: {{differentReceiver}}; bound to another UAV Wi-Fi: {{differentWifi}}; remaining: {{remaining}}.",
+      "resultTitle": "UAV Transfer Result",
+      "empty": "No queued UAV records",
+      "partial": "Transfer incomplete — {{remaining}} record(s) remain",
+      "expired": "{{count}} expired record(s) removed without sending",
+      "configInvalid": "UAV receiver settings are invalid; re-save them in Settings",
+      "testBanner": "TEST MODE — BENCH EVIDENCE ONLY, NOT AN OUTDOOR FLIGHT",
+      "captureButton": "Capture current location and send",
+      "retryCaptureButton": "Retry saved location transfers",
+      "captureExplanation": "After joining the UAV Wi-Fi, capture a new location together with your current SOS. Retry sends saved content without taking another location.",
+      "captureStored": "Your current SOS and the new location are stored on the UAV.",
+      "currentSosRequired": "No original SOS is saved for this user. Please send an SOS before collecting a new location.",
+      "sourceSaveFailed": "The current SOS could not be saved on this phone. Please try the SOS request again before transferring a new location.",
+      "noCollectionContext": "The UAV is not currently ready to collect a location for you. Please wait until it arrives, then try again.",
+      "freshLocationFailed": "A new location could not be obtained. No old location was substituted. Use “Capture current location and send” to try again.",
+      "captureRetryFailed": "The transfer did not finish. If a location was saved, use “Retry saved location transfers” to send the same content.",
+      "captureConflict": "The saved transfer does not match the UAV record. The content has been kept on this phone; please contact the operator.",
+      "captureStorageInvalid": "Saved transfer data could not be read safely. It has been kept unchanged; please contact the operator.",
+      "captureOutboxFull": "The saved transfer list is full. Retry pending transfers before collecting another location.",
+      "captureStage_context": "Checking the UAV task…",
+      "captureStage_location": "Obtaining a new location…",
+      "captureStage_sending": "Sending saved SOS and location…",
+      "captureRetrySummary": "Sent: {{sent}}. Failed: {{failed}}. Different UAV settings: {{differentReceiver}}. Still need a new location: {{needsLocation}}. Pending: {{remaining}}.",
+      "manualWifiTitle": "Confirm UAV Wi-Fi",
+      "manualWifiMessage": "Join the UAV Wi-Fi in your phone settings, then confirm below to continue.",
+      "cancel": "Cancel",
+      "wifiConfirmed": "I have joined the UAV Wi-Fi"
+    },
+    "slogan": "Help is just a Ping Away"
+  },
+  "settingPage": {
+    "title": "Settings",
+    "profile": "Profile",
+    "profileSubtitle": "Name, Phone, Emergency Contacts",
+    "language": "Language",
+    "aboutApp": "About MyDrone",
+    "systemHealth": "Release & Runtime Health",
+    "systemHealthSubtitle": "Redacted screenshot view",
+    "uav": {
+      "title": "UAV Wi-Fi Receiver",
+      "url": "Receiver URL",
+      "wifiSsid": "UAV Wi-Fi SSID",
+      "wifiHelp": "Android 10+ will show a system confirmation dialog when you sync. The app cannot silently join a Wi-Fi network.",
+      "wifiPassphrase": "Wi-Fi passphrase (this session only)",
+      "wifiPassphraseHelp": "Leave blank only for an open UAV network. WPA2 passphrases must be 8–63 characters and are never written to app storage.",
+      "token": "Session token",
+      "tokenHelp": "Held only in memory and cleared when the app process restarts. Pending SOS/GPS copies are persisted separately without this token or the Wi-Fi passphrase; they stop being eligible for sending after 24 hours and are removed on the next outbox access.",
+      "testMode": "Evidence mode",
+      "testModeOn": "TEST is on. Records are explicitly marked as bench-test data.",
+      "testModeOff": "PRODUCTION is on. Turn this off only for a genuine non-test operation.",
+      "testBanner": "TEST MODE ACTIVE — GENERATED RECORDS ARE NOT OUTDOOR-FLIGHT EVIDENCE",
+      "save": "Save UAV Connection",
+      "savedTitle": "Saved",
+      "savedMessage": "Receiver URL, UAV Wi-Fi SSID, and mode were saved. The receiver token and Wi-Fi passphrase are available only for this app session.",
+      "savedWithoutToken": "Receiver URL, UAV Wi-Fi SSID, and mode were saved. No receiver token is active; any Wi-Fi passphrase remains session-only.",
+      "errorTitle": "Invalid Settings",
+      "invalidUrl": "Enter a valid HTTP or HTTPS receiver URL.",
+      "invalidConnection": "Check the receiver URL, UAV Wi-Fi SSID, and the 8–63 character WPA2 passphrase.",
+      "reenterConfig": "Stored receiver settings are invalid. Enter and save them again."
+    },
+    "section": {
+      "legal": "Legal & Policies"
+    },
+    "about": {
+      "title": "About MyDrone",
+      "message": "MyDrone Emergency Drone Rescue System\nVersion: 1.2.0\n\nHelps users request help quickly in emergencies, record routes and upload location data.\n\nDesigned and developed by your team"
+    },
+    "terms": {
+      "title": "Terms & Conditions",
+      "message": "Welcome to MyDrone.\n\nBy using this app, you agree to the following terms:\n- Do not abuse the SOS emergency function\n- All uploaded location and personal data are used solely for rescue purposes\n- The app assumes no liability for misuse or network-related issues\n- We reserve the right to suspend or terminate access for violations\n\nFor inquiries, please contact us."
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "message": "We take your privacy seriously.\n\nWe collect: phone number, real-time location, emergency contacts, medical notes, etc.\n\nData usage:\n- Sending SOS rescue requests\n- Recording and displaying your routes\n- Assisting rescue coordination\n\nProtection and limits:\n- We do not sell or rent your personal data\n- Pending UAV SOS/GPS copies stop being eligible for sending after 24 hours and are removed on the next outbox access\n- UAV receiver tokens and Wi-Fi passphrases remain in process memory and are never stored with the outbox\n- Private-LAN HTTP is not end-to-end encrypted; use it only on the trusted UAV Wi-Fi. Public receiver addresses require HTTPS\n- You have the right to access, correct, or request deletion of your data at any time\n\nTo exercise your rights, please contact us."
+    }
+  },
+  "systemHealth": {
+    "eyebrow": "REDACTED SCREENSHOT VIEW",
+    "title": "Mobile Release & Runtime Health",
+    "disclaimer": "This page shows code and local runtime status only. It contains no phone number, GPS coordinate, receiver address, SSID, token or Wi-Fi password, and it is not proof of a physical flight.",
+    "release": {
+      "title": "Release metadata",
+      "app": "Mobile App",
+      "androidBuild": "Android versionCode",
+      "iosBuild": "iOS build",
+      "releaseId": "System release ID",
+      "protocol": "UAV protocol",
+      "outboxSchema": "Outbox storage schema"
+    },
+    "runtime": {
+      "title": "Local readiness",
+      "storage": "Outbox readable",
+      "pending": "Pending records",
+      "retention": "Maximum retention",
+      "hours": "{{count}} hours",
+      "receiverConfigured": "Receiver URL configured",
+      "wifiConfigured": "UAV SSID configured",
+      "androidSelector": "Android system Wi-Fi confirmation",
+      "mode": "Evidence mode",
+      "redaction": "Only readiness booleans and counts are shown. Credentials remain in memory; the persistent outbox contains only the allow-listed SOS/GPS record and target binding."
+    },
+    "workflow": {
+      "title": "User-confirmed UAV sync flow",
+      "one": "The user creates an SOS record with one current GPS point.",
+      "two": "The App saves an allow-listed copy in the local outbox with a 24-hour send-eligibility limit; no token or Wi-Fi password is stored.",
+      "three": "The user taps Sync and Android displays its own UAV Wi-Fi confirmation dialog.",
+      "four": "After user approval, the App binds its traffic to that WLAN and sends the queued record to the configured onboard receiver.",
+      "five": "The App accepts only a matching STORED receipt, then releases the WLAN binding and restores the default network."
+    },
+    "value": {
+      "yes": "YES",
+      "no": "NO",
+      "unavailable": "UNAVAILABLE"
+    },
+    "back": "Back to Settings"
+  },
+  "quickStartPage": {
+    "title": "Quick Location Tracking",
+    "subtitle": "Records every 5 seconds",
+    "quickStart": "Quick Start",
+    "endTracking": "End Tracking",
+    "startTracking": "Started tracking every 5 seconds",
+    "trackingEnded": "Tracking ended",
+    "showRoute": "Stopped tracking and showing route",
+    "status": {
+      "active": "Tracking",
+      "inactive": "Not Tracking",
+      "locating": "Getting location and starting monitoring...",
+      "notReady": "Monitoring is not ready"
+    },
+    "session": {
+      "label": "Session ID",
+      "generating": "Generating...",
+      "notStarted": "Not started"
+    },
+    "route": {
+      "label": "Route ID"
+    },
+    "button": {
+      "start": "Start Tracking",
+      "stop": "Stop Tracking",
+      "locating": "Starting..."
+    },
+    "map": {
+      "title": "Route Map",
+      "noData": "No route data yet",
+      "waitingForLocation": "Waiting for location...",
+      "promptToStart": "Tap 'Start Tracking' to view map"
+    },
+    "history": {
+      "title": "Recent Records"
+    },
+    "stats": {
+      "points": "Points",
+      "distance": "Distance",
+      "duration": "Duration",
+      "zeroDistance": "0m",
+      "zeroDuration": "0 min",
+      "meters": "{{value}}m",
+      "kilometers": "{{value}}km",
+      "minutes": "{{value}} min"
+    },
+    "firebase": {
+      "uploads": "Uploads",
+      "last": "Last"
+    },
+    "lastUpdate": "Last Update",
+    "permission": {
+      "title": "Location Permission",
+      "message": "This app needs your location permission to track routes.",
+      "neutral": "Ask Me Later",
+      "negative": "Cancel",
+      "positive": "OK"
+    },
+    "alert": {
+      "initFailed": {
+        "title": "Initialization Failed",
+        "message": "Database failed to start. Tracking may not save records."
+      },
+      "permissionDenied": {
+        "title": "Permission Denied",
+        "message": "Location permission denied. Cannot start tracking."
+      },
+      "locationError": {
+        "title": "Location Error",
+        "default": "Unable to get location",
+        "permission": "Location permission denied",
+        "unavailable": "Location service unavailable. Check GPS or network.",
+        "timeout": "Location request timed out",
+        "invalid": "The location received is not valid",
+        "freshSample": "No fresh, valid location sample was received. Please request a new location."
+      },
+      "trackingStarted": {
+        "title": "Tracking Started",
+        "message": "Session ID: {{sessionId}}\nRecording every 5 seconds"
+      },
+      "trackingStopped": {
+        "title": "Tracking Stopped",
+        "message": "Recorded {{count}} points this session"
+      },
+      "startFailed": {
+        "title": "Start Failed",
+        "message": "Failed to create tracking route",
+        "missingPhone": "Please set your phone number in your profile first.",
+        "upload": "Unable to save the first location. Check your connection and try again."
+      },
+      "uploadFailed": {
+        "title": "Location upload unconfirmed",
+        "message": "The location was saved on this phone, but its cloud upload was not confirmed. Check your connection. New samples will continue to be collected."
+      },
+      "stopFailed": {
+        "title": "Cloud session completion unconfirmed"
+      }
+    },
+    "retryHint": "Check location permission, location services and your connection, then tap Start Tracking to retry.",
+    "initializing": "Initializing...",
+    "stopPending": {
+      "message": "Tracking for this session has stopped on this phone. Cloud session completion is not yet confirmed; retry here before leaving this page. The Ground Station may still see this session as active.",
+      "sending": "Confirming cloud completion…",
+      "retry": "Retry cloud completion"
+    }
+  },
+  "eventBookingPage": {
+    "title": "Event Booking Management",
+    "subtitle": "Booked Events & Add New Route",
+    "loading": "Loading...",
+    "events": {
+      "title": "Booked Events ({{count}})",
+      "empty": "No booked events yet",
+      "date": "Date",
+      "time": "Time",
+      "waypoints": "Route Points"
+    },
+    "button": {
+      "addNew": "+ Add New Event",
+      "cancelAdd": "Cancel Add",
+      "cancelEdit": "Cancel Edit",
+      "removeLast": "Remove Last Point",
+      "save": "Save Event to Cloud",
+      "update": "Update Event",
+      "edit": "Edit",
+      "delete": "Delete",
+      "cancel": "Cancel"
+    },
+    "form": {
+      "titlePlaceholder": "Event Name (e.g. Shatin Rescue Drill)",
+      "date": "Date",
+      "startTime": "Start Time",
+      "endTime": "End Time",
+      "map": {
+        "title": "Route Planning (Long press map to add points, {{count}} points added)",
+        "marker": "Point {{index}}"
+      },
+      "editTitle": "Edit Event",
+      "addTitle": "Add New Event",
+      "estimatedEnd": "Estimated finish",
+      "estimateMethod": "Estimated from the planned route at 4 km/h.",
+      "routeNeeded": "Add at least two distinct route points."
+    },
+    "alert": {
+      "loadFailed": {
+        "title": "Error",
+        "message": "Failed to load events from Firebase"
+      },
+      "noPhone": {
+        "title": "No Phone Number Set",
+        "message": "Please set your phone number in Profile first"
+      },
+      "validation": {
+        "title": "Required",
+        "titleRequired": "Please enter event name",
+        "waypointsRequired": "Please mark at least start and end points on the map"
+      },
+      "saveSuccess": {
+        "title": "Success",
+        "message": "Event added and synced to cloud",
+        "updated": "Event updated and synced to cloud"
+      },
+      "saveFailed": {
+        "title": "Error",
+        "message": "Failed to save event. Please try again later."
+      },
+      "deleteConfirm": {
+        "title": "Confirm Delete",
+        "message": "Are you sure you want to delete this event? This action cannot be undone."
+      },
+      "deleteSuccess": {
+        "title": "Delete Successful",
+        "message": "Event has been deleted"
+      },
+      "deleteFailed": {
+        "title": "Delete Failed",
+        "message": "Failed to delete event. Please try again later."
+      }
+    }
+  },
+  "profilePage": {
+    "title": {
+      "existing": "My Rescue Profile",
+      "new": "Set Up Rescue Profile"
+    },
+    "loading": "Loading profile...",
+    "myDetails": "My Details",
+    "section": {
+      "personal": "Personal Information",
+      "medical": "Medical Information",
+      "emergencyContacts": "Emergency Contacts"
+    },
+    "form": {
+      "firstName": {
+        "label": "First Name *"
+      },
+      "lastName": {
+        "label": "Last Name *"
+      },
+      "gender": {
+        "label": "Gender / Prefer not to say (optional)"
+      },
+      "phone": {
+        "label": "Phone Number *"
+      },
+      "email": {
+        "label": "Email"
+      },
+      "medicalNotes": {
+        "label": "Medical Notes",
+        "placeholder": "Allergies, chronic conditions, current medications, special medical needs, etc. (optional)"
+      },
+      "placeholder": {
+        "firstName": "Enter your first name",
+        "lastName": "Enter your last name",
+        "gender": "Prefer not to say is okay",
+        "phoneNumber": "e.g. +852 9123 4567",
+        "name": "Contact Name",
+        "phone": "Contact Phone Number",
+        "email": "e.g. example@email.com"
+      }
+    },
+    "emergencyContacts": {
+      "title": "Emergency Contacts",
+      "addButton": "Add Emergency Contact",
+      "name": "Name",
+      "phone": "Phone Number",
+      "remove": "Remove"
+    },
+    "button": {
+      "save": "Save Profile",
+      "update": "Update Profile",
+      "cancel": "Cancel",
+      "clear": "Clear All Data",
+      "clearDatabase": "Clear Local Database (Test Only)"
+    },
+    "alert": {
+      "loadFailed": {
+        "title": "Load Failed",
+        "message": "Unable to load profile. Please try again or check your connection."
+      },
+      "saveSuccess": {
+        "title": "Saved Successfully",
+        "message": "Your rescue profile has been updated and synced to the cloud."
+      },
+      "saveFailed": {
+        "title": "Save Failed",
+        "message": "An error occurred while saving. Please check your connection."
+      },
+      "validation": {
+        "title": "Incomplete Information",
+        "requiredFields": "First name, last name, and phone number are required."
+      },
+      "syncSuccess": "Successfully synced latest data from cloud",
+      "clearDatabase": {
+        "title": "Confirm Clear Data?",
+        "message": "This will delete all local profile data (cloud data unaffected). Continue?"
+      },
+      "clearSuccess": {
+        "title": "Cleared Successfully",
+        "message": "Local data has been reset."
+      },
+      "clearFailed": {
+        "title": "Clear Failed",
+        "message": "An error occurred during clearing."
+      }
+    }
+  },
+  "pages": {
+    "map": "Map",
+    "sos": "SOS",
+    "settings": "Settings",
+    "quickStart": "Quick Track",
+    "booking": "Booking",
+    "profile": "Profile",
+    "health": "System Health"
+  }
+}

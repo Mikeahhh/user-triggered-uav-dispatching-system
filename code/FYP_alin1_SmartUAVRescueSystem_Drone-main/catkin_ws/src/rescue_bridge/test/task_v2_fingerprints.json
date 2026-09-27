@@ -1,0 +1,224 @@
+{
+  "artifact_type": "agreed_task_v2_fingerprint_spec_fixture",
+  "not_runtime_implementation": true,
+  "schema_version": 2,
+  "fingerprint_fields": [
+    "mission_id",
+    "mission_type",
+    "waypoints",
+    "return_to_launch",
+    "altitude",
+    "hover_seconds"
+  ],
+  "canonical_json_options": {
+    "sort_keys": true,
+    "separators": [
+      ",",
+      ":"
+    ],
+    "ensure_ascii": true,
+    "allow_nan": false,
+    "encoding": "utf-8"
+  },
+  "maximum_source_waypoints": 1000,
+  "maximum_execution_waypoints_including_optional_rtl": 1001,
+  "cases": [
+    {
+      "name": "explicit_values_preserve_duplicate_waypoints",
+      "input": {
+        "schema_version": 2,
+        "mission_id": "AUDIT/mission-a",
+        "execution_id": "exec-a",
+        "mission_type": "event",
+        "waypoints": [
+          {
+            "latitude": 22,
+            "longitude": 114
+          },
+          {
+            "latitude": 22.1,
+            "longitude": 114.1
+          },
+          {
+            "latitude": 22.1,
+            "longitude": 114.1
+          }
+        ],
+        "return_to_launch": true,
+        "altitude": 5,
+        "hover_seconds": 5
+      },
+      "normalized": {
+        "mission_id": "AUDIT/mission-a",
+        "mission_type": "event",
+        "waypoints": [
+          [
+            22.0,
+            114.0
+          ],
+          [
+            22.1,
+            114.1
+          ],
+          [
+            22.1,
+            114.1
+          ]
+        ],
+        "return_to_launch": true,
+        "altitude": 5.0,
+        "hover_seconds": 5.0
+      },
+      "canonical_json": "{\"altitude\":5.0,\"hover_seconds\":5.0,\"mission_id\":\"AUDIT/mission-a\",\"mission_type\":\"event\",\"return_to_launch\":true,\"waypoints\":[[22.0,114.0],[22.1,114.1],[22.1,114.1]]}",
+      "sha256": "1c250e08bc96a6c23f77d5e8900e54573c4e6627eaddb4dd03c85de27af2c87a"
+    },
+    {
+      "name": "aliases_and_metadata_same_fingerprint",
+      "input": {
+        "schema_version": 2,
+        "mission_id": "AUDIT/mission-a",
+        "execution_id": "exec-b",
+        "mission_type": "event",
+        "waypoints": [
+          {
+            "lat": 22.0,
+            "lon": 114.0
+          },
+          {
+            "lat": 22.1,
+            "lon": 114.1
+          },
+          {
+            "lat": 22.1,
+            "lon": 114.1
+          }
+        ],
+        "return_to_launch": true,
+        "altitude": 5.0,
+        "hover_seconds": 5.0,
+        "sent_at": "ignored-transport-metadata"
+      },
+      "normalized": {
+        "mission_id": "AUDIT/mission-a",
+        "mission_type": "event",
+        "waypoints": [
+          [
+            22.0,
+            114.0
+          ],
+          [
+            22.1,
+            114.1
+          ],
+          [
+            22.1,
+            114.1
+          ]
+        ],
+        "return_to_launch": true,
+        "altitude": 5.0,
+        "hover_seconds": 5.0
+      },
+      "canonical_json": "{\"altitude\":5.0,\"hover_seconds\":5.0,\"mission_id\":\"AUDIT/mission-a\",\"mission_type\":\"event\",\"return_to_launch\":true,\"waypoints\":[[22.0,114.0],[22.1,114.1],[22.1,114.1]]}",
+      "sha256": "1c250e08bc96a6c23f77d5e8900e54573c4e6627eaddb4dd03c85de27af2c87a"
+    },
+    {
+      "name": "absent_optional_fields_and_negative_zero",
+      "input": {
+        "schema_version": 2,
+        "mission_id": "AUDIT/mission-b",
+        "execution_id": "exec-c",
+        "mission_type": "sos",
+        "waypoints": [
+          {
+            "lat": -0.0,
+            "lon": 0
+          },
+          {
+            "lat": 1,
+            "lon": -1
+          }
+        ]
+      },
+      "normalized": {
+        "mission_id": "AUDIT/mission-b",
+        "mission_type": "sos",
+        "waypoints": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            -1.0
+          ]
+        ],
+        "return_to_launch": true,
+        "altitude": null,
+        "hover_seconds": null
+      },
+      "canonical_json": "{\"altitude\":null,\"hover_seconds\":null,\"mission_id\":\"AUDIT/mission-b\",\"mission_type\":\"sos\",\"return_to_launch\":true,\"waypoints\":[[0.0,0.0],[1.0,-1.0]]}",
+      "sha256": "c6c463841ec61a316a2b2943d37dc0583078340767ca50467579322f04516dce"
+    },
+    {
+      "name": "explicit_nulls_equal_absent",
+      "input": {
+        "schema_version": 2,
+        "mission_id": "AUDIT/mission-b",
+        "execution_id": "exec-d",
+        "mission_type": "sos",
+        "waypoints": [
+          {
+            "latitude": 0.0,
+            "longitude": -0.0
+          },
+          {
+            "latitude": 1.0,
+            "longitude": -1.0
+          }
+        ],
+        "return_to_launch": true,
+        "altitude": null,
+        "hover_seconds": null
+      },
+      "normalized": {
+        "mission_id": "AUDIT/mission-b",
+        "mission_type": "sos",
+        "waypoints": [
+          [
+            0.0,
+            0.0
+          ],
+          [
+            1.0,
+            -1.0
+          ]
+        ],
+        "return_to_launch": true,
+        "altitude": null,
+        "hover_seconds": null
+      },
+      "canonical_json": "{\"altitude\":null,\"hover_seconds\":null,\"mission_id\":\"AUDIT/mission-b\",\"mission_type\":\"sos\",\"return_to_launch\":true,\"waypoints\":[[0.0,0.0],[1.0,-1.0]]}",
+      "sha256": "c6c463841ec61a316a2b2943d37dc0583078340767ca50467579322f04516dce"
+    }
+  ],
+  "required_rejection_cases": [
+    "same execution_id with changed fingerprint",
+    "v2 mission_id missing",
+    "v2 execution_id missing",
+    "boolean coordinate",
+    "nonfinite coordinate",
+    "out of range coordinate",
+    "empty waypoints",
+    "1001 source waypoints"
+  ],
+  "normalization_notes": [
+    "Numeric inputs normalize to finite float; numeric zero becomes positive 0.0.",
+    "Coordinate long key takes precedence over short alias even when zero.",
+    "Missing return_to_launch normalizes to true; only JSON booleans accepted.",
+    "Missing or null altitude and hover_seconds normalize to null, not deployment defaults.",
+    "mission_id and mission_type retain case and must satisfy agreed token validation.",
+    "execution_id, schema_version and transport metadata do not enter the content fingerprint.",
+    "mission_id and schema v1 phone-record hash/ACK semantics remain unchanged."
+  ]
+}

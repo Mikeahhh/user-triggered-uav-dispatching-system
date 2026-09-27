@@ -1,0 +1,37 @@
+{
+  "delivery_state": "FORWARDED_TO_GS",
+  "envelope_sha256": "711e928d5f804e769c7f2a8f34bf83672bb151b685b4e472170f1f8a80adff65",
+  "forward_trigger": "MISSION_QUEUE_COMPLETE_LAND_REQUESTED",
+  "forwarded_at": "2026-09-27T17:57:17.046654Z",
+  "record": {
+    "accuracy": 3.0,
+    "captured_at": "2026-09-27T17:57:16.839212Z",
+    "client_timestamp_ms": 1790531836839,
+    "device": "synthetic-bench-client",
+    "gps_points": [
+      {
+        "captured_at": "2026-09-27T17:57:16.839366Z",
+        "latitude": 22.3519,
+        "longitude": 114.1829
+      },
+      {
+        "captured_at": "2026-09-27T17:57:16.839368Z",
+        "latitude": 22.352,
+        "longitude": 114.183
+      }
+    ],
+    "latitude": 22.352,
+    "longitude": 114.183,
+    "mission_id": "TEST_USER/bench_1790531836839",
+    "payload_sha256": "9d2880fa4d690f616aa9b2394acfa450f9315a114c06f6ae3d29bcf40150664b",
+    "request_id": "bench_1790531836839",
+    "schema_version": 1,
+    "status": "PENDING",
+    "storage_state": "STORED",
+    "test_mode": true,
+    "uav_received_at": "2026-09-27T17:57:16.839922Z",
+    "user_id": "TEST_USER"
+  },
+  "schema_version": 1,
+  "trigger_semantics": "Mission queue complete and LAND command requested; physical touchdown is not confirmed."
+}

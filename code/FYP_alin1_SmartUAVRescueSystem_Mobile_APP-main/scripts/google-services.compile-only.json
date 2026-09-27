@@ -1,0 +1,24 @@
+{
+  "project_info": {
+    "project_number": "000000000000",
+    "project_id": "compile-only-placeholder",
+    "storage_bucket": "compile-only-placeholder.invalid"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:000000000000:android:0000000000000000000000",
+        "android_client_info": {
+          "package_name": "com.fypproject"
+        }
+      },
+      "api_key": [
+        {
+          "current_key": "compile-only-placeholder-no-live-service"
+        }
+      ],
+      "services": {}
+    }
+  ],
+  "configuration_version": "1"
+}

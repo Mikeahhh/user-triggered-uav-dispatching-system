@@ -1,0 +1,11 @@
+time_s,event,waypoint_index
+0,takeoff_start,0
+26.6666666666667,takeoff_complete,0
+114.131814762349,waypoint_arrival,1
+242.286426399698,waypoint_arrival,2
+360.660722885855,waypoint_arrival,3
+360.660722885855,common_target_arrival,3
+365.660722885855,return_start,3
+683.984065953929,home_arrival,4
+688.984065953929,landing_start,4
+715.650732620596,landing_complete,4

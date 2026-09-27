@@ -1,0 +1,10 @@
+ros_log_root: /home/mike/.ros/log/latest
+mqtt_bridge_node_name: mqtt_bridge
+mission_commander_node_name: mission_commander
+
+
+console_log: /home/mike/drone_system/logs/drone_console.log
+
+
+max_log_size_mb: 50
+keep_log_count: 5

@@ -1,0 +1,210 @@
+[
+  {
+    "name": "integer",
+    "payload": {
+      "schema_version": 1,
+      "request_id": "audit_001",
+      "mission_id": "AUDIT_USER/audit_001",
+      "user_id": "AUDIT_USER",
+      "latitude": 22.0,
+      "longitude": 114.0,
+      "accuracy": 3.0,
+      "captured_at": "2026-09-09T00:00:00.000Z",
+      "client_timestamp_ms": 1788912000000,
+      "status": "PENDING",
+      "device": "android",
+      "gps_points": [
+        {
+          "latitude": 22.0,
+          "longitude": 114.0,
+          "captured_at": "2026-09-09T00:00:00.000Z"
+        }
+      ],
+      "test_mode": true
+    },
+    "canonical": "{\"accuracy\":3.0,\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"client_timestamp_ms\":1788912000000,\"device\":\"android\",\"gps_points\":[{\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"latitude\":22.0,\"longitude\":114.0}],\"latitude\":22.0,\"longitude\":114.0,\"mission_id\":\"AUDIT_USER/audit_001\",\"request_id\":\"audit_001\",\"schema_version\":1,\"status\":\"PENDING\",\"test_mode\":true,\"user_id\":\"AUDIT_USER\"}",
+    "sha256": "435d6315487c5d0f07ba4e2846c2e438cdc292dc260cd92a3ca4c5d6d1e20279"
+  },
+  {
+    "name": "negative_zero",
+    "payload": {
+      "schema_version": 1,
+      "request_id": "audit_001",
+      "mission_id": "AUDIT_USER/audit_001",
+      "user_id": "AUDIT_USER",
+      "latitude": -0.0,
+      "longitude": 0.0,
+      "accuracy": null,
+      "captured_at": "2026-09-09T00:00:00.000Z",
+      "client_timestamp_ms": 1788912000000,
+      "status": "PENDING",
+      "device": "android",
+      "gps_points": [
+        {
+          "latitude": -0.0,
+          "longitude": 0.0,
+          "captured_at": "2026-09-09T00:00:00.000Z"
+        }
+      ],
+      "test_mode": true
+    },
+    "canonical": "{\"accuracy\":null,\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"client_timestamp_ms\":1788912000000,\"device\":\"android\",\"gps_points\":[{\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"latitude\":-0.0,\"longitude\":0.0}],\"latitude\":-0.0,\"longitude\":0.0,\"mission_id\":\"AUDIT_USER/audit_001\",\"request_id\":\"audit_001\",\"schema_version\":1,\"status\":\"PENDING\",\"test_mode\":true,\"user_id\":\"AUDIT_USER\"}",
+    "sha256": "a8a915e09c48abff03a6a3cf77a51ecba05a15bede429bced8ad7eeaaff1f480"
+  },
+  {
+    "name": "micro",
+    "payload": {
+      "schema_version": 1,
+      "request_id": "audit_001",
+      "mission_id": "AUDIT_USER/audit_001",
+      "user_id": "AUDIT_USER",
+      "latitude": 1e-07,
+      "longitude": -1e-07,
+      "accuracy": 1e-05,
+      "captured_at": "2026-09-09T00:00:00.000Z",
+      "client_timestamp_ms": 1788912000000,
+      "status": "PENDING",
+      "device": "android",
+      "gps_points": [
+        {
+          "latitude": 1e-07,
+          "longitude": -1e-07,
+          "captured_at": "2026-09-09T00:00:00.000Z"
+        }
+      ],
+      "test_mode": true
+    },
+    "canonical": "{\"accuracy\":1e-05,\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"client_timestamp_ms\":1788912000000,\"device\":\"android\",\"gps_points\":[{\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"latitude\":1e-07,\"longitude\":-1e-07}],\"latitude\":1e-07,\"longitude\":-1e-07,\"mission_id\":\"AUDIT_USER/audit_001\",\"request_id\":\"audit_001\",\"schema_version\":1,\"status\":\"PENDING\",\"test_mode\":true,\"user_id\":\"AUDIT_USER\"}",
+    "sha256": "2611e843a9ffc7bc1b926a304311eec51e3d1b8d239357ee1172ef0186a300eb"
+  },
+  {
+    "name": "fixed_boundary",
+    "payload": {
+      "schema_version": 1,
+      "request_id": "audit_001",
+      "mission_id": "AUDIT_USER/audit_001",
+      "user_id": "AUDIT_USER",
+      "latitude": 0.0001,
+      "longitude": -0.0001,
+      "accuracy": 1e+16,
+      "captured_at": "2026-09-09T00:00:00.000Z",
+      "client_timestamp_ms": 1788912000000,
+      "status": "PENDING",
+      "device": "android",
+      "gps_points": [
+        {
+          "latitude": 0.0001,
+          "longitude": -0.0001,
+          "captured_at": "2026-09-09T00:00:00.000Z"
+        }
+      ],
+      "test_mode": true
+    },
+    "canonical": "{\"accuracy\":1e+16,\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"client_timestamp_ms\":1788912000000,\"device\":\"android\",\"gps_points\":[{\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"latitude\":0.0001,\"longitude\":-0.0001}],\"latitude\":0.0001,\"longitude\":-0.0001,\"mission_id\":\"AUDIT_USER/audit_001\",\"request_id\":\"audit_001\",\"schema_version\":1,\"status\":\"PENDING\",\"test_mode\":true,\"user_id\":\"AUDIT_USER\"}",
+    "sha256": "d165e826d936c623e95502813eabb1c24e790ea9b81ca39d8fab695455cb14b5"
+  },
+  {
+    "name": "large_accuracy",
+    "payload": {
+      "schema_version": 1,
+      "request_id": "audit_001",
+      "mission_id": "AUDIT_USER/audit_001",
+      "user_id": "AUDIT_USER",
+      "latitude": 22.5,
+      "longitude": 114.25,
+      "accuracy": 1.0000000000000001e+18,
+      "captured_at": "2026-09-09T00:00:00.000Z",
+      "client_timestamp_ms": 1788912000000,
+      "status": "PENDING",
+      "device": "android",
+      "gps_points": [
+        {
+          "latitude": 22.5,
+          "longitude": 114.25,
+          "captured_at": "2026-09-09T00:00:00.000Z"
+        }
+      ],
+      "test_mode": true
+    },
+    "canonical": "{\"accuracy\":1.0000000000000001e+18,\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"client_timestamp_ms\":1788912000000,\"device\":\"android\",\"gps_points\":[{\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"latitude\":22.5,\"longitude\":114.25}],\"latitude\":22.5,\"longitude\":114.25,\"mission_id\":\"AUDIT_USER/audit_001\",\"request_id\":\"audit_001\",\"schema_version\":1,\"status\":\"PENDING\",\"test_mode\":true,\"user_id\":\"AUDIT_USER\"}",
+    "sha256": "8bd0d9e33bf310b7fdab47a80ab58179af4aca827a5f79b117dc06f39d4d6e07"
+  },
+  {
+    "name": "minimum_float",
+    "payload": {
+      "schema_version": 1,
+      "request_id": "audit_001",
+      "mission_id": "AUDIT_USER/audit_001",
+      "user_id": "AUDIT_USER",
+      "latitude": 5e-324,
+      "longitude": -5e-324,
+      "accuracy": 5e-324,
+      "captured_at": "2026-09-09T00:00:00.000Z",
+      "client_timestamp_ms": 1788912000000,
+      "status": "PENDING",
+      "device": "android",
+      "gps_points": [
+        {
+          "latitude": 5e-324,
+          "longitude": -5e-324,
+          "captured_at": "2026-09-09T00:00:00.000Z"
+        }
+      ],
+      "test_mode": true
+    },
+    "canonical": "{\"accuracy\":5e-324,\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"client_timestamp_ms\":1788912000000,\"device\":\"android\",\"gps_points\":[{\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"latitude\":5e-324,\"longitude\":-5e-324}],\"latitude\":5e-324,\"longitude\":-5e-324,\"mission_id\":\"AUDIT_USER/audit_001\",\"request_id\":\"audit_001\",\"schema_version\":1,\"status\":\"PENDING\",\"test_mode\":true,\"user_id\":\"AUDIT_USER\"}",
+    "sha256": "e935dad9a9be2ccf0af74cf63260e714aefb275793341ee0afac482b9a50b373"
+  },
+  {
+    "name": "unicode",
+    "payload": {
+      "schema_version": 1,
+      "request_id": "audit_001",
+      "mission_id": "AUDIT_USER/audit_001",
+      "user_id": "AUDIT_USER",
+      "latitude": 22.352,
+      "longitude": 114.183,
+      "accuracy": 3.5,
+      "captured_at": "2026-09-09T00:00:00.000Z",
+      "client_timestamp_ms": 1788912000000,
+      "status": "PENDING",
+      "device": "终端Ω😀",
+      "gps_points": [
+        {
+          "latitude": 22.352,
+          "longitude": 114.183,
+          "captured_at": "2026-09-09T00:00:00.000Z"
+        }
+      ],
+      "test_mode": true
+    },
+    "canonical": "{\"accuracy\":3.5,\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"client_timestamp_ms\":1788912000000,\"device\":\"终端Ω😀\",\"gps_points\":[{\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"latitude\":22.352,\"longitude\":114.183}],\"latitude\":22.352,\"longitude\":114.183,\"mission_id\":\"AUDIT_USER/audit_001\",\"request_id\":\"audit_001\",\"schema_version\":1,\"status\":\"PENDING\",\"test_mode\":true,\"user_id\":\"AUDIT_USER\"}",
+    "sha256": "1adf90fecc1c480601b18a35a05ce3025d5c66f9afe448cb17d5e7c455b98c61"
+  },
+  {
+    "name": "precision",
+    "payload": {
+      "schema_version": 1,
+      "request_id": "audit_001",
+      "mission_id": "AUDIT_USER/audit_001",
+      "user_id": "AUDIT_USER",
+      "latitude": 89.99999999999999,
+      "longitude": -179.99999999999997,
+      "accuracy": 1.2345678901234567,
+      "captured_at": "2026-09-09T00:00:00.000Z",
+      "client_timestamp_ms": 1788912000000,
+      "status": "PENDING",
+      "device": "android",
+      "gps_points": [
+        {
+          "latitude": 89.99999999999999,
+          "longitude": -179.99999999999997,
+          "captured_at": "2026-09-09T00:00:00.000Z"
+        }
+      ],
+      "test_mode": true
+    },
+    "canonical": "{\"accuracy\":1.2345678901234567,\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"client_timestamp_ms\":1788912000000,\"device\":\"android\",\"gps_points\":[{\"captured_at\":\"2026-09-09T00:00:00.000Z\",\"latitude\":89.99999999999999,\"longitude\":-179.99999999999997}],\"latitude\":89.99999999999999,\"longitude\":-179.99999999999997,\"mission_id\":\"AUDIT_USER/audit_001\",\"request_id\":\"audit_001\",\"schema_version\":1,\"status\":\"PENDING\",\"test_mode\":true,\"user_id\":\"AUDIT_USER\"}",
+    "sha256": "2073991dc1b700dabdf6ec5f4c294c66225fa4a8609d1bb943b387ad4b0859fe"
+  }
+]

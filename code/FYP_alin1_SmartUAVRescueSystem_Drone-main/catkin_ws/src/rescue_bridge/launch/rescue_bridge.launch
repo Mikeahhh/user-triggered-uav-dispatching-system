@@ -1,0 +1,23 @@
+<launch>
+
+    <arg name="mqtt_broker" default="localhost"/>
+    <arg name="mqtt_port" default="1883"/>
+
+
+    <arg name="flight_alt" default="5.0"/>
+    <arg name="arrival_threshold" default="1.0"/>
+    <arg name="data_timeout" default="5.0"/>
+
+
+    <node pkg="rescue_bridge" type="mqtt_bridge.py" name="mqtt_bridge" output="screen">
+        <param name="mqtt_broker" value="$(arg mqtt_broker)"/>
+        <param name="mqtt_port" value="$(arg mqtt_port)"/>
+    </node>
+
+
+    <node pkg="rescue_bridge" type="mission_commander" name="mission_commander" output="screen">
+        <param name="flight_alt" value="$(arg flight_alt)"/>
+        <param name="arrival_threshold" value="$(arg arrival_threshold)"/>
+        <param name="data_timeout" value="$(arg data_timeout)"/>
+    </node>
+</launch>

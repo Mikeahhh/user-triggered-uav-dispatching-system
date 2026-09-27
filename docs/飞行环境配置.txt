@@ -1,0 +1,42 @@
+飞行环境配置
+
+系统：Ubuntu 20.04 / ROS Noetic；工作区使用 catkin。
+
+1. 获取固定版本的外部飞行工程。
+
+git clone https://github.com/Mikeahhh/FYP_alin1_SmartUAVRescueSystem_Drone.git external/drone-platform
+git -C external/drone-platform checkout --detach b3ac1591b63d15270c9856e7b664da0cf9d3ea48
+
+Fast-Drone-250 位于 external/drone-platform/Fast-Drone-250。
+在原机载目录布局中放到 /home/mike/Fast-Drone-250。外部工程的依赖安装、传感器参数和飞控标定按该固定版本的 README 执行。
+
+2. 将本档案无人机端目录中的 catkin_ws 和 drone_system 放到对应机载目录。
+
+/home/mike/catkin_ws
+/home/mike/drone_system
+
+原始启动程序使用以上目录。账户名或安装目录不同时，同步调整配置与启动程序中的路径。
+
+3. 依次编译工作区。
+
+source /opt/ros/noetic/setup.bash
+cd /home/mike/Fast-Drone-250
+catkin_make
+source devel/setup.bash
+cd /home/mike/catkin_ws
+catkin_make
+source devel/setup.bash
+
+4. 按原飞行工程启动深度相机、MAVROS、VINS、规划器和控制程序后，启动任务桥接。
+
+roslaunch rescue_bridge rescue_bridge.launch mqtt_broker:=localhost
+
+默认桥接参数：flight_alt=5.0、arrival_threshold=1.0、data_timeout=5.0。MATLAB 的 80 m 离地高度不用于覆盖此设置。
+
+5. 手机记录接收程序。
+
+python3 /home/mike/drone_system/receiver/phone_sos_receiver.py --help
+
+配置示例位于 drone_system/config/rescue_receiver.env.example。与地面站填写相同的 MQTT 服务地址；局域网访问需填写运行令牌。运行前核对飞控连接、定位、相机编号和当前任务设置。
+
+该流程描述机载程序的配置和启动。records 中的软件测试在本地计算机运行；户外录像为既有实验资料。

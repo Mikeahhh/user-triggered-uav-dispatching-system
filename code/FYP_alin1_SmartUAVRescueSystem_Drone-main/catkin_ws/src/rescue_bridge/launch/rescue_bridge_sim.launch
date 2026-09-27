@@ -1,0 +1,41 @@
+<launch>
+
+    <arg name="mqtt_broker" default="localhost"/>
+    <arg name="mqtt_port" default="1883"/>
+
+
+    <arg name="home_lat" default="22.3193"/>
+    <arg name="home_lon" default="114.1694"/>
+
+
+    <arg name="init_x" default="0.0"/>
+    <arg name="init_y" default="0.0"/>
+    <arg name="flight_alt" default="1.0"/>
+    <arg name="arrival_threshold" default="5.0"/>
+    <arg name="data_timeout" default="5.0"/>
+
+
+    <node pkg="rescue_bridge" type="mqtt_bridge.py" name="mqtt_bridge" output="screen">
+        <param name="mqtt_broker" value="$(arg mqtt_broker)"/>
+        <param name="mqtt_port" value="$(arg mqtt_port)"/>
+    </node>
+
+
+    <node pkg="rescue_bridge" type="sim_gps_adapter.py" name="sim_gps_adapter" output="screen">
+        <param name="home_lat" value="$(arg home_lat)"/>
+        <param name="home_lon" value="$(arg home_lon)"/>
+        <param name="init_x" value="$(arg init_x)"/>
+        <param name="init_y" value="$(arg init_y)"/>
+        <param name="flight_alt" value="$(arg flight_alt)"/>
+        <param name="arrival_threshold" value="$(arg arrival_threshold)"/>
+        <param name="data_timeout" value="$(arg data_timeout)"/>
+    </node>
+
+
+    <node pkg="rescue_bridge" type="sim_fake_gps.py" name="sim_fake_gps" output="screen">
+        <param name="home_lat" value="$(arg home_lat)"/>
+        <param name="home_lon" value="$(arg home_lon)"/>
+        <param name="init_x" value="$(arg init_x)"/>
+        <param name="init_y" value="$(arg init_y)"/>
+    </node>
+</launch>

@@ -1,0 +1,2066 @@
+{
+  "archive_revision": "UAV-SEARCH-20260928",
+  "local_parent_revision": "WCNC-GPS-FRESHNESS-20260916",
+  "source_paths_relative_to": "V7",
+  "upstream_repositories": [
+    {
+      "component": "Mobile App",
+      "url": "https://github.com/donlee612/FYP_alin1_SmartUAVRescueSystem_Mobile_APP",
+      "remote_main_commit": "dc8df994dd8d31e25f746f0b063c04d43f5da537"
+    },
+    {
+      "component": "Ground Station",
+      "url": "https://github.com/Mikeahhh/FYP_alin1_SmartUAVRescueSystem_Ground_Station",
+      "remote_main_commit": "d9cb53a792da98414e8f129707b516b67f298314"
+    },
+    {
+      "component": "UAV",
+      "url": "https://github.com/Mikeahhh/FYP_alin1_SmartUAVRescueSystem_Drone",
+      "remote_main_commit": "b3ac1591b63d15270c9856e7b664da0cf9d3ea48"
+    }
+  ],
+  "external_flight_stack": {
+    "path": "Fast-Drone-250",
+    "repository": "https://github.com/Mikeahhh/FYP_alin1_SmartUAVRescueSystem_Drone",
+    "commit": "b3ac1591b63d15270c9856e7b664da0cf9d3ea48",
+    "ordinary_files_matching_local_copy": 979
+  },
+  "changes": [
+    "Mode 1 route-distance booking estimate at 4 km/h",
+    "Mode 3 operator contact verification and explicit search confirmation",
+    "Equal initial event priority for the three modes",
+    "Source formatting and separate license notices"
+  ],
+  "inputs": [
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/App.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/App.tsx",
+      "original_sha256": "f86cb02bf92cefd53cfbe9934df7a30c9c0e0ce355a8db648994e7625e8da1a2",
+      "packaged_sha256": "29c0f5cb12b4441ae844c7ddff3efea0a777bc96eba9dc574b0a02de42330161",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/app.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/app.json",
+      "original_sha256": "692e005201537da79dad3521cebc7ce9347375ad70f69ac768276824fe33d05d",
+      "packaged_sha256": "692e005201537da79dad3521cebc7ce9347375ad70f69ac768276824fe33d05d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/jest.config.js",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/jest.config.js",
+      "original_sha256": "ff34c1c382123874acdb6a54d01ba979ce59363a398abef6e4c471857cfadadc",
+      "packaged_sha256": "ff34c1c382123874acdb6a54d01ba979ce59363a398abef6e4c471857cfadadc",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/index.js",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/index.js",
+      "original_sha256": "923f6db3c2996730bcab029422c7b4fe80b3060e5321bba97b7816b783015ddd",
+      "packaged_sha256": "73d2c4b345b688a68bdced8434bc736572957a7e32a65023da4a0e81185fadba",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/metro.config.js",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/metro.config.js",
+      "original_sha256": "aaf6a75e73476ef1513fee03ff44c91c30da0c5296e21f7e58484cdbb54e93fc",
+      "packaged_sha256": "3bc598d4c39b896d1900fde97a4d602713033a0bf05bb810f12e003ed62600f6",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/babel.config.js",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/babel.config.js",
+      "original_sha256": "d76a3a8625b204efa0f42c4bdd220f484211798f88a56f2e784bc082231cc292",
+      "packaged_sha256": "d76a3a8625b204efa0f42c4bdd220f484211798f88a56f2e784bc082231cc292",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.gitignore",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.gitignore",
+      "original_sha256": "27f8549d66e6c035e219cab41225362eb193e6a03277ff5abd6e5c29611d0a4e",
+      "packaged_sha256": "1e936ec0d1043959b38369745a5555f5709e0c0e7373375db8d88780b20c7407",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/package-lock.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/package-lock.json",
+      "original_sha256": "6dd5d32b2fefaf47697f32486c9b50197ad1b8a3d29128e0f955b1e7b1608464",
+      "packaged_sha256": "6dd5d32b2fefaf47697f32486c9b50197ad1b8a3d29128e0f955b1e7b1608464",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/package.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/package.json",
+      "original_sha256": "b02c019520226a1612c5ec7cb8cc80d3d482d7f6278e90af7100ec4713334228",
+      "packaged_sha256": "b02c019520226a1612c5ec7cb8cc80d3d482d7f6278e90af7100ec4713334228",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.prettierrc.js",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.prettierrc.js",
+      "original_sha256": "ed7c5f7f2f0f21950c2acbb7425d212bbcf0d7ecd3bdd440af42c67cbb8d6851",
+      "packaged_sha256": "ed7c5f7f2f0f21950c2acbb7425d212bbcf0d7ecd3bdd440af42c67cbb8d6851",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.watchmanconfig",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.watchmanconfig",
+      "original_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "packaged_sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.eslintrc.js",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.eslintrc.js",
+      "original_sha256": "6b5a39f38bf0097d86394ed81cdc52560fee480a1fe1b237bb14cf199c564a97",
+      "packaged_sha256": "4f650121dd208d75aca991717c30f2b0d994d0a88c19238c5e6a0836bababbd1",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/Gemfile",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/Gemfile",
+      "original_sha256": "e9d3eed48f9445a25962c1f5890993f7e9dd10169ce4e6f12e4852238e08899a",
+      "packaged_sha256": "aea2adb9d72599efc6779daa084730e86de84d0850805daed59efe61ea4466e6",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/tsconfig.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/tsconfig.json",
+      "original_sha256": "b1e4fae5f75d03ae06659a0c21214b8cdad0f92bf5667762d472fbee4c22985e",
+      "packaged_sha256": "457b5f652cbabfc981fb5305ff8e04e5ab3c00ca37cf6ef0e5701dcc43f94098",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/testSupport/uavCaptureFixtures.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/testSupport/uavCaptureFixtures.ts",
+      "original_sha256": "b64fd91e941e0ef2e5a1d31bfe6c50f094748781a11b9d9feafc0754bf0b752c",
+      "packaged_sha256": "dcda743f8c30bd848f4d2d47fc40a2d9ef0782a82ef387704cd8b7e22971926d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/.xcode.env",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/.xcode.env",
+      "original_sha256": "3c02dca07775b31ce4e77dfb3bb660d7c6e577474d65a6216f1ea9bef54e1ca6",
+      "packaged_sha256": "d443202aa7349816e4d827d25a8c749e4ce610784f26a5c08002531f24ca5dbb",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/Podfile",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/Podfile",
+      "original_sha256": "a587b3f933744598f284939a900178ac537fa68cec485a6f23064ff632b56588",
+      "packaged_sha256": "56d9fe0a798f817716725342b8ae97c5e0bd8c5be1e1e67f8363b60f7deb6f30",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject.xcodeproj/project.pbxproj",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject.xcodeproj/project.pbxproj",
+      "original_sha256": "ae6b354deb589cbd1da546ed716b18810e32c3ebbf170dc9b478c8e243c69d60",
+      "packaged_sha256": "72d3257fb8ab34aaba5eb1a7421d1639990e3321860845df02645761c22ff210",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject.xcodeproj/xcshareddata/xcschemes/FypProject.xcscheme",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject.xcodeproj/xcshareddata/xcschemes/FypProject.xcscheme",
+      "original_sha256": "90f4bc4b9a525119e1405d312e317a7fb40cd36f8a507f7b3a420dc41724b20b",
+      "packaged_sha256": "90f4bc4b9a525119e1405d312e317a7fb40cd36f8a507f7b3a420dc41724b20b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/LaunchScreen.storyboard",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/LaunchScreen.storyboard",
+      "original_sha256": "0f44bfc19346a55ecd1b0654c7a93c86bdc4f78b3e8bc89b0b8f52e7305bbc23",
+      "packaged_sha256": "0f44bfc19346a55ecd1b0654c7a93c86bdc4f78b3e8bc89b0b8f52e7305bbc23",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/UavCaptureIdentity.m",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/UavCaptureIdentity.m",
+      "original_sha256": "c14073112cd8a150d32da8c7fb69420788fe798e859f8adbabe8b965fb7209ea",
+      "packaged_sha256": "c14073112cd8a150d32da8c7fb69420788fe798e859f8adbabe8b965fb7209ea",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/PrivacyInfo.xcprivacy",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/PrivacyInfo.xcprivacy",
+      "original_sha256": "b9289ecfec677540a293fba948db7268c02b1d44943fa66b1e7a85ba0c31a252",
+      "packaged_sha256": "b9289ecfec677540a293fba948db7268c02b1d44943fa66b1e7a85ba0c31a252",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/AppDelegate.swift",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/AppDelegate.swift",
+      "original_sha256": "430f22c592132a82f86b72ff3df2b6af70a2c438a05897cb47447cb7a0c94790",
+      "packaged_sha256": "430f22c592132a82f86b72ff3df2b6af70a2c438a05897cb47447cb7a0c94790",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/Info.plist",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/Info.plist",
+      "original_sha256": "6f684b32dfbd4caf701e2cce1d7360c4426f23c39dff1f51161061458571b614",
+      "packaged_sha256": "6d6a6645209bf7310787601c233ca2ac29c09dd6b705ee927163317897693e08",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/Images.xcassets/Contents.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/Images.xcassets/Contents.json",
+      "original_sha256": "991ae939fbd598450a066b66404e06c5ae9b7d37e9aa0026de9e318443ba46fb",
+      "packaged_sha256": "991ae939fbd598450a066b66404e06c5ae9b7d37e9aa0026de9e318443ba46fb",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/Images.xcassets/AppIcon.appiconset/Contents.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/Images.xcassets/AppIcon.appiconset/Contents.json",
+      "original_sha256": "8a18bd4a58344d5fd5ac8f51f2e1a4e3409b0c3e503ea4d0940399900aa9ffd8",
+      "packaged_sha256": "8a18bd4a58344d5fd5ac8f51f2e1a4e3409b0c3e503ea4d0940399900aa9ffd8",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/index.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/index.tsx",
+      "original_sha256": "c0e6707daec1bd56cac36c356ba7e510d138bbbb40fa57c7f3ee31748b0ef5fd",
+      "packaged_sha256": "5b8acab2a4dbf0e4b4b2778851421bfca3fe57ab380dfc14b01fe04a88543ecf",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/Content.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/Content.tsx",
+      "original_sha256": "11fc5a097edf6f1b067ba1c94ae728e4614337fadef5d58b73497f212549a83c",
+      "packaged_sha256": "dfc6c89fcf0208f7f7bcf7d678b06e681272c5e3617cd548a05f1f18fbe6770a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/Footer.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/Footer.tsx",
+      "original_sha256": "f77f985c0e9b0a5ddd5bed84837ae27336a2b59d84bcb78cbcef2a2280c23fdf",
+      "packaged_sha256": "8da8f9b1056d449647f7e3eb37da7f5cc1c22636c6395078e4c98e02f6cbc4d7",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/Header.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/Header.tsx",
+      "original_sha256": "2deb61f91c10bae6512c706ff1d412bc418a31eccee4e4a43ac901e19aa25fb3",
+      "packaged_sha256": "e6cece7054d3a4f20fd38b4210d3ffae9ec06d43a43596e98a6ee595e02557c4",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavRescueClient.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavRescueClient.test.ts",
+      "original_sha256": "50529b252df8ce2eb07489517e3faedbbec7996c23a906d4c2442bb49476314d",
+      "packaged_sha256": "50529b252df8ce2eb07489517e3faedbbec7996c23a906d4c2442bb49476314d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/quickStartMetrics.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/quickStartMetrics.test.ts",
+      "original_sha256": "1fe71205441d3e953e165788406a0c4edd8d8335cb336881094a66b06f6b14b2",
+      "packaged_sha256": "1fe71205441d3e953e165788406a0c4edd8d8335cb336881094a66b06f6b14b2",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/positionTimestamp.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/positionTimestamp.test.ts",
+      "original_sha256": "3ca330e102c30ff326e557c9ae061af887178063fddfafdfde9e9496d521e844",
+      "packaged_sha256": "3ca330e102c30ff326e557c9ae061af887178063fddfafdfde9e9496d521e844",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/SettingPage.test.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/SettingPage.test.tsx",
+      "original_sha256": "f9d4c5b1fb9548b13c2d3888eb04b552ee12ffa58f0e4aa2d799072675117ebe",
+      "packaged_sha256": "f9d4c5b1fb9548b13c2d3888eb04b552ee12ffa58f0e4aa2d799072675117ebe",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavArrivalCaptureClient.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavArrivalCaptureClient.test.ts",
+      "original_sha256": "ce33be5bbbeb60d3ccb2b6094734c02dda1615ffa5b914e5a5aa8a32e491f881",
+      "packaged_sha256": "ce33be5bbbeb60d3ccb2b6094734c02dda1615ffa5b914e5a5aa8a32e491f881",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/QuickStartPage.test.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/QuickStartPage.test.tsx",
+      "original_sha256": "829a7b6210908f84502e1b66b2ce29ba46774829680f28f8fe68fd9fa98ed432",
+      "packaged_sha256": "68c132c48427039fee5272395e2667f281aff95953bac934272ffe6b79dd27f0",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavCaptureV2.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavCaptureV2.test.ts",
+      "original_sha256": "571c2841825cd52063b666aeb4043c4eb252f1d89a93d63595c8501b6eb1c7a1",
+      "packaged_sha256": "571c2841825cd52063b666aeb4043c4eb252f1d89a93d63595c8501b6eb1c7a1",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/App.test.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/App.test.tsx",
+      "original_sha256": "326320b31e0c83c994d0104883f73c0663e6192a94269036b4467078a705f89a",
+      "packaged_sha256": "31f30d344b1e6fbbaab31ddcb4dd289b8120e98fd91b23c12135084c93b6e924",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/eventBookingRecord.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/eventBookingRecord.test.ts",
+      "original_sha256": "c5c7be91ff7091b4c22b09dce91edd588539c614b9bb7cb29ccfee47b36f4ad2",
+      "packaged_sha256": "c5717d7a481e27fbdf9376f10c65a703a44177e4cedd64df530de22071d72aa4",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/SosPage.test.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/SosPage.test.tsx",
+      "original_sha256": "eb238af7702963dd370a752248839143936480077d3515ae3127e7c1c2addb48",
+      "packaged_sha256": "a98daaacc23b951831ce5ee1b22309c66e79c42701fafa75bc5222478f64e2e2",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/quickStartSessionId.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/quickStartSessionId.test.ts",
+      "original_sha256": "6826612a1cb4bf1cca34bd3b28e926127ef7bbaaae5abf1cfd6777eec0c9f3d2",
+      "packaged_sha256": "6826612a1cb4bf1cca34bd3b28e926127ef7bbaaae5abf1cfd6777eec0c9f3d2",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/firebaseRealtimeDatabase.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/firebaseRealtimeDatabase.test.ts",
+      "original_sha256": "8822401d3e2564a0139708d4ce5112ddd7711d94233be484cfa2c2486d6b7a5f",
+      "packaged_sha256": "8822401d3e2564a0139708d4ce5112ddd7711d94233be484cfa2c2486d6b7a5f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/SystemHealthPage.test.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/SystemHealthPage.test.tsx",
+      "original_sha256": "53b8b081e9d7daa0702af850263bb6cd1e1010e0c75afd778d8e989826a57afd",
+      "packaged_sha256": "53b8b081e9d7daa0702af850263bb6cd1e1010e0c75afd778d8e989826a57afd",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/currentSosStore.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/currentSosStore.test.ts",
+      "original_sha256": "e844a5476650a524b3e97e89f0371cac1d54ac371cadf87901320bed2dc1f49c",
+      "packaged_sha256": "e844a5476650a524b3e97e89f0371cac1d54ac371cadf87901320bed2dc1f49c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/rescueRecordHash.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/rescueRecordHash.test.ts",
+      "original_sha256": "42abecc06014df4acfd03c04ffca531012cf13fcc92a254dcdabe51213948e07",
+      "packaged_sha256": "624b7362900f592e92d7b99b98f9032b3c57714b28de2cb5cdfba6df394234eb",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/freshUavPosition.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/freshUavPosition.test.ts",
+      "original_sha256": "1c67da29eb3dcfe442e783b765c330da208029d03bac91ec471786034adadf12",
+      "packaged_sha256": "1c67da29eb3dcfe442e783b765c330da208029d03bac91ec471786034adadf12",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavWifiClient.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavWifiClient.test.ts",
+      "original_sha256": "48b4571a9efd4315ee5efea4f1e2038d1a68f087eed35795d7b7a08764daae35",
+      "packaged_sha256": "48b4571a9efd4315ee5efea4f1e2038d1a68f087eed35795d7b7a08764daae35",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/quickStartSample.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/quickStartSample.test.ts",
+      "original_sha256": "629f4645e1a7a48b4b3c0fbfbfac5796989a53b8858f96b925ca1d5566ddbb38",
+      "packaged_sha256": "629f4645e1a7a48b4b3c0fbfbfac5796989a53b8858f96b925ca1d5566ddbb38",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavCaptureIdentity.test.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavCaptureIdentity.test.ts",
+      "original_sha256": "05cd144e302dcd818f9362b7a17184095846e930d34acf4d1e5f4cd35e079627",
+      "packaged_sha256": "05cd144e302dcd818f9362b7a17184095846e930d34acf4d1e5f4cd35e079627",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/fixtures/rescueRecordV1Golden.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/fixtures/rescueRecordV1Golden.json",
+      "original_sha256": "550810efacd534695877657181f03cb3f22927c255547f0fe260d3ccb6db230b",
+      "packaged_sha256": "550810efacd534695877657181f03cb3f22927c255547f0fe260d3ccb6db230b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradlew",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradlew",
+      "original_sha256": "b187b4c52e749f5760afdd6fadc31b2a98ad35fb249bf0dff03b72650f320409",
+      "packaged_sha256": "8d6dcdbdd4ad737f2a3541a0759c92e99782adc89ce2d851073b478d62c03435",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/build.gradle",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/build.gradle",
+      "original_sha256": "007104e98ff6c37613eb097d26ef682ecaa6988df7f7dfea348107e0befaeffe",
+      "packaged_sha256": "007104e98ff6c37613eb097d26ef682ecaa6988df7f7dfea348107e0befaeffe",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradle.properties",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradle.properties",
+      "original_sha256": "52a313f5c59a1ec4db3a026c300180e24958dd5e3e93918731fddd7fce48064b",
+      "packaged_sha256": "d3c11f4084353bd40fc6673df4b1b7a5adc604f57cbf67df88c3ab47b136bcdc",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradlew.bat",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradlew.bat",
+      "original_sha256": "4d0b46d32ea0f3181db4e641c358e28022dd926756750237958f3ddf125ccb10",
+      "packaged_sha256": "1a371bca5f841330762535c8726fb188e6796ba4f5997513643914456cb71eb1",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/settings.gradle",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/settings.gradle",
+      "original_sha256": "c29a834fa543fc06811e9cc6887d194a30e1688bda8049cca3c756855c8b8ef6",
+      "packaged_sha256": "c29a834fa543fc06811e9cc6887d194a30e1688bda8049cca3c756855c8b8ef6",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/proguard-rules.pro",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/proguard-rules.pro",
+      "original_sha256": "426b908d7c5dac3db6648e2b21e3762ad9639e4976f7a2eb4e72d60d51b08ef2",
+      "packaged_sha256": "426b908d7c5dac3db6648e2b21e3762ad9639e4976f7a2eb4e72d60d51b08ef2",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/build.gradle",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/build.gradle",
+      "original_sha256": "43f7ed0eb459ddc90ccafe51af36025c91389afdec9e59492801c53082dab3cf",
+      "packaged_sha256": "c007d1d3435aa86d9a78f0a7dd60dfbfac92600dd8353072fb1aeb889b6caf7b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/screenshot/AndroidManifest.xml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/screenshot/AndroidManifest.xml",
+      "original_sha256": "9ec4e3798ed53a72a90fbb7f914c9dfc4398fe04ec1639c4f691fcc54d153c28",
+      "packaged_sha256": "dd1d73184d755a6e5da79e6d0231b5e718ec028f114ebf8b38c4422ded9dbdb6",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/AndroidManifest.xml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/AndroidManifest.xml",
+      "original_sha256": "dda06902e00c56f219e3c0244464112d23c41a261c0cef016b8658687eb2bd1a",
+      "packaged_sha256": "8ff0d6610d49ae6051956b4018916433c59f0e6947eabc3503e805011cdd89ab",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png",
+      "original_sha256": "82a39d8d4a6e4948dd7f72d7e69ed1f2c840317edb46e9be285020beb2dd900d",
+      "packaged_sha256": "82a39d8d4a6e4948dd7f72d7e69ed1f2c840317edb46e9be285020beb2dd900d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "original_sha256": "9fabd9bb44aa57ec8b169348b95a390067ce4f06ff9e2526b924647e5968591f",
+      "packaged_sha256": "9fabd9bb44aa57ec8b169348b95a390067ce4f06ff9e2526b924647e5968591f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png",
+      "original_sha256": "4a4346f45accc7a7f20dfff45960226439cdeca6f7af86212d66065dd939fc19",
+      "packaged_sha256": "4a4346f45accc7a7f20dfff45960226439cdeca6f7af86212d66065dd939fc19",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png",
+      "original_sha256": "90238c88b7306bf80fc1b60747449e277351451a8d474ad9b10237d67153e67c",
+      "packaged_sha256": "90238c88b7306bf80fc1b60747449e277351451a8d474ad9b10237d67153e67c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "original_sha256": "f6d77afbd9e0c9d429aa4c5552166343be7d46161f34cf1776dd44fcaa4596de",
+      "packaged_sha256": "f6d77afbd9e0c9d429aa4c5552166343be7d46161f34cf1776dd44fcaa4596de",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png",
+      "original_sha256": "7dd48362e1a2386f44e64c95305023b3007613e45d974592af3bbed5780d3a8a",
+      "packaged_sha256": "7dd48362e1a2386f44e64c95305023b3007613e45d974592af3bbed5780d3a8a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/splash_background.xml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/splash_background.xml",
+      "original_sha256": "bd0139cc081e3c87f7c5d2219e156713d76908d78813ed665c20d5e32e079a02",
+      "packaged_sha256": "bc3281c5ee837aa13945b1777cccbc19b3b756b80ae35a843d9d88d30e64e26e",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/splash.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/splash.png",
+      "original_sha256": "34df69769f3754374dd0815df11d573505e1782fea913a72ef022221af4ba996",
+      "packaged_sha256": "34df69769f3754374dd0815df11d573505e1782fea913a72ef022221af4ba996",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/rn_edit_text_material.xml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/rn_edit_text_material.xml",
+      "original_sha256": "738e3aaad53180caba1419a6d5db8465a0742662fe59a4bbaf05f1061cbc3390",
+      "packaged_sha256": "8d3fa147c3f24775c4ae8ed7c6e8dea9a1daa26b604014d7110c19945f5e8efb",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/splash_layer.xml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/splash_layer.xml",
+      "original_sha256": "553bead5151cd02bd2b2c5c409f39c80203c0585ad715b7aadb620369198be5b",
+      "packaged_sha256": "a172df7bdcef6c246567e64612235385ebf6bb803c27e7f5964b0c1064b53bc8",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png",
+      "original_sha256": "725eb4ece3121c7b93a105dfca9876c707f2c61867bf022dbb5dd7a37bc1f753",
+      "packaged_sha256": "725eb4ece3121c7b93a105dfca9876c707f2c61867bf022dbb5dd7a37bc1f753",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "original_sha256": "75855188a90cadb0265e7a5284c70d15d5663b5d0619bd2f25e0312476c9c51c",
+      "packaged_sha256": "75855188a90cadb0265e7a5284c70d15d5663b5d0619bd2f25e0312476c9c51c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png",
+      "original_sha256": "88de082be9315b2a17efc414808326fccf74623f13974da7d2f3d347acb6990a",
+      "packaged_sha256": "88de082be9315b2a17efc414808326fccf74623f13974da7d2f3d347acb6990a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png",
+      "original_sha256": "50946b1b74703bf4ad61ae26ea2d57cd5834bb5634eb5baf1fc8207b79cd772f",
+      "packaged_sha256": "50946b1b74703bf4ad61ae26ea2d57cd5834bb5634eb5baf1fc8207b79cd772f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "original_sha256": "2f290b6f142ae9ebf3582148ddb5c619e314d539e2a6f61b5a341d0d6d9d7173",
+      "packaged_sha256": "2f290b6f142ae9ebf3582148ddb5c619e314d539e2a6f61b5a341d0d6d9d7173",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png",
+      "original_sha256": "af79d24589e9e0e013cdb5e28446f8e425635744983f492e149df5cfb04e704a",
+      "packaged_sha256": "af79d24589e9e0e013cdb5e28446f8e425635744983f492e149df5cfb04e704a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/values/colors.xml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/values/colors.xml",
+      "original_sha256": "a2f2cb6375acb50c5056275667fea164dcfe215cf0588d695394669fc6d3a455",
+      "packaged_sha256": "1642b94fe98aa2ff972cce9bb458e90521430492bf97ae53f4d6ec0580c08ec8",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/values/styles.xml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/values/styles.xml",
+      "original_sha256": "94f849d6771a81168ffad606a9bf60928063c008c40c5413b3b60325d755111c",
+      "packaged_sha256": "0ccc90f457153fc49983d87e4ceb81f46d7a9b4a027b3456f20f7a3a8d11c48b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/values/strings.xml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/values/strings.xml",
+      "original_sha256": "01cbd3d7d188137adadf6c821e1856ce78e28f78a0c6a8e967acd8304e7eb7cc",
+      "packaged_sha256": "01cbd3d7d188137adadf6c821e1856ce78e28f78a0c6a8e967acd8304e7eb7cc",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png",
+      "original_sha256": "add301bb87b9c826c14cf3afdd2cb015be95f4d0b9fd800cf375e6654a5eb102",
+      "packaged_sha256": "add301bb87b9c826c14cf3afdd2cb015be95f4d0b9fd800cf375e6654a5eb102",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "original_sha256": "c1d800aef14fac1e75c249f3e46075d2adf586532a3a2dcafe4f7436bfaa92be",
+      "packaged_sha256": "c1d800aef14fac1e75c249f3e46075d2adf586532a3a2dcafe4f7436bfaa92be",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png",
+      "original_sha256": "55e1228b0cf1e6c2940b0665bcea70d14b94641eb15eb71d08c02b35e3800b2a",
+      "packaged_sha256": "55e1228b0cf1e6c2940b0665bcea70d14b94641eb15eb71d08c02b35e3800b2a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/MainActivity.kt",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/MainActivity.kt",
+      "original_sha256": "52a1ce79169e414c8730afef96765e52ccecd1964dd6b0933a80ce0c3a48ea0d",
+      "packaged_sha256": "37c6b28e1540131175f1991064af0b82590fda2c1bf6364bc89e022ea7b72651",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/UavWifiModule.kt",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/UavWifiModule.kt",
+      "original_sha256": "2fc686e66d461ca0eb74e7e5d2d61d6e9c7af803c8f3210cc91caff54bb7b53d",
+      "packaged_sha256": "e68d616d60bbe45f919809ca352cc45f6bf05e70ae44e1a57f93efea7efb4b5e",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/UavWifiPackage.kt",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/UavWifiPackage.kt",
+      "original_sha256": "6365ab5dcf34202ce8336a7470428bdae28be83f988b0bc1e6bb87949bdbf3ae",
+      "packaged_sha256": "6365ab5dcf34202ce8336a7470428bdae28be83f988b0bc1e6bb87949bdbf3ae",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/MainApplication.kt",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/MainApplication.kt",
+      "original_sha256": "b92e679443b5751c3f2936eab40a430fef78b16fe456b6ed0f0a1a07f97a7d1c",
+      "packaged_sha256": "b92e679443b5751c3f2936eab40a430fef78b16fe456b6ed0f0a1a07f97a7d1c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/debug/AndroidManifest.xml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/debug/AndroidManifest.xml",
+      "original_sha256": "b9015fd240808d4f1927ac9fd2a1d3c778abcfa0e72d29404c8b9f7f7e66586c",
+      "packaged_sha256": "b9015fd240808d4f1927ac9fd2a1d3c778abcfa0e72d29404c8b9f7f7e66586c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradle/wrapper/gradle-wrapper.jar",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradle/wrapper/gradle-wrapper.jar",
+      "original_sha256": "7d3a4ac4de1c32b59bc6a4eb8ecb8e612ccd0cf1ae1e99f66902da64df296172",
+      "packaged_sha256": "7d3a4ac4de1c32b59bc6a4eb8ecb8e612ccd0cf1ae1e99f66902da64df296172",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradle/wrapper/gradle-wrapper.properties",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradle/wrapper/gradle-wrapper.properties",
+      "original_sha256": "9bc89d177d3c15d647a0a895fc21a18cbb627d1051451b191f8fe601d5d96007",
+      "packaged_sha256": "9bc89d177d3c15d647a0a895fc21a18cbb627d1051451b191f8fe601d5d96007",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/check_version_alignment.js",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/check_version_alignment.js",
+      "original_sha256": "3bae66a89f2d8456010bddeaac70cc35c177c19030dfc48f0f81a04be4a8ea1e",
+      "packaged_sha256": "3bae66a89f2d8456010bddeaac70cc35c177c19030dfc48f0f81a04be4a8ea1e",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/build_android_debug_safe.sh",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/build_android_debug_safe.sh",
+      "original_sha256": "99af2ca82695191087823602d602456ffeed4d21541c1195791c8113f2ee891f",
+      "packaged_sha256": "ab6f7330c754af5e6e3bf12adbe67ce2131d4ed6ef536f4d4381bd05b3a35983",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/gradle.compile-only.properties",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/gradle.compile-only.properties",
+      "original_sha256": "d92f644a95a8e4fff139a630e38aa1fe483872edc8cf2d3429c67e5cc7f7d70a",
+      "packaged_sha256": "d92f644a95a8e4fff139a630e38aa1fe483872edc8cf2d3429c67e5cc7f7d70a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/gradle.screenshot-only.properties",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/gradle.screenshot-only.properties",
+      "original_sha256": "74a7bc9bbeade98ef048472704e18078b774c144dbe8a13b6e83c37f6d799e61",
+      "packaged_sha256": "74a7bc9bbeade98ef048472704e18078b774c144dbe8a13b6e83c37f6d799e61",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/sanitize_compile_only_copy.js",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/sanitize_compile_only_copy.js",
+      "original_sha256": "af5072d4186900982d8c8cdf7d5729e60ea8982da2478a3225c5732b303f949f",
+      "packaged_sha256": "af5072d4186900982d8c8cdf7d5729e60ea8982da2478a3225c5732b303f949f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/buildMode.screenshot-only.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/buildMode.screenshot-only.ts",
+      "original_sha256": "cfecccc107c2df7f5d9422fa74decfd8e04ea728e8a545e6e7697ae06d6561d6",
+      "packaged_sha256": "b9e5ffd4ccc2889dd58729c34b11fbb41a19b4ec151ecb25ef05161f0fe9543a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/google-services.screenshot-only.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/google-services.screenshot-only.json",
+      "original_sha256": "2acb239ce1551f68f23849f53d35ebe55c49bb1673d3b2af6860b376fdad40f1",
+      "packaged_sha256": "2acb239ce1551f68f23849f53d35ebe55c49bb1673d3b2af6860b376fdad40f1",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/google-services.compile-only.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/google-services.compile-only.json",
+      "original_sha256": "9409d75d4da3568a150ffd2fa78ac74b79eed4121dadfca10475dd1c5deb5897",
+      "packaged_sha256": "9409d75d4da3568a150ffd2fa78ac74b79eed4121dadfca10475dd1c5deb5897",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/firebaseConfig.compile-only.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/firebaseConfig.compile-only.ts",
+      "original_sha256": "dbdc67def2f2cdee269bdbbf1a4e2b027bf1be33c7e4e8ec9faf173388203821",
+      "packaged_sha256": "abbc9807cffa0249386982d9ad8e8e977f7ef04876465caa3187777ed488b3a1",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/AndroidManifest.compile-only.xml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/AndroidManifest.compile-only.xml",
+      "original_sha256": "2ebdedef545ba1e2891efc61b2e4c66f356ba6add5aee047291d973480d47b2f",
+      "packaged_sha256": "2ebdedef545ba1e2891efc61b2e4c66f356ba6add5aee047291d973480d47b2f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/build_android_screenshot_only.sh",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/build_android_screenshot_only.sh",
+      "original_sha256": "23dfee9e2ca6e744dd3c543fad766299f2f6a8e544ac601a46e5fa1167056e80",
+      "packaged_sha256": "16f14dce159a126e194f0c5250d3412200b7614374cbc525da79c58baf3986f8",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/SettingPage.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/SettingPage.tsx",
+      "original_sha256": "e42bc26d667d090de879e801f6589da11c87f2d7f5ac95b7b9ff43a1cf9cee17",
+      "packaged_sha256": "65ac3420ac191660618cd3dedaf85503c249f00daff7f4203b3ad2f18a7bb763",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/ProfilePage.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/ProfilePage.tsx",
+      "original_sha256": "bc1d43f102d9109e5a1cf87c464d457083cc26ebaa0355f9b23c259c625b9aed",
+      "packaged_sha256": "9212ae04df34b1042cc39178090ba00f8756a11470d94af9eeb1262574862995",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/SosPage.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/SosPage.tsx",
+      "original_sha256": "b9fb413005d7d8f2d1eeeb27c6e645d270fc65bfae39747675c2eba49fd08fa9",
+      "packaged_sha256": "0dfcfe6d19f653b598cb29c3d71d44f0c8ffaa94a9c21ce4e7d65637fe05028f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/EventBookingPage.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/EventBookingPage.tsx",
+      "original_sha256": "494654611971ebe11a29d17d50d14f692fae3be240a924972df1ddab9215ca26",
+      "packaged_sha256": "9fe944e566ed7716a0af0c402cc9ddcbdda3d007431eb0be973d02fbee52454c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/QuickStartPage.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/QuickStartPage.tsx",
+      "original_sha256": "4d4002cef1140c3647cec6c7dc46075da59a99473fd3c775d1561fed4ea7fcef",
+      "packaged_sha256": "17f3141239aeef80c98c479c92799dd90c3a8a7d2496eef6f15da7ebf9b481eb",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/MapPage.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/MapPage.tsx",
+      "original_sha256": "415f564513bd6be8f1aeada961a66500ce04e05f71d64e19e2c4d4b3b95ff418",
+      "packaged_sha256": "5b42363a707fddc86e1c94a029e505cbc7bbc93dd0ad23901856e76143c68dad",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/SystemHealthPage.tsx",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/SystemHealthPage.tsx",
+      "original_sha256": "8f807701e82e0c7429dbbaf9d067d19299e891a82de33f533cd6290f9bb9b17d",
+      "packaged_sha256": "8f807701e82e0c7429dbbaf9d067d19299e891a82de33f533cd6290f9bb9b17d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/translations/i18n.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/translations/i18n.ts",
+      "original_sha256": "ec8b68a09f98ec354a0ae07ca3b612de49b41c9de94ceea441558f02d96431be",
+      "packaged_sha256": "cc4926b511f5360fe6573b2c3b8b0e6ebdf1f164b1f9e16a229da9ecbf68cc42",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/translations/zh/translations.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/translations/zh/translations.json",
+      "original_sha256": "363dd1e98bdf7eac66a4a0c836cf231c51f839b5154170dd19a94d642955e9f5",
+      "packaged_sha256": "c98b0862ef5599d6c770c729ec644f9f8e73f4a0d500687b2b6bf2482898c8ce",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/translations/en/translations.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/translations/en/translations.json",
+      "original_sha256": "0171d69ba20f4dfe4f44d44be88a823436b29fccf2dd190648b0e224c7c0f815",
+      "packaged_sha256": "de991a8d8a22f5c98769ad87cf5cda3faf394943565919336f1c53eece2ccd91",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/quickStartSample.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/quickStartSample.ts",
+      "original_sha256": "27b12b15b11fbcb1681ae3086eed39b693b78f92da917418e774cc4c78d3dac3",
+      "packaged_sha256": "58712bd08ff16269cf7e8c0f3bab8a863cb56aca8f531f18864736842ffce73f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavCaptureIdentity.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavCaptureIdentity.ts",
+      "original_sha256": "7a51819b2ba5c1a348750c60207fc0d4787d3c2d0e2870795019855b5424da7e",
+      "packaged_sha256": "811e83c1de3301ab8ca056bb300f1343cd3d0a9126dff7e721d0d011b4a0c703",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/eventBookingRecord.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/eventBookingRecord.ts",
+      "original_sha256": "eaf252c71ddce1656e2b7bf283cce4e1bc10671d43bfb1ef004523cb68190c8d",
+      "packaged_sha256": "f608c1a7069c7b95cea97544eee677b03cb8f8a7261fc7a795586e1d6bc22df1",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavCaptureV2.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavCaptureV2.ts",
+      "original_sha256": "57a4c0104439b4938223a4097c1bd7366bb2eee4a093ec0a9a3be344702f7bd1",
+      "packaged_sha256": "91eeb86466ce287307f49c7d9ad58b60ccd825102bb7c16abcd168ecee8abd5d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavArrivalCaptureClient.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavArrivalCaptureClient.ts",
+      "original_sha256": "66e3b75664aa1437155bc8bde3143b3f1c65a897fdf99b7af3ffb9f69bc26c1e",
+      "packaged_sha256": "ae21f695fb3861f4d6392bb5114974cd1544208b0ec70dd72d7cb62efa13ec4d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavRescueClient.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavRescueClient.ts",
+      "original_sha256": "ce76a23f8ce3899aae451ec5da41c5eae42c92a45a495dfaead13c8bc68c9783",
+      "packaged_sha256": "40c7c13e52dbf00a3f6dedbaaf9aec85a1ee671a88fc0d605bbef653249816e9",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/buildMode.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/buildMode.ts",
+      "original_sha256": "7d21152dfd22a839f02ceb053a0c7f371142706480ee0e070783160a48babbeb",
+      "packaged_sha256": "b0d5bd729a9b3b711040e2a797fbc44518df981277c6dd566b70d997df63639c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/positionTimestamp.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/positionTimestamp.ts",
+      "original_sha256": "285b7212dad402086fe3ddde7f0052741f7ce488478ce2292e8deb8081cda0b5",
+      "packaged_sha256": "285b7212dad402086fe3ddde7f0052741f7ce488478ce2292e8deb8081cda0b5",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavWifiClient.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavWifiClient.ts",
+      "original_sha256": "a462ebd9843a0fb06a301ad7023c0a5875d95b0f90c31df729adf79f89ad51bc",
+      "packaged_sha256": "a462ebd9843a0fb06a301ad7023c0a5875d95b0f90c31df729adf79f89ad51bc",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/quickStartSessionId.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/quickStartSessionId.ts",
+      "original_sha256": "ffc00070c2a9f4b1f9a703e3a524a3eaa7c78c447a7f62217dfacffbcfc5195b",
+      "packaged_sha256": "ffc00070c2a9f4b1f9a703e3a524a3eaa7c78c447a7f62217dfacffbcfc5195b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/rescueRecordHash.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/rescueRecordHash.ts",
+      "original_sha256": "a0d8367f36537f4088cf8c1df104d5abca60c4c4fd76d14baa65a545f617125b",
+      "packaged_sha256": "03b743f97ed2e1e55ca4843a925e24e4151daaa6de4ef6fbf4ab676aa944d2f5",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/currentSosStore.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/currentSosStore.ts",
+      "original_sha256": "f4d1b840995e54ef31c524f5cff5be902b2b576f816b592e0333737f0d22df65",
+      "packaged_sha256": "5602c81387b4740ea0ccb27656e13f89a6b92acbaaef0df8ed27b84cfbf4c4cc",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/freshUavPosition.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/freshUavPosition.ts",
+      "original_sha256": "a3c37bfc99a0df62cbefeb5120acb5181cd796b2f397592addadfcaaf7eef3db",
+      "packaged_sha256": "a3c37bfc99a0df62cbefeb5120acb5181cd796b2f397592addadfcaaf7eef3db",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/appMetadata.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/appMetadata.ts",
+      "original_sha256": "625f09dc655dddfeab01539ed41fbcf7d42a740b4784bc3bcdf699bd127c6b95",
+      "packaged_sha256": "625f09dc655dddfeab01539ed41fbcf7d42a740b4784bc3bcdf699bd127c6b95",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/quickStartMetrics.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/quickStartMetrics.ts",
+      "original_sha256": "7429f5bc2096692024c670c5b498d524a125a68a3d873ec68140c29b26ba6ae5",
+      "packaged_sha256": "7429f5bc2096692024c670c5b498d524a125a68a3d873ec68140c29b26ba6ae5",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/firebaseRealtimeDatabase.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/firebaseRealtimeDatabase.ts",
+      "original_sha256": "20b896bccbb5b88926c22dc38b1354230c9d0f4109480728cc1c2af366e2b54c",
+      "packaged_sha256": "10565893f408c2a48820785f518f1d2d26f3f37848785287f37b6f1fee866229",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/firebaseConfig.example.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/firebaseConfig.example.ts",
+      "original_sha256": "ae08eeb48171478e4ee10b5122d6f5f0a8e0d73984a2b9a1e1397f032a8e7418",
+      "packaged_sha256": "9e23fa611931937733d1a82c20bc6b6f8db45a3f0ac5da7ff92aa4d04d5372aa",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/locationService.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/locationService.ts",
+      "original_sha256": "2ba43732cda09b702c0445b9431d7a30ff5c9ce8c65ea64a9c9257670e61166f",
+      "packaged_sha256": "db7f9b7644bf947c55c9b1403cfb25cfe5625e723d3e5e649da93b213c78306c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/database.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/database.ts",
+      "original_sha256": "fd5d3c315480e1892dbcf69d1cfb90baed1c9a38393eef8d9d7699683a99296f",
+      "packaged_sha256": "62c823c1b13d4e208864a817eee7d0cb83e80854ffbde17ca9191d4acff17ffc",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/initDb.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/initDb.ts",
+      "original_sha256": "1a64ed0f04bfbd5bfa713a2fe51ac60c74de40dfc3f5875943c8c113e8f50c6c",
+      "packaged_sha256": "844d2b0e940594256ae7773a01a12c80f29225e26d6ba3e8a673b3e75564a41b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/LocationRepository.ts",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/LocationRepository.ts",
+      "original_sha256": "c29cd2d077c208f0481a1fefd2d5ec35913d8a86d35bf3f2b9bd31bc38a20bde",
+      "packaged_sha256": "be78a6f1fd5bd387c89bb974a56b350d730e3c9e5f0a55a0b284829536d5551f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/rescue_event_manager.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/rescue_event_manager.py",
+      "original_sha256": "e7f7939ccbc089a42bfe2762a1fef9874abde13c55b3c4e7e42a3992207478ad",
+      "packaged_sha256": "3cd739081bd90e4e56e837266c886dd0d400d60a04c730e52bf00b25a39c4aa3",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/active_event_queue.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/active_event_queue.py",
+      "original_sha256": "fa7dcfad406eed42d93d2d9e2e7bfb694be88d4535fa4780543a236789f4a27f",
+      "packaged_sha256": "5f675d848979344cd7e4c359fbc9b6890c9c62db90db6b0e0cf848ae5c5906d2",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/build_windows_release.ps1",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/build_windows_release.ps1",
+      "original_sha256": "e0e82c0ba103b25dbc98db07441641ca70105b4abaa921986f14ed09364a106b",
+      "packaged_sha256": "e0e82c0ba103b25dbc98db07441641ca70105b4abaa921986f14ed09364a106b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/receiver_ready_protocol.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/receiver_ready_protocol.py",
+      "original_sha256": "8a573a684affabb09f2dbae166ed94aed7323efb97869de8bc4e7f4a9ed63a75",
+      "packaged_sha256": "1916e5c169192c7238968ab7c0db15087d64e4aee01841b0bd14fe3a872f65a4",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/firebase_runtime_config.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/firebase_runtime_config.py",
+      "original_sha256": "caf3e4e994f3fd2dd1a6bb7db2597fd816f5e4bbb3910b026ec0598370dfa65f",
+      "packaged_sha256": "7fa0715974c320dc1e5265a833e1b940d4aaaad4b4966f0b0901d79f12d63041",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_priority_scheduler.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_priority_scheduler.py",
+      "original_sha256": "7a9b2c13ba665e85200d8b0b25c7e886deaefa54e165c5709a860d7482a7fb94",
+      "packaged_sha256": "e269b897c97d6353872c1c46c2791cecf6ff0951dcba7d97bfd58ec55bc6629a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/LICENSE",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/LICENSE",
+      "original_sha256": "5ff86c7273904e08d42b95782f7d622ba96c61109fbb9cc2bbf69741ec942983",
+      "packaged_sha256": "5ff86c7273904e08d42b95782f7d622ba96c61109fbb9cc2bbf69741ec942983",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/requirements.txt",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/requirements.txt",
+      "original_sha256": "06ba0ade448b91c345628466b7e5774aa28fd8e8f92cd9752050aa181fbd3b91",
+      "packaged_sha256": "06ba0ade448b91c345628466b7e5774aa28fd8e8f92cd9752050aa181fbd3b91",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_dispatch_journal.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_dispatch_journal.py",
+      "original_sha256": "0a8fbc7a8c3d6e4d05b8d500b27b666277130eb69b29ee20f06d60a9222ad9b6",
+      "packaged_sha256": "25e43c1eaf45e2be021ff3700d40db21f1253dae652f9021f86709c5fb557208",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_quick_start_freshness.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_quick_start_freshness.py",
+      "original_sha256": "8d328cad6970e636075ad1b0e9039e55c9b9d885b3962bf3ba35d4371c24f1ca",
+      "packaged_sha256": "c47f12a7f0b57bcf943e292dc307eab2bde37f8f24eae11a8d12393d0812ad9f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/windows_version_info.txt",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/windows_version_info.txt",
+      "original_sha256": "e40a6c4bc74f8c0cc5125e5c8f959f01b1a2b5427332089292fc6b2ebd69320e",
+      "packaged_sha256": "5f91f5bcf0d8e18729eac1d4ff35d7a661aeb2e05efc831ca80e3e644650e18e",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_rescue_record_protocol.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_rescue_record_protocol.py",
+      "original_sha256": "397f83ba268d53a761d7e021f5dd5975445337f349d4380416975bbf8c481301",
+      "packaged_sha256": "397f83ba268d53a761d7e021f5dd5975445337f349d4380416975bbf8c481301",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/verify_runtime_dependencies.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/verify_runtime_dependencies.py",
+      "original_sha256": "b4536433390b561ddc1bf566ff6871406b24f319fbf856dea7af22f63cf37ce4",
+      "packaged_sha256": "25f7bd8abb1bcffef246e0b8efdb80284c1b82ab4949bd1f88e6b03738afe628",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_quick_start_observations.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_quick_start_observations.py",
+      "original_sha256": "7483b848b47c9f7bfb9d33ba71c92c8ee65777970234f6e4851493dd8efc2795",
+      "packaged_sha256": "ca63956215a1b0c36b3a324effd84b898256dc61beaeb92d3d34f03999eceae1",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_V5.spec",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_V5.spec",
+      "original_sha256": "8def86bdca5040bd262c98eb810042524760a5972bb9759cbc078c39c9d9f570",
+      "packaged_sha256": "911255e60bc7a535cae9b7fe3e1b91fd5ba544e64e805bbac2e11be1516bea3d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/runtime.env.example",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/runtime.env.example",
+      "original_sha256": "914563b4e19db62cb3ccba1d6cad1fb969316ff6a2aebecac4abf91eb6e4b837",
+      "packaged_sha256": "97d84c0edbbdbec5037b8d32fa37cf1721d6982da393daa97d491c0970802520",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_quick_start_ground_ui.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_quick_start_ground_ui.py",
+      "original_sha256": "5bf305b5917d0167e8ebe072fbdd25128556dc538a962db326aaff07239233da",
+      "packaged_sha256": "3aaa0882c00b9dbf3546418c3dd783f8ed26db0b0a712459470677a796952fea",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/app_metadata.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/app_metadata.py",
+      "original_sha256": "bdc5c5bc5366af510a8f0afb8090ac17b60f08c6fa6f92670d2bd9e3266fec6a",
+      "packaged_sha256": "29458432fb1bcb8c9223a55b34a6ae41d01d2b7a531783cf53fb0922df30f41c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/icon.ico",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/icon.ico",
+      "original_sha256": "1d87a42c5577415f55699037c38cf2c39d33bfd1f04db895e9b65cc1610c715f",
+      "packaged_sha256": "1d87a42c5577415f55699037c38cf2c39d33bfd1f04db895e9b65cc1610c715f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_ground_station_demo.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_ground_station_demo.py",
+      "original_sha256": "3ca0842cbf94dbc118b6c72b023d4f0c143e06ebde52fc2b144795dba6bbcb77",
+      "packaged_sha256": "bb51d4976fa81d0b4a792a6e54f217a5e182fe1ed9b7ec87486fffee92c83cb1",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/requirements-build.txt",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/requirements-build.txt",
+      "original_sha256": "4d71c0e2c58b2725ed87199430d77554bb58c8536c9a1d393c061baf2bc3b6a2",
+      "packaged_sha256": "4d71c0e2c58b2725ed87199430d77554bb58c8536c9a1d393c061baf2bc3b6a2",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_V7.spec",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_V7.spec",
+      "original_sha256": "593c6d7c84fe5c2fec38035e494846057f52fffd3a62f7dd4060b7a93a02ff90",
+      "packaged_sha256": "425b1f958ef439f30efd30ba125fc01c28cd83c08c822f25e39b86ca45853fd7",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/sos_pattern.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/sos_pattern.py",
+      "original_sha256": "ba9f6029274b8c4169b03f5573f78e85bc8fdf41d8513e2e77787201ffcaa2ad",
+      "packaged_sha256": "6b92020a7c8c99e52c8fa18960597ed96362e5eda070032a396bd550e687269d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_capture_record_protocol_v2.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_capture_record_protocol_v2.py",
+      "original_sha256": "46eb5b64aeca017fda31ff3825031704b618f0f0e595327299ba64d7d5fa0072",
+      "packaged_sha256": "46eb5b64aeca017fda31ff3825031704b618f0f0e595327299ba64d7d5fa0072",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/.gitignore",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/.gitignore",
+      "original_sha256": "e64075feaa65e6e3b3c37696974c116a3d341ac70d026ef97c08a87c2e2cd39e",
+      "packaged_sha256": "afd7a6a7cf7059f4f2594dc3c472be84e418300721676f91af38c2084d044470",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/rescue_repository.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/rescue_repository.py",
+      "original_sha256": "6201fd8e77408402857edc31b7af84b0741b147fd7d49137b2dfa46f3fe0667e",
+      "packaged_sha256": "108a240f09b1fe2944bffcb9e94462f36961ce5c816252772ab8ed88ef4e0c9a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station.py",
+      "original_sha256": "621cbc257a93a7663810e9f5a5a558f8d6f98ac7b8a71ab77534702fbe680853",
+      "packaged_sha256": "565ee6f07a2c893b7cbaea1d79f3b8a50127c7374bccbbe2d6492cae669bba92",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_V6.spec",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_V6.spec",
+      "original_sha256": "036f0c7fc3a2c25903cc5c8e719f74ce9118a6f0cd2f2fdd24ae73840eff47ca",
+      "packaged_sha256": "978239b8633efc8d508b674ac5cb5cd74d506c1dc327128bf9e2e9e0ac26be28",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/quick_start_observations.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/quick_start_observations.py",
+      "original_sha256": "d0a5e13f12ad2671cbfd69030c48849dfe7775cc5793725e52af7f6a5881c311",
+      "packaged_sha256": "acc06afc674c8e00c0506d64b9cb89d28730cc44b4eb05e54d0e5330f3c06e05",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_rescue_reliability.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_rescue_reliability.py",
+      "original_sha256": "d04fafd6941aa53c573a0547f5fce40b1ef598c85bc30ce463fbfbcf587d8040",
+      "packaged_sha256": "d90d3d4b23d757e3d8104555d7dbe4391c3cd3a97852ddbd5c0731851ccf201a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_rescue_event_manager.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_rescue_event_manager.py",
+      "original_sha256": "3273ede7b86559789241614bf58f11a013d29dc72fb96bbaab4c8ecbeac22218",
+      "packaged_sha256": "ed2e76c46323639d605b3db8e7fb761ea551ef05a86c98b0640e40b3ce381fcb",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_dependency_lock.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_dependency_lock.py",
+      "original_sha256": "022aed76bb30645b3c815da5e7327a9dda395cf7e509ef27bd313598b9ef4179",
+      "packaged_sha256": "022aed76bb30645b3c815da5e7327a9dda395cf7e509ef27bd313598b9ef4179",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_ground_station_rescue_flow.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_ground_station_rescue_flow.py",
+      "original_sha256": "a3aae0fe5f6588b4634ec9df09db3a11a3cfa8f622dc807488062792b7a2c033",
+      "packaged_sha256": "a6cd9ae5a1f94e6bb5163beb7b5fe0a85329b3cfb2a95bf2b1ffe3c8026bb1e4",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/capture_record_v2.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/capture_record_v2.py",
+      "original_sha256": "1832a6a375dc6dd178b4177a57b69be0b6ff1c88ef66a051462f484f58a8f2f6",
+      "packaged_sha256": "662e54c32ff428848c6d60f10d0a75d6eaff326b13ed0ee3c97864b820be0899",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_active_event_queue.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_active_event_queue.py",
+      "original_sha256": "7768e88a070d2e970548b16fef13f17d11f9262f76ece9ef14cbee73108e27ec",
+      "packaged_sha256": "ad39f4c54834475f0802ca589a03bd4e1bb606803442a01f329b486027641572",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/windows_version_info_v7.txt",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/windows_version_info_v7.txt",
+      "original_sha256": "102cfc2a81e09b6529d9f9e032641139e8ad0fe96cc431e0fdfc5653b8c6e8d2",
+      "packaged_sha256": "102cfc2a81e09b6529d9f9e032641139e8ad0fe96cc431e0fdfc5653b8c6e8d2",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_demo.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_demo.py",
+      "original_sha256": "2e43816bd8d510f67bcb58dbe97cd39798854f0c25a91be35d52af9e779ae42b",
+      "packaged_sha256": "cb4a43d0b206823e33c4064b7f891e5cfdc1b46bb34590889e17cbc586049675",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_sos_pattern.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_sos_pattern.py",
+      "original_sha256": "6e5dace83a0a8419b510c56c1bf7dbc9dd953be2df55b67ef76a9c6254971bd8",
+      "packaged_sha256": "6e5dace83a0a8419b510c56c1bf7dbc9dd953be2df55b67ef76a9c6254971bd8",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/quick_start_freshness.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/quick_start_freshness.py",
+      "original_sha256": "65e9b2e9429f959e9ded8436b2295e7b9d53dad2ea379d939efd9f5fb964b120",
+      "packaged_sha256": "293115684f8247c82b4653edf380d21219636dca07f1dd4c6b29ab161c46eb31",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/dispatch_journal.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/dispatch_journal.py",
+      "original_sha256": "4bbd21a4c1d5f586f82b7fa153ffe115e918c7f2f497177439624af49f8b4fa9",
+      "packaged_sha256": "e4d1d7f5f0b5a960d326a6b582daf77dc6e3410ded5a92e04d5da515621c6cce",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/priority_scheduler.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/priority_scheduler.py",
+      "original_sha256": "88d7037a01fa969e13a38db633b93e58c7b6ca2ce0ebe4bf9f84d8d150fb0f91",
+      "packaged_sha256": "c15196a06507d88529e1b67dfdaab71eadb729b670ee5d1f145e164870e200a0",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_execution_recovery.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_execution_recovery.py",
+      "original_sha256": "c91a07b16e097357c74769fb17e42e890fd1ebc24419c48ab52c37a9bbbc1480",
+      "packaged_sha256": "d20ff9c2f3eaafbbcba695f8595b62b9c776d4fceaba8505ef94a4a5b058f81b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/mission_execution_protocol.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/mission_execution_protocol.py",
+      "original_sha256": "b09e06667062bde848e662b3d02fadf14cf10909d48cba10aca07eff8b9eef21",
+      "packaged_sha256": "f04ef84064b179f5dd49c80e18bea427c702a6865e65f96f4312a4767e0b9d12",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/rescue_record_protocol.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/rescue_record_protocol.py",
+      "original_sha256": "a9a30533f26f3e50cd551b878dbf9fcaeac6b277696ff80c86bf4b2019a59dc5",
+      "packaged_sha256": "1a1942cf018befba532362954c82b0984af917dd0d950a76f83d74a54216d39f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_ground_station_runtime.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_ground_station_runtime.py",
+      "original_sha256": "02482d626e0c7eccc57ffceb84f73869094002a53994312dfca9a8c4208a958f",
+      "packaged_sha256": "02482d626e0c7eccc57ffceb84f73869094002a53994312dfca9a8c4208a958f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_fixtures/task_v2_fingerprints.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_fixtures/task_v2_fingerprints.json",
+      "original_sha256": "5acb923ec9b7eee2beabdcfbd96aa6f3adcf52be1a437fec0971ff76c69f9f5b",
+      "packaged_sha256": "5acb923ec9b7eee2beabdcfbd96aa6f3adcf52be1a437fec0971ff76c69f9f5b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/LICENSE",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/LICENSE",
+      "original_sha256": "c0456bffca4c3185cd307005061217363d83906a1140a6f24b7fe76473c70a47",
+      "packaged_sha256": "c0456bffca4c3185cd307005061217363d83906a1140a6f24b7fe76473c70a47",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/.gitignore",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/.gitignore",
+      "original_sha256": "1b702ccd084d3a6b858b110f609fdf42108f07127f3543e9da95eb9589d1aea2",
+      "packaged_sha256": "81e106e0527ca2789b5836f3ccfc766966bb6080607501d2112a5c972c0b68c0",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/demo/test_generate_uav_demo.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/demo/test_generate_uav_demo.py",
+      "original_sha256": "da8f35667c61e672fc4850991094030aac6e7afe9aef63f0c62017dfe9a5ea8a",
+      "packaged_sha256": "da8f35667c61e672fc4850991094030aac6e7afe9aef63f0c62017dfe9a5ea8a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/demo/generate_uav_demo.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/demo/generate_uav_demo.py",
+      "original_sha256": "5ca8fb7979d9c2c6d9ef7d415714ae8b5af195362a030179990ea5126430bedf",
+      "packaged_sha256": "f11c7d131f815e1d715209f51313d3b6a9d12b8209fd6245b9375a54736c595f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/drone_console.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/drone_console.py",
+      "original_sha256": "76ecf00d84bf941cda4ada4d45ddcf1767dac5e52ab31388fa02a061a4bb4bca",
+      "packaged_sha256": "36887d6f6a634d0a612b9f0f39dffc607bc8aba270d8a47ddea0ae874987c3fe",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/icon.png",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/icon.png",
+      "original_sha256": "0eb8b0bf66a0a514cb22d05388a4b36c09e589d0ecd7f158164d7d93fe557d29",
+      "packaged_sha256": "0eb8b0bf66a0a514cb22d05388a4b36c09e589d0ecd7f158164d7d93fe557d29",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/cam_recorder.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/cam_recorder.py",
+      "original_sha256": "869e51623330891ba192244a801b9337ee0d9a4525a532081ecd4222c9770a96",
+      "packaged_sha256": "755414d1cfa6eb0cae1a50df541e9d1ffcdb3e78e0e261cdb15c735bcfd8e041",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/recording_state.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/recording_state.py",
+      "original_sha256": "313ef7a5baeced453e89de9204d52db02cdabf6a7e754f78f89e1839928d5799",
+      "packaged_sha256": "badb9d4b0fee9ceb3b38f2d45b0b1e769df1993147569feacc0a3fdd7487f0bc",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/test_recording_session.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/test_recording_session.py",
+      "original_sha256": "ff319ca135fc62cb552619dee61bf7fb6d7badeaf6f918e36435614c8204c8d5",
+      "packaged_sha256": "714d54dc6c132dc68e448b2371ac713e28365b84fbea5918aed8c89ab1749a1f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/drone_console.desktop",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/drone_console.desktop",
+      "original_sha256": "edfa98a30e77af66360ee625e8fdca73ced2cb30d0228643dc1b9da471ffa63c",
+      "packaged_sha256": "edfa98a30e77af66360ee625e8fdca73ced2cb30d0228643dc1b9da471ffa63c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/test_cam_recorder_faults.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/test_cam_recorder_faults.py",
+      "original_sha256": "9aa1b42d20357dd7eb85cb07072f4ca1bbae5088c66123e96d4ddb5f86594210",
+      "packaged_sha256": "1dd3aa1e2361acea8dc2856e92ab913348c555aa4510fe58947b4f2c27774065",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/test_recording_state.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/test_recording_state.py",
+      "original_sha256": "a5613bc7aad3c67d687872cf5f640e210ede7dbc8cf0666b78255bc2dad51e07",
+      "packaged_sha256": "a5613bc7aad3c67d687872cf5f640e210ede7dbc8cf0666b78255bc2dad51e07",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/status.sh",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/status.sh",
+      "original_sha256": "d31337c90d097740ada964a962160a4624aa7dc328840f2663d1c4e7a590eaea",
+      "packaged_sha256": "f8763370bb8bcd350f6c5462905be5652341277c8c0b4c619fcb83c2563a0490",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/stop_stack.sh",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/stop_stack.sh",
+      "original_sha256": "91588ce6dde0325235f23242aff43b206d1d8585aaeae76a1347280c394fce1d",
+      "packaged_sha256": "bd1ccf93b90f55d81da677143c192b7707e350dd41c949298b68f6240812378f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/land.sh",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/land.sh",
+      "original_sha256": "38238f9b669f11a143e9d2cf9d65f5da19c6ee98e40a8a99850aaf95b1c18c81",
+      "packaged_sha256": "b3203601e78ee037fbb6b413194e83b0dc9ea812cc44bc1cb918c5f84e4e5ebb",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/start_rescue_receiver.sh",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/start_rescue_receiver.sh",
+      "original_sha256": "ba63c4c86eca51ee8bef371d64b30fa397d6c6057eac09b2c51ff43bf047ff44",
+      "packaged_sha256": "3f8187085d36f30c6ce0897e60bbee7b69eb5e19e5544d56486af58c17e8140c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/emergency_stop.sh",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/emergency_stop.sh",
+      "original_sha256": "5e18edb5adb2d18e2ba3f0dc2723bb93091db42d9be164b717ef69cd44749587",
+      "packaged_sha256": "b248bdceb3d8cae1c22c0648dd595716fd004b349bf37f055ca296dea5f89e81",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/start_sim.sh",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/start_sim.sh",
+      "original_sha256": "b7657441cfaca9fb06f8cddd477c01b5a317ebcf2e608b8c13d9450b5293376d",
+      "packaged_sha256": "acdf3bda9e79ce0f245762c615c532af4d8632c4b8b1495b9a204a849877cc9c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/start_stack.sh",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/start_stack.sh",
+      "original_sha256": "f8affe09ee814ce59de43ad2b30948513d0d9fb8cb648e1bf65916d63f65c695",
+      "packaged_sha256": "0636988082a153c4b5cf05c3f51d8664ea7014ff780f0d74ce15b8eb5a5d66df",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/takeoff.sh",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/takeoff.sh",
+      "original_sha256": "cdb2cbd2973ca20cda0b9a02187f7886c602bd985efc0ba555ab84c144ff7b42",
+      "packaged_sha256": "62a3e3a483a3d34e63109d3ce7417d23cef87e97a6693abdff3685ba067de495",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/config/log_paths.yaml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/config/log_paths.yaml",
+      "original_sha256": "397d71b815f286cd4c2b4e0ba22238b1008414d7057c5bd94436895ee5d68e28",
+      "packaged_sha256": "b9b7c9f55ef1f9a4e5b73cca10b20466cb5b08f1287333858efa48da6f6854f1",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/config/mission_settings.yaml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/config/mission_settings.yaml",
+      "original_sha256": "0f976c8334b23697c993b4d86b62d624f9c1953460968ea2d2cf968bda4c736f",
+      "packaged_sha256": "4f25bc473a6de2a476884770b467d935f9aa51e58133b49efb74a45f7a8e5b98",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/config/rescue_receiver.env.example",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/config/rescue_receiver.env.example",
+      "original_sha256": "8f2379670712589a1e80c8e4817eedd7fcf304bb96be0feb2c6dd0286dc81b53",
+      "packaged_sha256": "ed940717bbaa03aa8038a6194cd6e6183a16851b6abbdaaa4001bd65f364cce1",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/test_capture_v2.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/test_capture_v2.py",
+      "original_sha256": "e16caec4d5e538d6a6b1637eddca4a22596fa6a2f8ec599a436432f2fece3782",
+      "packaged_sha256": "30b8c2eb9307ed614e4e8482653ce9c3c0c8af2a67967f4131328981c8a9e674",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/phone_sos_receiver.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/phone_sos_receiver.py",
+      "original_sha256": "d2219eb033cb44c78e09373e0bea598a668de8af0b930ed3ab80864b5b9af9c2",
+      "packaged_sha256": "84bf234d09964e13573655ddec022b44d5374ae35ba65f51fd3a52144aa9f8b8",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/__init__.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/__init__.py",
+      "original_sha256": "78d527c5cdfddb519cbf926fdc19d3be7592ae8d41c1188e60bf0c15e3315a3a",
+      "packaged_sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/test_phone_sos_receiver.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/test_phone_sos_receiver.py",
+      "original_sha256": "f7a05e5750dde1191d18e707c6f28b588e2213bb47400eeb43b6e620225d1501",
+      "packaged_sha256": "f7a05e5750dde1191d18e707c6f28b588e2213bb47400eeb43b6e620225d1501",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/capture_store_v2.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/capture_store_v2.py",
+      "original_sha256": "dd078337db37a84acba78570d51697daee50b5f417b3dd94b7918ab11bd2d9c9",
+      "packaged_sha256": "785465655b7ba95cf33d42d0ae61a69f981452b0ab8d26cd94b3092b385ce8d9",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/capture_record_v2.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/capture_record_v2.py",
+      "original_sha256": "1832a6a375dc6dd178b4177a57b69be0b6ff1c88ef66a051462f484f58a8f2f6",
+      "packaged_sha256": "662e54c32ff428848c6d60f10d0a75d6eaff326b13ed0ee3c97864b820be0899",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/test_delivery_recovery.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/test_delivery_recovery.py",
+      "original_sha256": "98d6f058283d579e186735103fdb26c78a0b33ef9af80d745a6707ab907e62a9",
+      "packaged_sha256": "dfc72f0bfda8b0a530bb33c2873ae1860ecf3724fd340c16f856937b243cbdf6",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/CMakeLists.txt",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/CMakeLists.txt",
+      "original_sha256": "2c0c4361105caf4a779d0a116760d9058ee0ce3cac4cd22c6098db171f26c159",
+      "packaged_sha256": "ad908e0d5fdae547735669385687d57de707decbf3eb0e8f14cfbc67c510f587",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/package.xml",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/package.xml",
+      "original_sha256": "da2c082c6d7fcc4ce55c6f570b9d62db43a38cb42f515d5d575f65e9f2ca301d",
+      "packaged_sha256": "da2c082c6d7fcc4ce55c6f570b9d62db43a38cb42f515d5d575f65e9f2ca301d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/terrain_data/build_terrain.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/terrain_data/build_terrain.py",
+      "original_sha256": "b0f446c56de91b8ed13e6e87acee1b80c4dbf67ad973370be5e01175f7a1366b",
+      "packaged_sha256": "58fd57ce3a9744175292275ced4510cfea30d6a17fe0ebce00dcebc4f823d7ed",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/terrain_data/download_terrain.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/terrain_data/download_terrain.py",
+      "original_sha256": "448a77cdd5bc8a72806fd2db8d23625ce49566800c17a1dbb4f511f2ec21e01c",
+      "packaged_sha256": "e656489099fec335e8c83de12c8d7fb0620c95465fd6355e11e3fefe0579fab0",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/test/task_v2_fingerprints.json",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/test/task_v2_fingerprints.json",
+      "original_sha256": "5acb923ec9b7eee2beabdcfbd96aa6f3adcf52be1a437fec0971ff76c69f9f5b",
+      "packaged_sha256": "5acb923ec9b7eee2beabdcfbd96aa6f3adcf52be1a437fec0971ff76c69f9f5b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/test/test_target_lifecycle.cpp",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/test/test_target_lifecycle.cpp",
+      "original_sha256": "d6725928e15eb52554c2d37f47e5cc343ba84da582bf7865781c1dbe886e419f",
+      "packaged_sha256": "d6725928e15eb52554c2d37f47e5cc343ba84da582bf7865781c1dbe886e419f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/msg/ExecutionControl.msg",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/msg/ExecutionControl.msg",
+      "original_sha256": "4d5f4a8d534703d56567cb7daa1826220af65d67556af7623716c4c559d29d32",
+      "packaged_sha256": "cc0379784de469fb9209051de6d0539e48488762a0a72eaf5f48e55f8152a0aa",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/msg/WaypointCommand.msg",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/msg/WaypointCommand.msg",
+      "original_sha256": "8960a879f236608484e1d4ead92fd03a3480795293be34b65b4354bd69586130",
+      "packaged_sha256": "c41bfb45d6ad7985f95b91cd7da74923786190f5743976165b52bfd610ff669a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/msg/WaypointFeedback.msg",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/msg/WaypointFeedback.msg",
+      "original_sha256": "7c1085e60f60c71f739993d0f72ef0c0b4a9de9eb48327adfed3f43b030c2f72",
+      "packaged_sha256": "ba14438cc0462ec8ad0e48024b7b70196ee0ee9bb1e7418bfbdf48c9861144e3",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/config/mosquitto.conf",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/config/mosquitto.conf",
+      "original_sha256": "a2ca655bca64591c695af7076294766b6754ae8aeefc171b019c9353873f7f7d",
+      "packaged_sha256": "36b1da7b2a84be5c7d737306a8306b1e6f3d6bbcad96cccf448aed31774c7b5c",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/config/mosquitto.lan-auth.example.conf",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/config/mosquitto.lan-auth.example.conf",
+      "original_sha256": "e72567049716fb5d939a3f322f7e5d246f6fb21da3f05e1b76d2984b36bb5eec",
+      "packaged_sha256": "98cc94e0dc9b112b5dd9e032da09b4f78f27fb5a312e8985e22db95e86a695ce",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/config/mosquitto.acl.example",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/config/mosquitto.acl.example",
+      "original_sha256": "3325c88c2d0c37eb3f01d90100003187eb3befa90a2b81d7037eec2c81fd1f99",
+      "packaged_sha256": "281e6159df51ef126c998a7fb3e5eaca8e5254192348433caeb8bc52d3487f62",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/launch/rescue_bridge_lion_rock.launch",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/launch/rescue_bridge_lion_rock.launch",
+      "original_sha256": "8843ac7618d6865e9b0219d5c83fd71ba3e077407156f6af6eabd8818d2103ac",
+      "packaged_sha256": "04fc3b1c1fd4ca7977505974c861c7bff03fd12443a8b1396fd6841962afd997",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/launch/rescue_bridge_sim.launch",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/launch/rescue_bridge_sim.launch",
+      "original_sha256": "10ec55f278651572f02c90bb09e62becbfb8b041fbe8bfa91b89cd2a0983f765",
+      "packaged_sha256": "6debe5050eb8566b202e887b0ddbf103b0ae2962dbdb5bd45fa6977ca5f6d59f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/launch/rescue_bridge.launch",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/launch/rescue_bridge.launch",
+      "original_sha256": "396145a93c9bc0dbfc0f2581f42042a4492e5d2af4fc0e06498cd9b8018a4565",
+      "packaged_sha256": "960efb2bfdb9166b8aef480d48ab1238b610dfbbdabef7e8f60dd9828e34e75d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/include/rescue_bridge/target_lifecycle.hpp",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/include/rescue_bridge/target_lifecycle.hpp",
+      "original_sha256": "df448c8362dbc9c1e07103e475aa78ef54f25868ce2d61343205a2f7da6207e5",
+      "packaged_sha256": "6dae2e1bc0e39e34d18d75c4580bdbe87c7cc38fd94d2ad22cb61ea59f2e12e6",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/collection_context.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/collection_context.py",
+      "original_sha256": "8a7647be5d94bbc140ebe421d3028a70756247ae8e0ef4fd469b723c93a69d59",
+      "packaged_sha256": "3e1c4d535bf5832b1d554b9bfd4d911ec9739f3cdcf362fc4634293b336ed7e4",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/mission_protocol.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/mission_protocol.py",
+      "original_sha256": "d1df50ddfe8433ef34e4d3ae0f3970cfb64e20622ec96821f6e285a6a844d41e",
+      "packaged_sha256": "12ad5225d4552f1c02c3f03f4d254403cbef33ec5a3285e6c17646bf536ec13f",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/mission_commander.cpp",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/mission_commander.cpp",
+      "original_sha256": "55f704485c7bd09caacbe6154dd17821387a49d357f19d815bbd85ba34312edf",
+      "packaged_sha256": "a842b7b316c6e121ab85cb3dc348ac1ef1c8ae66fb9a7bf4b027ae17f032c90b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_execution_state.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_execution_state.py",
+      "original_sha256": "5cf6a15e99d446cf5ef888619461ff7cf29aad940200e4ee4634b131c867dffb",
+      "packaged_sha256": "5cf6a15e99d446cf5ef888619461ff7cf29aad940200e4ee4634b131c867dffb",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/terrain_publisher.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/terrain_publisher.py",
+      "original_sha256": "19df1c6df93756b3c398e4c31cf05947981ed439e0886f616467db49023a0010",
+      "packaged_sha256": "378a14c423a9ca4b6bfa39ac1de6df263a926302301a8981ed83f5b8b0bb483a",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/execution_protocol.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/execution_protocol.py",
+      "original_sha256": "b8cdeafe873dff6d4615a0ed7d9e27b1fbe2683523c918771230fbdb02bec4df",
+      "packaged_sha256": "16f3dba6c9ae31d289a53f814287a511af9d267f41579180e19399f7bc6c99e9",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/mqtt_bridge.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/mqtt_bridge.py",
+      "original_sha256": "8595c181e4fc59e871080f44932ba62b262d7e2ab4c824dd801fcd2f0f1c3480",
+      "packaged_sha256": "ff37be563741736786392af993bf5e8ff0b4138b753388b0f7ff09135575105d",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/execution_state.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/execution_state.py",
+      "original_sha256": "e5911dd8a28d34ad4130f905c4d46ccd5776f33099ef1105383ee33016368616",
+      "packaged_sha256": "d80d502750e4a0456cbf8a2c3ee17b1d0c5ef89ec25c8ef58a4552063abde3e8",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_mqtt_bridge_core.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_mqtt_bridge_core.py",
+      "original_sha256": "dd402bf829e28b46dba1ad8696bafa9f9fe5578fff3df06118ccd265bdd1b8ce",
+      "packaged_sha256": "6bd3e74154918c757867ffb6c2fb5046d3502bf22065b5e6f373343e84a7a419",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/sim_fake_gps.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/sim_fake_gps.py",
+      "original_sha256": "ff1618b75fb5ced2fb5c699acf9223f21e863435b0cefdda0e49f4d7092c9200",
+      "packaged_sha256": "54b8a02d62ecc522b857073b45ed47dd017f4459a603e018b366ecaa979b023b",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_mission_protocol.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_mission_protocol.py",
+      "original_sha256": "6e7536ccf15d342d8fdca09ee0d239599c452d42c3b3cc655ea649216c41aae7",
+      "packaged_sha256": "6e7536ccf15d342d8fdca09ee0d239599c452d42c3b3cc655ea649216c41aae7",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_collection_context.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_collection_context.py",
+      "original_sha256": "8d51f8a69443f23793567b52c36fae1987bf96ec064509fa420e7c337d3ed3a3",
+      "packaged_sha256": "27b1954a5526405fc38e29c594255aadf0b18bf26c79193add416b85e13e87a2",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/target_lifecycle.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/target_lifecycle.py",
+      "original_sha256": "19a51dffef196a2b33d8f337e12da7db88ce4eeb319210552953dc055b619a78",
+      "packaged_sha256": "5b8ea17ecdf6f0b910ebda9283f5221c79eaaa7c5cac86b26d80b80da3bcea50",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/sim_gps_adapter.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/sim_gps_adapter.py",
+      "original_sha256": "f060ea034b55c1669c106af83608b5c7eeca0cf1a61cff0db746fc3feee91e4c",
+      "packaged_sha256": "0d4aa024bc5eb685b503076a76a3c0a1791b30582fe8db0e569a97556d4e40eb",
+      "category": "source"
+    },
+    {
+      "file": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_target_adapter.py",
+      "source": "资料存档/V5/代码/code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_target_adapter.py",
+      "original_sha256": "8a8e5224573650f3046e24052da3d66f103c173eb3e22b4be8011a4dc79bf94a",
+      "packaged_sha256": "363e721aa1c7f38802e295efaa4d252fb1ff4614d05881478b0d170368e53191",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/test_phone_uav_groundstation.py",
+      "source": "资料存档/V5/代码/code/integration_tests/test_phone_uav_groundstation.py",
+      "original_sha256": "5e38ae9dbd580e2685fd0da7062ded0012f46035d58ea2323b28a34f3c7056a0",
+      "packaged_sha256": "78e955e5c4d47f5f4915e96c18fec47e39c87718d8498f5b0c7c41793453a866",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/test_deployment_preflight.py",
+      "source": "资料存档/V5/代码/code/integration_tests/test_deployment_preflight.py",
+      "original_sha256": "e079543bacad23f97ed8f82e5e4222b006f6b5ba15e67e61b9beed18f9ad62cd",
+      "packaged_sha256": "64cf535a43db390d5ab7f7cef0c9e739d05dab399b9202128189166f29793248",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/test_flight_execution_contract.py",
+      "source": "资料存档/V5/代码/code/integration_tests/test_flight_execution_contract.py",
+      "original_sha256": "8aee81d31078b44fadeba1bfb9def77a9f6c23a7f9f898472b6b36cca1a04c44",
+      "packaged_sha256": "3d21d8f26e1925e05fe4cc0365f7fcdd4787e621746f0ba7b793fecd747de2e3",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/test_quick_start_freshness_contract.py",
+      "source": "资料存档/V5/代码/code/integration_tests/test_quick_start_freshness_contract.py",
+      "original_sha256": "2e352edbf7937c7d96bfb93b441e91c532d63e8c26830ce74c9f4bc1c7befbca",
+      "packaged_sha256": "758f76319467faa4c2861273fa1d9938b76d1d8c1c69cb044777533f5ea35e7a",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/test_scheduler_controlled.py",
+      "source": "资料存档/V5/代码/code/integration_tests/test_scheduler_controlled.py",
+      "original_sha256": "179a3cab2a346445de9864788eb60d147093daa4f977c6760a37c9d19dcc7fd8",
+      "packaged_sha256": "ae209870f417cbc1bd7a7949023afa5b3d9c624bd5e1c34fdc341902285fae63",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/mobile_export_probe.cjs",
+      "source": "资料存档/V5/代码/code/integration_tests/mobile_export_probe.cjs",
+      "original_sha256": "3d2fea78ca673043899f18a5922124b84cd78d345e95a938c9471d65a7af1e27",
+      "packaged_sha256": "fc8900642b3824be50e2718177304a023bd52a11e8afc13b4cd3409d6b8682e1",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/test_release_alignment.py",
+      "source": "资料存档/V5/代码/code/integration_tests/test_release_alignment.py",
+      "original_sha256": "f8fd6f0cd9de8a842d8711b5087eec5f2c621d42bdc135dc0e95086fe308c083",
+      "packaged_sha256": "f7792124befe6aaa689b74bce5452145d78d3bdbb3cff80fd25fcdf2cc65a46f",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/mobile_capture_flow_probe.cjs",
+      "source": "资料存档/V5/代码/code/integration_tests/mobile_capture_flow_probe.cjs",
+      "original_sha256": "d0c38882bc1ea9be2f354cd2e54f993ab5f276031f852c8143ac89bfb83ed211",
+      "packaged_sha256": "5e8f1e759b54b6f18edbe4515ce02c6b9c3dbaeeb53394050e91aa15bc7c4558",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/run_phone_uav_gs_bench.py",
+      "source": "资料存档/V5/代码/code/integration_tests/run_phone_uav_gs_bench.py",
+      "original_sha256": "c96799ebedd294e0a32255061a736037b747be8d10b1fe24a1a3215307bec4f1",
+      "packaged_sha256": "1fd1d43270ff9db485dd9befb4b4665c364ea9c67fe467f5b425fdb6d210f038",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/test_arrival_capture_contract.py",
+      "source": "资料存档/V5/代码/code/integration_tests/test_arrival_capture_contract.py",
+      "original_sha256": "f62d462bdd6610eeb33e3207e716628df64ba3b4bed6b668f33a50a049806abe",
+      "packaged_sha256": "85165e7806ff5c4d898b345ad6584a7e2ef6ba8b87feed8048ba7eb783c86da7",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/test_cross_language_records.py",
+      "source": "资料存档/V5/代码/code/integration_tests/test_cross_language_records.py",
+      "original_sha256": "fd64578acda99b79d53edaa3ff93e3af1d3f7f0f2d992bc0e089db5b3dbc1686",
+      "packaged_sha256": "cb6e627cc043d03d72283c7c417f9bfd8a03ebdaa2eadbf34ff477c923764822",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/generate_bench_dashboard.py",
+      "source": "资料存档/V5/代码/code/integration_tests/generate_bench_dashboard.py",
+      "original_sha256": "9f511aa9ea4cc30458ea7326526bb107ddf4644a5a9c5055d6fb22be3fd709ec",
+      "packaged_sha256": "65b9770b5b4745752d0b919ebf9ce810209c0b3af2827969cc2ead89ef4264b7",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/test_cross_language_captures.py",
+      "source": "资料存档/V5/代码/code/integration_tests/test_cross_language_captures.py",
+      "original_sha256": "38d66e9158c4f661ec76548b44af653b76e2206abe2d1eef2244a0afa33db4ff",
+      "packaged_sha256": "614899cf05ddfd85ffa9c5bdec4f8bf25edfc162fefbb522235c90f827138372",
+      "category": "source"
+    },
+    {
+      "file": "code/integration_tests/run_scheduler_controlled_test.py",
+      "source": "资料存档/V5/代码/code/integration_tests/run_scheduler_controlled_test.py",
+      "original_sha256": "2b4c841ecb372bb2113877bc05ca23497976c6dafd089ba918c097ab9db3bbe8",
+      "packaged_sha256": "0fc108096e463043cfa75ab1c66d2ba47a51856f9547992b60f6a9fa2f6fa239",
+      "category": "source"
+    },
+    {
+      "file": "code/deployment_preflight.py",
+      "source": "资料存档/V5/代码/code/deployment_preflight.py",
+      "original_sha256": "2ba95a03adc8ae2024861c49da56e2416d528beb7cdcfc2d19491c18d11aa9d0",
+      "packaged_sha256": "291c434a13da3165195b7ec33afbf49b036b9c6bcf3d62004ef88ed1321b05d2",
+      "category": "source"
+    },
+    {
+      "file": "code/verify_source_syntax.py",
+      "source": "资料存档/V5/代码/code/verify_source_syntax.py",
+      "original_sha256": "1ba3e7f7d57c5270ad9b6072b0d50a0cc255b5057f97f1d4e8728e4db9a15f0d",
+      "packaged_sha256": "6a0e16f0fb0241df78b18b3186978d39f3e90279e1fa75ad392a4712c9017508",
+      "category": "source"
+    },
+    {
+      "file": "code/run_all_local_verification.sh",
+      "source": "资料存档/V5/代码/code/run_all_local_verification.sh",
+      "original_sha256": "e77e7061b9ecdc7a05b349842636e6e0576da1129d32bf41674de08872b29582",
+      "packaged_sha256": "e77e7061b9ecdc7a05b349842636e6e0576da1129d32bf41674de08872b29582",
+      "category": "source"
+    },
+    {
+      "file": "code/run_cpp_core_verification.sh",
+      "source": "资料存档/V5/代码/code/run_cpp_core_verification.sh",
+      "original_sha256": "3b1549683f4b277cf62b81b8297f5a847a10f0f0b022de2979b5fef7057cca89",
+      "packaged_sha256": "bdde91acf283f6b05e465ff26ca48c0ddb8852b5080583f9a1287ef52ec2a3ec",
+      "category": "source"
+    },
+    {
+      "file": "code/source_revision.json",
+      "source": "资料存档/V5/代码/code/source_revision.json",
+      "original_sha256": "a9a5dc99cb932160f4d67f9130dff9e3b7c23b7acd33f54d842224d688031971",
+      "packaged_sha256": "fa06d60dc4c20892212e34417d3f3e8653e03819fb1bbc70963b7b240a5d328b",
+      "category": "source"
+    },
+    {
+      "file": "simulation/run_all.m",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/run_all.m",
+      "original_sha256": "e49e805c3afc3ce0de6650325a01a80363a69732aaafb6a6ba155ffb954c154d",
+      "packaged_sha256": "1487da1c4714b8c0d8847aebc8ea2e0deea10df021a9c49c4ce518b6491098e7",
+      "category": "simulation"
+    },
+    {
+      "file": "simulation/render_three_modes.m",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/render_three_modes.m",
+      "original_sha256": "e5df0d43fa0017443bd8fdeb17aceb5cd85a75733ae036ed33319c65c43e4b5a",
+      "packaged_sha256": "f2c9c65c01b8cf082627eaf817ca3c23a1397cc5d9d4db463d0ef9e78c16465b",
+      "category": "simulation"
+    },
+    {
+      "file": "simulation/render_paper_terrain.m",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/render_paper_terrain.m",
+      "original_sha256": "0490cefe254b157de772529c8a73e7cc4363e40e7c2894a33c3c5eaa468aa703",
+      "packaged_sha256": "81254f3ec01f2f3dcaa5aa55abf95201d35053fbcb99ff74271a9c4628ba7084",
+      "category": "simulation"
+    },
+    {
+      "file": "simulation/animate_three_modes.m",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/animate_three_modes.m",
+      "original_sha256": "ec1221e105d3aa433d1b9906e2b8e64ac7fb2af5c4a6b80b661597acd03e817f",
+      "packaged_sha256": "5700e6364998cade57ee6d4112bb0855968cd4fe3a9e51bdea2d287da639d899",
+      "category": "simulation"
+    },
+    {
+      "file": "simulation/assemble_animation.m",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/assemble_animation.m",
+      "original_sha256": "e872aad00a1942a16c05c68dfdd09478c1ad02b976f3dc3f13e804b85f66a10c",
+      "packaged_sha256": "314787f9537dcafea926a2f1b4e21087791eae74238d44c93a570f4e4708b717",
+      "category": "simulation"
+    },
+    {
+      "file": "simulation/run_three_mode_simulation.m",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/run_three_mode_simulation.m",
+      "original_sha256": "14ecaec2f0154aec443ee3768a106e6a48829f9e451a687282ea9ee185337dd1",
+      "packaged_sha256": "bf117da57b7811cef0eb29443883cf97a3418ff7e9d93289f8d4809c1b2f2ec0",
+      "category": "simulation"
+    },
+    {
+      "file": "simulation/fix_saved_paper_figure.m",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/fix_saved_paper_figure.m",
+      "original_sha256": "853d4017e09b6f0e6b15abf275a06168b5dbf72f914a9ec8aeaf01af6274faf7",
+      "packaged_sha256": "93da3de618dca81bfb460755a7f8c802f83fcfa63af218944d7448d7ed7e544c",
+      "category": "simulation"
+    },
+    {
+      "file": "simulation/verify_outputs.py",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/verify_outputs.py",
+      "original_sha256": "001281db31f41fc2dedd8ad77f4358a35348710158be74a38b8ce8a96afd29e8",
+      "packaged_sha256": "5ac398cdeb7a4234e9d0d0cdb4fa0028201e91bbee1e1e49a9304efd3c910215",
+      "category": "simulation"
+    },
+    {
+      "file": "simulation/reference/sos_pattern.py",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/reference/sos_pattern.py",
+      "original_sha256": "ba9f6029274b8c4169b03f5573f78e85bc8fdf41d8513e2e77787201ffcaa2ad",
+      "packaged_sha256": "6b92020a7c8c99e52c8fa18960597ed96362e5eda070032a396bd550e687269d",
+      "category": "simulation"
+    },
+    {
+      "file": "simulation/data/N22E114.hgt",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/data/N22E114.hgt",
+      "original_sha256": "433a57a6558821033957c2f2014682a259d7079e0e64843634430913a97b439a",
+      "packaged_sha256": "433a57a6558821033957c2f2014682a259d7079e0e64843634430913a97b439a",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/three_mode_study.mat",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/three_mode_study.mat",
+      "original_sha256": "ab0863e966dcf1f1510f95684fe2d096f9d59bc8abf16da8d0d4e3228ec673de",
+      "packaged_sha256": "19e2ede57447c4dac2df4e396152cf510cf202d2354dd59b8f7f6579caeafd47",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/Three_modes_complete_mission_replay.mp4",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/Three_modes_complete_mission_replay.mp4",
+      "original_sha256": "46c32a7405b840f9165854a7b51042006a4594feb653701086558ebcc30fc97b",
+      "packaged_sha256": "46c32a7405b840f9165854a7b51042006a4594feb653701086558ebcc30fc97b",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/paper_current/terrain_missions.fig",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/paper_current/terrain_missions.fig",
+      "original_sha256": "8ea166ccf20a6b8ae9308dc7b9f448e0841e828cc27a68530e2e8712c4ea3b63",
+      "packaged_sha256": "8ea166ccf20a6b8ae9308dc7b9f448e0841e828cc27a68530e2e8712c4ea3b63",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/paper_current/terrain_missions.png",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/paper_current/terrain_missions.png",
+      "original_sha256": "3859bd6e9ea4ac8e1539b4e2f0c1c851206640b7d6c2f926efdafc21dd304aa0",
+      "packaged_sha256": "3859bd6e9ea4ac8e1539b4e2f0c1c851206640b7d6c2f926efdafc21dd304aa0",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/Fig_common_scenario_and_inputs.png",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/Fig_common_scenario_and_inputs.png",
+      "original_sha256": "fe8ac40b2b775b96acfc64b692ea94fc952a763dbb6a52cba328101d7086d2df",
+      "packaged_sha256": "f78702aad89c4fbc0d32443e8da97e8ef9689fd568d2cb7b0b692f836823a566",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/Fig_complete_altitude_profiles.png",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/Fig_complete_altitude_profiles.png",
+      "original_sha256": "ef6a6bcabe935ec11b99297654dce6de8b2ddaa10800cfe56a7334dda9910e7c",
+      "packaged_sha256": "e32c5d5146aeed882719f4495091909915463467c72ae25b7eb39c49a3c4aa91",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/mode3_execution_trace.csv",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/mode3_execution_trace.csv",
+      "original_sha256": "364b439842f8ac444cd7cf283a238ca44c3a5d8f3a02d66c3366217d2954f933",
+      "packaged_sha256": "364b439842f8ac444cd7cf283a238ca44c3a5d8f3a02d66c3366217d2954f933",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/mode2_events.csv",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/mode2_events.csv",
+      "original_sha256": "97c40500e4fdfe0e33641945ea9a6585922ac400d1ec5753c886763f7c019910",
+      "packaged_sha256": "97c40500e4fdfe0e33641945ea9a6585922ac400d1ec5753c886763f7c019910",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/mode2_execution_trace.csv",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/mode2_execution_trace.csv",
+      "original_sha256": "b64213aebd9ec4752f512412c59cb5e6697f1231f6190faa70232feb5642efcb",
+      "packaged_sha256": "b64213aebd9ec4752f512412c59cb5e6697f1231f6190faa70232feb5642efcb",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/synthetic_gps_history.csv",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/synthetic_gps_history.csv",
+      "original_sha256": "c8a78df7f6d7974a94799d34f6de0f07d2a0cd08df79a488f6b52e45b66277e4",
+      "packaged_sha256": "c8a78df7f6d7974a94799d34f6de0f07d2a0cd08df79a488f6b52e45b66277e4",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/mode1_execution_trace.csv",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/mode1_execution_trace.csv",
+      "original_sha256": "608d5c75170f3d7c23525bb2aa60bd26f4d3755137e1e35b860ca90237931a01",
+      "packaged_sha256": "608d5c75170f3d7c23525bb2aa60bd26f4d3755137e1e35b860ca90237931a01",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/mission_summary.csv",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/mission_summary.csv",
+      "original_sha256": "49a083b9edd11ba76f5613b03ebd0401b23e9f12878f428fed3641f74cd17a68",
+      "packaged_sha256": "49a083b9edd11ba76f5613b03ebd0401b23e9f12878f428fed3641f74cd17a68",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/mode2_mission_waypoints.csv",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/mode2_mission_waypoints.csv",
+      "original_sha256": "504b10e2446bace85bbb33e47b7dbd9e44284463d421fab9b52a0a1bd148bcd8",
+      "packaged_sha256": "504b10e2446bace85bbb33e47b7dbd9e44284463d421fab9b52a0a1bd148bcd8",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/mode3_events.csv",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/mode3_events.csv",
+      "original_sha256": "7cec7bbab681d765772fa00b5b3997ab1dae4e3e45725d0dfcfc6e8c2a5d4cb3",
+      "packaged_sha256": "7cec7bbab681d765772fa00b5b3997ab1dae4e3e45725d0dfcfc6e8c2a5d4cb3",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/mode1_events.csv",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/mode1_events.csv",
+      "original_sha256": "835e867ad59b0b64ddeab3ac1533a1442a2edb29bdd0749905d682f521c92550",
+      "packaged_sha256": "835e867ad59b0b64ddeab3ac1533a1442a2edb29bdd0749905d682f521c92550",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/mode3_mission_waypoints.csv",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/mode3_mission_waypoints.csv",
+      "original_sha256": "941485a89b0844ff208c222c07c6c188a7240c96c9afbee248b963b01196f63b",
+      "packaged_sha256": "941485a89b0844ff208c222c07c6c188a7240c96c9afbee248b963b01196f63b",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/mode1_mission_waypoints.csv",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/mode1_mission_waypoints.csv",
+      "original_sha256": "db4db0c2da9a7fca5916ac07d737502039a1c1e94803cb53b68aee764780a6b7",
+      "packaged_sha256": "db4db0c2da9a7fca5916ac07d737502039a1c1e94803cb53b68aee764780a6b7",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/scenario_and_settings.json",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/scenario_and_settings.json",
+      "original_sha256": "ba9cdb01551523c19648569e0575ac41d48d0948523994a46336a682f7e9816e",
+      "packaged_sha256": "7ad4c8ef788653288bf878801cc791e20dc953228f695404213b70aaf69c5629",
+      "category": "simulation_data"
+    },
+    {
+      "file": "simulation/output/matlab_verification.json",
+      "source": "论文图件源文件_当前版_20260927/01_MATLAB仿真与绘图/output/matlab_verification.json",
+      "original_sha256": "73e7d3c815342ecb1f93ea6fa932624c64db12c229a68622ad77791223719d65",
+      "packaged_sha256": "73e7d3c815342ecb1f93ea6fa932624c64db12c229a68622ad77791223719d65",
+      "category": "simulation_data"
+    },
+    {
+      "file": "experiments/outdoor/outdoor_flight.mp4",
+      "source": "视频/完整测试录像.mp4",
+      "original_sha256": "4ada879918bf14e1e41f8441c81666ef71fb3acec0949915d3c0f4ee8b139efa",
+      "packaged_sha256": "4ada879918bf14e1e41f8441c81666ef71fb3acec0949915d3c0f4ee8b139efa",
+      "category": "outdoor_record"
+    },
+    {
+      "file": "experiments/outdoor/ground_station.mp4",
+      "source": "视频/groundstation.mp4",
+      "original_sha256": "fba01f9f60180d81a447127cd9028aabbb66666ef6f4eb232ecf90bbe3e6072a",
+      "packaged_sha256": "fba01f9f60180d81a447127cd9028aabbb66666ef6f4eb232ecf90bbe3e6072a",
+      "category": "outdoor_record"
+    },
+    {
+      "file": "experiments/outdoor/airframe.jpg",
+      "source": "图5修订_学长定稿_20260927/原件/outdoor_airframe.jpg",
+      "original_sha256": "b2fbfe09b30b2ea12157e3a52590475b110cdcb0851ae13825e149591dc24ed1",
+      "packaged_sha256": "b2fbfe09b30b2ea12157e3a52590475b110cdcb0851ae13825e149591dc24ed1",
+      "category": "outdoor_record"
+    },
+    {
+      "file": "experiments/outdoor/launch_area.png",
+      "source": "核验记录/main_conf_0924_20260924/B12_户外布置核对/原视频_083s.png",
+      "original_sha256": "8f5434bea1c710199c16ba9e3eec03b2e1dc03b1c8d4a4069a232c7b01bfe641",
+      "packaged_sha256": "8f5434bea1c710199c16ba9e3eec03b2e1dc03b1c8d4a4069a232c7b01bfe641",
+      "category": "outdoor_record"
+    },
+    {
+      "file": "experiments/outdoor/search_area.png",
+      "source": "核验记录/main_conf_0924_20260924/B12_户外布置核对/原视频_143s.png",
+      "original_sha256": "36e3c29ec813e2e19fab04267a733d5211cfbc280b7cd1b339a506bbf4d030d8",
+      "packaged_sha256": "36e3c29ec813e2e19fab04267a733d5211cfbc280b7cd1b339a506bbf4d030d8",
+      "category": "outdoor_record"
+    }
+  ]
+}

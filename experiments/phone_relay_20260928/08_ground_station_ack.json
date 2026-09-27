@@ -1,0 +1,9 @@
+{
+  "acknowledged_at": "2026-09-27T17:57:18.049981Z",
+  "envelope_sha256": "711e928d5f804e769c7f2a8f34bf83672bb151b685b4e472170f1f8a80adff65",
+  "mission_id": "TEST_USER/bench_1790531836839",
+  "payload_sha256": "9d2880fa4d690f616aa9b2394acfa450f9315a114c06f6ae3d29bcf40150664b",
+  "request_id": "bench_1790531836839",
+  "schema_version": 1,
+  "status": "ACKNOWLEDGED_BY_GS"
+}

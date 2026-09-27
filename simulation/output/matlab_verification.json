@@ -1,0 +1,127 @@
+{
+  "checks": [
+    {
+      "name": "All three modes use one common launch and target",
+      "passed": true
+    },
+    {
+      "name": "Target is inside the declared mountain elevation range",
+      "passed": true
+    },
+    {
+      "name": "Mode 2 historical samples have strictly increasing timestamps",
+      "passed": true
+    },
+    {
+      "name": "Mode 1 time strictly increases",
+      "passed": true
+    },
+    {
+      "name": "Mode 1 begins and ends on ground at launch",
+      "passed": true
+    },
+    {
+      "name": "Mode 1 maintains 80 m AGL at all cruise samples",
+      "passed": true
+    },
+    {
+      "name": "Mode 1 stays within horizontal speed bound",
+      "passed": true
+    },
+    {
+      "name": "Mode 1 stays within vertical speed bound",
+      "passed": true
+    },
+    {
+      "name": "Mode 1 visits all mission waypoints in order",
+      "passed": true
+    },
+    {
+      "name": "Mode 1 returns only after all waypoints",
+      "passed": true
+    },
+    {
+      "name": "Mode 1 route stays on selected land",
+      "passed": true
+    },
+    {
+      "name": "Mode 1 reaches the common target",
+      "passed": true
+    },
+    {
+      "name": "Mode 2 time strictly increases",
+      "passed": true
+    },
+    {
+      "name": "Mode 2 begins and ends on ground at launch",
+      "passed": true
+    },
+    {
+      "name": "Mode 2 maintains 80 m AGL at all cruise samples",
+      "passed": true
+    },
+    {
+      "name": "Mode 2 stays within horizontal speed bound",
+      "passed": true
+    },
+    {
+      "name": "Mode 2 stays within vertical speed bound",
+      "passed": true
+    },
+    {
+      "name": "Mode 2 visits all mission waypoints in order",
+      "passed": true
+    },
+    {
+      "name": "Mode 2 returns only after all waypoints",
+      "passed": true
+    },
+    {
+      "name": "Mode 2 route stays on selected land",
+      "passed": true
+    },
+    {
+      "name": "Mode 2 reaches the common target",
+      "passed": true
+    },
+    {
+      "name": "Mode 3 time strictly increases",
+      "passed": true
+    },
+    {
+      "name": "Mode 3 begins and ends on ground at launch",
+      "passed": true
+    },
+    {
+      "name": "Mode 3 maintains 80 m AGL at all cruise samples",
+      "passed": true
+    },
+    {
+      "name": "Mode 3 stays within horizontal speed bound",
+      "passed": true
+    },
+    {
+      "name": "Mode 3 stays within vertical speed bound",
+      "passed": true
+    },
+    {
+      "name": "Mode 3 visits all mission waypoints in order",
+      "passed": true
+    },
+    {
+      "name": "Mode 3 returns only after all waypoints",
+      "passed": true
+    },
+    {
+      "name": "Mode 3 route stays on selected land",
+      "passed": true
+    },
+    {
+      "name": "Mode 3 reaches the common target",
+      "passed": true
+    }
+  ],
+  "check_count": 30,
+  "all_passed": true,
+  "scope": "Numerical model checks, not physical flight or rescue validation"
+}

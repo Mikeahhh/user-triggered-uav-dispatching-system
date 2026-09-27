@@ -1,0 +1,41 @@
+{
+  "revision": "UAV-SEARCH-20260928",
+  "sources": [
+    {
+      "local_copy": "animate_three_modes.m",
+      "sha256": "5700e6364998cade57ee6d4112bb0855968cd4fe3a9e51bdea2d287da639d899"
+    },
+    {
+      "local_copy": "assemble_animation.m",
+      "sha256": "314787f9537dcafea926a2f1b4e21087791eae74238d44c93a570f4e4708b717"
+    },
+    {
+      "local_copy": "fix_saved_paper_figure.m",
+      "sha256": "93da3de618dca81bfb460755a7f8c802f83fcfa63af218944d7448d7ed7e544c"
+    },
+    {
+      "local_copy": "render_paper_terrain.m",
+      "sha256": "81254f3ec01f2f3dcaa5aa55abf95201d35053fbcb99ff74271a9c4628ba7084"
+    },
+    {
+      "local_copy": "render_three_modes.m",
+      "sha256": "f2c9c65c01b8cf082627eaf817ca3c23a1397cc5d9d4db463d0ef9e78c16465b"
+    },
+    {
+      "local_copy": "run_all.m",
+      "sha256": "1487da1c4714b8c0d8847aebc8ea2e0deea10df021a9c49c4ce518b6491098e7"
+    },
+    {
+      "local_copy": "run_three_mode_simulation.m",
+      "sha256": "bf117da57b7811cef0eb29443883cf97a3418ff7e9d93289f8d4809c1b2f2ec0"
+    },
+    {
+      "local_copy": "reference/sos_pattern.py",
+      "sha256": "6b92020a7c8c99e52c8fa18960597ed96362e5eda070032a396bd550e687269d"
+    },
+    {
+      "local_copy": "data/N22E114.hgt",
+      "sha256": "433a57a6558821033957c2f2014682a259d7079e0e64843634430913a97b439a"
+    }
+  ]
+}

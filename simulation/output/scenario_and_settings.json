@@ -1,0 +1,455 @@
+{
+  "config": {
+    "random_seed": 2.0260926E+7,
+    "launch_lat": 22.402,
+    "launch_lon": 114.322,
+    "launch_name": "Pak Tam Chung",
+    "metres_per_degree": 111320,
+    "scene_east_limits_m": [
+      -1500,
+      5500
+    ],
+    "scene_north_limits_m": [
+      -1500,
+      5500
+    ],
+    "scene_side_m": 7000,
+    "terrain_plot_step_m": 25,
+    "terrain_source": "Mapzen / Tilezen Skadi N22E114.hgt, 3601 x 3601, 1 arc-second",
+    "terrain_source_url": "https://elevation-tiles-prod.s3.amazonaws.com/skadi/N22/N22E114.hgt.gz",
+    "terrain_sha256": "433a57a6558821033957c2f2014682a259d7079e0e64843634430913a97b439a",
+    "target_east_sampling_m": [
+      1500,
+      4000
+    ],
+    "target_north_sampling_m": [
+      500,
+      4000
+    ],
+    "target_distance_from_launch_m": [
+      2000,
+      4500
+    ],
+    "target_elevation_msl_m": [
+      100,
+      500
+    ],
+    "target_neighbourhood_min_ground_msl_m": 40,
+    "target_neighbourhood_half_width_m": 240,
+    "route_min_ground_msl_m": 2,
+    "route_land_check_step_m": 5,
+    "altitude_agl_m": 80,
+    "horizontal_speed_limit_mps": 15,
+    "vertical_speed_limit_mps": 3,
+    "hover_seconds": 5,
+    "integration_step_m": 5,
+    "max_output_time_step_s": 0.5,
+    "spiral_spacing_m": 30,
+    "spiral_generation_threshold_m": 200,
+    "history_samples": 15,
+    "synthetic_walking_speed_mps": 1,
+    "target_zoom_half_width_m": 280,
+    "phase_names": [
+      "Takeoff",
+      "Transit",
+      "Route",
+      "Search",
+      "Hover",
+      "Return",
+      "Landing",
+      "Landed"
+    ],
+    "assumptions": [
+      "Synthetic planned route and pre-dispatch GPS history, not measured hiking data",
+      "Same launch, same stationary target, same terrain and speed settings",
+      "Ideal terrain-following position model, not PX4/ROS or aircraft dynamics",
+      "No acceleration, turn-rate, wind, vegetation/building obstacles or radio model",
+      "All supplied mission waypoints are visited, followed by direct horizontal RTL and landing",
+      "Mode 3 completes its whole spiral; no automatic person detection or proximity termination",
+      "Land/elevation constraints define this synthetic case, not official trail or terrain classification",
+      "One illustrative scenario does not establish comparative rescue performance"
+    ]
+  },
+  "scenario": {
+    "launch_en_m": [
+      0,
+      0
+    ],
+    "target_en_m": [
+      3589.5516241217852,
+      648.72944792944884
+    ],
+    "target_lat": 22.407827609126208,
+    "target_lon": 114.35687744920645,
+    "target_ground_msl_m": 177.43747793511039,
+    "mode1_planned_route_en_m": [
+      [
+        931.83126604123129,
+        381.80919835420895
+      ],
+      [
+        2288.0944321050465,
+        261.09080404322583
+      ],
+      [
+        3589.5516241217852,
+        648.72944792944884
+      ]
+    ],
+    "mode2_history_route_en_m": [
+      [
+        931.83126604123129,
+        381.80919835420895
+      ],
+      [
+        1119.9635062933692,
+        410.30864392757655
+      ],
+      [
+        1308.5124766851418,
+        436.50223710851617
+      ],
+      [
+        1497.8740107668691,
+        458.19975057195722
+      ],
+      [
+        1688.4031967524863,
+        473.4364092038586
+      ],
+      [
+        1880.396571913778,
+        480.57141212961278
+      ],
+      [
+        2074.0772529633387,
+        478.37020932128644
+      ],
+      [
+        2268.3340189849732,
+        472.98141150900011
+      ],
+      [
+        2452.6803934897243,
+        522.42882019027513
+      ],
+      [
+        2638.8525820325253,
+        561.77362944964341
+      ],
+      [
+        2826.7120764635952,
+        591.78223297493116
+      ],
+      [
+        3016.0357600703387,
+        613.68918079407149
+      ],
+      [
+        3206.5270955809729,
+        629.13527378167225
+      ],
+      [
+        3397.8309947815615,
+        640.08528705177457
+      ],
+      [
+        3589.5516241217852,
+        648.72944792944884
+      ]
+    ],
+    "mode3_spiral_en_m": [
+      [
+        3589.5516241212636,
+        648.72944792939415
+      ],
+      [
+        3619.5528821206394,
+        648.72944792939415
+      ],
+      [
+        3619.5528821206394,
+        678.72944792945134
+      ],
+      [
+        3559.5503661218872,
+        678.72944792945134
+      ],
+      [
+        3559.5503661218872,
+        618.72944792933708
+      ],
+      [
+        3649.5541401200153,
+        618.72944792933708
+      ],
+      [
+        3649.5541401200153,
+        708.72944792950852
+      ],
+      [
+        3529.5491081225114,
+        708.72944792950852
+      ],
+      [
+        3529.5491081225114,
+        588.72944792928
+      ],
+      [
+        3679.5553981193912,
+        588.72944792928
+      ],
+      [
+        3679.5553981193912,
+        738.72944792956559
+      ],
+      [
+        3499.5478501231355,
+        738.72944792956559
+      ],
+      [
+        3499.5478501231355,
+        558.72944792922283
+      ],
+      [
+        3709.5566561202295,
+        558.72944792922283
+      ],
+      [
+        3709.5566561202295,
+        768.72944792922726
+      ],
+      [
+        3469.5465921222967,
+        768.72944792922726
+      ],
+      [
+        3469.5465921222967,
+        528.72944792956116
+      ],
+      [
+        3739.5579141196058,
+        528.72944792956116
+      ],
+      [
+        3739.5579141196058,
+        798.72944792928433
+      ]
+    ],
+    "mode3_spiral_lat_lon": [
+      [
+        22.407827609126208,
+        114.35687744920645
+      ],
+      [
+        22.407827609126208,
+        114.357168952843
+      ],
+      [
+        22.408097102478706,
+        114.357168952843
+      ],
+      [
+        22.408097102478706,
+        114.3565859455699
+      ],
+      [
+        22.40755811577371,
+        114.3565859455699
+      ],
+      [
+        22.40755811577371,
+        114.35746045647954
+      ],
+      [
+        22.408366595831204,
+        114.35746045647954
+      ],
+      [
+        22.408366595831204,
+        114.35629444193336
+      ],
+      [
+        22.407288622421213,
+        114.35629444193336
+      ],
+      [
+        22.407288622421213,
+        114.35775196011609
+      ],
+      [
+        22.4086360891837,
+        114.35775196011609
+      ],
+      [
+        22.4086360891837,
+        114.35600293829681
+      ],
+      [
+        22.407019129068715,
+        114.35600293829681
+      ],
+      [
+        22.407019129068715,
+        114.35804346375265
+      ],
+      [
+        22.408905582536196,
+        114.35804346375265
+      ],
+      [
+        22.408905582536196,
+        114.35571143466025
+      ],
+      [
+        22.406749635716221,
+        114.35571143466025
+      ],
+      [
+        22.406749635716221,
+        114.3583349673892
+      ],
+      [
+        22.409175075888694,
+        114.3583349673892
+      ]
+    ],
+    "history_records": [
+      {
+        "sample_index": 1,
+        "sample_time_s": 0,
+        "latitude_deg": 22.405429834695962,
+        "longitude_deg": 114.33105402709128,
+        "east_m": 931.83126604123129,
+        "north_m": 381.80919835420895
+      },
+      {
+        "sample_index": 2,
+        "sample_time_s": 190.27863311543277,
+        "latitude_deg": 22.405685848400356,
+        "longitude_deg": 114.33288199151151,
+        "east_m": 1119.9635062933692,
+        "north_m": 410.30864392757655
+      },
+      {
+        "sample_index": 3,
+        "sample_time_s": 380.6383414560533,
+        "latitude_deg": 22.405921148375032,
+        "longitude_deg": 114.33471400504033,
+        "east_m": 1308.5124766851418,
+        "north_m": 436.50223710851617
+      },
+      {
+        "sample_index": 4,
+        "sample_time_s": 571.2388993783253,
+        "latitude_deg": 22.406116059563171,
+        "longitude_deg": 114.3365539137471,
+        "east_m": 1497.8740107668691,
+        "north_m": 458.19975057195722
+      },
+      {
+        "sample_index": 5,
+        "sample_time_s": 762.37635378903735,
+        "latitude_deg": 22.406252932170357,
+        "longitude_deg": 114.33840516780398,
+        "east_m": 1688.4031967524863,
+        "north_m": 473.4364092038586
+      },
+      {
+        "sample_index": 6,
+        "sample_time_s": 954.50226139281415,
+        "latitude_deg": 22.406317026698975,
+        "longitude_deg": 114.34027064847994,
+        "east_m": 1880.396571913778,
+        "north_m": 480.57141212961278
+      },
+      {
+        "sample_index": 7,
+        "sample_time_s": 1148.1954504977102,
+        "latitude_deg": 22.406297253048162,
+        "longitude_deg": 114.34215252366184,
+        "east_m": 2074.0772529633387,
+        "north_m": 478.37020932128644
+      },
+      {
+        "sample_index": 8,
+        "sample_time_s": 1342.5269463676432,
+        "latitude_deg": 22.406248844875215,
+        "longitude_deg": 114.34403999630449,
+        "east_m": 2268.3340189849732,
+        "north_m": 472.98141150900011
+      },
+      {
+        "sample_index": 9,
+        "sample_time_s": 1533.389808177737,
+        "latitude_deg": 22.406693036473143,
+        "longitude_deg": 114.34583117581282,
+        "east_m": 2452.6803934897243,
+        "north_m": 522.42882019027513
+      },
+      {
+        "sample_index": 10,
+        "sample_time_s": 1723.67406344462,
+        "latitude_deg": 22.4070464752915,
+        "longitude_deg": 114.34764009562495,
+        "east_m": 2638.8525820325253,
+        "north_m": 561.77362944964341
+      },
+      {
+        "sample_index": 11,
+        "sample_time_s": 1913.9152417773751,
+        "latitude_deg": 22.407316045930425,
+        "longitude_deg": 114.34946540994302,
+        "east_m": 2826.7120764635952,
+        "north_m": 591.78223297493116
+      },
+      {
+        "sample_index": 12,
+        "sample_time_s": 2104.5021551192331,
+        "latitude_deg": 22.407512838490785,
+        "longitude_deg": 114.35130495088016,
+        "east_m": 3016.0357600703387,
+        "north_m": 613.68918079407149
+      },
+      {
+        "sample_index": 13,
+        "sample_time_s": 2295.618692062551,
+        "latitude_deg": 22.407651592470192,
+        "longitude_deg": 114.35315583716744,
+        "east_m": 3206.5270955809729,
+        "north_m": 629.13527378167225
+      },
+      {
+        "sample_index": 14,
+        "sample_time_s": 2487.2357180283152,
+        "latitude_deg": 22.407749957663061,
+        "longitude_deg": 114.35501461863265,
+        "east_m": 3397.8309947815615,
+        "north_m": 640.08528705177457
+      },
+      {
+        "sample_index": 15,
+        "sample_time_s": 2679.1511192651378,
+        "latitude_deg": 22.407827609126208,
+        "longitude_deg": 114.35687744920645,
+        "east_m": 3589.5516241217852,
+        "north_m": 648.72944792944884
+      }
+    ],
+    "route_generation": "Mode 1: 3 synthetic route landmarks at fractions 0.27/0.63/1; lateral offsets 210/-150/0 m. Mode 2: 15 chronological synthetic samples along an additional 210 m sinusoidal detour, with the same first and last positions. All segments checked above 2 m terrain MSL."
+  },
+  "sampling": {
+    "method": "Uniform candidate sampling in a declared EN rectangle followed by deterministic rejection. The first accepted candidate is used; no manual selection.",
+    "accepted_attempt": 6,
+    "rejected_counts": {
+      "distance": 2,
+      "target_elevation": 2,
+      "neighbourhood": 1,
+      "route_land": 0
+    },
+    "seed": 2.0260926E+7
+  },
+  "created_at": "2026-09-28 01:56:17",
+  "matlab_version": "25.2.0.3150157 (R2025b) Update 4",
+  "evidence_type": "New ideal kinematic MATLAB simulation with synthetic user records"
+}
