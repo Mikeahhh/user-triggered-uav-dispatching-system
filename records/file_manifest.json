@@ -38,8 +38,8 @@
     },
     {
       "path": "README.md",
-      "size": 1736,
-      "sha256": "1007b2f6afccbf4447e60a40b7a4ea2b1066eae41222d65441c6e41786bd45c7"
+      "size": 2238,
+      "sha256": "b27d3cbf310fdf334ab51ee9266d6851d6ee35582d4d504797dcd886a0ae75a4"
     },
     {
       "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/.gitignore",
@@ -1327,29 +1327,29 @@
       "sha256": "6a0e16f0fb0241df78b18b3186978d39f3e90279e1fa75ad392a4712c9017508"
     },
     {
-      "path": "docs/技术说明.docx",
-      "size": 46738,
-      "sha256": "615404e61fadf57b8a6c4a2f269ed4faaaf19cf3e5b104c7b6c8b918c0c4b9b4"
+      "path": "docs/Flight_Environment_Setup.txt",
+      "size": 2081,
+      "sha256": "d6c32b5f0ae3f96026012c4be4d9aaad558d8dd419b67053cac6a93e3f4c5d61"
     },
     {
-      "path": "docs/技术说明.md",
-      "size": 15049,
-      "sha256": "fd5eb7719c668d738d711c8af1201cf7f67024ec32d9737a9b3a28b0465cceb6"
+      "path": "docs/Sources.txt",
+      "size": 713,
+      "sha256": "e39c166e2fd579f91a843be6515546ac9ff895c8287d7fc3021d99c9e30a695b"
     },
     {
-      "path": "docs/技术说明.pdf",
-      "size": 645260,
-      "sha256": "e929f183185bd8d4cb9a22a011711f9675f785b67f1882bdf29190110aacc342"
+      "path": "docs/Technical_Guide.docx",
+      "size": 46024,
+      "sha256": "7bf812bcf5b7a4e1cad3e7a91d9d5dcf97dab59163232d06f49e48cc58513f6b"
     },
     {
-      "path": "docs/资料来源.txt",
-      "size": 631,
-      "sha256": "c9ded53371892d09c169b362ae48dd0128fc90f0a35e1c4ad0d4201922a6fec9"
+      "path": "docs/Technical_Guide.md",
+      "size": 17291,
+      "sha256": "e75e16ccabbee3c6d64ab54f40a9d7b24c26b00e1304fa7713e47eb26380475f"
     },
     {
-      "path": "docs/飞行环境配置.txt",
-      "size": 1799,
-      "sha256": "667b962f87427b71339384b4d704afb4c421ccdab5c004494254ee05d425d6ab"
+      "path": "docs/Technical_Guide.pdf",
+      "size": 270378,
+      "sha256": "625ad99ce38a5365e7f0c476e9f87823f851d99214b413f41164e907c4540dfa"
     },
     {
       "path": "experiments/outdoor/airframe.jpg",
@@ -1468,8 +1468,8 @@
     },
     {
       "path": "records/package_checks.json",
-      "size": 256,
-      "sha256": "d6efd225667b3f866df04c9492e90ded70b3cdd145753451cdab1fb7b9cd0545"
+      "size": 373,
+      "sha256": "489054fbf495622ec3038b2f015b0c50efa97ba2d8c40f3476f5796e3e052679"
     },
     {
       "path": "records/simulation.log",

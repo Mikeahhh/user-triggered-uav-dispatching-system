@@ -1,24 +1,24 @@
 # Mountain Search UAV
 
-登山用户记录与无人机搜索任务系统。包含手机端、地面站、无人机端、MATLAB 三模式山地仿真及实验资料。
+A system that connects hikers' mobile records with operator-reviewed UAV search missions. This repository contains the mobile application, ground station, UAV software, three-mode MATLAB terrain simulation and experimental records.
 
-当前源码版本：UAV-SEARCH-20260928。
+Source revision: `UAV-SEARCH-20260928`.
 
-## 内容
+## Contents
 
-- `code/`：三个组件源码与测试。
-- `simulation/`：MATLAB 脚本、地形、轨迹、可编辑图和动画。
-- `experiments/`：本地传输测试结果与户外视频。
-- `docs/技术说明.pdf`、`docs/技术说明.docx`：完整技术说明。
-- `records/`：验证结果、来源记录与文件校验。
+- `code/`: source code and tests for the three components.
+- `simulation/`: MATLAB scripts, terrain data, trajectories, editable figures and animation.
+- `experiments/`: local relay-test records and outdoor footage.
+- [Technical guide (PDF)](docs/Technical_Guide.pdf), [Word](docs/Technical_Guide.docx) and [Markdown](docs/Technical_Guide.md): setup, system behavior, simulation settings and verification results.
+- `records/`: verification logs, source provenance and file checksums.
 
-Mode 1 根据规划路线，以 4 km/h 自动估算结束时间；Mode 2 检查定位更新超时；Mode 3 的 SOS 经过操作员联系核实和确认后才创建搜索事件。事件选定后生成航线，由操作员审阅和派发。
+Mode 1 estimates the trip end time from the planned route at 4 km/h. Mode 2 checks GPS update timeouts. Mode 3 requires operator contact verification and explicit confirmation before creating an SOS search event. After selecting an event, the operator reviews the generated route and dispatches the mission. The software retains its existing language options.
 
-## 复核
+## Verification
 
-在档案根目录执行：
+Run these commands from the repository root:
 
-```
+```sh
 python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements-verification.txt
@@ -29,16 +29,16 @@ cd ../..
 python scripts/verify.py --output local-results/verification
 ```
 
-MATLAB 在 `simulation/` 目录运行 `run_all('simulate')`。仅重画论文图使用 `run_all('paper')`。动画使用 `run_all('video')`。
+In MATLAB, open `simulation/` and run `run_all('simulate')`. Use `run_all('paper')` to redraw the paper figure from saved data, or `run_all('video')` to create the animation.
 
-数据库、消息服务和机载运行设置见技术说明；外部飞行程序使用固定提交，配置步骤见 `docs/飞行环境配置.txt`。
+Database, broker and onboard settings are described in the technical guide. The external flight stack uses a pinned commit; see [Flight environment setup](docs/Flight_Environment_Setup.txt).
 
-文件完整性：
+Check file integrity with:
 
-```
+```sh
 python scripts/check_archive.py
 ```
 
-## 来源
+## Sources
 
-步行速度参考 Ordnance Survey《Map Reading》的步行估时说明；完整链接见 `docs/资料来源.txt`。高程为 Mapzen / Tilezen Skadi N22E114，路线和 GPS 历史为构造的仿真输入。各源码组件的原许可和版权说明见 `LICENSES/`。
+The walking-speed reference is Ordnance Survey's *Map Reading* guide; see [Sources](docs/Sources.txt). Elevation data comes from Mapzen / Tilezen Skadi tile N22E114. Routes and GPS history are synthetic simulation inputs. Source licenses and copyright notices are retained in `LICENSES/`.

@@ -1,10 +1,13 @@
 {
-  "checked_source_files": 179,
+  "checked_source_files": 181,
   "source_comments": 0,
   "document_pages": 8,
   "document_text_color": "000000",
   "text_pages_verified": 8,
   "software_tests_passed": 624,
   "matlab_assertions_passed": 30,
-  "independent_simulation_checks_passed": 53
+  "independent_simulation_checks_passed": 53,
+  "document_language": "English",
+  "software_language_options_preserved": true,
+  "documentation_links_checked": 5
 }

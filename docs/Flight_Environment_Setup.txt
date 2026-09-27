@@ -1,0 +1,42 @@
+Flight Environment Setup
+
+Platform: Ubuntu 20.04 and ROS Noetic, using catkin workspaces.
+
+1. Download the pinned external flight project.
+
+git clone https://github.com/Mikeahhh/FYP_alin1_SmartUAVRescueSystem_Drone.git external/drone-platform
+git -C external/drone-platform checkout --detach b3ac1591b63d15270c9856e7b664da0cf9d3ea48
+
+Fast-Drone-250 is in external/drone-platform/Fast-Drone-250.
+For the original onboard directory layout, place it at /home/mike/Fast-Drone-250. Follow that pinned version's README for dependency installation, sensor parameters and flight-controller calibration.
+
+2. Copy catkin_ws and drone_system from the UAV component in this archive to the onboard directories.
+
+/home/mike/catkin_ws
+/home/mike/drone_system
+
+The original launch scripts use these paths. If the account name or installation location differs, update the corresponding configuration and launcher paths.
+
+3. Build the workspaces in order.
+
+source /opt/ros/noetic/setup.bash
+cd /home/mike/Fast-Drone-250
+catkin_make
+source devel/setup.bash
+cd /home/mike/catkin_ws
+catkin_make
+source devel/setup.bash
+
+4. Start the depth camera, MAVROS, VINS, planner and flight-control programs according to the external project instructions, then start the mission bridge.
+
+roslaunch rescue_bridge rescue_bridge.launch mqtt_broker:=localhost
+
+Default bridge parameters are flight_alt=5.0, arrival_threshold=1.0 and data_timeout=5.0. The MATLAB simulation's 80 m above-ground altitude does not override these settings.
+
+5. Configure the phone-record receiver.
+
+python3 /home/mike/drone_system/receiver/phone_sos_receiver.py --help
+
+The configuration example is drone_system/config/rescue_receiver.env.example. Use the same MQTT broker address as the ground station and set the runtime token for local-network access. Before operation, check the flight-controller connection, positioning, camera indices and mission settings.
+
+These steps describe onboard setup and startup. The software verification in records/ ran on a local computer; the outdoor footage is retained from the existing experiments.
