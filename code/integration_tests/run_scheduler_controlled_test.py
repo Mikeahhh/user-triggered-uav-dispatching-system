@@ -13,7 +13,7 @@ from typing import Any, Dict, Iterable, List, Mapping
 
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-GROUND_STATION = CODE_ROOT / "FYP_alin1_SmartUAVRescueSystem_Ground_Station-main"
+GROUND_STATION = CODE_ROOT / "ground_station"
 if str(GROUND_STATION) not in sys.path:
     sys.path.insert(0, str(GROUND_STATION))
 

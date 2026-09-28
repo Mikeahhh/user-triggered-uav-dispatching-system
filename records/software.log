@@ -1,12 +1,12 @@
 
-[2026-09-27T18:14:19Z] Mobile ESLint
+[2026-09-28T04:00:17Z] Mobile ESLint
 
-[2026-09-27T18:14:20Z] Mobile TypeScript
+[2026-09-28T04:00:19Z] Mobile TypeScript
 
-[2026-09-27T18:14:20Z] Mobile release metadata alignment
+[2026-09-28T04:00:20Z] Mobile release metadata alignment
 Mobile version alignment OK: 1.2.0, Android 3, iOS 3, MASS26-20260806, schema 1, outbox v3
 
-[2026-09-27T18:14:20Z] Mobile Jest
+[2026-09-28T04:00:20Z] Mobile Jest
 PASS __tests__/QuickStartPage.test.tsx
 PASS __tests__/SosPage.test.tsx
 PASS __tests__/uavArrivalCaptureClient.test.ts
@@ -42,13 +42,13 @@ PASS __tests__/positionTimestamp.test.ts
 Test Suites: 19 passed, 19 total
 Tests:       229 passed, 229 total
 Snapshots:   0 total
-Time:        2.737 s
+Time:        2.865 s
 Ran all test suites.
 
-[2026-09-27T18:14:24Z] All first-party Python and packaging syntax
+[2026-09-28T04:00:23Z] All first-party Python and packaging syntax
 PASS: syntax compiled for 84 first-party Python/packaging files; none imported
 
-[2026-09-27T18:14:24Z] Ground Station unit tests
+[2026-09-28T04:00:23Z] Ground Station unit tests
 test_booking_episode_semantics_change_hash_but_priority_does_not (test_active_event_queue.ActiveQueueTests.test_booking_episode_semantics_change_hash_but_priority_does_not) ... ok
 test_cancelling_selection_returns_same_event_without_resetting_wait_time (test_active_event_queue.ActiveQueueTests.test_cancelling_selection_returns_same_event_without_resetting_wait_time) ... ok
 test_capture_v2_ui_callback_does_not_require_ambiguous_top_level_mission_id (test_active_event_queue.ActiveQueueTests.test_capture_v2_ui_callback_does_not_require_ambiguous_top_level_mission_id) ... ok
@@ -284,7 +284,7 @@ test_unverified_legacy_event_cannot_be_prepared_or_selected (test_sos_verificati
 test_unverified_legacy_pending_event_returns_to_contact_review (test_sos_verification.SosVerificationTests.test_unverified_legacy_pending_event_returns_to_contact_review) ... ok
 
 ----------------------------------------------------------------------
-Ran 233 tests in 0.324s
+Ran 233 tests in 0.322s
 
 OK
 Mission publish confirmed by broker: type=rescue, waypoints=19, RTL=True
@@ -317,10 +317,10 @@ Ground Station data loaded: users=1, new_records=1, issues=0
 Reloading Ground Station data...
 Ground Station data loaded: users=1, new_records=0, issues=1
 
-[2026-09-27T18:14:24Z] Ground Station dependency lock
+[2026-09-28T04:00:24Z] Ground Station dependency lock
 Runtime dependency lock verified
 
-[2026-09-27T18:14:24Z] UAV receiver tests
+[2026-09-28T04:00:24Z] UAV receiver tests
 test_ack_loss_replays_exact_envelope_and_hash (test_capture_v2.CaptureTests.test_ack_loss_replays_exact_envelope_and_hash) ... ok
 test_booking_quickstart_sos_carry_original_and_new_gps (test_capture_v2.CaptureTests.test_booking_quickstart_sos_carry_original_and_new_gps) ... ok
 test_context_reget_requires_live_same_execution_and_epoch (test_capture_v2.CaptureTests.test_context_reget_requires_live_same_execution_and_epoch) ... ok
@@ -379,11 +379,11 @@ test_test_mode_requires_a_json_boolean (test_phone_sos_receiver.RescueReceiverTe
 test_validates_and_stores_immutable_record (test_phone_sos_receiver.RescueReceiverTests.test_validates_and_stores_immutable_record) ... ok
 
 ----------------------------------------------------------------------
-Ran 44 tests in 1.203s
+Ran 44 tests in 1.195s
 
 OK
 
-[2026-09-27T18:14:26Z] UAV bridge tests
+[2026-09-28T04:00:25Z] UAV bridge tests
 test_actual_arrival_enables_collection_during_source_legs_and_rtl_closes_it (test_collection_context.CollectionContextTests.test_actual_arrival_enables_collection_during_source_legs_and_rtl_closes_it) ... ok
 test_landing_abort_unknown_and_controller_change_cannot_start_new_capture (test_collection_context.CollectionContextTests.test_landing_abort_unknown_and_controller_change_cannot_start_new_capture) ... ok
 test_owner_gate_and_context_are_persisted_before_capture_can_be_created (test_collection_context.CollectionContextTests.test_owner_gate_and_context_are_persisted_before_capture_can_be_created) ... ok
@@ -434,7 +434,7 @@ Ran 44 tests in 0.016s
 
 OK
 
-[2026-09-27T18:14:26Z] UAV recorder tests
+[2026-09-28T04:00:26Z] UAV recorder tests
 test_camera_failure_retains_previous_frames_as_incomplete (test_cam_recorder_faults.RecorderFaultTests.test_camera_failure_retains_previous_frames_as_incomplete) ... ok
 test_failed_finalization_is_not_done_and_keeps_partial (test_cam_recorder_faults.RecorderFaultTests.test_failed_finalization_is_not_done_and_keeps_partial) ... ok
 test_failed_retention_rename_keeps_partial (test_cam_recorder_faults.RecorderFaultTests.test_failed_retention_rename_keeps_partial) ... ok
@@ -449,23 +449,23 @@ test_full_recording_lifecycle_is_persisted (test_recording_state.RecordingJourna
 test_invalid_transition_is_rejected (test_recording_state.RecordingJournalTests.test_invalid_transition_is_rejected) ... ok
 
 ----------------------------------------------------------------------
-Ran 12 tests in 0.121s
+Ran 12 tests in 0.120s
 
 OK
 
-[2026-09-27T18:14:26Z] UAV demo tests
+[2026-09-28T04:00:26Z] UAV demo tests
 test_demo_is_hardware_free_and_exposes_land_request_boundary (test_generate_uav_demo.UavDemoTests.test_demo_is_hardware_free_and_exposes_land_request_boundary) ... ok
 
 ----------------------------------------------------------------------
-Ran 1 test in 0.005s
+Ran 1 test in 0.006s
 
 OK
 
-[2026-09-27T18:14:26Z] Pure C++ target lifecycle compile and execution
+[2026-09-28T04:00:26Z] Pure C++ target lifecycle compile and execution
 target lifecycle: readiness, identity, deduplication, arrival and release assertions passed
 PASS: pure C++ target lifecycle compiled and ran; ROS node build is not covered.
 
-[2026-09-27T18:14:27Z] Cross-component release and protocol integration
+[2026-09-28T04:00:27Z] Cross-component release and protocol integration
 test_all_three_trigger_types_keep_original_sos_and_current_flight_identity (test_arrival_capture_contract.ArrivalCaptureContractTests.test_all_three_trigger_types_keep_original_sos_and_current_flight_identity) ... [receiver-http] "GET /api/v2/mission-context?user_id=SYNTHETIC&request_id=request&capture_id=too-early HTTP/1.1" 409 -
 [receiver-http] "GET /api/v2/mission-context?user_id=SYNTHETIC&request_id=request&capture_id=synthetic-capture HTTP/1.1" 200 -
 [receiver-http] "POST /api/v2/rescue-captures HTTP/1.1" 201 -
@@ -562,7 +562,7 @@ test_controlled_result_is_independent_of_input_order (test_scheduler_controlled.
 test_three_trigger_types_coexist_one_millisecond_before_upgrade (test_scheduler_controlled.ControlledSchedulerScenarioTests.test_three_trigger_types_coexist_one_millisecond_before_upgrade) ... ok
 
 ----------------------------------------------------------------------
-Ran 61 tests in 6.518s
+Ran 61 tests in 6.634s
 
 OK
 Mission publish confirmed by broker: type=rescue, waypoints=19, RTL=True

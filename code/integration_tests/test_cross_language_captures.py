@@ -8,8 +8,8 @@ import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-RECEIVER = ROOT / 'FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver'
-GS = ROOT / 'FYP_alin1_SmartUAVRescueSystem_Ground_Station-main'
+RECEIVER = ROOT / 'search_uav/drone_system/receiver'
+GS = ROOT / 'ground_station'
 sys.path.insert(0, str(RECEIVER))
 import capture_record_v2 as uav
 import test_cross_language_records

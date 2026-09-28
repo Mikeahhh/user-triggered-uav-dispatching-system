@@ -17,1224 +17,269 @@
       "sha256": "cfc7749b96f63bd31c3c42b5c471bf756814053e847c10f3eb003417bc523d30"
     },
     {
-      "path": "LICENSES/FYP_alin1_SmartUAVRescueSystem_Drone-main.txt",
-      "size": 1464,
-      "sha256": "c0456bffca4c3185cd307005061217363d83906a1140a6f24b7fe76473c70a47"
-    },
-    {
-      "path": "LICENSES/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main.txt",
-      "size": 1081,
-      "sha256": "5ff86c7273904e08d42b95782f7d622ba96c61109fbb9cc2bbf69741ec942983"
-    },
-    {
       "path": "LICENSES/React-Native-MIT.txt",
       "size": 1088,
       "sha256": "da6d3703ed11cbe42bd212c725957c98da23cbff1998c05fa4b3d976d1a58e93"
     },
     {
-      "path": "LICENSES/source-notices.txt",
-      "size": 2292,
-      "sha256": "e30d6b799baf8c0d83f08ee7c3775b1942b4a9c02ee11d1b5bd03ff9336b0cce"
-    },
-    {
-      "path": "README.md",
-      "size": 2238,
-      "sha256": "b27d3cbf310fdf334ab51ee9266d6851d6ee35582d4d504797dcd886a0ae75a4"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/.gitignore",
-      "size": 510,
-      "sha256": "81e106e0527ca2789b5836f3ccfc766966bb6080607501d2112a5c972c0b68c0"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/LICENSE",
-      "size": 1464,
-      "sha256": "c0456bffca4c3185cd307005061217363d83906a1140a6f24b7fe76473c70a47"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/CMakeLists.txt",
-      "size": 1373,
-      "sha256": "ad908e0d5fdae547735669385687d57de707decbf3eb0e8f14cfbc67c510f587"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/config/mosquitto.acl.example",
-      "size": 571,
-      "sha256": "281e6159df51ef126c998a7fb3e5eaca8e5254192348433caeb8bc52d3487f62"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/config/mosquitto.conf",
-      "size": 45,
-      "sha256": "36b1da7b2a84be5c7d737306a8306b1e6f3d6bbcad96cccf448aed31774c7b5c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/config/mosquitto.lan-auth.example.conf",
-      "size": 214,
-      "sha256": "98cc94e0dc9b112b5dd9e032da09b4f78f27fb5a312e8985e22db95e86a695ce"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/include/rescue_bridge/target_lifecycle.hpp",
-      "size": 3810,
-      "sha256": "6dae2e1bc0e39e34d18d75c4580bdbe87c7cc38fd94d2ad22cb61ea59f2e12e6"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/launch/rescue_bridge.launch",
-      "size": 789,
-      "sha256": "960efb2bfdb9166b8aef480d48ab1238b610dfbbdabef7e8f60dd9828e34e75d"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/launch/rescue_bridge_lion_rock.launch",
-      "size": 1510,
-      "sha256": "04fc3b1c1fd4ca7977505974c861c7bff03fd12443a8b1396fd6841962afd997"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/launch/rescue_bridge_sim.launch",
-      "size": 1503,
-      "sha256": "6debe5050eb8566b202e887b0ddbf103b0ae2962dbdb5bd45fa6977ca5f6d59f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/msg/ExecutionControl.msg",
-      "size": 81,
-      "sha256": "cc0379784de469fb9209051de6d0539e48488762a0a72eaf5f48e55f8152a0aa"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/msg/WaypointCommand.msg",
-      "size": 165,
-      "sha256": "c41bfb45d6ad7985f95b91cd7da74923786190f5743976165b52bfd610ff669a"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/msg/WaypointFeedback.msg",
-      "size": 193,
-      "sha256": "ba14438cc0462ec8ad0e48024b7b70196ee0ee9bb1e7418bfbdf48c9861144e3"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/package.xml",
-      "size": 739,
-      "sha256": "da2c082c6d7fcc4ce55c6f570b9d62db43a38cb42f515d5d575f65e9f2ca301d"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/collection_context.py",
-      "size": 986,
-      "sha256": "3e1c4d535bf5832b1d554b9bfd4d911ec9739f3cdcf362fc4634293b336ed7e4"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/execution_protocol.py",
-      "size": 2475,
-      "sha256": "16f3dba6c9ae31d289a53f814287a511af9d267f41579180e19399f7bc6c99e9"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/execution_state.py",
-      "size": 14952,
-      "sha256": "d80d502750e4a0456cbf8a2c3ee17b1d0c5ef89ec25c8ef58a4552063abde3e8"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/mission_commander.cpp",
-      "size": 12701,
-      "sha256": "a842b7b316c6e121ab85cb3dc348ac1ef1c8ae66fb9a7bf4b027ae17f032c90b"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/mission_protocol.py",
-      "size": 6767,
-      "sha256": "12ad5225d4552f1c02c3f03f4d254403cbef33ec5a3285e6c17646bf536ec13f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/mqtt_bridge.py",
-      "size": 20997,
-      "sha256": "ff37be563741736786392af993bf5e8ff0b4138b753388b0f7ff09135575105d"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/sim_fake_gps.py",
-      "size": 1938,
-      "sha256": "54b8a02d62ecc522b857073b45ed47dd017f4459a603e018b366ecaa979b023b"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/sim_gps_adapter.py",
-      "size": 8453,
-      "sha256": "0d4aa024bc5eb685b503076a76a3c0a1791b30582fe8db0e569a97556d4e40eb"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/target_lifecycle.py",
-      "size": 3086,
-      "sha256": "5b8ea17ecdf6f0b910ebda9283f5221c79eaaa7c5cac86b26d80b80da3bcea50"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/terrain_publisher.py",
-      "size": 2651,
-      "sha256": "378a14c423a9ca4b6bfa39ac1de6df263a926302301a8981ed83f5b8b0bb483a"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_collection_context.py",
-      "size": 4427,
-      "sha256": "27b1954a5526405fc38e29c594255aadf0b18bf26c79193add416b85e13e87a2"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_execution_state.py",
-      "size": 7930,
-      "sha256": "5cf6a15e99d446cf5ef888619461ff7cf29aad940200e4ee4634b131c867dffb"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_mission_protocol.py",
-      "size": 3243,
-      "sha256": "6e7536ccf15d342d8fdca09ee0d239599c452d42c3b3cc655ea649216c41aae7"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_mqtt_bridge_core.py",
-      "size": 10824,
-      "sha256": "6bd3e74154918c757867ffb6c2fb5046d3502bf22065b5e6f373343e84a7a419"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src/test_target_adapter.py",
-      "size": 5366,
-      "sha256": "363e721aa1c7f38802e295efaa4d252fb1ff4614d05881478b0d170368e53191"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/terrain_data/build_terrain.py",
-      "size": 6074,
-      "sha256": "58fd57ce3a9744175292275ced4510cfea30d6a17fe0ebce00dcebc4f823d7ed"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/terrain_data/download_terrain.py",
-      "size": 7786,
-      "sha256": "e656489099fec335e8c83de12c8d7fb0620c95465fd6355e11e3fefe0579fab0"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/test/task_v2_fingerprints.json",
-      "size": 6278,
-      "sha256": "5acb923ec9b7eee2beabdcfbd96aa6f3adcf52be1a437fec0971ff76c69f9f5b"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/test/test_target_lifecycle.cpp",
-      "size": 2099,
-      "sha256": "d6725928e15eb52554c2d37f47e5cc343ba84da582bf7865781c1dbe886e419f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/emergency_stop.sh",
-      "size": 550,
-      "sha256": "b248bdceb3d8cae1c22c0648dd595716fd004b349bf37f055ca296dea5f89e81"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/land.sh",
-      "size": 353,
-      "sha256": "b3203601e78ee037fbb6b413194e83b0dc9ea812cc44bc1cb918c5f84e4e5ebb"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/start_rescue_receiver.sh",
-      "size": 1188,
-      "sha256": "3f8187085d36f30c6ce0897e60bbee7b69eb5e19e5544d56486af58c17e8140c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/start_sim.sh",
-      "size": 1876,
-      "sha256": "acdf3bda9e79ce0f245762c615c532af4d8632c4b8b1495b9a204a849877cc9c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/start_stack.sh",
-      "size": 1710,
-      "sha256": "0636988082a153c4b5cf05c3f51d8664ea7014ff780f0d74ce15b8eb5a5d66df"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/status.sh",
-      "size": 1264,
-      "sha256": "f8763370bb8bcd350f6c5462905be5652341277c8c0b4c619fcb83c2563a0490"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/stop_stack.sh",
-      "size": 1433,
-      "sha256": "bd1ccf93b90f55d81da677143c192b7707e350dd41c949298b68f6240812378f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/bin/takeoff.sh",
-      "size": 362,
-      "sha256": "62a3e3a483a3d34e63109d3ce7417d23cef87e97a6693abdff3685ba067de495"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/config/log_paths.yaml",
-      "size": 225,
-      "sha256": "b9b7c9f55ef1f9a4e5b73cca10b20466cb5b08f1287333858efa48da6f6854f1"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/config/mission_settings.yaml",
-      "size": 524,
-      "sha256": "4f25bc473a6de2a476884770b467d935f9aa51e58133b49efb74a45f7a8e5b98"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/config/rescue_receiver.env.example",
-      "size": 278,
-      "sha256": "ed940717bbaa03aa8038a6194cd6e6183a16851b6abbdaaa4001bd65f364cce1"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/demo/generate_uav_demo.py",
-      "size": 14445,
-      "sha256": "f11c7d131f815e1d715209f51313d3b6a9d12b8209fd6245b9375a54736c595f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/demo/test_generate_uav_demo.py",
-      "size": 1509,
-      "sha256": "da8f35667c61e672fc4850991094030aac6e7afe9aef63f0c62017dfe9a5ea8a"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/cam_recorder.py",
-      "size": 5866,
-      "sha256": "755414d1cfa6eb0cae1a50df541e9d1ffcdb3e78e0e261cdb15c735bcfd8e041"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/drone_console.desktop",
-      "size": 307,
-      "sha256": "edfa98a30e77af66360ee625e8fdca73ced2cb30d0228643dc1b9da471ffa63c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/drone_console.py",
-      "size": 40959,
-      "sha256": "36887d6f6a634d0a612b9f0f39dffc607bc8aba270d8a47ddea0ae874987c3fe"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/icon.png",
-      "size": 3470,
-      "sha256": "0eb8b0bf66a0a514cb22d05388a4b36c09e589d0ecd7f158164d7d93fe557d29"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/recording_state.py",
-      "size": 5367,
-      "sha256": "badb9d4b0fee9ceb3b38f2d45b0b1e769df1993147569feacc0a3fdd7487f0bc"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/test_cam_recorder_faults.py",
-      "size": 4269,
-      "sha256": "1dd3aa1e2361acea8dc2856e92ab913348c555aa4510fe58947b4f2c27774065"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/test_recording_session.py",
-      "size": 3447,
-      "sha256": "714d54dc6c132dc68e448b2371ac713e28365b84fbea5918aed8c89ab1749a1f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/launcher/test_recording_state.py",
-      "size": 1956,
-      "sha256": "a5613bc7aad3c67d687872cf5f640e210ede7dbc8cf0666b78255bc2dad51e07"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/__init__.py",
-      "size": 1,
-      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/capture_record_v2.py",
-      "size": 10749,
-      "sha256": "662e54c32ff428848c6d60f10d0a75d6eaff326b13ed0ee3c97864b820be0899"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/capture_store_v2.py",
-      "size": 19668,
-      "sha256": "785465655b7ba95cf33d42d0ae61a69f981452b0ab8d26cd94b3092b385ce8d9"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/phone_sos_receiver.py",
-      "size": 49337,
-      "sha256": "84bf234d09964e13573655ddec022b44d5374ae35ba65f51fd3a52144aa9f8b8"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/test_capture_v2.py",
-      "size": 12533,
-      "sha256": "30b8c2eb9307ed614e4e8482653ce9c3c0c8af2a67967f4131328981c8a9e674"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/test_delivery_recovery.py",
-      "size": 9621,
-      "sha256": "dfc72f0bfda8b0a530bb33c2873ae1860ecf3724fd340c16f856937b243cbdf6"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/test_phone_sos_receiver.py",
-      "size": 14677,
-      "sha256": "f7a05e5750dde1191d18e707c6f28b588e2213bb47400eeb43b6e620225d1501"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/.gitignore",
-      "size": 321,
-      "sha256": "afd7a6a7cf7059f4f2594dc3c472be84e418300721676f91af38c2084d044470"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/LICENSE",
+      "path": "LICENSES/ground_station.txt",
       "size": 1081,
       "sha256": "5ff86c7273904e08d42b95782f7d622ba96c61109fbb9cc2bbf69741ec942983"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/active_event_queue.py",
+      "path": "LICENSES/search_uav.txt",
+      "size": 1464,
+      "sha256": "c0456bffca4c3185cd307005061217363d83906a1140a6f24b7fe76473c70a47"
+    },
+    {
+      "path": "LICENSES/source-notices.txt",
+      "size": 2208,
+      "sha256": "5cbd36d55851b8cbd54a0349776ab63c113f1cd957d47c244feee9b50ff4e5f5"
+    },
+    {
+      "path": "README.md",
+      "size": 2210,
+      "sha256": "658553e69498cd47c1e897d97127493aa0999811fb6371e1ef443aa994f0921f"
+    },
+    {
+      "path": "code/deployment_preflight.py",
+      "size": 6325,
+      "sha256": "e524d767bff8603a8a992557964d55ff93f3129a4d7045f2b12766f40eec6447"
+    },
+    {
+      "path": "code/ground_station/.gitignore",
+      "size": 321,
+      "sha256": "afd7a6a7cf7059f4f2594dc3c472be84e418300721676f91af38c2084d044470"
+    },
+    {
+      "path": "code/ground_station/LICENSE",
+      "size": 1081,
+      "sha256": "5ff86c7273904e08d42b95782f7d622ba96c61109fbb9cc2bbf69741ec942983"
+    },
+    {
+      "path": "code/ground_station/active_event_queue.py",
       "size": 9828,
       "sha256": "5f675d848979344cd7e4c359fbc9b6890c9c62db90db6b0e0cf848ae5c5906d2"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/app_metadata.py",
+      "path": "code/ground_station/app_metadata.py",
       "size": 131,
       "sha256": "29458432fb1bcb8c9223a55b34a6ae41d01d2b7a531783cf53fb0922df30f41c"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/build_windows_release.ps1",
+      "path": "code/ground_station/build_windows_release.ps1",
       "size": 3611,
       "sha256": "e0e82c0ba103b25dbc98db07441641ca70105b4abaa921986f14ed09364a106b"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/capture_record_v2.py",
+      "path": "code/ground_station/capture_record_v2.py",
       "size": 10749,
       "sha256": "662e54c32ff428848c6d60f10d0a75d6eaff326b13ed0ee3c97864b820be0899"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/dispatch_journal.py",
+      "path": "code/ground_station/dispatch_journal.py",
       "size": 6548,
       "sha256": "e4d1d7f5f0b5a960d326a6b582daf77dc6e3410ded5a92e04d5da515621c6cce"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/firebase_runtime_config.py",
+      "path": "code/ground_station/firebase_runtime_config.py",
       "size": 1294,
       "sha256": "7fa0715974c320dc1e5265a833e1b940d4aaaad4b4966f0b0901d79f12d63041"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station.py",
+      "path": "code/ground_station/ground_station.py",
       "size": 144462,
       "sha256": "565ee6f07a2c893b7cbaea1d79f3b8a50127c7374bccbbe2d6492cae669bba92"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_V5.spec",
+      "path": "code/ground_station/ground_station_V5.spec",
       "size": 103,
       "sha256": "911255e60bc7a535cae9b7fe3e1b91fd5ba544e64e805bbac2e11be1516bea3d"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_V6.spec",
+      "path": "code/ground_station/ground_station_V6.spec",
       "size": 103,
       "sha256": "978239b8633efc8d508b674ac5cb5cd74d506c1dc327128bf9e2e9e0ac26be28"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_V7.spec",
+      "path": "code/ground_station/ground_station_V7.spec",
       "size": 1203,
       "sha256": "425b1f958ef439f30efd30ba125fc01c28cd83c08c822f25e39b86ca45853fd7"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/ground_station_demo.py",
+      "path": "code/ground_station/ground_station_demo.py",
       "size": 12223,
       "sha256": "cb4a43d0b206823e33c4064b7f891e5cfdc1b46bb34590889e17cbc586049675"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/icon.ico",
+      "path": "code/ground_station/icon.ico",
       "size": 4286,
       "sha256": "1d87a42c5577415f55699037c38cf2c39d33bfd1f04db895e9b65cc1610c715f"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/mission_execution_protocol.py",
+      "path": "code/ground_station/mission_execution_protocol.py",
       "size": 3030,
       "sha256": "f04ef84064b179f5dd49c80e18bea427c702a6865e65f96f4312a4767e0b9d12"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/priority_scheduler.py",
+      "path": "code/ground_station/priority_scheduler.py",
       "size": 4899,
       "sha256": "c15196a06507d88529e1b67dfdaab71eadb729b670ee5d1f145e164870e200a0"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/quick_start_freshness.py",
+      "path": "code/ground_station/quick_start_freshness.py",
       "size": 17493,
       "sha256": "293115684f8247c82b4653edf380d21219636dca07f1dd4c6b29ab161c46eb31"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/quick_start_observations.py",
+      "path": "code/ground_station/quick_start_observations.py",
       "size": 2597,
       "sha256": "acc06afc674c8e00c0506d64b9cb89d28730cc44b4eb05e54d0e5330f3c06e05"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/receiver_ready_protocol.py",
+      "path": "code/ground_station/receiver_ready_protocol.py",
       "size": 2195,
       "sha256": "1916e5c169192c7238968ab7c0db15087d64e4aee01841b0bd14fe3a872f65a4"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/requirements-build.txt",
+      "path": "code/ground_station/requirements-build.txt",
       "size": 40,
       "sha256": "4d71c0e2c58b2725ed87199430d77554bb58c8536c9a1d393c061baf2bc3b6a2"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/requirements.txt",
+      "path": "code/ground_station/requirements.txt",
       "size": 81,
       "sha256": "06ba0ade448b91c345628466b7e5774aa28fd8e8f92cd9752050aa181fbd3b91"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/rescue_event_manager.py",
+      "path": "code/ground_station/rescue_event_manager.py",
       "size": 31840,
       "sha256": "3cd739081bd90e4e56e837266c886dd0d400d60a04c730e52bf00b25a39c4aa3"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/rescue_record_protocol.py",
+      "path": "code/ground_station/rescue_record_protocol.py",
       "size": 22352,
       "sha256": "1a1942cf018befba532362954c82b0984af917dd0d950a76f83d74a54216d39f"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/rescue_repository.py",
+      "path": "code/ground_station/rescue_repository.py",
       "size": 3706,
       "sha256": "108a240f09b1fe2944bffcb9e94462f36961ce5c816252772ab8ed88ef4e0c9a"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/runtime.env.example",
+      "path": "code/ground_station/runtime.env.example",
       "size": 316,
       "sha256": "97d84c0edbbdbec5037b8d32fa37cf1721d6982da393daa97d491c0970802520"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/sos_pattern.py",
+      "path": "code/ground_station/sos_pattern.py",
       "size": 4188,
       "sha256": "6b92020a7c8c99e52c8fa18960597ed96362e5eda070032a396bd550e687269d"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_active_event_queue.py",
+      "path": "code/ground_station/test_active_event_queue.py",
       "size": 21164,
       "sha256": "ad39f4c54834475f0802ca589a03bd4e1bb606803442a01f329b486027641572"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_capture_record_protocol_v2.py",
-      "size": 4576,
-      "sha256": "46eb5b64aeca017fda31ff3825031704b618f0f0e595327299ba64d7d5fa0072"
+      "path": "code/ground_station/test_capture_record_protocol_v2.py",
+      "size": 4545,
+      "sha256": "8cc9062de90833f31b522e398ea51f3b9541a3d114d4ae3ef6d30fd95d6f138b"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_dependency_lock.py",
+      "path": "code/ground_station/test_dependency_lock.py",
       "size": 510,
       "sha256": "022aed76bb30645b3c815da5e7327a9dda395cf7e509ef27bd313598b9ef4179"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_dispatch_journal.py",
+      "path": "code/ground_station/test_dispatch_journal.py",
       "size": 7767,
       "sha256": "25e43c1eaf45e2be021ff3700d40db21f1253dae652f9021f86709c5fb557208"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_execution_recovery.py",
+      "path": "code/ground_station/test_execution_recovery.py",
       "size": 16250,
       "sha256": "d20ff9c2f3eaafbbcba695f8595b62b9c776d4fceaba8505ef94a4a5b058f81b"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_fixtures/task_v2_fingerprints.json",
+      "path": "code/ground_station/test_fixtures/task_v2_fingerprints.json",
       "size": 6278,
       "sha256": "5acb923ec9b7eee2beabdcfbd96aa6f3adcf52be1a437fec0971ff76c69f9f5b"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_ground_station_demo.py",
+      "path": "code/ground_station/test_ground_station_demo.py",
       "size": 7733,
       "sha256": "bb51d4976fa81d0b4a792a6e54f217a5e182fe1ed9b7ec87486fffee92c83cb1"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_ground_station_rescue_flow.py",
+      "path": "code/ground_station/test_ground_station_rescue_flow.py",
       "size": 40919,
       "sha256": "a6cd9ae5a1f94e6bb5163beb7b5fe0a85329b3cfb2a95bf2b1ffe3c8026bb1e4"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_ground_station_runtime.py",
+      "path": "code/ground_station/test_ground_station_runtime.py",
       "size": 1734,
       "sha256": "02482d626e0c7eccc57ffceb84f73869094002a53994312dfca9a8c4208a958f"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_priority_scheduler.py",
+      "path": "code/ground_station/test_priority_scheduler.py",
       "size": 7876,
       "sha256": "e269b897c97d6353872c1c46c2791cecf6ff0951dcba7d97bfd58ec55bc6629a"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_quick_start_freshness.py",
+      "path": "code/ground_station/test_quick_start_freshness.py",
       "size": 16584,
       "sha256": "c47f12a7f0b57bcf943e292dc307eab2bde37f8f24eae11a8d12393d0812ad9f"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_quick_start_ground_ui.py",
+      "path": "code/ground_station/test_quick_start_ground_ui.py",
       "size": 7895,
       "sha256": "3aaa0882c00b9dbf3546418c3dd783f8ed26db0b0a712459470677a796952fea"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_quick_start_observations.py",
+      "path": "code/ground_station/test_quick_start_observations.py",
       "size": 1845,
       "sha256": "ca63956215a1b0c36b3a324effd84b898256dc61beaeb92d3d34f03999eceae1"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_rescue_event_manager.py",
+      "path": "code/ground_station/test_rescue_event_manager.py",
       "size": 22531,
       "sha256": "ed2e76c46323639d605b3db8e7fb761ea551ef05a86c98b0640e40b3ce381fcb"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_rescue_record_protocol.py",
+      "path": "code/ground_station/test_rescue_record_protocol.py",
       "size": 14609,
       "sha256": "397f83ba268d53a761d7e021f5dd5975445337f349d4380416975bbf8c481301"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_rescue_reliability.py",
+      "path": "code/ground_station/test_rescue_reliability.py",
       "size": 8772,
       "sha256": "d90d3d4b23d757e3d8104555d7dbe4391c3cd3a97852ddbd5c0731851ccf201a"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_sos_pattern.py",
+      "path": "code/ground_station/test_sos_pattern.py",
       "size": 2271,
       "sha256": "6e5dace83a0a8419b510c56c1bf7dbc9dd953be2df55b67ef76a9c6254971bd8"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/test_sos_verification.py",
+      "path": "code/ground_station/test_sos_verification.py",
       "size": 3806,
       "sha256": "9c2053d11a51374c00c8229f356e2d1a7d39c688ec106e65b9a1f017ff7fab3c"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/verify_runtime_dependencies.py",
+      "path": "code/ground_station/verify_runtime_dependencies.py",
       "size": 858,
       "sha256": "25f7bd8abb1bcffef246e0b8efdb80284c1b82ab4949bd1f88e6b03738afe628"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/windows_version_info.txt",
+      "path": "code/ground_station/windows_version_info.txt",
       "size": 872,
       "sha256": "5f91f5bcf0d8e18729eac1d4ff35d7a661aeb2e05efc831ca80e3e644650e18e"
     },
     {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main/windows_version_info_v7.txt",
+      "path": "code/ground_station/windows_version_info_v7.txt",
       "size": 872,
       "sha256": "102cfc2a81e09b6529d9f9e032641139e8ad0fe96cc431e0fdfc5653b8c6e8d2"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.eslintrc.js",
-      "size": 152,
-      "sha256": "4f650121dd208d75aca991717c30f2b0d994d0a88c19238c5e6a0836bababbd1"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.gitignore",
-      "size": 866,
-      "sha256": "1e936ec0d1043959b38369745a5555f5709e0c0e7373375db8d88780b20c7407"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.prettierrc.js",
-      "size": 91,
-      "sha256": "ed7c5f7f2f0f21950c2acbb7425d212bbcf0d7ecd3bdd440af42c67cbb8d6851"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/.watchmanconfig",
-      "size": 3,
-      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/App.tsx",
-      "size": 1939,
-      "sha256": "29c0f5cb12b4441ae844c7ddff3efea0a777bc96eba9dc574b0a02de42330161"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/Gemfile",
-      "size": 273,
-      "sha256": "aea2adb9d72599efc6779daa084730e86de84d0850805daed59efe61ea4466e6"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/App.test.tsx",
-      "size": 902,
-      "sha256": "31f30d344b1e6fbbaab31ddcb4dd289b8120e98fd91b23c12135084c93b6e924"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/QuickStartPage.test.tsx",
-      "size": 24940,
-      "sha256": "68c132c48427039fee5272395e2667f281aff95953bac934272ffe6b79dd27f0"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/SettingPage.test.tsx",
-      "size": 2779,
-      "sha256": "f9d4c5b1fb9548b13c2d3888eb04b552ee12ffa58f0e4aa2d799072675117ebe"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/SosPage.test.tsx",
-      "size": 18490,
-      "sha256": "a98daaacc23b951831ce5ee1b22309c66e79c42701fafa75bc5222478f64e2e2"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/SystemHealthPage.test.tsx",
-      "size": 2433,
-      "sha256": "53b8b081e9d7daa0702af850263bb6cd1e1010e0c75afd778d8e989826a57afd"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/currentSosStore.test.ts",
-      "size": 2353,
-      "sha256": "e844a5476650a524b3e97e89f0371cac1d54ac371cadf87901320bed2dc1f49c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/eventBookingRecord.test.ts",
-      "size": 4328,
-      "sha256": "c5717d7a481e27fbdf9376f10c65a703a44177e4cedd64df530de22071d72aa4"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/firebaseRealtimeDatabase.test.ts",
-      "size": 3520,
-      "sha256": "8822401d3e2564a0139708d4ce5112ddd7711d94233be484cfa2c2486d6b7a5f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/fixtures/rescueRecordV1Golden.json",
-      "size": 9251,
-      "sha256": "550810efacd534695877657181f03cb3f22927c255547f0fe260d3ccb6db230b"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/freshUavPosition.test.ts",
-      "size": 3213,
-      "sha256": "1c67da29eb3dcfe442e783b765c330da208029d03bac91ec471786034adadf12"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/positionTimestamp.test.ts",
-      "size": 572,
-      "sha256": "3ca330e102c30ff326e557c9ae061af887178063fddfafdfde9e9496d521e844"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/quickStartMetrics.test.ts",
-      "size": 1198,
-      "sha256": "1fe71205441d3e953e165788406a0c4edd8d8335cb336881094a66b06f6b14b2"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/quickStartSample.test.ts",
-      "size": 1450,
-      "sha256": "629f4645e1a7a48b4b3c0fbfbfac5796989a53b8858f96b925ca1d5566ddbb38"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/quickStartSessionId.test.ts",
-      "size": 1406,
-      "sha256": "6826612a1cb4bf1cca34bd3b28e926127ef7bbaaae5abf1cfd6777eec0c9f3d2"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/rescueRecordHash.test.ts",
-      "size": 1436,
-      "sha256": "624b7362900f592e92d7b99b98f9032b3c57714b28de2cb5cdfba6df394234eb"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavArrivalCaptureClient.test.ts",
-      "size": 11971,
-      "sha256": "ce33be5bbbeb60d3ccb2b6094734c02dda1615ffa5b914e5a5aa8a32e491f881"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavCaptureIdentity.test.ts",
-      "size": 640,
-      "sha256": "05cd144e302dcd818f9362b7a17184095846e930d34acf4d1e5f4cd35e079627"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavCaptureV2.test.ts",
-      "size": 3403,
-      "sha256": "571c2841825cd52063b666aeb4043c4eb252f1d89a93d63595c8501b6eb1c7a1"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavRescueClient.test.ts",
-      "size": 10515,
-      "sha256": "50529b252df8ce2eb07489517e3faedbbec7996c23a906d4c2442bb49476314d"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/__tests__/uavWifiClient.test.ts",
-      "size": 2669,
-      "sha256": "48b4571a9efd4315ee5efea4f1e2038d1a68f087eed35795d7b7a08764daae35"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/build.gradle",
-      "size": 3812,
-      "sha256": "c007d1d3435aa86d9a78f0a7dd60dfbfac92600dd8353072fb1aeb889b6caf7b"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/proguard-rules.pro",
-      "size": 0,
-      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/debug/AndroidManifest.xml",
-      "size": 313,
-      "sha256": "b9015fd240808d4f1927ac9fd2a1d3c778abcfa0e72d29404c8b9f7f7e66586c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/AndroidManifest.xml",
-      "size": 3449,
-      "sha256": "8ff0d6610d49ae6051956b4018916433c59f0e6947eabc3503e805011cdd89ab"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/MainActivity.kt",
-      "size": 510,
-      "sha256": "37c6b28e1540131175f1991064af0b82590fda2c1bf6364bc89e022ea7b72651"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/MainApplication.kt",
-      "size": 1270,
-      "sha256": "b92e679443b5751c3f2936eab40a430fef78b16fe456b6ed0f0a1a07f97a7d1c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/UavWifiModule.kt",
-      "size": 7333,
-      "sha256": "e68d616d60bbe45f919809ca352cc45f6bf05e70ae44e1a57f93efea7efb4b5e"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/java/com/fypproject/UavWifiPackage.kt",
-      "size": 522,
-      "sha256": "6365ab5dcf34202ce8336a7470428bdae28be83f988b0bc1e6bb87949bdbf3ae"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/rn_edit_text_material.xml",
-      "size": 633,
-      "sha256": "8d3fa147c3f24775c4ae8ed7c6e8dea9a1daa26b604014d7110c19945f5e8efb"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/splash.png",
-      "size": 15394,
-      "sha256": "34df69769f3754374dd0815df11d573505e1782fea913a72ef022221af4ba996"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/splash_background.xml",
-      "size": 309,
-      "sha256": "bc3281c5ee837aa13945b1777cccbc19b3b756b80ae35a843d9d88d30e64e26e"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/drawable/splash_layer.xml",
-      "size": 292,
-      "sha256": "a172df7bdcef6c246567e64612235385ebf6bb803c27e7f5964b0c1064b53bc8"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
-      "size": 3916,
-      "sha256": "f6d77afbd9e0c9d429aa4c5552166343be7d46161f34cf1776dd44fcaa4596de"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png",
-      "size": 8197,
-      "sha256": "90238c88b7306bf80fc1b60747449e277351451a8d474ad9b10237d67153e67c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png",
-      "size": 5833,
-      "sha256": "7dd48362e1a2386f44e64c95305023b3007613e45d974592af3bbed5780d3a8a"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
-      "size": 2377,
-      "sha256": "9fabd9bb44aa57ec8b169348b95a390067ce4f06ff9e2526b924647e5968591f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png",
-      "size": 5071,
-      "sha256": "82a39d8d4a6e4948dd7f72d7e69ed1f2c840317edb46e9be285020beb2dd900d"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png",
-      "size": 3275,
-      "sha256": "4a4346f45accc7a7f20dfff45960226439cdeca6f7af86212d66065dd939fc19"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
-      "size": 5848,
-      "sha256": "c1d800aef14fac1e75c249f3e46075d2adf586532a3a2dcafe4f7436bfaa92be"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png",
-      "size": 12882,
-      "sha256": "add301bb87b9c826c14cf3afdd2cb015be95f4d0b9fd800cf375e6654a5eb102"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png",
-      "size": 8652,
-      "sha256": "55e1228b0cf1e6c2940b0665bcea70d14b94641eb15eb71d08c02b35e3800b2a"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
-      "size": 9522,
-      "sha256": "2f290b6f142ae9ebf3582148ddb5c619e314d539e2a6f61b5a341d0d6d9d7173"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png",
-      "size": 22178,
-      "sha256": "50946b1b74703bf4ad61ae26ea2d57cd5834bb5634eb5baf1fc8207b79cd772f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png",
-      "size": 14908,
-      "sha256": "af79d24589e9e0e013cdb5e28446f8e425635744983f492e149df5cfb04e704a"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
-      "size": 14831,
-      "sha256": "75855188a90cadb0265e7a5284c70d15d5663b5d0619bd2f25e0312476c9c51c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png",
-      "size": 35374,
-      "sha256": "725eb4ece3121c7b93a105dfca9876c707f2c61867bf022dbb5dd7a37bc1f753"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png",
-      "size": 22121,
-      "sha256": "88de082be9315b2a17efc414808326fccf74623f13974da7d2f3d347acb6990a"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/values/colors.xml",
-      "size": 250,
-      "sha256": "1642b94fe98aa2ff972cce9bb458e90521430492bf97ae53f4d6ec0580c08ec8"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/values/strings.xml",
-      "size": 73,
-      "sha256": "01cbd3d7d188137adadf6c821e1856ce78e28f78a0c6a8e967acd8304e7eb7cc"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/main/res/values/styles.xml",
-      "size": 812,
-      "sha256": "0ccc90f457153fc49983d87e4ceb81f46d7a9b4a027b3456f20f7a3a8d11c48b"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/app/src/screenshot/AndroidManifest.xml",
-      "size": 1630,
-      "sha256": "dd1d73184d755a6e5da79e6d0231b5e718ec028f114ebf8b38c4422ded9dbdb6"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/build.gradle",
-      "size": 605,
-      "sha256": "007104e98ff6c37613eb097d26ef682ecaa6988df7f7dfea348107e0befaeffe"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradle.properties",
-      "size": 177,
-      "sha256": "d3c11f4084353bd40fc6673df4b1b7a5adc604f57cbf67df88c3ab47b136bcdc"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradle/wrapper/gradle-wrapper.jar",
-      "size": 43764,
-      "sha256": "7d3a4ac4de1c32b59bc6a4eb8ecb8e612ccd0cf1ae1e99f66902da64df296172"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradle/wrapper/gradle-wrapper.properties",
-      "size": 253,
-      "sha256": "9bc89d177d3c15d647a0a895fc21a18cbb627d1051451b191f8fe601d5d96007"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradlew",
-      "size": 2782,
-      "sha256": "8d6dcdbdd4ad737f2a3541a0759c92e99782adc89ce2d851073b478d62c03435"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/gradlew.bat",
-      "size": 1427,
-      "sha256": "1a371bca5f841330762535c8726fb188e6796ba4f5997513643914456cb71eb1"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/android/settings.gradle",
-      "size": 341,
-      "sha256": "c29a834fa543fc06811e9cc6887d194a30e1688bda8049cca3c756855c8b8ef6"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/app.json",
-      "size": 58,
-      "sha256": "692e005201537da79dad3521cebc7ce9347375ad70f69ac768276824fe33d05d"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/babel.config.js",
-      "size": 72,
-      "sha256": "d76a3a8625b204efa0f42c4bdd220f484211798f88a56f2e784bc082231cc292"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/Content.tsx",
-      "size": 1267,
-      "sha256": "dfc6c89fcf0208f7f7bcf7d678b06e681272c5e3617cd548a05f1f18fbe6770a"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/Footer.tsx",
-      "size": 2683,
-      "sha256": "8da8f9b1056d449647f7e3eb37da7f5cc1c22636c6395078e4c98e02f6cbc4d7"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/Header.tsx",
-      "size": 1163,
-      "sha256": "e6cece7054d3a4f20fd38b4210d3ffae9ec06d43a43596e98a6ee595e02557c4"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/components/index.tsx",
-      "size": 140,
-      "sha256": "5b8acab2a4dbf0e4b4b2778851421bfca3fe57ab380dfc14b01fe04a88543ecf"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/index.js",
-      "size": 167,
-      "sha256": "73d2c4b345b688a68bdced8434bc736572957a7e32a65023da4a0e81185fadba"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/.xcode.env",
-      "size": 38,
-      "sha256": "d443202aa7349816e4d827d25a8c749e4ce610784f26a5c08002531f24ca5dbb"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject.xcodeproj/project.pbxproj",
-      "size": 18828,
-      "sha256": "72d3257fb8ab34aaba5eb1a7421d1639990e3321860845df02645761c22ff210"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject.xcodeproj/xcshareddata/xcschemes/FypProject.xcscheme",
-      "size": 3306,
-      "sha256": "90f4bc4b9a525119e1405d312e317a7fb40cd36f8a507f7b3a420dc41724b20b"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/AppDelegate.swift",
-      "size": 1233,
-      "sha256": "430f22c592132a82f86b72ff3df2b6af70a2c438a05897cb47447cb7a0c94790"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/Images.xcassets/AppIcon.appiconset/Contents.json",
-      "size": 849,
-      "sha256": "8a18bd4a58344d5fd5ac8f51f2e1a4e3409b0c3e503ea4d0940399900aa9ffd8"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/Images.xcassets/Contents.json",
-      "size": 63,
-      "sha256": "991ae939fbd598450a066b66404e06c5ae9b7d37e9aa0026de9e318443ba46fb"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/Info.plist",
-      "size": 1800,
-      "sha256": "6d6a6645209bf7310787601c233ca2ac29c09dd6b705ee927163317897693e08"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/LaunchScreen.storyboard",
-      "size": 4204,
-      "sha256": "c6ea6e25a2e9dfabb865dfe417f05581c7acdc42b05da17d3dd84bad8101b832"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/PrivacyInfo.xcprivacy",
-      "size": 986,
-      "sha256": "b9289ecfec677540a293fba948db7268c02b1d44943fa66b1e7a85ba0c31a252"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/FypProject/UavCaptureIdentity.m",
-      "size": 666,
-      "sha256": "c14073112cd8a150d32da8c7fb69420788fe798e859f8adbabe8b965fb7209ea"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/ios/Podfile",
-      "size": 779,
-      "sha256": "56d9fe0a798f817716725342b8ae97c5e0bd8c5be1e1e67f8363b60f7deb6f30"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/jest.config.js",
-      "size": 48,
-      "sha256": "ff34c1c382123874acdb6a54d01ba979ce59363a398abef6e4c471857cfadadc"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/metro.config.js",
-      "size": 170,
-      "sha256": "3bc598d4c39b896d1900fde97a4d602713033a0bf05bb810f12e003ed62600f6"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/package-lock.json",
-      "size": 534713,
-      "sha256": "6dd5d32b2fefaf47697f32486c9b50197ad1b8a3d29128e0f955b1e7b1608464"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/package.json",
-      "size": 2751,
-      "sha256": "b02c019520226a1612c5ec7cb8cc80d3d482d7f6278e90af7100ec4713334228"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/EventBookingPage.tsx",
-      "size": 19507,
-      "sha256": "9fe944e566ed7716a0af0c402cc9ddcbdda3d007431eb0be973d02fbee52454c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/MapPage.tsx",
-      "size": 4773,
-      "sha256": "5b42363a707fddc86e1c94a029e505cbc7bbc93dd0ad23901856e76143c68dad"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/ProfilePage.tsx",
-      "size": 18419,
-      "sha256": "9212ae04df34b1042cc39178090ba00f8756a11470d94af9eeb1262574862995"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/QuickStartPage.tsx",
-      "size": 28408,
-      "sha256": "17f3141239aeef80c98c479c92799dd90c3a8a7d2496eef6f15da7ebf9b481eb"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/SettingPage.tsx",
-      "size": 10141,
-      "sha256": "65ac3420ac191660618cd3dedaf85503c249f00daff7f4203b3ad2f18a7bb763"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/SosPage.tsx",
-      "size": 20416,
-      "sha256": "0dfcfe6d19f653b598cb29c3d71d44f0c8ffaa94a9c21ce4e7d65637fe05028f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/pages/SystemHealthPage.tsx",
-      "size": 8488,
-      "sha256": "8f807701e82e0c7429dbbaf9d067d19299e891a82de33f533cd6290f9bb9b17d"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/AndroidManifest.compile-only.xml",
-      "size": 3175,
-      "sha256": "2ebdedef545ba1e2891efc61b2e4c66f356ba6add5aee047291d973480d47b2f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/buildMode.screenshot-only.ts",
-      "size": 114,
-      "sha256": "b9e5ffd4ccc2889dd58729c34b11fbb41a19b4ec151ecb25ef05161f0fe9543a"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/build_android_debug_safe.sh",
-      "size": 7308,
-      "sha256": "ab6f7330c754af5e6e3bf12adbe67ce2131d4ed6ef536f4d4381bd05b3a35983"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/build_android_screenshot_only.sh",
-      "size": 7808,
-      "sha256": "16f14dce159a126e194f0c5250d3412200b7614374cbc525da79c58baf3986f8"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/check_version_alignment.js",
-      "size": 3470,
-      "sha256": "3bae66a89f2d8456010bddeaac70cc35c177c19030dfc48f0f81a04be4a8ea1e"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/firebaseConfig.compile-only.ts",
-      "size": 490,
-      "sha256": "abbc9807cffa0249386982d9ad8e8e977f7ef04876465caa3187777ed488b3a1"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/google-services.compile-only.json",
-      "size": 564,
-      "sha256": "9409d75d4da3568a150ffd2fa78ac74b79eed4121dadfca10475dd1c5deb5897"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/google-services.screenshot-only.json",
-      "size": 584,
-      "sha256": "2acb239ce1551f68f23849f53d35ebe55c49bb1673d3b2af6860b376fdad40f1"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/gradle.compile-only.properties",
-      "size": 201,
-      "sha256": "d92f644a95a8e4fff139a630e38aa1fe483872edc8cf2d3429c67e5cc7f7d70a"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/gradle.screenshot-only.properties",
-      "size": 178,
-      "sha256": "74a7bc9bbeade98ef048472704e18078b774c144dbe8a13b6e83c37f6d799e61"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/scripts/sanitize_compile_only_copy.js",
-      "size": 2237,
-      "sha256": "af5072d4186900982d8c8cdf7d5729e60ea8982da2478a3225c5732b303f949f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/appMetadata.ts",
-      "size": 606,
-      "sha256": "625f09dc655dddfeab01539ed41fbcf7d42a740b4784bc3bcdf699bd127c6b95"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/buildMode.ts",
-      "size": 115,
-      "sha256": "b0d5bd729a9b3b711040e2a797fbc44518df981277c6dd566b70d997df63639c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/currentSosStore.ts",
-      "size": 2760,
-      "sha256": "5602c81387b4740ea0ccb27656e13f89a6b92acbaaef0df8ed27b84cfbf4c4cc"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/LocationRepository.ts",
-      "size": 1357,
-      "sha256": "be78a6f1fd5bd387c89bb974a56b350d730e3c9e5f0a55a0b284829536d5551f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/database.ts",
-      "size": 747,
-      "sha256": "62c823c1b13d4e208864a817eee7d0cb83e80854ffbde17ca9191d4acff17ffc"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/firebaseConfig.example.ts",
-      "size": 574,
-      "sha256": "9e23fa611931937733d1a82c20bc6b6f8db45a3f0ac5da7ff92aa4d04d5372aa"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/firebaseRealtimeDatabase.ts",
-      "size": 3519,
-      "sha256": "10565893f408c2a48820785f518f1d2d26f3f37848785287f37b6f1fee866229"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/initDb.ts",
-      "size": 6908,
-      "sha256": "844d2b0e940594256ae7773a01a12c80f29225e26d6ba3e8a673b3e75564a41b"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/locationService.ts",
-      "size": 1016,
-      "sha256": "db7f9b7644bf947c55c9b1403cfb25cfe5625e723d3e5e649da93b213c78306c"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/eventBookingRecord.ts",
-      "size": 6480,
-      "sha256": "f608c1a7069c7b95cea97544eee677b03cb8f8a7261fc7a795586e1d6bc22df1"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/freshUavPosition.ts",
-      "size": 3490,
-      "sha256": "a3c37bfc99a0df62cbefeb5120acb5181cd796b2f397592addadfcaaf7eef3db"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/positionTimestamp.ts",
-      "size": 514,
-      "sha256": "285b7212dad402086fe3ddde7f0052741f7ce488478ce2292e8deb8081cda0b5"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/quickStartMetrics.ts",
-      "size": 1527,
-      "sha256": "7429f5bc2096692024c670c5b498d524a125a68a3d873ec68140c29b26ba6ae5"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/quickStartSample.ts",
-      "size": 1008,
-      "sha256": "58712bd08ff16269cf7e8c0f3bab8a863cb56aca8f531f18864736842ffce73f"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/quickStartSessionId.ts",
-      "size": 757,
-      "sha256": "ffc00070c2a9f4b1f9a703e3a524a3eaa7c78c447a7f62217dfacffbcfc5195b"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/rescueRecordHash.ts",
-      "size": 6978,
-      "sha256": "03b743f97ed2e1e55ca4843a925e24e4151daaa6de4ef6fbf4ab676aa944d2f5"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavArrivalCaptureClient.ts",
-      "size": 12358,
-      "sha256": "ae21f695fb3861f4d6392bb5114974cd1544208b0ec70dd72d7cb62efa13ec4d"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavCaptureIdentity.ts",
-      "size": 549,
-      "sha256": "811e83c1de3301ab8ca056bb300f1343cd3d0a9126dff7e721d0d011b4a0c703"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavCaptureV2.ts",
-      "size": 8263,
-      "sha256": "91eeb86466ce287307f49c7d9ad58b60ccd825102bb7c16abcd168ecee8abd5d"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavRescueClient.ts",
-      "size": 19232,
-      "sha256": "40c7c13e52dbf00a3f6dedbaaf9aec85a1ee671a88fc0d605bbef653249816e9"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/uavWifiClient.ts",
-      "size": 3157,
-      "sha256": "a462ebd9843a0fb06a301ad7023c0a5875d95b0f90c31df729adf79f89ad51bc"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/testSupport/uavCaptureFixtures.ts",
-      "size": 1714,
-      "sha256": "dcda743f8c30bd848f4d2d47fc40a2d9ef0782a82ef387704cd8b7e22971926d"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/translations/en/translations.json",
-      "size": 20590,
-      "sha256": "de991a8d8a22f5c98769ad87cf5cda3faf394943565919336f1c53eece2ccd91"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/translations/i18n.ts",
-      "size": 548,
-      "sha256": "cc4926b511f5360fe6573b2c3b8b0e6ebdf1f164b1f9e16a229da9ecbf68cc42"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/translations/zh/translations.json",
-      "size": 19864,
-      "sha256": "c98b0862ef5599d6c770c729ec644f9f8e73f4a0d500687b2b6bf2482898c8ce"
-    },
-    {
-      "path": "code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/tsconfig.json",
-      "size": 175,
-      "sha256": "457b5f652cbabfc981fb5305ff8e04e5ab3c00ca37cf6ef0e5701dcc43f94098"
-    },
-    {
-      "path": "code/deployment_preflight.py",
-      "size": 6353,
-      "sha256": "291c434a13da3165195b7ec33afbf49b036b9c6bcf3d62004ef88ed1321b05d2"
     },
     {
       "path": "code/integration_tests/generate_bench_dashboard.py",
@@ -1248,73 +293,1028 @@
     },
     {
       "path": "code/integration_tests/mobile_export_probe.cjs",
-      "size": 3261,
-      "sha256": "fc8900642b3824be50e2718177304a023bd52a11e8afc13b4cd3409d6b8682e1"
+      "size": 3233,
+      "sha256": "8ae10da1a9fde6ebda4176719edef8c0a716a13e2e9052bf251de00a938cbb57"
     },
     {
       "path": "code/integration_tests/run_phone_uav_gs_bench.py",
-      "size": 13792,
-      "sha256": "1fd1d43270ff9db485dd9befb4b4665c364ea9c67fe467f5b425fdb6d210f038"
+      "size": 13725,
+      "sha256": "c78f931a2fc7233f5e91e32efe19cdf7664ebe693f7e10afd805c2d4a02bfe83"
     },
     {
       "path": "code/integration_tests/run_scheduler_controlled_test.py",
-      "size": 12351,
-      "sha256": "0fc108096e463043cfa75ab1c66d2ba47a51856f9547992b60f6a9fa2f6fa239"
+      "size": 12315,
+      "sha256": "e68618ff4098e198674aaea484fe567d9ec243cc2a71c9bd8528392bae41baef"
     },
     {
       "path": "code/integration_tests/test_arrival_capture_contract.py",
-      "size": 13901,
-      "sha256": "85165e7806ff5c4d898b345ad6584a7e2ef6ba8b87feed8048ba7eb783c86da7"
+      "size": 13803,
+      "sha256": "ed5945b8b4338667db6f98bb31bdf9c36009a812633975931eed8adf5721a254"
     },
     {
       "path": "code/integration_tests/test_cross_language_captures.py",
-      "size": 6659,
-      "sha256": "614899cf05ddfd85ffa9c5bdec4f8bf25edfc162fefbb522235c90f827138372"
+      "size": 6592,
+      "sha256": "6389a3294ee772fa883785d775d6f19cd809d7d1b5e86f5336fb8442d2b1b631"
     },
     {
       "path": "code/integration_tests/test_cross_language_records.py",
-      "size": 2940,
-      "sha256": "cb6e627cc043d03d72283c7c417f9bfd8a03ebdaa2eadbf34ff477c923764822"
+      "size": 2909,
+      "sha256": "7d349a96a23d05e5f4ae4b55b80f2629459773867c2a905e59589955c532f891"
     },
     {
       "path": "code/integration_tests/test_deployment_preflight.py",
-      "size": 5550,
-      "sha256": "64cf535a43db390d5ab7f7cef0c9e739d05dab399b9202128189166f29793248"
+      "size": 5514,
+      "sha256": "0b91a907419403221b205039cb9b751b8812f4f332587bdbc188405bf37a667a"
     },
     {
       "path": "code/integration_tests/test_flight_execution_contract.py",
-      "size": 14221,
-      "sha256": "3d21d8f26e1925e05fe4cc0365f7fcdd4787e621746f0ba7b793fecd747de2e3"
+      "size": 14154,
+      "sha256": "fa9035bd48d30fbb2b1241acd666f754d9cf7dcc4ffccefacc7e9cbffb951a73"
     },
     {
       "path": "code/integration_tests/test_phone_uav_groundstation.py",
-      "size": 5448,
-      "sha256": "78e955e5c4d47f5f4915e96c18fec47e39c87718d8498f5b0c7c41793453a866"
+      "size": 5381,
+      "sha256": "b7b4e257f0fad647296fd1ebdb63748da64c6a38c78879c239340ae2c4ed3350"
     },
     {
       "path": "code/integration_tests/test_quick_start_freshness_contract.py",
-      "size": 30120,
-      "sha256": "758f76319467faa4c2861273fa1d9938b76d1d8c1c69cb044777533f5ea35e7a"
+      "size": 30084,
+      "sha256": "ca628715896f90efe9ba71b308adf2d2ad98222307b3ed6bec13409de2b90ef3"
     },
     {
       "path": "code/integration_tests/test_release_alignment.py",
-      "size": 4566,
-      "sha256": "f7792124befe6aaa689b74bce5452145d78d3bdbb3cff80fd25fcdf2cc65a46f"
+      "size": 4471,
+      "sha256": "3b64bf4f3f1433c1530a06fd1bdf5f892dd4afca00c8917e648148c82a5616e9"
     },
     {
       "path": "code/integration_tests/test_scheduler_controlled.py",
-      "size": 6919,
-      "sha256": "ae209870f417cbc1bd7a7949023afa5b3d9c624bd5e1c34fdc341902285fae63"
+      "size": 6883,
+      "sha256": "217e6e4aa6eafa4837926a934809f84da2754bb3be22c0389fb4e8f67c8ab404"
+    },
+    {
+      "path": "code/mobile_application/.eslintrc.js",
+      "size": 152,
+      "sha256": "4f650121dd208d75aca991717c30f2b0d994d0a88c19238c5e6a0836bababbd1"
+    },
+    {
+      "path": "code/mobile_application/.gitignore",
+      "size": 866,
+      "sha256": "1e936ec0d1043959b38369745a5555f5709e0c0e7373375db8d88780b20c7407"
+    },
+    {
+      "path": "code/mobile_application/.prettierrc.js",
+      "size": 91,
+      "sha256": "ed7c5f7f2f0f21950c2acbb7425d212bbcf0d7ecd3bdd440af42c67cbb8d6851"
+    },
+    {
+      "path": "code/mobile_application/.watchmanconfig",
+      "size": 3,
+      "sha256": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+    },
+    {
+      "path": "code/mobile_application/App.tsx",
+      "size": 1939,
+      "sha256": "29c0f5cb12b4441ae844c7ddff3efea0a777bc96eba9dc574b0a02de42330161"
+    },
+    {
+      "path": "code/mobile_application/Gemfile",
+      "size": 273,
+      "sha256": "aea2adb9d72599efc6779daa084730e86de84d0850805daed59efe61ea4466e6"
+    },
+    {
+      "path": "code/mobile_application/__tests__/App.test.tsx",
+      "size": 902,
+      "sha256": "31f30d344b1e6fbbaab31ddcb4dd289b8120e98fd91b23c12135084c93b6e924"
+    },
+    {
+      "path": "code/mobile_application/__tests__/QuickStartPage.test.tsx",
+      "size": 24940,
+      "sha256": "68c132c48427039fee5272395e2667f281aff95953bac934272ffe6b79dd27f0"
+    },
+    {
+      "path": "code/mobile_application/__tests__/SettingPage.test.tsx",
+      "size": 2779,
+      "sha256": "f9d4c5b1fb9548b13c2d3888eb04b552ee12ffa58f0e4aa2d799072675117ebe"
+    },
+    {
+      "path": "code/mobile_application/__tests__/SosPage.test.tsx",
+      "size": 18490,
+      "sha256": "a98daaacc23b951831ce5ee1b22309c66e79c42701fafa75bc5222478f64e2e2"
+    },
+    {
+      "path": "code/mobile_application/__tests__/SystemHealthPage.test.tsx",
+      "size": 2433,
+      "sha256": "53b8b081e9d7daa0702af850263bb6cd1e1010e0c75afd778d8e989826a57afd"
+    },
+    {
+      "path": "code/mobile_application/__tests__/currentSosStore.test.ts",
+      "size": 2353,
+      "sha256": "e844a5476650a524b3e97e89f0371cac1d54ac371cadf87901320bed2dc1f49c"
+    },
+    {
+      "path": "code/mobile_application/__tests__/eventBookingRecord.test.ts",
+      "size": 4328,
+      "sha256": "c5717d7a481e27fbdf9376f10c65a703a44177e4cedd64df530de22071d72aa4"
+    },
+    {
+      "path": "code/mobile_application/__tests__/firebaseRealtimeDatabase.test.ts",
+      "size": 3520,
+      "sha256": "8822401d3e2564a0139708d4ce5112ddd7711d94233be484cfa2c2486d6b7a5f"
+    },
+    {
+      "path": "code/mobile_application/__tests__/fixtures/rescueRecordV1Golden.json",
+      "size": 9251,
+      "sha256": "550810efacd534695877657181f03cb3f22927c255547f0fe260d3ccb6db230b"
+    },
+    {
+      "path": "code/mobile_application/__tests__/freshUavPosition.test.ts",
+      "size": 3213,
+      "sha256": "1c67da29eb3dcfe442e783b765c330da208029d03bac91ec471786034adadf12"
+    },
+    {
+      "path": "code/mobile_application/__tests__/positionTimestamp.test.ts",
+      "size": 572,
+      "sha256": "3ca330e102c30ff326e557c9ae061af887178063fddfafdfde9e9496d521e844"
+    },
+    {
+      "path": "code/mobile_application/__tests__/quickStartMetrics.test.ts",
+      "size": 1198,
+      "sha256": "1fe71205441d3e953e165788406a0c4edd8d8335cb336881094a66b06f6b14b2"
+    },
+    {
+      "path": "code/mobile_application/__tests__/quickStartSample.test.ts",
+      "size": 1450,
+      "sha256": "629f4645e1a7a48b4b3c0fbfbfac5796989a53b8858f96b925ca1d5566ddbb38"
+    },
+    {
+      "path": "code/mobile_application/__tests__/quickStartSessionId.test.ts",
+      "size": 1406,
+      "sha256": "6826612a1cb4bf1cca34bd3b28e926127ef7bbaaae5abf1cfd6777eec0c9f3d2"
+    },
+    {
+      "path": "code/mobile_application/__tests__/rescueRecordHash.test.ts",
+      "size": 1436,
+      "sha256": "624b7362900f592e92d7b99b98f9032b3c57714b28de2cb5cdfba6df394234eb"
+    },
+    {
+      "path": "code/mobile_application/__tests__/uavArrivalCaptureClient.test.ts",
+      "size": 11971,
+      "sha256": "ce33be5bbbeb60d3ccb2b6094734c02dda1615ffa5b914e5a5aa8a32e491f881"
+    },
+    {
+      "path": "code/mobile_application/__tests__/uavCaptureIdentity.test.ts",
+      "size": 640,
+      "sha256": "05cd144e302dcd818f9362b7a17184095846e930d34acf4d1e5f4cd35e079627"
+    },
+    {
+      "path": "code/mobile_application/__tests__/uavCaptureV2.test.ts",
+      "size": 3403,
+      "sha256": "571c2841825cd52063b666aeb4043c4eb252f1d89a93d63595c8501b6eb1c7a1"
+    },
+    {
+      "path": "code/mobile_application/__tests__/uavRescueClient.test.ts",
+      "size": 10515,
+      "sha256": "50529b252df8ce2eb07489517e3faedbbec7996c23a906d4c2442bb49476314d"
+    },
+    {
+      "path": "code/mobile_application/__tests__/uavWifiClient.test.ts",
+      "size": 2669,
+      "sha256": "48b4571a9efd4315ee5efea4f1e2038d1a68f087eed35795d7b7a08764daae35"
+    },
+    {
+      "path": "code/mobile_application/android/app/build.gradle",
+      "size": 3812,
+      "sha256": "c007d1d3435aa86d9a78f0a7dd60dfbfac92600dd8353072fb1aeb889b6caf7b"
+    },
+    {
+      "path": "code/mobile_application/android/app/proguard-rules.pro",
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/debug/AndroidManifest.xml",
+      "size": 313,
+      "sha256": "b9015fd240808d4f1927ac9fd2a1d3c778abcfa0e72d29404c8b9f7f7e66586c"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/AndroidManifest.xml",
+      "size": 3449,
+      "sha256": "8ff0d6610d49ae6051956b4018916433c59f0e6947eabc3503e805011cdd89ab"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/java/com/fypproject/MainActivity.kt",
+      "size": 510,
+      "sha256": "37c6b28e1540131175f1991064af0b82590fda2c1bf6364bc89e022ea7b72651"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/java/com/fypproject/MainApplication.kt",
+      "size": 1270,
+      "sha256": "b92e679443b5751c3f2936eab40a430fef78b16fe456b6ed0f0a1a07f97a7d1c"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/java/com/fypproject/UavWifiModule.kt",
+      "size": 7333,
+      "sha256": "e68d616d60bbe45f919809ca352cc45f6bf05e70ae44e1a57f93efea7efb4b5e"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/java/com/fypproject/UavWifiPackage.kt",
+      "size": 522,
+      "sha256": "6365ab5dcf34202ce8336a7470428bdae28be83f988b0bc1e6bb87949bdbf3ae"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/drawable/rn_edit_text_material.xml",
+      "size": 633,
+      "sha256": "8d3fa147c3f24775c4ae8ed7c6e8dea9a1daa26b604014d7110c19945f5e8efb"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/drawable/splash.png",
+      "size": 15394,
+      "sha256": "34df69769f3754374dd0815df11d573505e1782fea913a72ef022221af4ba996"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/drawable/splash_background.xml",
+      "size": 309,
+      "sha256": "bc3281c5ee837aa13945b1777cccbc19b3b756b80ae35a843d9d88d30e64e26e"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/drawable/splash_layer.xml",
+      "size": 292,
+      "sha256": "a172df7bdcef6c246567e64612235385ebf6bb803c27e7f5964b0c1064b53bc8"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-hdpi/ic_launcher.png",
+      "size": 3916,
+      "sha256": "f6d77afbd9e0c9d429aa4c5552166343be7d46161f34cf1776dd44fcaa4596de"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png",
+      "size": 8197,
+      "sha256": "90238c88b7306bf80fc1b60747449e277351451a8d474ad9b10237d67153e67c"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png",
+      "size": 5833,
+      "sha256": "7dd48362e1a2386f44e64c95305023b3007613e45d974592af3bbed5780d3a8a"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-mdpi/ic_launcher.png",
+      "size": 2377,
+      "sha256": "9fabd9bb44aa57ec8b169348b95a390067ce4f06ff9e2526b924647e5968591f"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-mdpi/ic_launcher_foreground.png",
+      "size": 5071,
+      "sha256": "82a39d8d4a6e4948dd7f72d7e69ed1f2c840317edb46e9be285020beb2dd900d"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png",
+      "size": 3275,
+      "sha256": "4a4346f45accc7a7f20dfff45960226439cdeca6f7af86212d66065dd939fc19"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-xhdpi/ic_launcher.png",
+      "size": 5848,
+      "sha256": "c1d800aef14fac1e75c249f3e46075d2adf586532a3a2dcafe4f7436bfaa92be"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-xhdpi/ic_launcher_foreground.png",
+      "size": 12882,
+      "sha256": "add301bb87b9c826c14cf3afdd2cb015be95f4d0b9fd800cf375e6654a5eb102"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png",
+      "size": 8652,
+      "sha256": "55e1228b0cf1e6c2940b0665bcea70d14b94641eb15eb71d08c02b35e3800b2a"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png",
+      "size": 9522,
+      "sha256": "2f290b6f142ae9ebf3582148ddb5c619e314d539e2a6f61b5a341d0d6d9d7173"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_foreground.png",
+      "size": 22178,
+      "sha256": "50946b1b74703bf4ad61ae26ea2d57cd5834bb5634eb5baf1fc8207b79cd772f"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png",
+      "size": 14908,
+      "sha256": "af79d24589e9e0e013cdb5e28446f8e425635744983f492e149df5cfb04e704a"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png",
+      "size": 14831,
+      "sha256": "75855188a90cadb0265e7a5284c70d15d5663b5d0619bd2f25e0312476c9c51c"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_foreground.png",
+      "size": 35374,
+      "sha256": "725eb4ece3121c7b93a105dfca9876c707f2c61867bf022dbb5dd7a37bc1f753"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png",
+      "size": 22121,
+      "sha256": "88de082be9315b2a17efc414808326fccf74623f13974da7d2f3d347acb6990a"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/values/colors.xml",
+      "size": 250,
+      "sha256": "1642b94fe98aa2ff972cce9bb458e90521430492bf97ae53f4d6ec0580c08ec8"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/values/strings.xml",
+      "size": 73,
+      "sha256": "01cbd3d7d188137adadf6c821e1856ce78e28f78a0c6a8e967acd8304e7eb7cc"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/main/res/values/styles.xml",
+      "size": 812,
+      "sha256": "0ccc90f457153fc49983d87e4ceb81f46d7a9b4a027b3456f20f7a3a8d11c48b"
+    },
+    {
+      "path": "code/mobile_application/android/app/src/screenshot/AndroidManifest.xml",
+      "size": 1630,
+      "sha256": "dd1d73184d755a6e5da79e6d0231b5e718ec028f114ebf8b38c4422ded9dbdb6"
+    },
+    {
+      "path": "code/mobile_application/android/build.gradle",
+      "size": 605,
+      "sha256": "007104e98ff6c37613eb097d26ef682ecaa6988df7f7dfea348107e0befaeffe"
+    },
+    {
+      "path": "code/mobile_application/android/gradle.properties",
+      "size": 177,
+      "sha256": "d3c11f4084353bd40fc6673df4b1b7a5adc604f57cbf67df88c3ab47b136bcdc"
+    },
+    {
+      "path": "code/mobile_application/android/gradle/wrapper/gradle-wrapper.jar",
+      "size": 43764,
+      "sha256": "7d3a4ac4de1c32b59bc6a4eb8ecb8e612ccd0cf1ae1e99f66902da64df296172"
+    },
+    {
+      "path": "code/mobile_application/android/gradle/wrapper/gradle-wrapper.properties",
+      "size": 253,
+      "sha256": "9bc89d177d3c15d647a0a895fc21a18cbb627d1051451b191f8fe601d5d96007"
+    },
+    {
+      "path": "code/mobile_application/android/gradlew",
+      "size": 2782,
+      "sha256": "8d6dcdbdd4ad737f2a3541a0759c92e99782adc89ce2d851073b478d62c03435"
+    },
+    {
+      "path": "code/mobile_application/android/gradlew.bat",
+      "size": 1427,
+      "sha256": "1a371bca5f841330762535c8726fb188e6796ba4f5997513643914456cb71eb1"
+    },
+    {
+      "path": "code/mobile_application/android/settings.gradle",
+      "size": 341,
+      "sha256": "c29a834fa543fc06811e9cc6887d194a30e1688bda8049cca3c756855c8b8ef6"
+    },
+    {
+      "path": "code/mobile_application/app.json",
+      "size": 58,
+      "sha256": "692e005201537da79dad3521cebc7ce9347375ad70f69ac768276824fe33d05d"
+    },
+    {
+      "path": "code/mobile_application/babel.config.js",
+      "size": 72,
+      "sha256": "d76a3a8625b204efa0f42c4bdd220f484211798f88a56f2e784bc082231cc292"
+    },
+    {
+      "path": "code/mobile_application/components/Content.tsx",
+      "size": 1267,
+      "sha256": "dfc6c89fcf0208f7f7bcf7d678b06e681272c5e3617cd548a05f1f18fbe6770a"
+    },
+    {
+      "path": "code/mobile_application/components/Footer.tsx",
+      "size": 2683,
+      "sha256": "8da8f9b1056d449647f7e3eb37da7f5cc1c22636c6395078e4c98e02f6cbc4d7"
+    },
+    {
+      "path": "code/mobile_application/components/Header.tsx",
+      "size": 1163,
+      "sha256": "e6cece7054d3a4f20fd38b4210d3ffae9ec06d43a43596e98a6ee595e02557c4"
+    },
+    {
+      "path": "code/mobile_application/components/index.tsx",
+      "size": 140,
+      "sha256": "5b8acab2a4dbf0e4b4b2778851421bfca3fe57ab380dfc14b01fe04a88543ecf"
+    },
+    {
+      "path": "code/mobile_application/index.js",
+      "size": 167,
+      "sha256": "73d2c4b345b688a68bdced8434bc736572957a7e32a65023da4a0e81185fadba"
+    },
+    {
+      "path": "code/mobile_application/ios/.xcode.env",
+      "size": 38,
+      "sha256": "d443202aa7349816e4d827d25a8c749e4ce610784f26a5c08002531f24ca5dbb"
+    },
+    {
+      "path": "code/mobile_application/ios/FypProject.xcodeproj/project.pbxproj",
+      "size": 18828,
+      "sha256": "72d3257fb8ab34aaba5eb1a7421d1639990e3321860845df02645761c22ff210"
+    },
+    {
+      "path": "code/mobile_application/ios/FypProject.xcodeproj/xcshareddata/xcschemes/FypProject.xcscheme",
+      "size": 3306,
+      "sha256": "90f4bc4b9a525119e1405d312e317a7fb40cd36f8a507f7b3a420dc41724b20b"
+    },
+    {
+      "path": "code/mobile_application/ios/FypProject/AppDelegate.swift",
+      "size": 1233,
+      "sha256": "430f22c592132a82f86b72ff3df2b6af70a2c438a05897cb47447cb7a0c94790"
+    },
+    {
+      "path": "code/mobile_application/ios/FypProject/Images.xcassets/AppIcon.appiconset/Contents.json",
+      "size": 849,
+      "sha256": "8a18bd4a58344d5fd5ac8f51f2e1a4e3409b0c3e503ea4d0940399900aa9ffd8"
+    },
+    {
+      "path": "code/mobile_application/ios/FypProject/Images.xcassets/Contents.json",
+      "size": 63,
+      "sha256": "991ae939fbd598450a066b66404e06c5ae9b7d37e9aa0026de9e318443ba46fb"
+    },
+    {
+      "path": "code/mobile_application/ios/FypProject/Info.plist",
+      "size": 1800,
+      "sha256": "6d6a6645209bf7310787601c233ca2ac29c09dd6b705ee927163317897693e08"
+    },
+    {
+      "path": "code/mobile_application/ios/FypProject/LaunchScreen.storyboard",
+      "size": 4204,
+      "sha256": "c6ea6e25a2e9dfabb865dfe417f05581c7acdc42b05da17d3dd84bad8101b832"
+    },
+    {
+      "path": "code/mobile_application/ios/FypProject/PrivacyInfo.xcprivacy",
+      "size": 986,
+      "sha256": "b9289ecfec677540a293fba948db7268c02b1d44943fa66b1e7a85ba0c31a252"
+    },
+    {
+      "path": "code/mobile_application/ios/FypProject/UavCaptureIdentity.m",
+      "size": 666,
+      "sha256": "c14073112cd8a150d32da8c7fb69420788fe798e859f8adbabe8b965fb7209ea"
+    },
+    {
+      "path": "code/mobile_application/ios/Podfile",
+      "size": 779,
+      "sha256": "56d9fe0a798f817716725342b8ae97c5e0bd8c5be1e1e67f8363b60f7deb6f30"
+    },
+    {
+      "path": "code/mobile_application/jest.config.js",
+      "size": 48,
+      "sha256": "ff34c1c382123874acdb6a54d01ba979ce59363a398abef6e4c471857cfadadc"
+    },
+    {
+      "path": "code/mobile_application/metro.config.js",
+      "size": 170,
+      "sha256": "3bc598d4c39b896d1900fde97a4d602713033a0bf05bb810f12e003ed62600f6"
+    },
+    {
+      "path": "code/mobile_application/package-lock.json",
+      "size": 534713,
+      "sha256": "6dd5d32b2fefaf47697f32486c9b50197ad1b8a3d29128e0f955b1e7b1608464"
+    },
+    {
+      "path": "code/mobile_application/package.json",
+      "size": 2751,
+      "sha256": "b02c019520226a1612c5ec7cb8cc80d3d482d7f6278e90af7100ec4713334228"
+    },
+    {
+      "path": "code/mobile_application/pages/EventBookingPage.tsx",
+      "size": 19507,
+      "sha256": "9fe944e566ed7716a0af0c402cc9ddcbdda3d007431eb0be973d02fbee52454c"
+    },
+    {
+      "path": "code/mobile_application/pages/MapPage.tsx",
+      "size": 4773,
+      "sha256": "5b42363a707fddc86e1c94a029e505cbc7bbc93dd0ad23901856e76143c68dad"
+    },
+    {
+      "path": "code/mobile_application/pages/ProfilePage.tsx",
+      "size": 18419,
+      "sha256": "9212ae04df34b1042cc39178090ba00f8756a11470d94af9eeb1262574862995"
+    },
+    {
+      "path": "code/mobile_application/pages/QuickStartPage.tsx",
+      "size": 28408,
+      "sha256": "17f3141239aeef80c98c479c92799dd90c3a8a7d2496eef6f15da7ebf9b481eb"
+    },
+    {
+      "path": "code/mobile_application/pages/SettingPage.tsx",
+      "size": 10141,
+      "sha256": "65ac3420ac191660618cd3dedaf85503c249f00daff7f4203b3ad2f18a7bb763"
+    },
+    {
+      "path": "code/mobile_application/pages/SosPage.tsx",
+      "size": 20416,
+      "sha256": "0dfcfe6d19f653b598cb29c3d71d44f0c8ffaa94a9c21ce4e7d65637fe05028f"
+    },
+    {
+      "path": "code/mobile_application/pages/SystemHealthPage.tsx",
+      "size": 8488,
+      "sha256": "8f807701e82e0c7429dbbaf9d067d19299e891a82de33f533cd6290f9bb9b17d"
+    },
+    {
+      "path": "code/mobile_application/scripts/AndroidManifest.compile-only.xml",
+      "size": 3175,
+      "sha256": "2ebdedef545ba1e2891efc61b2e4c66f356ba6add5aee047291d973480d47b2f"
+    },
+    {
+      "path": "code/mobile_application/scripts/buildMode.screenshot-only.ts",
+      "size": 114,
+      "sha256": "b9e5ffd4ccc2889dd58729c34b11fbb41a19b4ec151ecb25ef05161f0fe9543a"
+    },
+    {
+      "path": "code/mobile_application/scripts/build_android_debug_safe.sh",
+      "size": 7308,
+      "sha256": "ab6f7330c754af5e6e3bf12adbe67ce2131d4ed6ef536f4d4381bd05b3a35983"
+    },
+    {
+      "path": "code/mobile_application/scripts/build_android_screenshot_only.sh",
+      "size": 7808,
+      "sha256": "16f14dce159a126e194f0c5250d3412200b7614374cbc525da79c58baf3986f8"
+    },
+    {
+      "path": "code/mobile_application/scripts/check_version_alignment.js",
+      "size": 3470,
+      "sha256": "3bae66a89f2d8456010bddeaac70cc35c177c19030dfc48f0f81a04be4a8ea1e"
+    },
+    {
+      "path": "code/mobile_application/scripts/firebaseConfig.compile-only.ts",
+      "size": 490,
+      "sha256": "abbc9807cffa0249386982d9ad8e8e977f7ef04876465caa3187777ed488b3a1"
+    },
+    {
+      "path": "code/mobile_application/scripts/google-services.compile-only.json",
+      "size": 564,
+      "sha256": "9409d75d4da3568a150ffd2fa78ac74b79eed4121dadfca10475dd1c5deb5897"
+    },
+    {
+      "path": "code/mobile_application/scripts/google-services.screenshot-only.json",
+      "size": 584,
+      "sha256": "2acb239ce1551f68f23849f53d35ebe55c49bb1673d3b2af6860b376fdad40f1"
+    },
+    {
+      "path": "code/mobile_application/scripts/gradle.compile-only.properties",
+      "size": 201,
+      "sha256": "d92f644a95a8e4fff139a630e38aa1fe483872edc8cf2d3429c67e5cc7f7d70a"
+    },
+    {
+      "path": "code/mobile_application/scripts/gradle.screenshot-only.properties",
+      "size": 178,
+      "sha256": "74a7bc9bbeade98ef048472704e18078b774c144dbe8a13b6e83c37f6d799e61"
+    },
+    {
+      "path": "code/mobile_application/scripts/sanitize_compile_only_copy.js",
+      "size": 2237,
+      "sha256": "af5072d4186900982d8c8cdf7d5729e60ea8982da2478a3225c5732b303f949f"
+    },
+    {
+      "path": "code/mobile_application/services/appMetadata.ts",
+      "size": 606,
+      "sha256": "625f09dc655dddfeab01539ed41fbcf7d42a740b4784bc3bcdf699bd127c6b95"
+    },
+    {
+      "path": "code/mobile_application/services/buildMode.ts",
+      "size": 115,
+      "sha256": "b0d5bd729a9b3b711040e2a797fbc44518df981277c6dd566b70d997df63639c"
+    },
+    {
+      "path": "code/mobile_application/services/currentSosStore.ts",
+      "size": 2760,
+      "sha256": "5602c81387b4740ea0ccb27656e13f89a6b92acbaaef0df8ed27b84cfbf4c4cc"
+    },
+    {
+      "path": "code/mobile_application/services/db/LocationRepository.ts",
+      "size": 1357,
+      "sha256": "be78a6f1fd5bd387c89bb974a56b350d730e3c9e5f0a55a0b284829536d5551f"
+    },
+    {
+      "path": "code/mobile_application/services/db/database.ts",
+      "size": 747,
+      "sha256": "62c823c1b13d4e208864a817eee7d0cb83e80854ffbde17ca9191d4acff17ffc"
+    },
+    {
+      "path": "code/mobile_application/services/db/firebaseConfig.example.ts",
+      "size": 574,
+      "sha256": "9e23fa611931937733d1a82c20bc6b6f8db45a3f0ac5da7ff92aa4d04d5372aa"
+    },
+    {
+      "path": "code/mobile_application/services/db/firebaseRealtimeDatabase.ts",
+      "size": 3519,
+      "sha256": "10565893f408c2a48820785f518f1d2d26f3f37848785287f37b6f1fee866229"
+    },
+    {
+      "path": "code/mobile_application/services/db/initDb.ts",
+      "size": 6908,
+      "sha256": "844d2b0e940594256ae7773a01a12c80f29225e26d6ba3e8a673b3e75564a41b"
+    },
+    {
+      "path": "code/mobile_application/services/db/locationService.ts",
+      "size": 1016,
+      "sha256": "db7f9b7644bf947c55c9b1403cfb25cfe5625e723d3e5e649da93b213c78306c"
+    },
+    {
+      "path": "code/mobile_application/services/eventBookingRecord.ts",
+      "size": 6480,
+      "sha256": "f608c1a7069c7b95cea97544eee677b03cb8f8a7261fc7a795586e1d6bc22df1"
+    },
+    {
+      "path": "code/mobile_application/services/freshUavPosition.ts",
+      "size": 3490,
+      "sha256": "a3c37bfc99a0df62cbefeb5120acb5181cd796b2f397592addadfcaaf7eef3db"
+    },
+    {
+      "path": "code/mobile_application/services/positionTimestamp.ts",
+      "size": 514,
+      "sha256": "285b7212dad402086fe3ddde7f0052741f7ce488478ce2292e8deb8081cda0b5"
+    },
+    {
+      "path": "code/mobile_application/services/quickStartMetrics.ts",
+      "size": 1527,
+      "sha256": "7429f5bc2096692024c670c5b498d524a125a68a3d873ec68140c29b26ba6ae5"
+    },
+    {
+      "path": "code/mobile_application/services/quickStartSample.ts",
+      "size": 1008,
+      "sha256": "58712bd08ff16269cf7e8c0f3bab8a863cb56aca8f531f18864736842ffce73f"
+    },
+    {
+      "path": "code/mobile_application/services/quickStartSessionId.ts",
+      "size": 757,
+      "sha256": "ffc00070c2a9f4b1f9a703e3a524a3eaa7c78c447a7f62217dfacffbcfc5195b"
+    },
+    {
+      "path": "code/mobile_application/services/rescueRecordHash.ts",
+      "size": 6978,
+      "sha256": "03b743f97ed2e1e55ca4843a925e24e4151daaa6de4ef6fbf4ab676aa944d2f5"
+    },
+    {
+      "path": "code/mobile_application/services/uavArrivalCaptureClient.ts",
+      "size": 12358,
+      "sha256": "ae21f695fb3861f4d6392bb5114974cd1544208b0ec70dd72d7cb62efa13ec4d"
+    },
+    {
+      "path": "code/mobile_application/services/uavCaptureIdentity.ts",
+      "size": 549,
+      "sha256": "811e83c1de3301ab8ca056bb300f1343cd3d0a9126dff7e721d0d011b4a0c703"
+    },
+    {
+      "path": "code/mobile_application/services/uavCaptureV2.ts",
+      "size": 8263,
+      "sha256": "91eeb86466ce287307f49c7d9ad58b60ccd825102bb7c16abcd168ecee8abd5d"
+    },
+    {
+      "path": "code/mobile_application/services/uavRescueClient.ts",
+      "size": 19232,
+      "sha256": "40c7c13e52dbf00a3f6dedbaaf9aec85a1ee671a88fc0d605bbef653249816e9"
+    },
+    {
+      "path": "code/mobile_application/services/uavWifiClient.ts",
+      "size": 3157,
+      "sha256": "a462ebd9843a0fb06a301ad7023c0a5875d95b0f90c31df729adf79f89ad51bc"
+    },
+    {
+      "path": "code/mobile_application/testSupport/uavCaptureFixtures.ts",
+      "size": 1714,
+      "sha256": "dcda743f8c30bd848f4d2d47fc40a2d9ef0782a82ef387704cd8b7e22971926d"
+    },
+    {
+      "path": "code/mobile_application/translations/en/translations.json",
+      "size": 20590,
+      "sha256": "de991a8d8a22f5c98769ad87cf5cda3faf394943565919336f1c53eece2ccd91"
+    },
+    {
+      "path": "code/mobile_application/translations/i18n.ts",
+      "size": 548,
+      "sha256": "cc4926b511f5360fe6573b2c3b8b0e6ebdf1f164b1f9e16a229da9ecbf68cc42"
+    },
+    {
+      "path": "code/mobile_application/translations/zh/translations.json",
+      "size": 19864,
+      "sha256": "c98b0862ef5599d6c770c729ec644f9f8e73f4a0d500687b2b6bf2482898c8ce"
+    },
+    {
+      "path": "code/mobile_application/tsconfig.json",
+      "size": 175,
+      "sha256": "457b5f652cbabfc981fb5305ff8e04e5ab3c00ca37cf6ef0e5701dcc43f94098"
     },
     {
       "path": "code/run_all_local_verification.sh",
-      "size": 2554,
-      "sha256": "e77e7061b9ecdc7a05b349842636e6e0576da1129d32bf41674de08872b29582"
+      "size": 2459,
+      "sha256": "01fc39b60f63a169a4d86c660adf2b08d8a00085e736e575b94174be25bcabb5"
     },
     {
       "path": "code/run_cpp_core_verification.sh",
-      "size": 1169,
-      "sha256": "bdde91acf283f6b05e465ff26ca48c0ddb8852b5080583f9a1287ef52ec2a3ec"
+      "size": 1138,
+      "sha256": "054053f9661a118451ea0757ce01be7a9dc75723845395f5c4136cd83ce2de51"
+    },
+    {
+      "path": "code/search_uav/.gitignore",
+      "size": 510,
+      "sha256": "81e106e0527ca2789b5836f3ccfc766966bb6080607501d2112a5c972c0b68c0"
+    },
+    {
+      "path": "code/search_uav/LICENSE",
+      "size": 1464,
+      "sha256": "c0456bffca4c3185cd307005061217363d83906a1140a6f24b7fe76473c70a47"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/CMakeLists.txt",
+      "size": 1373,
+      "sha256": "ad908e0d5fdae547735669385687d57de707decbf3eb0e8f14cfbc67c510f587"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/config/mosquitto.acl.example",
+      "size": 571,
+      "sha256": "281e6159df51ef126c998a7fb3e5eaca8e5254192348433caeb8bc52d3487f62"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/config/mosquitto.conf",
+      "size": 45,
+      "sha256": "36b1da7b2a84be5c7d737306a8306b1e6f3d6bbcad96cccf448aed31774c7b5c"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/config/mosquitto.lan-auth.example.conf",
+      "size": 214,
+      "sha256": "98cc94e0dc9b112b5dd9e032da09b4f78f27fb5a312e8985e22db95e86a695ce"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/include/rescue_bridge/target_lifecycle.hpp",
+      "size": 3810,
+      "sha256": "6dae2e1bc0e39e34d18d75c4580bdbe87c7cc38fd94d2ad22cb61ea59f2e12e6"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/launch/rescue_bridge.launch",
+      "size": 789,
+      "sha256": "960efb2bfdb9166b8aef480d48ab1238b610dfbbdabef7e8f60dd9828e34e75d"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/launch/rescue_bridge_lion_rock.launch",
+      "size": 1510,
+      "sha256": "04fc3b1c1fd4ca7977505974c861c7bff03fd12443a8b1396fd6841962afd997"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/launch/rescue_bridge_sim.launch",
+      "size": 1503,
+      "sha256": "6debe5050eb8566b202e887b0ddbf103b0ae2962dbdb5bd45fa6977ca5f6d59f"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/msg/ExecutionControl.msg",
+      "size": 81,
+      "sha256": "cc0379784de469fb9209051de6d0539e48488762a0a72eaf5f48e55f8152a0aa"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/msg/WaypointCommand.msg",
+      "size": 165,
+      "sha256": "c41bfb45d6ad7985f95b91cd7da74923786190f5743976165b52bfd610ff669a"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/msg/WaypointFeedback.msg",
+      "size": 193,
+      "sha256": "ba14438cc0462ec8ad0e48024b7b70196ee0ee9bb1e7418bfbdf48c9861144e3"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/package.xml",
+      "size": 739,
+      "sha256": "da2c082c6d7fcc4ce55c6f570b9d62db43a38cb42f515d5d575f65e9f2ca301d"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/collection_context.py",
+      "size": 986,
+      "sha256": "3e1c4d535bf5832b1d554b9bfd4d911ec9739f3cdcf362fc4634293b336ed7e4"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/execution_protocol.py",
+      "size": 2475,
+      "sha256": "16f3dba6c9ae31d289a53f814287a511af9d267f41579180e19399f7bc6c99e9"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/execution_state.py",
+      "size": 14952,
+      "sha256": "d80d502750e4a0456cbf8a2c3ee17b1d0c5ef89ec25c8ef58a4552063abde3e8"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/mission_commander.cpp",
+      "size": 12701,
+      "sha256": "a842b7b316c6e121ab85cb3dc348ac1ef1c8ae66fb9a7bf4b027ae17f032c90b"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/mission_protocol.py",
+      "size": 6767,
+      "sha256": "12ad5225d4552f1c02c3f03f4d254403cbef33ec5a3285e6c17646bf536ec13f"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/mqtt_bridge.py",
+      "size": 20997,
+      "sha256": "ff37be563741736786392af993bf5e8ff0b4138b753388b0f7ff09135575105d"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/sim_fake_gps.py",
+      "size": 1938,
+      "sha256": "54b8a02d62ecc522b857073b45ed47dd017f4459a603e018b366ecaa979b023b"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/sim_gps_adapter.py",
+      "size": 8453,
+      "sha256": "0d4aa024bc5eb685b503076a76a3c0a1791b30582fe8db0e569a97556d4e40eb"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/target_lifecycle.py",
+      "size": 3086,
+      "sha256": "5b8ea17ecdf6f0b910ebda9283f5221c79eaaa7c5cac86b26d80b80da3bcea50"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/terrain_publisher.py",
+      "size": 2651,
+      "sha256": "378a14c423a9ca4b6bfa39ac1de6df263a926302301a8981ed83f5b8b0bb483a"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/test_collection_context.py",
+      "size": 4427,
+      "sha256": "27b1954a5526405fc38e29c594255aadf0b18bf26c79193add416b85e13e87a2"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/test_execution_state.py",
+      "size": 7930,
+      "sha256": "5cf6a15e99d446cf5ef888619461ff7cf29aad940200e4ee4634b131c867dffb"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/test_mission_protocol.py",
+      "size": 3243,
+      "sha256": "6e7536ccf15d342d8fdca09ee0d239599c452d42c3b3cc655ea649216c41aae7"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/test_mqtt_bridge_core.py",
+      "size": 10824,
+      "sha256": "6bd3e74154918c757867ffb6c2fb5046d3502bf22065b5e6f373343e84a7a419"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/src/test_target_adapter.py",
+      "size": 5366,
+      "sha256": "363e721aa1c7f38802e295efaa4d252fb1ff4614d05881478b0d170368e53191"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/terrain_data/build_terrain.py",
+      "size": 6074,
+      "sha256": "58fd57ce3a9744175292275ced4510cfea30d6a17fe0ebce00dcebc4f823d7ed"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/terrain_data/download_terrain.py",
+      "size": 7786,
+      "sha256": "e656489099fec335e8c83de12c8d7fb0620c95465fd6355e11e3fefe0579fab0"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/test/task_v2_fingerprints.json",
+      "size": 6278,
+      "sha256": "5acb923ec9b7eee2beabdcfbd96aa6f3adcf52be1a437fec0971ff76c69f9f5b"
+    },
+    {
+      "path": "code/search_uav/catkin_ws/src/rescue_bridge/test/test_target_lifecycle.cpp",
+      "size": 2099,
+      "sha256": "d6725928e15eb52554c2d37f47e5cc343ba84da582bf7865781c1dbe886e419f"
+    },
+    {
+      "path": "code/search_uav/drone_system/bin/emergency_stop.sh",
+      "size": 550,
+      "sha256": "b248bdceb3d8cae1c22c0648dd595716fd004b349bf37f055ca296dea5f89e81"
+    },
+    {
+      "path": "code/search_uav/drone_system/bin/land.sh",
+      "size": 353,
+      "sha256": "b3203601e78ee037fbb6b413194e83b0dc9ea812cc44bc1cb918c5f84e4e5ebb"
+    },
+    {
+      "path": "code/search_uav/drone_system/bin/start_rescue_receiver.sh",
+      "size": 1188,
+      "sha256": "3f8187085d36f30c6ce0897e60bbee7b69eb5e19e5544d56486af58c17e8140c"
+    },
+    {
+      "path": "code/search_uav/drone_system/bin/start_sim.sh",
+      "size": 1876,
+      "sha256": "acdf3bda9e79ce0f245762c615c532af4d8632c4b8b1495b9a204a849877cc9c"
+    },
+    {
+      "path": "code/search_uav/drone_system/bin/start_stack.sh",
+      "size": 1710,
+      "sha256": "0636988082a153c4b5cf05c3f51d8664ea7014ff780f0d74ce15b8eb5a5d66df"
+    },
+    {
+      "path": "code/search_uav/drone_system/bin/status.sh",
+      "size": 1264,
+      "sha256": "f8763370bb8bcd350f6c5462905be5652341277c8c0b4c619fcb83c2563a0490"
+    },
+    {
+      "path": "code/search_uav/drone_system/bin/stop_stack.sh",
+      "size": 1433,
+      "sha256": "bd1ccf93b90f55d81da677143c192b7707e350dd41c949298b68f6240812378f"
+    },
+    {
+      "path": "code/search_uav/drone_system/bin/takeoff.sh",
+      "size": 362,
+      "sha256": "62a3e3a483a3d34e63109d3ce7417d23cef87e97a6693abdff3685ba067de495"
+    },
+    {
+      "path": "code/search_uav/drone_system/config/log_paths.yaml",
+      "size": 225,
+      "sha256": "b9b7c9f55ef1f9a4e5b73cca10b20466cb5b08f1287333858efa48da6f6854f1"
+    },
+    {
+      "path": "code/search_uav/drone_system/config/mission_settings.yaml",
+      "size": 524,
+      "sha256": "4f25bc473a6de2a476884770b467d935f9aa51e58133b49efb74a45f7a8e5b98"
+    },
+    {
+      "path": "code/search_uav/drone_system/config/rescue_receiver.env.example",
+      "size": 278,
+      "sha256": "ed940717bbaa03aa8038a6194cd6e6183a16851b6abbdaaa4001bd65f364cce1"
+    },
+    {
+      "path": "code/search_uav/drone_system/demo/generate_uav_demo.py",
+      "size": 14445,
+      "sha256": "f11c7d131f815e1d715209f51313d3b6a9d12b8209fd6245b9375a54736c595f"
+    },
+    {
+      "path": "code/search_uav/drone_system/demo/test_generate_uav_demo.py",
+      "size": 1509,
+      "sha256": "da8f35667c61e672fc4850991094030aac6e7afe9aef63f0c62017dfe9a5ea8a"
+    },
+    {
+      "path": "code/search_uav/drone_system/launcher/cam_recorder.py",
+      "size": 5866,
+      "sha256": "755414d1cfa6eb0cae1a50df541e9d1ffcdb3e78e0e261cdb15c735bcfd8e041"
+    },
+    {
+      "path": "code/search_uav/drone_system/launcher/drone_console.desktop",
+      "size": 307,
+      "sha256": "edfa98a30e77af66360ee625e8fdca73ced2cb30d0228643dc1b9da471ffa63c"
+    },
+    {
+      "path": "code/search_uav/drone_system/launcher/drone_console.py",
+      "size": 40959,
+      "sha256": "36887d6f6a634d0a612b9f0f39dffc607bc8aba270d8a47ddea0ae874987c3fe"
+    },
+    {
+      "path": "code/search_uav/drone_system/launcher/icon.png",
+      "size": 3470,
+      "sha256": "0eb8b0bf66a0a514cb22d05388a4b36c09e589d0ecd7f158164d7d93fe557d29"
+    },
+    {
+      "path": "code/search_uav/drone_system/launcher/recording_state.py",
+      "size": 5367,
+      "sha256": "badb9d4b0fee9ceb3b38f2d45b0b1e769df1993147569feacc0a3fdd7487f0bc"
+    },
+    {
+      "path": "code/search_uav/drone_system/launcher/test_cam_recorder_faults.py",
+      "size": 4269,
+      "sha256": "1dd3aa1e2361acea8dc2856e92ab913348c555aa4510fe58947b4f2c27774065"
+    },
+    {
+      "path": "code/search_uav/drone_system/launcher/test_recording_session.py",
+      "size": 3447,
+      "sha256": "714d54dc6c132dc68e448b2371ac713e28365b84fbea5918aed8c89ab1749a1f"
+    },
+    {
+      "path": "code/search_uav/drone_system/launcher/test_recording_state.py",
+      "size": 1956,
+      "sha256": "a5613bc7aad3c67d687872cf5f640e210ede7dbc8cf0666b78255bc2dad51e07"
+    },
+    {
+      "path": "code/search_uav/drone_system/receiver/__init__.py",
+      "size": 1,
+      "sha256": "01ba4719c80b6fe911b091a7c05124b64eeece964e09c058ef8f9805daca546b"
+    },
+    {
+      "path": "code/search_uav/drone_system/receiver/capture_record_v2.py",
+      "size": 10749,
+      "sha256": "662e54c32ff428848c6d60f10d0a75d6eaff326b13ed0ee3c97864b820be0899"
+    },
+    {
+      "path": "code/search_uav/drone_system/receiver/capture_store_v2.py",
+      "size": 19668,
+      "sha256": "785465655b7ba95cf33d42d0ae61a69f981452b0ab8d26cd94b3092b385ce8d9"
+    },
+    {
+      "path": "code/search_uav/drone_system/receiver/phone_sos_receiver.py",
+      "size": 49337,
+      "sha256": "84bf234d09964e13573655ddec022b44d5374ae35ba65f51fd3a52144aa9f8b8"
+    },
+    {
+      "path": "code/search_uav/drone_system/receiver/test_capture_v2.py",
+      "size": 12533,
+      "sha256": "30b8c2eb9307ed614e4e8482653ce9c3c0c8af2a67967f4131328981c8a9e674"
+    },
+    {
+      "path": "code/search_uav/drone_system/receiver/test_delivery_recovery.py",
+      "size": 9621,
+      "sha256": "dfc72f0bfda8b0a530bb33c2873ae1860ecf3724fd340c16f856937b243cbdf6"
+    },
+    {
+      "path": "code/search_uav/drone_system/receiver/test_phone_sos_receiver.py",
+      "size": 14677,
+      "sha256": "f7a05e5750dde1191d18e707c6f28b588e2213bb47400eeb43b6e620225d1501"
     },
     {
       "path": "code/source_revision.json",
@@ -1338,18 +1338,18 @@
     },
     {
       "path": "docs/Technical_Guide.docx",
-      "size": 46024,
-      "sha256": "7bf812bcf5b7a4e1cad3e7a91d9d5dcf97dab59163232d06f49e48cc58513f6b"
+      "size": 45996,
+      "sha256": "f673955bacad93d42eaebf65037b2eca84ac1d47811c4eda1afcf7c6e1865024"
     },
     {
       "path": "docs/Technical_Guide.md",
-      "size": 17291,
-      "sha256": "e75e16ccabbee3c6d64ab54f40a9d7b24c26b00e1304fa7713e47eb26380475f"
+      "size": 17168,
+      "sha256": "03cc83ffc200db651f394c4b0957cf43d8d9dbc1285a0b55ed2d922822522139"
     },
     {
       "path": "docs/Technical_Guide.pdf",
-      "size": 270378,
-      "sha256": "625ad99ce38a5365e7f0c476e9f87823f851d99214b413f41164e907c4540dfa"
+      "size": 269042,
+      "sha256": "419f947fafa932a89d750e0ee4f940419c66128c8ccaa8a2f4fa505321d5a5a2"
     },
     {
       "path": "experiments/outdoor/airframe.jpg",
@@ -1468,8 +1468,8 @@
     },
     {
       "path": "records/package_checks.json",
-      "size": 454,
-      "sha256": "0171848813e0dbcf709a107ecc34553aeebde29a8bc7f1b0182bfce971843c39"
+      "size": 616,
+      "sha256": "67a8b89278fe06b96991edfe5b1555f695a9ed40025bf9384868ca09f79e6268"
     },
     {
       "path": "records/simulation.log",
@@ -1479,17 +1479,17 @@
     {
       "path": "records/software.log",
       "size": 77695,
-      "sha256": "44804956acf431ddf38fcf7ffbb2534296f8879710c06e4431b572f1058b2039"
+      "sha256": "b7ff08303fbed2649ad64159040f8cbf928c1a91d8610621de15d90cb5b00e1e"
     },
     {
       "path": "records/source_provenance.json",
-      "size": 131081,
-      "sha256": "edb8f962316f4ffd1641a49f32e944e092a788478e296bafb5f88b702d200090"
+      "size": 123963,
+      "sha256": "f2f3ed851730e10e5a4529d0b6157ebd9f74935aa0281c3f9bc9f824ba768a6d"
     },
     {
       "path": "records/verification_summary.json",
       "size": 391,
-      "sha256": "943181cdc2022e7b385f54deaabe917eef6abad96f674ae0b8ca72351d92f3df"
+      "sha256": "921fb9f664745a49dedcdf246dbc3b2f7219571120f1f7e780965f91907649c6"
     },
     {
       "path": "requirements-verification.txt",
@@ -1503,8 +1503,8 @@
     },
     {
       "path": "scripts/prepare_local.py",
-      "size": 352,
-      "sha256": "2be73ab765409f5c1ef48a0b0851aad79d5c1cc900dc469458d96847dca92c74"
+      "size": 324,
+      "sha256": "bb18f90ec95e106564eb9795791f19ce9eaf842f85cb5951ff23854eddaa4b3f"
     },
     {
       "path": "scripts/verify.py",

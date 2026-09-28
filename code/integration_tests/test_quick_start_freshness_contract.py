@@ -11,7 +11,7 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-GS = ROOT / 'FYP_alin1_SmartUAVRescueSystem_Ground_Station-main'
+GS = ROOT / 'ground_station'
 sys.path.insert(0, str(GS))
 sys.path.insert(0, str(ROOT))
 import rescue_event_manager as manager

@@ -10,11 +10,11 @@ from pathlib import Path
 CODE_ROOT = Path(__file__).resolve().parents[1]
 DRONE_RECEIVER = (
     CODE_ROOT
-    / "FYP_alin1_SmartUAVRescueSystem_Drone-main"
+    / "search_uav"
     / "drone_system"
     / "receiver"
 )
-GROUND_STATION = CODE_ROOT / "FYP_alin1_SmartUAVRescueSystem_Ground_Station-main"
+GROUND_STATION = CODE_ROOT / "ground_station"
 sys.path.insert(0, str(DRONE_RECEIVER))
 sys.path.insert(0, str(GROUND_STATION))
 

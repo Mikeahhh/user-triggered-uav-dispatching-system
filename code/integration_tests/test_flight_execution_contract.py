@@ -7,8 +7,8 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-GS = ROOT / 'FYP_alin1_SmartUAVRescueSystem_Ground_Station-main'
-BRIDGE = ROOT / 'FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src'
+GS = ROOT / 'ground_station'
+BRIDGE = ROOT / 'search_uav/catkin_ws/src/rescue_bridge/src'
 sys.path[:0] = [str(GS), str(BRIDGE)]
 import ground_station as gs
 from mission_execution_protocol import normalized_task, task_fingerprint

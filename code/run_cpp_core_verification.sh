@@ -2,7 +2,7 @@
 
 set -eu
 MASS26_CODE_DIR=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-MASS26_CPP_BRIDGE="$MASS26_CODE_DIR/FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge"
+MASS26_CPP_BRIDGE="$MASS26_CODE_DIR/search_uav/catkin_ws/src/rescue_bridge"
 MASS26_CXX=${CXX:-c++}
 set --
 if [ "$(uname -s)" = Darwin ] && [ -z "${CXX:-}" ] && [ -x /Library/Developer/CommandLineTools/usr/bin/clang++ ]; then

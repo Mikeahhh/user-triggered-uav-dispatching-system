@@ -11,9 +11,9 @@ import unittest
 from unittest.mock import patch
 
 ROOT = Path(__file__).resolve().parents[1]
-GS = ROOT / 'FYP_alin1_SmartUAVRescueSystem_Ground_Station-main'
-BRIDGE = ROOT / 'FYP_alin1_SmartUAVRescueSystem_Drone-main/catkin_ws/src/rescue_bridge/src'
-RECEIVER = ROOT / 'FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver'
+GS = ROOT / 'ground_station'
+BRIDGE = ROOT / 'search_uav/catkin_ws/src/rescue_bridge/src'
+RECEIVER = ROOT / 'search_uav/drone_system/receiver'
 sys.path[:0] = [str(GS), str(BRIDGE), str(RECEIVER)]
 import ground_station as gs
 from dispatch_journal import DispatchJournal

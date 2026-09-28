@@ -8,9 +8,9 @@ from pathlib import Path
 
 
 CODE_ROOT = Path(__file__).resolve().parents[1]
-MOBILE = CODE_ROOT / "FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main"
-GROUND = CODE_ROOT / "FYP_alin1_SmartUAVRescueSystem_Ground_Station-main"
-DRONE = CODE_ROOT / "FYP_alin1_SmartUAVRescueSystem_Drone-main"
+MOBILE = CODE_ROOT / "mobile_application"
+GROUND = CODE_ROOT / "ground_station"
+DRONE = CODE_ROOT / "search_uav"
 RELEASE_ID = "MASS26-20260806"
 
 

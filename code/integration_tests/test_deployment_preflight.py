@@ -90,7 +90,7 @@ class DeploymentPreflightTests(unittest.TestCase):
 
     def test_real_ground_config_and_preflight_agree_without_sdk_initialization(self):
         sys.path.insert(0, str(Path(__file__).resolve().parents[1] /
-                             'FYP_alin1_SmartUAVRescueSystem_Ground_Station-main'))
+                             'ground_station'))
         from firebase_runtime_config import load_firebase_runtime_config
         for origin in [TARGET, TARGET + '/', TARGET + ':443/',
                        'https://audit-example-default-rtdb.asia-southeast1.firebasedatabase.app']:

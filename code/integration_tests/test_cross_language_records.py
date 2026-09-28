@@ -8,7 +8,7 @@ import sys
 import unittest
 
 ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / 'FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver'))
+sys.path.insert(0, str(ROOT / 'search_uav/drone_system/receiver'))
 from phone_sos_receiver import canonical_json, validate_payload
 
 

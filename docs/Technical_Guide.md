@@ -24,9 +24,9 @@ This archive contains the mobile application, ground station and UAV source code
 M, G and U refer to the mobile, ground-station and UAV directories, respectively:
 
 ```
-code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main
-code/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main
-code/FYP_alin1_SmartUAVRescueSystem_Drone-main
+code/mobile_application
+code/ground_station
+code/search_uav
 ```
 
 ### Current behavior
@@ -51,7 +51,7 @@ python scripts/prepare_local.py
 ### Install mobile dependencies
 
 ```
-cd code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main
+cd code/mobile_application
 npm ci
 cd ../..
 ```

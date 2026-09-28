@@ -23,7 +23,7 @@ python3 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements-verification.txt
 python scripts/prepare_local.py
-cd code/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main
+cd code/mobile_application
 npm ci
 cd ../..
 python scripts/verify.py --output local-results/verification

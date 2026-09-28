@@ -121,7 +121,7 @@ def main() -> int:
     parser.add_argument('--mobile-options', type=Path,
                         help='JSON object containing only projectId and databaseURL; no credentials')
     parser.add_argument('--mobile-source', type=Path, default=Path(__file__).parent /
-                        'FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main/services/db/firebaseConfig.ts')
+                        'mobile_application/services/db/firebaseConfig.ts')
     args = parser.parse_args()
     try:
         if args.mobile_options:

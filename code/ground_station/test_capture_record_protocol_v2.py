@@ -20,7 +20,7 @@ def envelope():
 
 class CaptureProtocolV2Tests(unittest.TestCase):
     def test_wire_copies_and_all_golden_cases_match(self):
-        peer=Path(__file__).resolve().parents[1]/'FYP_alin1_SmartUAVRescueSystem_Drone-main/drone_system/receiver/capture_record_v2.py'
+        peer=Path(__file__).resolve().parents[1]/'search_uav/drone_system/receiver/capture_record_v2.py'
         self.assertEqual(Path(wire.__file__).read_bytes(),peer.read_bytes())
         for case in json.loads(FIXTURES.read_text())['cases']:
             result=wire.validate_payload(case['payload'])

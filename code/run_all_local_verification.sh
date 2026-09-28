@@ -3,9 +3,9 @@
 set -eu
 
 MASS26_CODE_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-MASS26_MOBILE="$MASS26_CODE_ROOT/FYP_alin1_SmartUAVRescueSystem_Mobile_APP-main"
-MASS26_GROUND="$MASS26_CODE_ROOT/FYP_alin1_SmartUAVRescueSystem_Ground_Station-main"
-MASS26_DRONE="$MASS26_CODE_ROOT/FYP_alin1_SmartUAVRescueSystem_Drone-main"
+MASS26_MOBILE="$MASS26_CODE_ROOT/mobile_application"
+MASS26_GROUND="$MASS26_CODE_ROOT/ground_station"
+MASS26_DRONE="$MASS26_CODE_ROOT/search_uav"
 MASS26_BRIDGE="$MASS26_DRONE/catkin_ws/src/rescue_bridge/src"
 MASS26_GROUND_PYTHON=${MASS26_GROUND_PYTHON:-python3}
 MASS26_PYTHON=${MASS26_PYTHON:-python3}
