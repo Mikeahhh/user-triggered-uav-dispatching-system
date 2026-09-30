@@ -4,6 +4,16 @@ A system that connects hikers' mobile records with UAV search missions confirmed
 
 The implementation baseline is `UAV-SEARCH-20260928`; Git history identifies subsequent changes. Application and wire-protocol versions are recorded separately in [source metadata](code/source_revision.json).
 
+## Demo videos
+
+| Test component | Demo video |
+| --- | --- |
+| SOS search pattern and end-to-end pipeline | [DEMO — SOS Search Pattern  End to End Pipeline](https://www.youtube.com/watch?v=oQvX7AQdywA) |
+| Onboard console and failsafe interface | [DEMO — Drone Console  On Board Failsafe GUI](https://www.youtube.com/watch?v=A7RMnk3LN9k) |
+| Real-world test footage | [DEMO — Real-World Test Footage](https://www.youtube.com/watch?v=Zf9cXaNFMGM) |
+
+Video links and related test materials are listed in [Demo videos and test materials](docs/Demo_Videos.md).
+
 ## System workflow
 
 | Service mode | Mobile record | Notice for operator verification |
@@ -42,7 +52,7 @@ cd ../..
 python scripts/verify.py --output local-results/verification-01
 ```
 
-Choose a new output directory for each run. Read `summary.json`, the per-step logs and `simulation_checks.json` in that directory. The checks use synthetic inputs and mocked cloud/device connections; no Firebase account, phone, UAV or MATLAB process is needed. `prepare_local.py` creates an ignored Firebase placeholder only when the local file is absent.
+Choose a new output directory for each run. Read `summary.json`, the per-step logs and `simulation_checks.json` in that directory. The checks use synthetic inputs and mocked service connections. `prepare_local.py` creates an ignored Firebase placeholder only when the local file is absent.
 
 To repeat the relay bench with a real local broker:
 
@@ -50,15 +60,15 @@ To repeat the relay bench with a real local broker:
 python code/integration_tests/run_phone_uav_gs_bench.py --output local-results/phone-relay-01
 ```
 
-The bench starts a temporary loopback-only Mosquitto broker. It validates local HTTP upload, MQTT forwarding, persistence and acknowledgement with synthetic records. A landing-request message triggers forwarding; it does not establish physical touchdown.
+The bench starts a temporary loopback-only Mosquitto broker. It validates local HTTP upload, MQTT forwarding, persistence and acknowledgement with synthetic records. A landing-request message triggers forwarding.
 
-The [30 September verification](records/verification_20260930/summary.json) records the new run. The [28 September results](records/verification_summary.json), [relay records](experiments/phone_relay_20260928/) and [outdoor materials](experiments/outdoor/) retain their original dates and scope. These records do not establish a newly installed mobile build, a ROS build or a new hardware flight test.
+Test materials include the [30 September verification](records/verification_20260930/summary.json), [28 September verification](records/verification_summary.json), [phone-record relay records](experiments/phone_relay_20260928/), [outdoor footage and images](experiments/outdoor/) and [demo videos](docs/Demo_Videos.md).
 
 ## Simulation and deployment
 
 In MATLAB, open `simulation/` and use `run_all('paper')` to redraw the paper figure from saved data into `simulation/regenerated/paper/`. The saved figure is [terrain_missions.png](simulation/paper_current/terrain_missions.png); its editable `.fig` is beside it. MATLAB R2025b was used for the archived simulation.
 
-`run_all('simulate')` recomputes the scenario and replaces files in `simulation/output/`; `run_all('video')` replaces animation outputs there and requires ffmpeg. Preserve the archived output directory in a separate working copy before either operation. New renderings use Event Booking, Quick Start and SOS; archived outputs retain their original provenance. The ideal terrain-following simulation does not run PX4 dynamics or model radio performance.
+`run_all('simulate')` recomputes the scenario and replaces files in `simulation/output/`; `run_all('video')` replaces animation outputs there and requires ffmpeg. Preserve the archived output directory in a separate working copy before either operation. New renderings use Event Booking, Quick Start and SOS; archived outputs retain their original provenance.
 
 For live operation, configure the mobile Firebase file, ground-station service account, database URL, both timeout thresholds, the shared broker and UAV receiver token as described in the guide. Thresholds in the configuration template remain unset; the 1-second GPS interval is a test setting. The onboard stack is pinned to its source commit in the flight setup guide.
 

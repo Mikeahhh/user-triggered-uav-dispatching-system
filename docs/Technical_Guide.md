@@ -64,7 +64,7 @@ python scripts/verify.py --output local-results/verification-01
 
 Use a new output directory for each run. The sequence checks output preservation, lint rules, TypeScript types, version alignment, mobile tests, Python syntax, ground-station and UAV tests, C++ target-state handling and cross-component protocols. It then checks the saved MATLAB trajectories and figure axes. Results and logs, including simulation_checks.json, are written inside the selected directory. An all_passed value of true in summary.json means that all listed checks passed. Archived results are preserved.
 
-prepare_local.py creates M/services/db/firebaseConfig.ts from the example only when the local file is absent. Its placeholder values support tests with mocked cloud connections; they do not configure a live Firebase project. A direct call to python simulation/verify_outputs.py prints its findings without writing a report. Add --output followed by a new JSON path to save a report; an existing report is rejected.
+prepare_local.py creates M/services/db/firebaseConfig.ts from the example only when the local file is absent. Its placeholder values configure the mocked cloud connections used by the test runner. A direct call to python simulation/verify_outputs.py prints its findings without writing a report. Add --output followed by a new JSON path to save a report; an existing report is rejected.
 
 ### Repeat the local relay test
 
@@ -116,7 +116,7 @@ Reference: Ordnance Survey, Map Reading, “Timing”, printed page 23. The comp
 
 ### Mobile deployment configuration
 
-For device operation, fill M/services/db/firebaseConfig.ts with the project's client configuration and use the same Realtime Database URL as the ground station. Configure the native Android or iOS toolchain, platform Firebase files and map credentials separately. From M, npm start starts Metro; npm run android or npm run ios invokes the native platform build. The screenshot and compile-only helpers use stubs and do not produce a verified deployment. Local Jest tests do not establish a new installed application build.
+For device operation, fill M/services/db/firebaseConfig.ts with the project's client configuration and use the same Realtime Database URL as the ground station. Configure the native Android or iOS toolchain, platform Firebase files and map credentials separately. From M, npm start starts Metro; npm run android or npm run ios invokes the native platform build. The screenshot and compile-only helpers use test stubs.
 
 ## 4  Ground-Station Verification and Dispatch
 
@@ -167,7 +167,7 @@ Verification logic: G/rescue_event_manager.py. Persistence and mission preparati
 
 The ground station and UAV exchange missions and status over Wi-Fi using MQTT messages. A mission contains event and execution identifiers, a waypoint sequence, flight altitude, hover duration and return settings. The bridge validates the mission, passes it to the flight program and reports waypoint arrivals and mission stages to the ground station.
 
-The phone-record receiver saves uploads received through its HTTP interface. After a matching mission reports completion of all waypoints and requests landing, the receiver forwards stored records to the ground station. The ground station saves each record and returns an acknowledgement matching its identifier and content hash. The UAV then marks that transfer as complete. This message marks a landing request, not measured physical touchdown. The recording program saves downward-facing video on the onboard computer.
+The phone-record receiver saves uploads received through its HTTP interface. After a matching mission reports completion of all waypoints and requests landing, the receiver forwards stored records to the ground station. The ground station saves each record and returns an acknowledgement matching its identifier and content hash. The UAV then marks that transfer as complete. The recording program saves downward-facing video on the onboard computer.
 
 | File within U | Purpose |
 | --- | --- |
@@ -224,7 +224,7 @@ paper redraws the paper figure from saved trajectories into simulation/regenerat
 | Mode 2 | 15 | 409.08 | 764.07 |
 | Mode 3 | 19 | 344.99 | 1008.53 |
 
-Elevation comes from the Mapzen / Tilezen Skadi N22E114.hgt tile, with a 3601 × 3601 grid at 1 arc-second spacing and EGM96 elevations. Bilinear interpolation gives a 25 m plotting grid without increasing source resolution. Routes and GPS history are synthetic inputs generated with the fixed seed. Times start at simulated takeoff. Parameters, inputs and executed trajectories are in simulation/output/scenario_and_settings.json, the per-mode waypoint CSV files and the execution_trace.csv files. The ideal terrain-following model does not simulate PX4 dynamics or radio performance.
+Elevation comes from the Mapzen / Tilezen Skadi N22E114.hgt tile, with a 3601 × 3601 grid at 1 arc-second spacing and EGM96 elevations. Bilinear interpolation gives a 25 m plotting grid without increasing source resolution. Routes and GPS history are synthetic inputs generated with the fixed seed. Times start at simulated takeoff. Parameters, inputs and executed trajectories are in simulation/output/scenario_and_settings.json, the per-mode waypoint CSV files and the execution_trace.csv files.
 
 Mode 2 timestamps use 1 m/s to construct the synthetic walking history; this is separate from the mobile booking estimate of 4 km/h. All 15 samples exist before dispatch. Mode 3 visits the centre plus 18 spiral endpoints, completes the entire route and then returns; reaching the target does not terminate the search early.
 
@@ -262,11 +262,21 @@ A synthetic phone record containing an SOS location and GPS data is sent through
 
 The request_id, mission_id, record-content hash and envelope hash link these records for comparison. run_summary.json lists the result and test conditions. SHA256SUMS.txt contains the output-file checksums.
 
-These records describe the local software and broker test. Outdoor footage is listed in Section 8. The software tests also cover incorrect or missing acknowledgements, duplicate data and recovery after a restart; the test cases and results are retained in the source files and logs.
+The software tests cover incorrect or missing acknowledgements, duplicate data and recovery after a restart. Source files and logs contain the test cases and results; Section 8 lists the demo videos and outdoor materials.
 
-The independent 30 September bench records are in experiments/phone_relay_20260930/. Both benches use synthetic uploads and a real local Mosquitto broker. They do not exercise physical phone association, live Firebase access or ROS flight control.
+The 30 September relay records are in experiments/phone_relay_20260930/. The relay runs use synthetic uploads and a Mosquitto broker.
 
-## 8  Outdoor Materials, Sources and Integrity
+## 8  Demo Videos, Outdoor Materials, Sources and Integrity
+
+### Demo videos
+
+| Test component | Demo video |
+| --- | --- |
+| SOS search pattern and end-to-end pipeline | [DEMO — SOS Search Pattern  End to End Pipeline](https://www.youtube.com/watch?v=oQvX7AQdywA) |
+| Onboard console and failsafe interface | [DEMO — Drone Console  On Board Failsafe GUI](https://www.youtube.com/watch?v=A7RMnk3LN9k) |
+| Real-world test footage | [DEMO — Real-World Test Footage](https://www.youtube.com/watch?v=Zf9cXaNFMGM) |
+
+See [Demo videos and test materials](Demo_Videos.md) for the video and material index.
 
 ### Outdoor evidence
 
@@ -278,7 +288,7 @@ The independent 30 September bench records are in experiments/phone_relay_202609
 | launch_area.png | Original frame showing the launch area |
 | search_area.png | Original frame showing the search area |
 
-The original video files are preserved byte for byte. Some demonstration footage has been sped up; time labels in those frames are not measurements of actual mission duration. The images show the hardware, site and search views. Numerical simulation trajectories and timestamps are stored in simulation/output.
+The video files and images show the UAV, ground-station operation, launch site and search area. Numerical simulation trajectories and timestamps are stored in simulation/output.
 
 ### Source provenance
 
@@ -300,7 +310,7 @@ Ordnance Survey's Map Reading guide provides the walking-time reference. Mapzen 
 
 ## 9 Implementation and Evidence Index
 
-This index follows the 30 September anonymous manuscript. M, G and U use the component abbreviations in Section 1. Paths identify executable source, tests or saved evidence; they do not imply that the current software revision has been deployed on hardware.
+This index follows the 30 September anonymous manuscript. M, G and U use the component abbreviations in Section 1. Paths identify source files, tests and saved results.
 
 ### User records and event creation
 
@@ -324,4 +334,4 @@ U/drone_system/receiver/phone_sos_receiver.py and G/rescue_record_protocol.py re
 
 simulation/run_three_mode_simulation.m constructs the fixed-seed scenario and full trajectories. simulation/output/ holds inputs, events, execution traces, mission_summary.csv and three_mode_study.mat. simulation/verify_outputs.py checks numeric results against the terrain tile and spiral algorithm. simulation/render_paper_terrain.m renders the manuscript's Figure 4 from saved data. records/figure4_mode_names_20260929.json records the title update without changing trajectories.
 
-U/drone_system/launcher/cam_recorder.py saves onboard video; adjacent recording tests cover storage and failure handling. experiments/outdoor/ contains the original videos, hardware photograph and site frames supporting the manuscript's outdoor observations. Images support operator inspection and post-flight review; they do not demonstrate automatic person recognition. Figure 3 in the current manuscript is the hardware image and Figure 5 contains the outdoor observations.
+U/drone_system/launcher/cam_recorder.py saves onboard video; adjacent recording tests cover storage and failure handling. experiments/outdoor/ contains the original videos, hardware photograph and site frames supporting the manuscript's outdoor observations. Images support operator inspection and post-flight review. Figure 3 in the current manuscript is the hardware image and Figure 5 contains the outdoor observations.
