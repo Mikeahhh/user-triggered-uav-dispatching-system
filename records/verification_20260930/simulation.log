@@ -1,0 +1,37 @@
+{
+  "all_passed": true,
+  "check_count": 53,
+  "missions": [
+    {
+      "mode": 1,
+      "samples": 2004,
+      "waypoints": 3,
+      "duration_s": 715.650732620596,
+      "ground_elevation_range_m": [
+        4.40470474361532,
+        376.5983005064935
+      ]
+    },
+    {
+      "mode": 2,
+      "samples": 2080,
+      "waypoints": 15,
+      "duration_s": 764.074246152404,
+      "ground_elevation_range_m": [
+        4.40470474361532,
+        346.82157684706885
+      ]
+    },
+    {
+      "mode": 3,
+      "samples": 2793,
+      "waypoints": 19,
+      "duration_s": 1008.53372446967,
+      "ground_elevation_range_m": [
+        5.435500744637248,
+        346.8215768467667
+      ]
+    }
+  ],
+  "failed": []
+}

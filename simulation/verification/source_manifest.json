@@ -3,7 +3,7 @@
   "sources": [
     {
       "local_copy": "animate_three_modes.m",
-      "sha256": "5700e6364998cade57ee6d4112bb0855968cd4fe3a9e51bdea2d287da639d899"
+      "sha256": "2761b37f3d720d8af112ce109fe21a42905e6070da633ca784468785ca87fdda"
     },
     {
       "local_copy": "assemble_animation.m",
@@ -15,11 +15,11 @@
     },
     {
       "local_copy": "render_paper_terrain.m",
-      "sha256": "81254f3ec01f2f3dcaa5aa55abf95201d35053fbcb99ff74271a9c4628ba7084"
+      "sha256": "10eb7663a2f612e2e326c16cf4ef6bf42fa9d031f48b0e77643b033086fec688"
     },
     {
       "local_copy": "render_three_modes.m",
-      "sha256": "f2c9c65c01b8cf082627eaf817ca3c23a1397cc5d9d4db463d0ef9e78c16465b"
+      "sha256": "4d63ab8c573fae2703d8235379fcc88cb2f9267bbe9a9f0dce0b4c096a1a7774"
     },
     {
       "local_copy": "run_all.m",

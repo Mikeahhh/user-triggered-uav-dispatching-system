@@ -30,7 +30,7 @@ land=z;land(z<=.5)=NaN;water=zeros(size(z));water(z>.5)=NaN;
 map=interp1([0 .15 .35 .6 .8 1],[.79 .86 .65;.64 .76 .48;.57 .66 .41; ...
     .63 .58 .40;.70 .64 .51;.83 .80 .71],linspace(0,1,256));
 x0=[.052 .365 .678];w=.27;maxHeight=600;
-names={'Mode 1: planned route','Mode 2: GPS history','Mode 3: SOS square spiral'};
+names={'Mode 1: Event Booking','Mode 2: Quick Start','Mode 3: SOS'};
 for k=1:3
     ax=axes(fig,'Position',[x0(k) .46 w .415]);hold(ax,'on');
     surf(ax,e,n,water,'FaceColor',[.64 .82 .87],'EdgeColor','none','FaceLighting','none');

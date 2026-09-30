@@ -1,0 +1,267 @@
+{
+  "completed_at": "2026-09-30T10:58:15.569419+00:00",
+  "all_passed": true,
+  "check_count": 53,
+  "checks": [
+    {
+      "name": "MATLAB spiral matches inspected GS algorithm",
+      "passed": true,
+      "expected_waypoints": 19,
+      "actual_waypoints": 19
+    },
+    {
+      "name": "Target lies on mountain terrain",
+      "passed": true,
+      "ground_elevation_m": 177.43747793529863
+    },
+    {
+      "name": "Mode 1: source terrain reproduces recorded ground",
+      "passed": true,
+      "max_error_m": 1.015564521367196e-09
+    },
+    {
+      "name": "Mode 1: positive time steps",
+      "passed": true
+    },
+    {
+      "name": "Mode 1: launch and landed at common home",
+      "passed": true
+    },
+    {
+      "name": "Mode 1: all cruise samples keep 80 m AGL",
+      "passed": true
+    },
+    {
+      "name": "Mode 1: speed limits",
+      "passed": true,
+      "max_horizontal_mps": 15.000000000053735,
+      "max_vertical_mps": 3.000000000009994
+    },
+    {
+      "name": "Mode 1: no route samples over sea",
+      "passed": true
+    },
+    {
+      "name": "Mode 1: waypoint indices preserved",
+      "passed": true
+    },
+    {
+      "name": "Mode 1: recorded arrival at every input waypoint",
+      "passed": true,
+      "max_position_error_m": 0.0
+    },
+    {
+      "name": "Mode 1: target occurs in mission input",
+      "passed": true
+    },
+    {
+      "name": "Mode 1: all waypoints visited before return",
+      "passed": true
+    },
+    {
+      "name": "Mode 1: final event is landing completion",
+      "passed": true
+    },
+    {
+      "name": "Mode 2: source terrain reproduces recorded ground",
+      "passed": true,
+      "max_error_m": 1.015564521367196e-09
+    },
+    {
+      "name": "Mode 2: positive time steps",
+      "passed": true
+    },
+    {
+      "name": "Mode 2: launch and landed at common home",
+      "passed": true
+    },
+    {
+      "name": "Mode 2: all cruise samples keep 80 m AGL",
+      "passed": true
+    },
+    {
+      "name": "Mode 2: speed limits",
+      "passed": true,
+      "max_horizontal_mps": 15.000000000065347,
+      "max_vertical_mps": 3.000000000011648
+    },
+    {
+      "name": "Mode 2: no route samples over sea",
+      "passed": true
+    },
+    {
+      "name": "Mode 2: waypoint indices preserved",
+      "passed": true
+    },
+    {
+      "name": "Mode 2: recorded arrival at every input waypoint",
+      "passed": true,
+      "max_position_error_m": 0.0
+    },
+    {
+      "name": "Mode 2: target occurs in mission input",
+      "passed": true
+    },
+    {
+      "name": "Mode 2: all waypoints visited before return",
+      "passed": true
+    },
+    {
+      "name": "Mode 2: final event is landing completion",
+      "passed": true
+    },
+    {
+      "name": "Mode 3: source terrain reproduces recorded ground",
+      "passed": true,
+      "max_error_m": 4.2240344555466436e-10
+    },
+    {
+      "name": "Mode 3: positive time steps",
+      "passed": true
+    },
+    {
+      "name": "Mode 3: launch and landed at common home",
+      "passed": true
+    },
+    {
+      "name": "Mode 3: all cruise samples keep 80 m AGL",
+      "passed": true
+    },
+    {
+      "name": "Mode 3: speed limits",
+      "passed": true,
+      "max_horizontal_mps": 15.0000000000621,
+      "max_vertical_mps": 3.000000000023892
+    },
+    {
+      "name": "Mode 3: no route samples over sea",
+      "passed": true
+    },
+    {
+      "name": "Mode 3: waypoint indices preserved",
+      "passed": true
+    },
+    {
+      "name": "Mode 3: recorded arrival at every input waypoint",
+      "passed": true,
+      "max_position_error_m": 0.0
+    },
+    {
+      "name": "Mode 3: target occurs in mission input",
+      "passed": true
+    },
+    {
+      "name": "Mode 3: all waypoints visited before return",
+      "passed": true
+    },
+    {
+      "name": "Mode 3: final event is landing completion",
+      "passed": true
+    },
+    {
+      "name": "main_3d_axes: complete frames",
+      "passed": true
+    },
+    {
+      "name": "main_3d_axes: same geographic limits across modes",
+      "passed": true
+    },
+    {
+      "name": "main_3d_axes: equal horizontal metre scaling",
+      "passed": true
+    },
+    {
+      "name": "main_top_axes: complete frames",
+      "passed": true
+    },
+    {
+      "name": "main_top_axes: same geographic limits across modes",
+      "passed": true
+    },
+    {
+      "name": "main_top_axes: equal horizontal metre scaling",
+      "passed": true
+    },
+    {
+      "name": "target_insets: complete frames",
+      "passed": true
+    },
+    {
+      "name": "target_insets: same geographic limits across modes",
+      "passed": true
+    },
+    {
+      "name": "target_insets: equal horizontal metre scaling",
+      "passed": true
+    },
+    {
+      "name": "Source copy unchanged: animate_three_modes.m",
+      "passed": true
+    },
+    {
+      "name": "Source copy unchanged: assemble_animation.m",
+      "passed": true
+    },
+    {
+      "name": "Source copy unchanged: fix_saved_paper_figure.m",
+      "passed": true
+    },
+    {
+      "name": "Source copy unchanged: render_paper_terrain.m",
+      "passed": true
+    },
+    {
+      "name": "Source copy unchanged: render_three_modes.m",
+      "passed": true
+    },
+    {
+      "name": "Source copy unchanged: run_all.m",
+      "passed": true
+    },
+    {
+      "name": "Source copy unchanged: run_three_mode_simulation.m",
+      "passed": true
+    },
+    {
+      "name": "Source copy unchanged: reference/sos_pattern.py",
+      "passed": true
+    },
+    {
+      "name": "Source copy unchanged: data/N22E114.hgt",
+      "passed": true
+    }
+  ],
+  "missions": [
+    {
+      "mode": 1,
+      "samples": 2004,
+      "waypoints": 3,
+      "duration_s": 715.650732620596,
+      "ground_elevation_range_m": [
+        4.40470474361532,
+        376.5983005064935
+      ]
+    },
+    {
+      "mode": 2,
+      "samples": 2080,
+      "waypoints": 15,
+      "duration_s": 764.074246152404,
+      "ground_elevation_range_m": [
+        4.40470474361532,
+        346.82157684706885
+      ]
+    },
+    {
+      "mode": 3,
+      "samples": 2793,
+      "waypoints": 19,
+      "duration_s": 1008.53372446967,
+      "ground_elevation_range_m": [
+        5.435500744637248,
+        346.8215768467667
+      ]
+    }
+  ],
+  "scope": "Independent numeric and figure-axis audit. No new flight-stack or field validation."
+}

@@ -62,7 +62,7 @@ jest.mock('react-i18next', () => ({
         'sosPage.legalWarning':
           'Anyone Who Abuses This Emergency Service May Incur Legal Liabilities',
         'sosPage.confirmText':
-          'Please confirm this is a real emergency.\nUpon clicking the SOS button, the 999 Report Centre may contact you.',
+          'Please confirm this is a real emergency.\nPress SOS to send your current location to the ground station for operator verification.',
         'sosPage.sosButton': 'SOS',
         'sosPage.callButton': 'Call 999 Now',
         'sosPage.slogan': 'Help is just a Ping Away',
@@ -159,6 +159,17 @@ test('queues the original GPS capture time separately from the SOS request time'
   expect(payload.captured_at).toBe(new Date(1_788_912_000_000).toISOString());
   expect(payload.gps_points[0].captured_at).toBe(payload.captured_at);
   expect(payload.request_id).toBe(String(payload.client_timestamp_ms));
+  expect(global.fetch).toHaveBeenCalledTimes(1);
+  const [requestUrl, requestOptions] = (global.fetch as jest.Mock).mock.calls[0];
+  expect(requestUrl).toBe(
+    `https://test-project-default-rtdb.firebaseio.com/users/26080101/rescue_requests/${payload.request_id}.json`,
+  );
+  expect(JSON.parse(requestOptions.body)).toMatchObject({
+    latitude: 22.352,
+    longitude: 114.183,
+    timestamp: payload.client_timestamp_ms,
+    status: 'PENDING',
+  });
   expect(queueRescueForUav).toHaveBeenCalledWith(
     payload,
     expect.objectContaining({

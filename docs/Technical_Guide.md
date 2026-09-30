@@ -1,9 +1,9 @@
-# Mountain Search UAV System — Technical Guide
+# Mountain Search UAV System Technical Guide
 
 ## 1  Archive Contents and Version
 
-Mountain Search UAV System | Technical Guide | 28 September 2026
-Source revision: UAV-SEARCH-20260928
+Mountain Search UAV System | Technical Guide | 30 September 2026
+Implementation baseline: UAV-SEARCH-20260928
 
 This archive contains the mobile application, ground station and UAV source code, together with MATLAB simulations of the three search modes, software verification records and outdoor footage. All paths in this guide are relative to the archive root.
 
@@ -33,16 +33,16 @@ code/search_uav
 
 Mode 1 estimates the trip end time from the planned route and a fixed walking speed. Mode 2 checks whether the latest valid GPS sample exceeds the configured update timeout. Mode 3 places an SOS request in the verification queue. In all three modes, the operator verifies the situation and confirms a search before creating an event, reviewing its route and dispatching the mission.
 
-Application and protocol version numbers are retained. The archive revision is recorded separately in code/source_revision.json. The software retains its existing language options.
+Application and protocol version numbers are retained. The implementation baseline is recorded in code/source_revision.json; Git history identifies later changes. The software retains its English and Chinese interface options. Section 9 maps the manuscript's functions to implementation and evidence.
 
 ## 2  Local Setup and Verification
 
-Software verification used Python 3.12, Node.js 24 and a C++14 compiler. Simulation recomputation used MATLAB R2025b. Run the following commands from the archive root.
+Use Python 3.12 with Tk support, Node.js 24 and a C++14 compiler for local verification. MATLAB R2025b was used for the archived simulation; MATLAB is not required to check the saved numeric outputs. Run the following commands from the archive root.
 
 ### Create the Python environment
 
 ```
-python3 -m venv .venv
+python3.12 -m venv .venv
 source .venv/bin/activate
 python -m pip install -r requirements-verification.txt
 python scripts/prepare_local.py
@@ -59,10 +59,12 @@ cd ../..
 ### Run the complete verification sequence
 
 ```
-python scripts/verify.py --output local-results/verification
+python scripts/verify.py --output local-results/verification-01
 ```
 
-Use a new output directory for each run. The sequence checks lint rules, TypeScript types, version alignment, mobile tests, Python syntax, ground-station and UAV tests, C++ target-state handling and cross-component protocols. It then checks the saved MATLAB trajectories and figure axes. An all_passed value of true in summary.json means that all listed checks passed.
+Use a new output directory for each run. The sequence checks output preservation, lint rules, TypeScript types, version alignment, mobile tests, Python syntax, ground-station and UAV tests, C++ target-state handling and cross-component protocols. It then checks the saved MATLAB trajectories and figure axes. Results and logs, including simulation_checks.json, are written inside the selected directory. An all_passed value of true in summary.json means that all listed checks passed. Archived results are preserved.
+
+prepare_local.py creates M/services/db/firebaseConfig.ts from the example only when the local file is absent. Its placeholder values support tests with mocked cloud connections; they do not configure a live Firebase project. A direct call to python simulation/verify_outputs.py prints its findings without writing a report. Add --output followed by a new JSON path to save a report; an existing report is rejected.
 
 ### Repeat the local relay test
 
@@ -70,7 +72,7 @@ Install Mosquitto and make the mosquitto executable available on the command pat
 
 ```
 python code/integration_tests/run_phone_uav_gs_bench.py \
-  --output local-results/phone-relay
+  --output local-results/phone-relay-01
 ```
 
 The test sends a synthetic phone record through a local HTTP interface and uses a running Mosquitto broker for relay and acknowledgement. Its output includes nine key records, the broker log and file checksums.
@@ -79,7 +81,7 @@ On Windows, activate Python with .venv\Scripts\Activate.ps1 in PowerShell. The c
 
 ## 3  Mobile Records and Trip-Time Estimation
 
-### Mode 1: trip booking
+### Mode 1 Event Booking
 
 The user enters a trip name, departure date and departure time, then selects successive locations along the planned route on the map. The interface displays the estimated end date and time automatically. Editing the route, departure date or departure time recalculates the estimate.
 
@@ -102,13 +104,19 @@ The 4 km/h value follows the general walking-time reference in Ordnance Survey's
 | walkingSpeedKmh | Fixed value: 4 |
 | estimationMethod | route_distance_fixed_speed_v1 |
 
-### Modes 2 and 3
+### Mode 2 Quick Start and Mode 3 SOS
 
 Mode 2 uploads GPS positions and sample timestamps during the hike. The ground station checks the latest valid sample for a timeout and uses the uploaded position history when preparing a flight. Mode 3 stores the location and request information recorded when the user activates SOS, for operator verification and square-spiral route generation.
+
+Mode 2 uses sampling time, not upload or receipt time. A stationary position with fresh samples does not trigger the current update-timeout rule. SOS uploads go to this system's Firebase database and ground station. The separate Call 999 Now button opens the phone dialer. The manuscript retains an earlier interface screenshot; the current English and Chinese SOS instructions explicitly describe ground-station operator verification.
 
 Implementation: M/services/eventBookingRecord.ts. Booking interface: M/pages/EventBookingPage.tsx. Tests: M/__tests__/eventBookingRecord.test.ts.
 
 Reference: Ordnance Survey, Map Reading, “Timing”, printed page 23. The complete source link is in docs/Sources.txt.
+
+### Mobile deployment configuration
+
+For device operation, fill M/services/db/firebaseConfig.ts with the project's client configuration and use the same Realtime Database URL as the ground station. Configure the native Android or iOS toolchain, platform Firebase files and map credentials separately. From M, npm start starts Metro; npm run android or npm run ios invokes the native platform build. The screenshot and compile-only helpers use stubs and do not produce a verified deployment. Local Jest tests do not establish a new installed application build.
 
 ## 4  Ground-Station Verification and Dispatch
 
@@ -138,6 +146,19 @@ All three modes have the same initial event priority and the same waiting-time r
 
 Use G/runtime.env.example as the template. Supply and export the actual values, then run python ground_station.py from G. Both threshold fields are blank in the template. The 1-second GPS threshold in the tests checks time-boundary behavior.
 
+Copy the template to G/runtime.env and fill it locally before running the following commands from the archive root. The application reads exported environment variables; it does not automatically load runtime.env.
+
+```
+set -a
+. ./code/ground_station/runtime.env
+set +a
+python code/deployment_preflight.py
+cd code/ground_station
+python ground_station.py
+```
+
+The preflight command checks local configuration consistency without contacting Firebase or validating an installed phone application. Both the ground station and UAV must reach the configured broker over the deployment network; localhost is only suitable when that process shares the broker's host.
+
 Verification logic: G/rescue_event_manager.py. Persistence and mission preparation: G/rescue_repository.py, G/active_event_queue.py and G/ground_station.py.
 
 ## 5  UAV Software and External Flight Stack
@@ -146,7 +167,7 @@ Verification logic: G/rescue_event_manager.py. Persistence and mission preparati
 
 The ground station and UAV exchange missions and status over Wi-Fi using MQTT messages. A mission contains event and execution identifiers, a waypoint sequence, flight altitude, hover duration and return settings. The bridge validates the mission, passes it to the flight program and reports waypoint arrivals and mission stages to the ground station.
 
-The phone-record receiver saves uploads received through its HTTP interface. When the forwarding condition is met, it sends the record to the ground station. The ground station saves the record and returns an acknowledgement matching its identifier and content hash. The UAV then marks that transfer as complete. The recording program saves downward-facing video on the onboard computer.
+The phone-record receiver saves uploads received through its HTTP interface. After a matching mission reports completion of all waypoints and requests landing, the receiver forwards stored records to the ground station. The ground station saves each record and returns an acknowledgement matching its identifier and content hash. The UAV then marks that transfer as complete. This message marks a landing request, not measured physical touchdown. The recording program saves downward-facing video on the onboard computer.
 
 | File within U | Purpose |
 | --- | --- |
@@ -195,7 +216,7 @@ run_all('simulate')
 run_all('video')
 ```
 
-paper redraws the paper figure from saved trajectories. simulate recomputes all modes and exports figures. video creates the animation and requires ffmpeg for video assembly. The paper figure is written to regenerated/paper; complete trajectories, statistics and animation are stored in output.
+paper redraws the paper figure from saved trajectories into simulation/regenerated/paper. simulate recomputes all modes and replaces files in simulation/output. video replaces animation outputs there and requires ffmpeg. Preserve simulation/output in a separate working copy before simulate or video. The updated renderers use Event Booking, Quick Start and SOS; existing archived outputs retain their original provenance.
 
 | Mode | Input waypoints | Target arrival / s | Landing complete / s |
 | --- | --- | --- | --- |
@@ -203,13 +224,17 @@ paper redraws the paper figure from saved trajectories. simulate recomputes all 
 | Mode 2 | 15 | 409.08 | 764.07 |
 | Mode 3 | 19 | 344.99 | 1008.53 |
 
-Elevation comes from the Mapzen / Tilezen Skadi N22E114.hgt tile, with a 3601 × 3601 grid at 1 arc-second spacing. Routes and GPS history are synthetic simulation inputs generated with the fixed seed. Times start at simulated takeoff. Parameters, inputs and executed trajectories are in scenario_and_settings.json, the per-mode waypoint CSV files and the per-mode execution_trace.csv files.
+Elevation comes from the Mapzen / Tilezen Skadi N22E114.hgt tile, with a 3601 × 3601 grid at 1 arc-second spacing and EGM96 elevations. Bilinear interpolation gives a 25 m plotting grid without increasing source resolution. Routes and GPS history are synthetic inputs generated with the fixed seed. Times start at simulated takeoff. Parameters, inputs and executed trajectories are in simulation/output/scenario_and_settings.json, the per-mode waypoint CSV files and the execution_trace.csv files. The ideal terrain-following model does not simulate PX4 dynamics or radio performance.
 
-The MATLAB run includes 30 assertions. A separate Python verification contains 53 checks covering terrain interpolation, 80 m ground clearance, speed limits, waypoint order, return and landing, and fully boxed axes.
+Mode 2 timestamps use 1 m/s to construct the synthetic walking history; this is separate from the mobile booking estimate of 4 km/h. All 15 samples exist before dispatch. Mode 3 visits the centre plus 18 spiral endpoints, completes the entire route and then returns; reaching the target does not terminate the search early.
+
+The archived MATLAB computation passed 30 assertions. A separate Python verification contains 53 checks covering terrain interpolation, 80 m ground clearance, speed limits, waypoint order, return and landing, and the saved figure-axis audit. Rechecking these outputs or redrawing the figure is separate from recomputing the MATLAB scenario.
 
 ## 7  Software Verification and Relay Records
 
 Verification ran on 28 September 2026 using macOS arm64, Python 3.12.14 and Node.js 24.19.0. Detailed results are in records/software.log and records/verification_summary.json.
+
+The 30 September rerun is recorded separately in records/verification_20260930/. It passed all 624 software tests below, three verification-output regression tests and 53 saved-simulation checks. The original protocol fixture from 9 September is now included at G/fixtures/capture_record_v2.json, so its six ground-station tests no longer depend on a file outside this repository. Existing verification logs retain their original dates.
 
 | Test group | Tests passed |
 | --- | --- |
@@ -238,6 +263,8 @@ A synthetic phone record containing an SOS location and GPS data is sent through
 The request_id, mission_id, record-content hash and envelope hash link these records for comparison. run_summary.json lists the result and test conditions. SHA256SUMS.txt contains the output-file checksums.
 
 These records describe the local software and broker test. Outdoor footage is listed in Section 8. The software tests also cover incorrect or missing acknowledgements, duplicate data and recovery after a restart; the test cases and results are retained in the source files and logs.
+
+The independent 30 September bench records are in experiments/phone_relay_20260930/. Both benches use synthetic uploads and a real local Mosquitto broker. They do not exercise physical phone association, live Firebase access or ROS flight control.
 
 ## 8  Outdoor Materials, Sources and Integrity
 
@@ -270,3 +297,31 @@ This command reads records/file_manifest.json and checks each listed file's SHA-
 ### References
 
 Ordnance Survey's Map Reading guide provides the walking-time reference. Mapzen / Tilezen Skadi provides the elevation tile. The three original FYP GitHub repositories identify the upstream projects. Complete links are in docs/Sources.txt.
+
+## 9 Implementation and Evidence Index
+
+This index follows the 30 September anonymous manuscript. M, G and U use the component abbreviations in Section 1. Paths identify executable source, tests or saved evidence; they do not imply that the current software revision has been deployed on hardware.
+
+### User records and event creation
+
+Event Booking is implemented in M/services/eventBookingRecord.ts and M/pages/EventBookingPage.tsx. M/__tests__/eventBookingRecord.test.ts checks the 4 km/h estimate, complete end timestamps and route edits. G/rescue_event_manager.py detects overdue records and manages the contact steps; G/test_rescue_event_manager.py checks the transitions.
+
+Quick Start records samples in M/pages/QuickStartPage.tsx and M/services/quickStartSample.ts. G/quick_start_freshness.py uses the latest valid sample time. code/integration_tests/test_quick_start_freshness_contract.py exercises the mobile and ground-station contract, including 0.999 s, 1.000 s and 1.001 s boundary cases. Configure GS_T_LOCATION_UPDATE_SECONDS for deployment.
+
+SOS upload and dialing are implemented in M/pages/SosPage.tsx and checked by M/__tests__/SosPage.test.tsx. G/rescue_event_manager.py enforces contact verification and explicit search confirmation. G/test_sos_verification.py checks premature confirmation, cancellation, duplicate handling and unverified legacy events. The SOS instruction change is recorded in records/sos_operator_verification_20260929.json.
+
+### Route preparation and dispatch
+
+G/ground_station.py and G/active_event_queue.py implement event selection, preparation, review and confirmed dispatch. G/sos_pattern.py generates the square spiral. G/test_ground_station_rescue_flow.py, G/test_active_event_queue.py and G/test_sos_pattern.py cover these behaviors. code/integration_tests/test_flight_execution_contract.py checks the mission contract across components. GS_T_WAIT_SECONDS controls the common waiting-time rule.
+
+### Mission execution and phone records
+
+U/catkin_ws/src/rescue_bridge/src/mqtt_bridge.py receives missions and publishes status; mission_commander.cpp in the same directory advances navigation goals. The test_*.py files there and U/catkin_ws/src/rescue_bridge/test/test_target_lifecycle.cpp test local logic. A ROS build requires the environment in docs/Flight_Environment_Setup.txt.
+
+U/drone_system/receiver/phone_sos_receiver.py and G/rescue_record_protocol.py receive, persist, forward and acknowledge records. Their adjacent test files and code/integration_tests/test_phone_uav_groundstation.py check integrity, retries and mission association. experiments/phone_relay_20260928/ and experiments/phone_relay_20260930/ preserve concrete broker-test inputs and outputs.
+
+### Simulation and outdoor evidence
+
+simulation/run_three_mode_simulation.m constructs the fixed-seed scenario and full trajectories. simulation/output/ holds inputs, events, execution traces, mission_summary.csv and three_mode_study.mat. simulation/verify_outputs.py checks numeric results against the terrain tile and spiral algorithm. simulation/render_paper_terrain.m renders the manuscript's Figure 4 from saved data. records/figure4_mode_names_20260929.json records the title update without changing trajectories.
+
+U/drone_system/launcher/cam_recorder.py saves onboard video; adjacent recording tests cover storage and failure handling. experiments/outdoor/ contains the original videos, hardware photograph and site frames supporting the manuscript's outdoor observations. Images support operator inspection and post-flight review; they do not demonstrate automatic person recognition. Figure 3 in the current manuscript is the hardware image and Figure 5 contains the outdoor observations.

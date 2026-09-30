@@ -20,6 +20,7 @@ android/local.properties
 *.aab
 *.log
 !records/*.log
+!records/**/*.log
 !experiments/**/broker.log
 simulation/regenerated/
 simulation/frames/

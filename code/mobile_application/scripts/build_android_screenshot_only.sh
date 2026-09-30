@@ -5,7 +5,7 @@ set -eu
 MOBILE_DEMO_PROJECT_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 MOBILE_DEMO_TMP=$(mktemp -d /tmp/mass26-mobile-demo.XXXXXX)
 MOBILE_DEMO_COPY="$MOBILE_DEMO_TMP/mobile"
-MOBILE_DEMO_DEFAULT_OUTPUT="/Users/mike/Desktop/research/MASS26/05:08/V5_代码完成与截图_20260806/01_mobile"
+MOBILE_DEMO_DEFAULT_OUTPUT="$MOBILE_DEMO_PROJECT_ROOT/../../local-results/mobile-screenshot"
 MOBILE_DEMO_OUTPUT=${MOBILE_SCREENSHOT_OUTPUT_DIR:-$MOBILE_DEMO_DEFAULT_OUTPUT}
 
 cleanup_mobile_demo() {

@@ -2,7 +2,11 @@ Flight Environment Setup
 
 Platform: Ubuntu 20.04 and ROS Noetic, using catkin workspaces.
 
+The manuscript prototype uses an Intel NUC 13 Pro, Pixhawk 4 Mini, Intel RealSense D435, a separate downward-facing recording camera and Wi-Fi. Manual control uses a RadioLink AT9S Pro transmitter and R12DSM receiver, with SBus to the flight controller. Pixhawk is the hardware controller; px4ctrl is an onboard software module in the external flight stack.
+
 1. Download the pinned external flight project.
+
+Run the following from this repository's root. The external/ directory is ignored by Git.
 
 git clone https://github.com/Mikeahhh/FYP_alin1_SmartUAVRescueSystem_Drone.git external/drone-platform
 git -C external/drone-platform checkout --detach b3ac1591b63d15270c9856e7b664da0cf9d3ea48
@@ -10,7 +14,7 @@ git -C external/drone-platform checkout --detach b3ac1591b63d15270c9856e7b664da0
 Fast-Drone-250 is in external/drone-platform/Fast-Drone-250.
 For the original onboard directory layout, place it at /home/mike/Fast-Drone-250. Follow that pinned version's README for dependency installation, sensor parameters and flight-controller calibration.
 
-2. Copy catkin_ws and drone_system from the UAV component in this archive to the onboard directories.
+2. Copy code/search_uav/catkin_ws and code/search_uav/drone_system from this archive to the onboard directories.
 
 /home/mike/catkin_ws
 /home/mike/drone_system
@@ -29,7 +33,9 @@ source devel/setup.bash
 
 4. Start the depth camera, MAVROS, VINS, planner and flight-control programs according to the external project instructions, then start the mission bridge.
 
-roslaunch rescue_bridge rescue_bridge.launch mqtt_broker:=localhost
+roslaunch rescue_bridge rescue_bridge.launch mqtt_broker:=BROKER_HOST
+
+Replace BROKER_HOST with the address reachable from both the ground station and UAV. Use localhost only when the broker runs on the same host as the mission bridge. Match the port and authentication settings to the deployment broker configuration.
 
 Default bridge parameters are flight_alt=5.0, arrival_threshold=1.0 and data_timeout=5.0. The MATLAB simulation's 80 m above-ground altitude does not override these settings.
 
@@ -37,6 +43,10 @@ Default bridge parameters are flight_alt=5.0, arrival_threshold=1.0 and data_tim
 
 python3 /home/mike/drone_system/receiver/phone_sos_receiver.py --help
 
-The configuration example is drone_system/config/rescue_receiver.env.example. Use the same MQTT broker address as the ground station and set the runtime token for local-network access. Before operation, check the flight-controller connection, positioning, camera indices and mission settings.
+Copy /home/mike/drone_system/config/rescue_receiver.env.example to rescue_receiver.env in the same directory. Fill the broker address, port, data directory and runtime token; configure broker credentials if used. The launcher exports this file before starting the receiver:
+
+bash /home/mike/drone_system/bin/start_rescue_receiver.sh
+
+The receiver's --help command only displays options. Directly launching the Python receiver requires exporting the same environment variables yourself. Before operation, check the flight-controller connection, positioning, camera indices and mission settings. Onboard recordings are managed by drone_system/launcher/cam_recorder.py and the console; inspect camera and log settings in drone_system/config/.
 
 These steps describe onboard setup and startup. The software verification in records/ ran on a local computer; the outdoor footage is retained from the existing experiments.

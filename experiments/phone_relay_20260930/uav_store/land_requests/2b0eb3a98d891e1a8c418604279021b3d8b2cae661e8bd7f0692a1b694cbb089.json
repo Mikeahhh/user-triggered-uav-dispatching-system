@@ -1,0 +1,6 @@
+{
+  "mission_id": "TEST_USER/bench_1790765465561",
+  "observed_at": "2026-09-30T10:51:05.768149Z",
+  "schema_version": 1,
+  "trigger": "MISSION_QUEUE_COMPLETE_LAND_REQUESTED"
+}

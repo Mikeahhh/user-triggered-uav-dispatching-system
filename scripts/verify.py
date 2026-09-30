@@ -21,8 +21,9 @@ def main():
     env["MASS26_PYTHON"] = sys.executable
     env["MASS26_GROUND_PYTHON"] = sys.executable
     runs = [
+        ("verification_outputs", [sys.executable, "-m", "unittest", "discover", "-s", "scripts", "-p", "test_*.py", "-v"]),
         ("software", ["sh", "code/run_all_local_verification.sh"]),
-        ("simulation", [sys.executable, "simulation/verify_outputs.py"]),
+        ("simulation", [sys.executable, "simulation/verify_outputs.py", "--output", str(output / "simulation_checks.json")]),
     ]
     results = []
     for name, command in runs:

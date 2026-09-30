@@ -9,7 +9,7 @@ fig=figure('Visible','off','Color','w','Position',[40 40 900 510], ...
     'Name','Three complete simulated missions','NumberTitle','off');
 if isprop(fig,'Theme'),fig.Theme='light';end
 x0=[.055 .360 .665];w=.255;
-names={'Mode 1: planned route','Mode 2: GPS history','Mode 3: SOS search'};
+names={'Mode 1: Event Booking','Mode 2: Quick Start','Mode 3: SOS'};
 h3=gobjects(1,3);h2=gobjects(1,3);ins=gobjects(1,3);
 for k=1:3
     m=study.missions(k);

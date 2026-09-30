@@ -1,0 +1,105 @@
+{
+  "completed_at": "2026-09-30T11:02:31.966124+00:00",
+  "implementation_baseline": "UAV-SEARCH-20260928",
+  "parent_commit": "5467293462955c5ccad0c34f7b3a52255b0b4df5",
+  "scope": "Repository setup, portable local verification, manuscript evidence mapping and service-mode display names",
+  "manuscript_reference": {
+    "source": "main_MetaCom26_anonymous.tex",
+    "source_sha256": "76676318e4e28e8f9c19bc1f037f24bc51dd2a7d05a996a320733ef903eca21f",
+    "pdf_sha256": "5d87f3f901fa201003292e9ca80ae4649cc05f3384abc29cd7fa0f41f16e9f6e",
+    "figure_roles": {
+      "3": "UAV hardware",
+      "4": "MATLAB terrain missions",
+      "5": "Outdoor observations"
+    }
+  },
+  "changes": [
+    "Preserved the English and Chinese SOS operator-verification instructions and the existing terrain figure title update.",
+    "Packaged the original synthetic capture v2 protocol fixture and replaced the external test-data path with a repository-relative path.",
+    "Made simulation verification read-only by default and added exclusive creation of an explicitly selected report.",
+    "Routed verification reports to each new results directory and added regression tests for archived-result preservation.",
+    "Used repository-local screenshot output by default while retaining the existing environment override.",
+    "Aligned secondary renderer and animation titles with Event Booking, Quick Start and SOS.",
+    "Expanded the README, synchronized the technical guide formats and documented deployment inputs and supporting evidence."
+  ],
+  "fixture_provenance": {
+    "path": "code/ground_station/fixtures/capture_record_v2.json",
+    "origin": "Original synthetic cross-component capture protocol fixture from 9 September 2026",
+    "copied_without_modification": true,
+    "cases": 3,
+    "source_and_copy_sha256": "db8722ec1285a0b3d957225ba4cbdbd6f3a83fc79e8f51a9060a186e68a4df79"
+  },
+  "verification": {
+    "software_tests": {
+      "mobile": 229,
+      "ground_station": 233,
+      "uav_receiver": 44,
+      "uav_bridge": 44,
+      "recording": 12,
+      "onboard_demo": 1,
+      "cross_component": 61,
+      "total": 624
+    },
+    "output_preservation_regression_tests": 3,
+    "saved_simulation_checks": 53,
+    "software_run": "records/verification_20260930/summary.json",
+    "local_relay_run": "experiments/phone_relay_20260930/run_summary.json",
+    "paper_figure_redraw": "records/verification_20260930/paper_figure.json",
+    "paper_png_matches_nominated_manuscript": true,
+    "screenshot_helper_shell_syntax": "passed",
+    "packaged_secret_pattern_scan": "no matching private keys or provider access keys",
+    "new_python_verification_files_have_no_explanatory_comments": true
+  },
+  "review": {
+    "document_pages": 9,
+    "word_and_markdown_text_match": true,
+    "document_text_color": "000000",
+    "all_pages_visually_inspected": true,
+    "local_documentation_targets_checked": 119,
+    "historical_files_preserved": 56,
+    "manuscript_files_preserved": 5,
+    "initial_content_files_preserved": [
+      "code/mobile_application/__tests__/SosPage.test.tsx",
+      "code/mobile_application/translations/en/translations.json",
+      "code/mobile_application/translations/zh/translations.json",
+      "simulation/paper_current/terrain_missions.fig",
+      "simulation/paper_current/terrain_missions.png",
+      "simulation/render_paper_terrain.m",
+      "records/figure4_mode_names_20260929.json",
+      "records/sos_operator_verification_20260929.json"
+    ]
+  },
+  "evidence_boundaries": {
+    "matlab_scenario_recomputed": false,
+    "archived_matlab_assertions_reexecuted": false,
+    "new_mobile_binary_built": false,
+    "installed_build_verified": false,
+    "ros_workspace_built": false,
+    "new_hardware_flight_test": false,
+    "real_firebase_test": false,
+    "physical_phone_wifi_test": false
+  },
+  "reviewed_file_sha256": {
+    ".gitignore": "6ef6467bf255d2daa05107c9e4ab4dc8ceabdac6daf78f7cb59760ae5a446178",
+    "README.md": "6e77ccf22cd1d76f3e4b2ab43a5b3d9179e73470bf6fabc09dab351679208a59",
+    "code/ground_station/test_capture_record_protocol_v2.py": "fb0bd210916be574788bd299c87609070e1dd0e1c4bbab1a2fa4c6d4a599ac3d",
+    "code/mobile_application/__tests__/SosPage.test.tsx": "bb05dfb29736c176f6b3d1a5918a4afc13b11060ebd3ed6979128b8a4fc1bbba",
+    "code/mobile_application/scripts/build_android_screenshot_only.sh": "43236e81b8a5b9a64ede10d17bef3a7e57d367e882cf5b442145478dc8704d0f",
+    "code/mobile_application/translations/en/translations.json": "1d1c8aaf913a73fe643175bddd6a3bd65d74ead22d08b9adf59405c190a13bf1",
+    "code/mobile_application/translations/zh/translations.json": "868eb77ce6413342fc5745ec01dc3cdea9364fb0bffef63e4ad8a5c09a9844b8",
+    "docs/Flight_Environment_Setup.txt": "a37dc1780a9073043a7b9ba59cfaa9825506343ff593757850d473301cfd81c4",
+    "docs/Technical_Guide.docx": "8a26926bcacd2903e0149d41973bada4d0fd9cd9b398b8e072e34bdb174c2ba9",
+    "docs/Technical_Guide.md": "a22d7c34d19b60d1c7807e5da2dc39b1aab557f3f90254c8047d7176e5d76112",
+    "docs/Technical_Guide.pdf": "bb4d4548913cf30d73d7f8a9ede788558ea00792eea94acb58d3201a2eeae1f4",
+    "scripts/verify.py": "711fad3e3ba0e65b5162cc646ff6f605d04364cace549fddd624ab47ab2f9939",
+    "simulation/animate_three_modes.m": "2761b37f3d720d8af112ce109fe21a42905e6070da633ca784468785ca87fdda",
+    "simulation/paper_current/terrain_missions.fig": "07c76a5ee790dc875bc68beac6d586555356b99a8b41853c60a808019ad5ecd3",
+    "simulation/paper_current/terrain_missions.png": "e2b675701b90cd5117ede84929702a2d3b7e673e09abfe731fc5bb4f65e6c0e0",
+    "simulation/render_paper_terrain.m": "10eb7663a2f612e2e326c16cf4ef6bf42fa9d031f48b0e77643b033086fec688",
+    "simulation/render_three_modes.m": "4d63ab8c573fae2703d8235379fcc88cb2f9267bbe9a9f0dce0b4c096a1a7774",
+    "simulation/verification/source_manifest.json": "bdc90a310442fd1755f7cad479f7fead38b40eba04e258b6ffd475195da6facb",
+    "simulation/verify_outputs.py": "0d7eb0d4ffcc257c9f7accc2de0f7cca9450a47e46b718c6f14a9722fe740e4f",
+    "scripts/test_verification_outputs.py": "4dfa0c77f65183d84982c847a40ce781e2f7af091c1ed47f0d67b31c4c4f3666",
+    "code/ground_station/fixtures/capture_record_v2.json": "db8722ec1285a0b3d957225ba4cbdbd6f3a83fc79e8f51a9060a186e68a4df79"
+  }
+}

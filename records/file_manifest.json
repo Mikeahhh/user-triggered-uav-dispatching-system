@@ -8,8 +8,8 @@
     },
     {
       "path": ".gitignore",
-      "size": 391,
-      "sha256": "f84c5a9d850ceaeddf79aa08f0423b67a53436de98a7464fcbd28b8e54a79032"
+      "size": 409,
+      "sha256": "6ef6467bf255d2daa05107c9e4ab4dc8ceabdac6daf78f7cb59760ae5a446178"
     },
     {
       "path": "LICENSES/Apache-2.0.txt",
@@ -38,8 +38,8 @@
     },
     {
       "path": "README.md",
-      "size": 2210,
-      "sha256": "658553e69498cd47c1e897d97127493aa0999811fb6371e1ef443aa994f0921f"
+      "size": 6109,
+      "sha256": "6e77ccf22cd1d76f3e4b2ab43a5b3d9179e73470bf6fabc09dab351679208a59"
     },
     {
       "path": "code/deployment_preflight.py",
@@ -85,6 +85,11 @@
       "path": "code/ground_station/firebase_runtime_config.py",
       "size": 1294,
       "sha256": "7fa0715974c320dc1e5265a833e1b940d4aaaad4b4966f0b0901d79f12d63041"
+    },
+    {
+      "path": "code/ground_station/fixtures/capture_record_v2.json",
+      "size": 7825,
+      "sha256": "db8722ec1285a0b3d957225ba4cbdbd6f3a83fc79e8f51a9060a186e68a4df79"
     },
     {
       "path": "code/ground_station/ground_station.py",
@@ -183,8 +188,8 @@
     },
     {
       "path": "code/ground_station/test_capture_record_protocol_v2.py",
-      "size": 4545,
-      "sha256": "8cc9062de90833f31b522e398ea51f3b9541a3d114d4ae3ef6d30fd95d6f138b"
+      "size": 4506,
+      "sha256": "fb0bd210916be574788bd299c87609070e1dd0e1c4bbab1a2fa4c6d4a599ac3d"
     },
     {
       "path": "code/ground_station/test_dependency_lock.py",
@@ -398,8 +403,8 @@
     },
     {
       "path": "code/mobile_application/__tests__/SosPage.test.tsx",
-      "size": 18490,
-      "sha256": "a98daaacc23b951831ce5ee1b22309c66e79c42701fafa75bc5222478f64e2e2"
+      "size": 18964,
+      "sha256": "bb05dfb29736c176f6b3d1a5918a4afc13b11060ebd3ed6979128b8a4fc1bbba"
     },
     {
       "path": "code/mobile_application/__tests__/SystemHealthPage.test.tsx",
@@ -833,8 +838,8 @@
     },
     {
       "path": "code/mobile_application/scripts/build_android_screenshot_only.sh",
-      "size": 7808,
-      "sha256": "16f14dce159a126e194f0c5250d3412200b7614374cbc525da79c58baf3986f8"
+      "size": 7786,
+      "sha256": "43236e81b8a5b9a64ede10d17bef3a7e57d367e882cf5b442145478dc8704d0f"
     },
     {
       "path": "code/mobile_application/scripts/check_version_alignment.js",
@@ -983,8 +988,8 @@
     },
     {
       "path": "code/mobile_application/translations/en/translations.json",
-      "size": 20590,
-      "sha256": "de991a8d8a22f5c98769ad87cf5cda3faf394943565919336f1c53eece2ccd91"
+      "size": 20610,
+      "sha256": "1d1c8aaf913a73fe643175bddd6a3bd65d74ead22d08b9adf59405c190a13bf1"
     },
     {
       "path": "code/mobile_application/translations/i18n.ts",
@@ -993,8 +998,8 @@
     },
     {
       "path": "code/mobile_application/translations/zh/translations.json",
-      "size": 19864,
-      "sha256": "c98b0862ef5599d6c770c729ec644f9f8e73f4a0d500687b2b6bf2482898c8ce"
+      "size": 19892,
+      "sha256": "868eb77ce6413342fc5745ec01dc3cdea9364fb0bffef63e4ad8a5c09a9844b8"
     },
     {
       "path": "code/mobile_application/tsconfig.json",
@@ -1328,8 +1333,8 @@
     },
     {
       "path": "docs/Flight_Environment_Setup.txt",
-      "size": 2081,
-      "sha256": "d6c32b5f0ae3f96026012c4be4d9aaad558d8dd419b67053cac6a93e3f4c5d61"
+      "size": 3240,
+      "sha256": "a37dc1780a9073043a7b9ba59cfaa9825506343ff593757850d473301cfd81c4"
     },
     {
       "path": "docs/Sources.txt",
@@ -1338,18 +1343,18 @@
     },
     {
       "path": "docs/Technical_Guide.docx",
-      "size": 45996,
-      "sha256": "f673955bacad93d42eaebf65037b2eca84ac1d47811c4eda1afcf7c6e1865024"
+      "size": 48776,
+      "sha256": "8a26926bcacd2903e0149d41973bada4d0fd9cd9b398b8e072e34bdb174c2ba9"
     },
     {
       "path": "docs/Technical_Guide.md",
-      "size": 17168,
-      "sha256": "03cc83ffc200db651f394c4b0957cf43d8d9dbc1285a0b55ed2d922822522139"
+      "size": 24937,
+      "sha256": "a22d7c34d19b60d1c7807e5da2dc39b1aab557f3f90254c8047d7176e5d76112"
     },
     {
       "path": "docs/Technical_Guide.pdf",
-      "size": 269042,
-      "sha256": "419f947fafa932a89d750e0ee4f940419c66128c8ccaa8a2f4fa505321d5a5a2"
+      "size": 215327,
+      "sha256": "bb4d4548913cf30d73d7f8a9ede788558ea00792eea94acb58d3201a2eeae1f4"
     },
     {
       "path": "experiments/outdoor/airframe.jpg",
@@ -1462,6 +1467,96 @@
       "sha256": "ff139adbb0956edd4f70d0eafd2a1138eec85773e3355d14485602f18d96894c"
     },
     {
+      "path": "experiments/phone_relay_20260930/01_phone_request.json",
+      "size": 635,
+      "sha256": "78af28bfb66d7b9477f13ada683143af40694be2dc7e2ea613b5cd9488214224"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/02_uav_http_receipt.json",
+      "size": 371,
+      "sha256": "644f931b061c988be0db3362e24b362ddb69fe4ce1cd33fb3bccad74075e39f6"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/03_uav_stored_record.json",
+      "size": 804,
+      "sha256": "da1b9bb0f935df220299f4e366eb261ae683cd1e56d05d39dfd802e8bf1ecc50"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/04_mission_status.json",
+      "size": 314,
+      "sha256": "4bf12efc8306cc7b668b3e80de172e1ee62d79103f914495c1d7246a908a0fe2"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/05_mqtt_onboard_envelope.json",
+      "size": 1252,
+      "sha256": "9b2a7d3204ae703c7746a4bb551e1f1b6341641d722f650bfaa177449d695b9e"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/06_ground_station_stored_record.json",
+      "size": 804,
+      "sha256": "da1b9bb0f935df220299f4e366eb261ae683cd1e56d05d39dfd802e8bf1ecc50"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/07_ground_station_stored_envelope.json",
+      "size": 1252,
+      "sha256": "9b2a7d3204ae703c7746a4bb551e1f1b6341641d722f650bfaa177449d695b9e"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/08_ground_station_ack.json",
+      "size": 377,
+      "sha256": "53cb00ecf3b201c042304c98807c406e5abbe42e5fbc8c05297a78b77186cd0d"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/09_uav_delivery_state.json",
+      "size": 2662,
+      "sha256": "5ef6ed437cb8c8928b63d24cd4d14237c523b340aac031ef471dac7185e8955a"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/SHA256SUMS.txt",
+      "size": 1759,
+      "sha256": "8c4f8adc8339753ccfa7a12e8d00da477d450236dd1b1fd39236e9b726d78718"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/broker.log",
+      "size": 1465,
+      "sha256": "b65eb6f083765d4b4c312ebb37e13da9898bd1095761185981839d39aa8434af"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/ground_station_store/envelopes/bench_1790765465561.155fe3ed1b5343423aad7057ff7ce88da364f8c6469c175e83939420884023ff.json",
+      "size": 1252,
+      "sha256": "9b2a7d3204ae703c7746a4bb551e1f1b6341641d722f650bfaa177449d695b9e"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/ground_station_store/records/bench_1790765465561.0420a5239cbf17171e22ab207a2d99c5f44f952250b07c36ba9a0ca02de7c9fa.json",
+      "size": 804,
+      "sha256": "da1b9bb0f935df220299f4e366eb261ae683cd1e56d05d39dfd802e8bf1ecc50"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/run_summary.json",
+      "size": 1251,
+      "sha256": "81d93da49ce45d04d5f6c6ee34dcc507c21f91481cc32f7faa9dacbbd3ddb5e4"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/uav_store/land_requests/2b0eb3a98d891e1a8c418604279021b3d8b2cae661e8bd7f0692a1b694cbb089.json",
+      "size": 177,
+      "sha256": "b5942f599a24eb882449fdd2b96bacc6f879f2fa9477efbb5c72ee9c7da1b991"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/uav_store/outbox/bench_1790765465561.json",
+      "size": 2662,
+      "sha256": "5ef6ed437cb8c8928b63d24cd4d14237c523b340aac031ef471dac7185e8955a"
+    },
+    {
+      "path": "experiments/phone_relay_20260930/uav_store/records/bench_1790765465561.json",
+      "size": 804,
+      "sha256": "da1b9bb0f935df220299f4e366eb261ae683cd1e56d05d39dfd802e8bf1ecc50"
+    },
+    {
+      "path": "records/figure4_mode_names_20260929.json",
+      "size": 767,
+      "sha256": "d9f8c16a0cdadc3aba92894c237c569da2d419754b8fdd4df9d2fc2571022600"
+    },
+    {
       "path": "records/matlab.log",
       "size": 1386,
       "sha256": "42066af273cd82fbcc18af31ab0d4f14f0079c823ba76de85957976a1d03d061"
@@ -1470,6 +1565,11 @@
       "path": "records/package_checks.json",
       "size": 616,
       "sha256": "67a8b89278fe06b96991edfe5b1555f695a9ed40025bf9384868ca09f79e6268"
+    },
+    {
+      "path": "records/repository_review_20260930.json",
+      "size": 6231,
+      "sha256": "e82e9cd54d44cea425dc1f4ca3d2cb11f5fb0a6fe942a7c7c18c76539e1c7041"
     },
     {
       "path": "records/simulation.log",
@@ -1482,9 +1582,54 @@
       "sha256": "b7ff08303fbed2649ad64159040f8cbf928c1a91d8610621de15d90cb5b00e1e"
     },
     {
+      "path": "records/sos_operator_verification_20260929.json",
+      "size": 1874,
+      "sha256": "8e9440f55c73d91ce6d9ebaa3b3d949296c7dfa04cf4565c85e9d91e95d42187"
+    },
+    {
       "path": "records/source_provenance.json",
       "size": 123963,
       "sha256": "f2f3ed851730e10e5a4529d0b6157ebd9f74935aa0281c3f9bc9f824ba768a6d"
+    },
+    {
+      "path": "records/verification_20260930/paper_figure.json",
+      "size": 2801,
+      "sha256": "f10af229c78286683a809a939dec72037893e8a057f6cce3e3bb7773639df5ea"
+    },
+    {
+      "path": "records/verification_20260930/paper_figure.log",
+      "size": 415,
+      "sha256": "c2ea4f7b50f0bcea7a0d2652a2585fbecce6ee4a3af9ee4eac19f144992a84b3"
+    },
+    {
+      "path": "records/verification_20260930/paper_figure_axes.json",
+      "size": 4864,
+      "sha256": "c8c1dfbab0326e774fd44098ad49bdfea4b903718233bc10fffee521d62cac6b"
+    },
+    {
+      "path": "records/verification_20260930/simulation.log",
+      "size": 713,
+      "sha256": "8fa3745a022af81c2ab585280343cb1fffc593b8d7c1d2922abda297a8cf3e7e"
+    },
+    {
+      "path": "records/verification_20260930/simulation_checks.json",
+      "size": 6324,
+      "sha256": "327ef8b8f354e49e8e0541584422cfb7011a3042a29aee1a041cf6b55c12ff86"
+    },
+    {
+      "path": "records/verification_20260930/software.log",
+      "size": 77695,
+      "sha256": "74db23d2bc711cdfbf661586d3b8b0dc9ccb15d08bf529063c7bd8cddccfaa7d"
+    },
+    {
+      "path": "records/verification_20260930/summary.json",
+      "size": 504,
+      "sha256": "679ec0696b7841b3b13acdcee0335c0a49509eae1647efac7f5d6e18d518bfe7"
+    },
+    {
+      "path": "records/verification_20260930/verification_outputs.log",
+      "size": 621,
+      "sha256": "ef3ccf49724021ff5a829a3df281f3d8c8a49e1858f8e88aa74240984c369ac9"
     },
     {
       "path": "records/verification_summary.json",
@@ -1507,14 +1652,19 @@
       "sha256": "bb18f90ec95e106564eb9795791f19ce9eaf842f85cb5951ff23854eddaa4b3f"
     },
     {
+      "path": "scripts/test_verification_outputs.py",
+      "size": 3149,
+      "sha256": "4dfa0c77f65183d84982c847a40ce781e2f7af091c1ed47f0d67b31c4c4f3666"
+    },
+    {
       "path": "scripts/verify.py",
-      "size": 1835,
-      "sha256": "619964ffebf4b0c6edb95c5723fb77db3141006dfe8dabddb990ce5ec10d2bfa"
+      "size": 2011,
+      "sha256": "711fad3e3ba0e65b5162cc646ff6f605d04364cace549fddd624ab47ab2f9939"
     },
     {
       "path": "simulation/animate_three_modes.m",
-      "size": 7445,
-      "sha256": "5700e6364998cade57ee6d4112bb0855968cd4fe3a9e51bdea2d287da639d899"
+      "size": 7431,
+      "sha256": "2761b37f3d720d8af112ce109fe21a42905e6070da633ca784468785ca87fdda"
     },
     {
       "path": "simulation/assemble_animation.m",
@@ -1643,13 +1793,13 @@
     },
     {
       "path": "simulation/paper_current/terrain_missions.fig",
-      "size": 30710295,
-      "sha256": "8ea166ccf20a6b8ae9308dc7b9f448e0841e828cc27a68530e2e8712c4ea3b63"
+      "size": 30710130,
+      "sha256": "07c76a5ee790dc875bc68beac6d586555356b99a8b41853c60a808019ad5ecd3"
     },
     {
       "path": "simulation/paper_current/terrain_missions.png",
-      "size": 1681634,
-      "sha256": "3859bd6e9ea4ac8e1539b4e2f0c1c851206640b7d6c2f926efdafc21dd304aa0"
+      "size": 1676295,
+      "sha256": "e2b675701b90cd5117ede84929702a2d3b7e673e09abfe731fc5bb4f65e6c0e0"
     },
     {
       "path": "simulation/reference/sos_pattern.py",
@@ -1658,13 +1808,13 @@
     },
     {
       "path": "simulation/render_paper_terrain.m",
-      "size": 8390,
-      "sha256": "81254f3ec01f2f3dcaa5aa55abf95201d35053fbcb99ff74271a9c4628ba7084"
+      "size": 8383,
+      "sha256": "10eb7663a2f612e2e326c16cf4ef6bf42fa9d031f48b0e77643b033086fec688"
     },
     {
       "path": "simulation/render_three_modes.m",
-      "size": 13051,
-      "sha256": "f2c9c65c01b8cf082627eaf817ca3c23a1397cc5d9d4db463d0ef9e78c16465b"
+      "size": 13057,
+      "sha256": "4d63ab8c573fae2703d8235379fcc88cb2f9267bbe9a9f0dce0b4c096a1a7774"
     },
     {
       "path": "simulation/run_all.m",
@@ -1684,12 +1834,13 @@
     {
       "path": "simulation/verification/source_manifest.json",
       "size": 1322,
-      "sha256": "dc5d88acdd483c3801352abf2b760660dc4f95e366418f16bc0cc575f5c8399a"
+      "sha256": "bdc90a310442fd1755f7cad479f7fead38b40eba04e258b6ffd475195da6facb"
     },
     {
       "path": "simulation/verify_outputs.py",
-      "size": 6548,
-      "sha256": "5ac398cdeb7a4234e9d0d0cdb4fa0028201e91bbee1e1e49a9304efd3c910215"
+      "size": 7116,
+      "sha256": "0d7eb0d4ffcc257c9f7accc2de0f7cca9450a47e46b718c6f14a9722fe740e4f"
     }
-  ]
+  ],
+  "updated_at": "2026-09-30T11:02:31.974419+00:00"
 }

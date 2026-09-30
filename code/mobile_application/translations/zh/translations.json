@@ -19,7 +19,7 @@
   "sosPage": {
     "title": "緊急求救",
     "legalWarning": "任何人濫用此緊急服務可能會承擔法律責任",
-    "confirmText": "請確認這是真正的緊急情況。\n點擊 SOS 按鈕後，999 報案中心可能會聯絡您。",
+    "confirmText": "請確認這是真正的緊急情況。\n點擊 SOS，將您的目前位置傳送至地面站，由操作員核實求助情況。",
     "sosButton": "SOS",
     "callButton": "立即撥打 999",
     "successTitle": "成功",

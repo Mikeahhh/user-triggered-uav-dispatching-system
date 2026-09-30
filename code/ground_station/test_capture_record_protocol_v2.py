@@ -9,7 +9,7 @@ from rescue_record_protocol import (GroundRescueStore,RescueRecordError,RescueRe
     parse_onboard_envelope,parse_onboard_record,build_ground_ack,validate_ground_ack,
     process_onboard_envelope,format_record_summary)
 
-FIXTURES=Path(__file__).resolve().parents[4]/'output/保留论文补齐代码_20260909/记录v2跨端夹具.json'
+FIXTURES=Path(__file__).resolve().parent/'fixtures/capture_record_v2.json'
 
 
 def envelope():

@@ -19,7 +19,7 @@
   "sosPage": {
     "title": "Emergency SOS",
     "legalWarning": "Anyone Who Abuses This Emergency Service May Incur Legal Liabilities",
-    "confirmText": "Please confirm this is a real emergency.\nUpon clicking the SOS button, the 999 Report Centre may contact you.",
+    "confirmText": "Please confirm this is a real emergency.\nPress SOS to send your current location to the ground station for operator verification.",
     "sosButton": "SOS",
     "callButton": "Call 999 Now",
     "successTitle": "Success",

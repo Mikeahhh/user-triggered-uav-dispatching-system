@@ -1,0 +1,23 @@
+1790765465: Info: running mosquitto as user: mike.
+1790765465: mosquitto version 2.1.2 starting
+1790765465: Config loaded from local-results/phone-relay-20260930/.bench_mosquitto.conf.
+1790765465: Bridge support available.
+1790765465: Persistence support available.
+1790765465: TLS support available.
+1790765465: TLS-PSK support available.
+1790765465: Websockets support available.
+1790765465: Opening ipv4 listen socket on port 59445.
+1790765465: mosquitto version 2.1.2 running
+1790765465: New connection from 127.0.0.1:59448 on port 59445.
+1790765465: Client 127.0.0.1 [127.0.0.1:59448] disconnected: connection closed by client.
+1790765465: Client 127.0.0.1 [127.0.0.1:59448] disconnected: connection closed by client.
+1790765465: New connection from 127.0.0.1:59451 on port 59445.
+1790765465: New client connected from 127.0.0.1:59451 as uav_phone_rescue_receiver (p4, c1, k60).
+1790765465: New connection from 127.0.0.1:59452 on port 59445.
+1790765465: New client connected from 127.0.0.1:59452 as bench_ground_station (p4, c1, k30).
+1790765465: New connection from 127.0.0.1:59457 on port 59445.
+1790765465: New client connected from 127.0.0.1:59457 as bench_mission_status (p4, c1, k30).
+1790765466: Client bench_mission_status [127.0.0.1:59457] disconnected.
+1790765467: Client bench_ground_station [127.0.0.1:59452] disconnected.
+1790765467: Client uav_phone_rescue_receiver [127.0.0.1:59451] disconnected.
+1790765467: mosquitto version 2.1.2 terminating

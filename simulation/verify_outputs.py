@@ -1,12 +1,20 @@
 from __future__ import annotations
 
+import argparse
 import csv
+from datetime import datetime, timezone
 import hashlib
 import importlib.util
 import json
 from pathlib import Path
 
 import numpy as np
+
+parser = argparse.ArgumentParser(description="Check saved simulation data without replacing archived results")
+parser.add_argument("--output", type=Path, help="Write the full report to a new JSON file")
+args = parser.parse_args()
+if args.output is not None and args.output.exists():
+    parser.error(f"output already exists: {args.output}")
 
 ROOT = Path(__file__).resolve().parent
 OUT = ROOT / "output"
@@ -113,9 +121,13 @@ source_manifest = json.loads((ROOT / "verification/source_manifest.json").read_t
 for source in source_manifest["sources"]:
     check(f"Source copy unchanged: {source['local_copy']}", hashlib.sha256((ROOT / source["local_copy"]).read_bytes()).hexdigest() == source["sha256"])
 
-report = {"all_passed": all(c["passed"] for c in checks), "check_count": len(checks), "checks": checks,
+report = {"completed_at": datetime.now(timezone.utc).isoformat(),
+          "all_passed": all(c["passed"] for c in checks), "check_count": len(checks), "checks": checks,
           "missions": results, "scope": "Independent numeric and figure-axis audit. No new flight-stack or field validation."}
-(ROOT / "verification/independent_verification.json").write_text(json.dumps(report, indent=2)+"\n")
+if args.output is not None:
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    with args.output.open("x", encoding="utf-8") as stream:
+        stream.write(json.dumps(report, indent=2) + "\n")
 print(json.dumps({"all_passed": report["all_passed"], "check_count":len(checks), "missions": results,
                   "failed": [c for c in checks if not c["passed"]]}, indent=2))
 raise SystemExit(0 if report["all_passed"] else 1)
