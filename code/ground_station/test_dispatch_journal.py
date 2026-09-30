@@ -15,6 +15,12 @@ from mission_execution_protocol import normalized_task, task_fingerprint
 FIXTURES = json.loads((Path(__file__).parent / "test_fixtures/task_v2_fingerprints.json").read_text())
 
 
+def admission(payload):
+    return {"schema_version": 2, "message_type": "ADMISSION", "mission_id": payload["mission_id"],
+            "execution_id": payload["execution_id"], "content_fingerprint": task_fingerprint(payload),
+            "attempt": 1, "decision_seq": 1, "accepted": True, "status": "ACCEPTED"}
+
+
 class TaskProtocolTests(unittest.TestCase):
     def test_all_shared_golden_fixtures(self):
         for case in FIXTURES["cases"]:
@@ -29,7 +35,7 @@ class TaskProtocolTests(unittest.TestCase):
                              ("waypoints", []), ("waypoints", [{"lat": True, "lon": 0}]),
                              ("waypoints", [{"lat": float("nan"), "lon": 0}]),
                              ("waypoints", [{"lat": 91, "lon": 0}]),
-                             ("waypoints", [{"lat": 0, "lon": 0}] * 1001)):
+                             ("waypoints", [{"lat": 0, "lon": 0}] * 100001)):
             with self.subTest(field=field), self.assertRaises((ValueError, TypeError)):
                 task_fingerprint({**original, field: value})
 
@@ -43,9 +49,9 @@ class JournalTests(unittest.TestCase):
             journal.prepare(("U", "E"), payload)
             with self.assertRaises(JournalConflict):
                 journal.prepare(("U", "E"), {**payload, "hover_seconds": 7})
-            journal.set_state(("U", "E"), payload["execution_id"], "BROKER_CONFIRMED")
-            with self.assertRaises(JournalConflict):
-                journal.set_state(("U", "E"), payload["execution_id"], "UNKNOWN")
+            journal.record_admission(admission(payload))
+            journal.set_state(("U", "E"), payload["execution_id"], "UNKNOWN")
+            self.assertEqual(journal.get(("U", "E"))["state"], "ACCEPTED")
             journal.close()
             other = DispatchJournal(path, "synthetic-scope-B")
             self.assertIsNone(other.get(("U", "E")))
@@ -71,11 +77,14 @@ class JournalTests(unittest.TestCase):
             first.get = paused_get
             def write(journal, state):
                 try:
-                    journal.set_state(key, payload["execution_id"], state)
-                    if state == "COMMITTED": committed.set()
+                    if state == "ACCEPTED":
+                        journal.record_admission(admission(payload))
+                        committed.set()
+                    else:
+                        journal.set_state(key, payload["execution_id"], state)
                 except Exception as exc: errors.append(exc)
             older = threading.Thread(target=write, args=(first, "UNKNOWN"))
-            newer = threading.Thread(target=write, args=(second, "COMMITTED"))
+            newer = threading.Thread(target=write, args=(second, "ACCEPTED"))
             older.start()
             self.assertTrue(read.wait(3))
             newer.start()
@@ -84,8 +93,9 @@ class JournalTests(unittest.TestCase):
             older.join(3); newer.join(3)
             self.assertTrue(was_blocked, "second writer must wait for the read/update transaction")
             self.assertFalse(errors)
-            self.assertEqual(second.get(key)["state"], "COMMITTED")
-            with self.assertRaises(JournalConflict): first.set_state(key, payload["execution_id"], "UNKNOWN")
+            self.assertEqual(second.get(key)["state"], "ACCEPTED")
+            first.set_state(key, payload["execution_id"], "UNKNOWN")
+            self.assertEqual(first.get(key)["state"], "ACCEPTED")
             first.close(); second.close()
 
     def test_database_and_live_wal_shm_are_private(self):
@@ -131,21 +141,39 @@ class JournalTests(unittest.TestCase):
             self.assertIsNone(recovered["broker_confirmed_at_ms"])
             journal.close()
 
-    def test_new_process_reads_durable_broker_confirmation(self):
+    def test_new_process_reads_durable_awaiting_acceptance_and_publication_time(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "journal.sqlite3"
             payload = FIXTURES["cases"][0]["input"]
             writer = DispatchJournal(path, "synthetic")
             writer.prepare(("U", "E"), payload)
             with patch("dispatch_journal.time.time", return_value=1234.5):
-                writer.set_state(("U", "E"), payload["execution_id"], "BROKER_CONFIRMED")
+                writer.set_state(("U", "E"), payload["execution_id"], "AWAITING_ACCEPTANCE")
             writer.close()
-            script = ("from dispatch_journal import DispatchJournal; import sys; "
-                      "j=DispatchJournal(sys.argv[1],'synthetic'); "
-                      "print(j.get(('U','E'))['state'], j.get(('U','E'))['broker_confirmed_at_ms']); j.close()")
+            script = ("from dispatch_journal import DispatchJournal\nimport sys\nfrom unittest.mock import patch\n"
+                      "with patch('dispatch_journal.time.time',return_value=1234.501):\n"
+                      " j=DispatchJournal(sys.argv[1],'synthetic')\n"
+                      " print(j.get(('U','E'))['state'],j.get(('U','E'))['broker_confirmed_at_ms'])\n"
+                      " j.close()\n")
             result = subprocess.run([sys.executable, "-B", "-c", script, str(path)],
                                     cwd=Path(__file__).parent, text=True, capture_output=True, check=True)
-            self.assertEqual(result.stdout.strip(), "BROKER_CONFIRMED 1234500")
+            self.assertEqual(result.stdout.strip(), "AWAITING_ACCEPTANCE 1234500")
+
+    def test_legacy_committed_state_migrates_to_unknown_without_uav_evidence(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "legacy.sqlite3"
+            payload = FIXTURES["cases"][0]["input"]
+            writer = DispatchJournal(path, "synthetic")
+            writer.prepare(("U", "E"), payload)
+            writer.connection.execute("UPDATE execution_intents SET protocol_version=0,state='COMMITTED'")
+            writer.connection.commit()
+            writer.close()
+            reopened = DispatchJournal(path, "synthetic")
+            self.addCleanup(reopened.close)
+            recovered = reopened.get(("U", "E"))
+            self.assertEqual(recovered["state"], "UNKNOWN")
+            self.assertIsNone(recovered["admission"])
+            self.assertEqual(recovered["payload"], payload)
 
 
 if __name__ == "__main__":

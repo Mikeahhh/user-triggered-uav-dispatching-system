@@ -4,7 +4,6 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Platform,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
@@ -77,11 +76,11 @@ const Footer: React.FC<FooterProps> = ({ currentPage, onSelectPage }) => {
 const styles = StyleSheet.create({
   footer: {
     flexDirection: 'row',
-    height: Platform.OS === 'ios' ? 90 : 80,
+    height: 80,
     backgroundColor: '#ffffff',
     borderTopWidth: 1,
     borderTopColor: '#e0e0e0',
-    paddingBottom: Platform.OS === 'ios' ? 20 : 10,
+    paddingBottom: 10,
     paddingTop: 20,
   },
   tabItem: {

@@ -1,5 +1,4 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Platform } from 'react-native';
 import { captureFreshUavPosition, FreshPositionOptions, FreshUavPosition } from './freshUavPosition';
 import { createUavCaptureId } from './uavCaptureIdentity';
 import { getUavAuthorizationHeaders, normalizeBaseUrl, UavConnectionConfig, UavRescuePayload } from './uavRescueClient';
@@ -154,7 +153,7 @@ export const createUavArrivalCaptureClient = (dependencies: CaptureDependencies 
         const captureId = validateCaptureIdentifier(await createId());
         if (items.some(item => item.capture_id === captureId)) throw new UavCaptureTransferError('CAPTURE_ID_CONFLICT');
         entry = { capture_id: captureId, source_request: source, receiver_base_url: config.baseUrl,
-          wifi_ssid: config.wifiSsid, test_mode: config.testMode, device: dependencies.device || Platform.OS };
+          wifi_ssid: config.wifiSsid, test_mode: config.testMode, device: dependencies.device || 'android' };
         items.push(entry);
         await write(items);
       }

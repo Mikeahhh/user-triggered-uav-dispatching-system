@@ -11,7 +11,7 @@ from typing import Any, Dict, List, Optional, Sequence, Tuple
 
 UAV_SOFTWARE_VERSION = "1.2.0"
 SYSTEM_RELEASE_ID = "MASS26-20260806"
-MAX_WAYPOINTS = 1000
+MAX_WAYPOINTS = 100000
 ID_TOKEN = r"[A-Za-z0-9][A-Za-z0-9._-]{0,127}"
 MISSION_ID_RE = re.compile(r"^{}(?:/{})?$".format(ID_TOKEN, ID_TOKEN))
 MISSION_TYPE_RE = re.compile(r"^[A-Za-z][A-Za-z0-9._-]{0,63}$")

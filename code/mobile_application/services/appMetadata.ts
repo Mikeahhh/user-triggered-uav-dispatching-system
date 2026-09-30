@@ -1,6 +1,5 @@
 export const MOBILE_APP_VERSION = '1.2.0';
 export const ANDROID_VERSION_CODE = 3;
-export const IOS_BUILD_NUMBER = 3;
 export const SYSTEM_RELEASE_ID = 'MASS26-20260806';
 export const REACT_NATIVE_VERSION = '0.80.2';
 export const FIREBASE_WEB_SDK_VERSION = '12.8.0';

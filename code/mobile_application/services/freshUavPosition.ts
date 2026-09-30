@@ -1,5 +1,5 @@
 import Geolocation from '@react-native-community/geolocation';
-import { PermissionsAndroid, Platform } from 'react-native';
+import { PermissionsAndroid } from 'react-native';
 import { getPositionCaptureTime } from './positionTimestamp';
 
 export class FreshUavPositionError extends Error {}
@@ -21,11 +21,9 @@ export const captureFreshUavPosition = async (
   options: FreshPositionOptions = {},
 ): Promise<FreshUavPosition> => {
   if (options.signal?.aborted) throw new FreshUavPositionError('Location capture was cancelled');
-  if (Platform.OS === 'android') {
-    const result = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
-    if (result !== PermissionsAndroid.RESULTS.GRANTED) {
-      throw new FreshUavPositionError('Location permission was denied');
-    }
+  const result = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION);
+  if (result !== PermissionsAndroid.RESULTS.GRANTED) {
+    throw new FreshUavPositionError('Location permission was denied');
   }
   if (options.signal?.aborted) throw new FreshUavPositionError('Location capture was cancelled');
   const now = options.now || Date.now;

@@ -5,7 +5,6 @@ import {
   StyleSheet,
   TouchableOpacity,
   Modal,
-  Platform,
 } from 'react-native';
 import MapView from 'react-native-maps';
 import { useTranslation } from 'react-i18next';
@@ -111,17 +110,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     width: '80%',
     maxWidth: 320,
-    ...Platform.select({
-      ios: {
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.25,
-        shadowRadius: 10,
-      },
-      android: {
-        elevation: 8,
-      },
-    }),
+    elevation: 8,
   },
   title: {
     fontSize: 24,
@@ -156,7 +145,7 @@ const styles = StyleSheet.create({
     borderTopRightRadius: 24,
     paddingHorizontal: 24,
     paddingVertical: 16,
-    paddingBottom: Platform.OS === 'ios' ? 34 : 24,
+    paddingBottom: 24,
     alignItems: 'center',
   },
   dragHandle: {

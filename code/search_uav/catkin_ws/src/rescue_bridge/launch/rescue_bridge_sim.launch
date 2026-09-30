@@ -12,12 +12,16 @@
     <arg name="init_y" default="0.0"/>
     <arg name="flight_alt" default="1.0"/>
     <arg name="arrival_threshold" default="5.0"/>
+    <arg name="vertical_threshold" default="1.0"/>
+    <arg name="hold_feedback_timeout" default="1.0"/>
+    <arg name="position_feedback_hz" default="5.0"/>
     <arg name="data_timeout" default="5.0"/>
 
 
     <node pkg="rescue_bridge" type="mqtt_bridge.py" name="mqtt_bridge" output="screen">
         <param name="mqtt_broker" value="$(arg mqtt_broker)"/>
         <param name="mqtt_port" value="$(arg mqtt_port)"/>
+        <param name="hold_feedback_timeout" value="$(arg hold_feedback_timeout)"/>
     </node>
 
 
@@ -28,6 +32,9 @@
         <param name="init_y" value="$(arg init_y)"/>
         <param name="flight_alt" value="$(arg flight_alt)"/>
         <param name="arrival_threshold" value="$(arg arrival_threshold)"/>
+        <param name="vertical_threshold" value="$(arg vertical_threshold)"/>
+        <param name="hold_feedback_timeout" value="$(arg hold_feedback_timeout)"/>
+        <param name="position_feedback_hz" value="$(arg position_feedback_hz)"/>
         <param name="data_timeout" value="$(arg data_timeout)"/>
     </node>
 

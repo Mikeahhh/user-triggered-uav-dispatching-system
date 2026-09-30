@@ -82,7 +82,7 @@ class JournalCollectionContextProvider:
 
 
 class CaptureStoreV2:
-    def __init__(self,root,write_atomic,write_exclusive,mkdir_durable,source_lookup=None):
+    def __init__(self,root,write_atomic,write_exclusive,mkdir_durable,source_lookup=None,delivery_eligibility=None):
         self.root=Path(root)
         self.records_dir=self.root/'captures_v2'
         self.outbox_dir=self.root/'capture_outbox_v2'
@@ -91,6 +91,7 @@ class CaptureStoreV2:
         self.triggers_dir=self.root/'capture_land_requests_v2'
         for path in (self.records_dir,self.outbox_dir,self.contexts_dir,self.sources_dir,self.triggers_dir): mkdir_durable(path)
         self.write_atomic=write_atomic; self.write_exclusive=write_exclusive
+        self.delivery_eligibility=delivery_eligibility or (lambda mid,eid,fingerprint: False)
         self.source_lookup=source_lookup
         self.lock=threading.RLock()
         self.bad_entries=set()
@@ -244,6 +245,15 @@ class CaptureStoreV2:
             return value.get('schema_version')==2 and value.get('carrier_mission_id')==record['carrier_mission_id'] and value.get('carrier_execution_id')==record['carrier_execution_id']
         except (OSError,ValueError): return False
 
+    def can_deliver(self,record):
+        try:
+            saved=self._read_context(record['capture_id'])
+            response=saved['response']; context=saved['bridge_context']
+            if any(response.get(key)!=record.get(key) for key in ('context_id','carrier_mission_id','carrier_execution_id','request_id')):
+                return False
+            return self.delivery_eligibility(record['carrier_mission_id'],record['carrier_execution_id'],context.get('content_fingerprint'))
+        except (OSError,ValueError,KeyError,TypeError): return False
+
     def prepare_delivery(self,record,trigger):
         with self.lock:
             state=self.read_delivery(record['capture_id']); saved=state.get('delivery_envelope')
@@ -268,8 +278,10 @@ class CaptureStoreV2:
             return self.update_delivery(capture_id,state='ACKNOWLEDGED_BY_GS',ground_ack=ack,acknowledged_at=ack['acknowledged_at'],last_attempt_result='ACKNOWLEDGED')
 
     def health_summary(self):
-        values=[self.read_delivery(record['capture_id']) for record in self.pending_records()]
-        return dict(captures=len(list(self.records_dir.glob('*.json'))),pending=len(values),unreadable_entries=len(self.bad_entries))
+        records=self.pending_records()
+        return dict(captures=len(list(self.records_dir.glob('*.json'))),pending=len(records),
+                    withheld_pending_records=sum(not self.can_deliver(record) for record in records),
+                    unreadable_entries=len(self.bad_entries))
 
 
 class CaptureDeliveryCoordinator:
@@ -279,6 +291,7 @@ class CaptureDeliveryCoordinator:
     def forward(self,record,trigger):
         capture_id=record['capture_id']
         try:
+            if not self.store.can_deliver(record): return False
             with self.store.lock:
                 state=self.store.read_delivery(capture_id)
                 if state.get('state')=='ACKNOWLEDGED_BY_GS': return False
@@ -307,14 +320,15 @@ class CaptureDeliveryCoordinator:
             except (OSError,ValueError,TypeError): continue
             saved=state.get('delivery_envelope')
             trigger=saved.get('forward_trigger') if isinstance(saved,dict) else None
-            if trigger not in wire.TRIGGERS and self.store.has_land_request(record): trigger='MISSION_QUEUE_COMPLETE_LAND_REQUESTED'
+            if trigger not in wire.TRIGGERS and self.store.can_deliver(record): trigger='MISSION_QUEUE_COMPLETE_LAND_REQUESTED'
             if trigger in wire.TRIGGERS: count+=self.forward(record,trigger)
         return count
 
     def handle_status(self,data):
         if (not isinstance(data,dict) or type(data.get('schema_version')) is not int or data['schema_version']!=2
                 or data.get('phase')!='LAND_REQUESTED' or data.get('status') not in ('LANDING','LAND_REQUESTED')
-                or data.get('land_command_requested') is not True): return 0
+                or data.get('land_command_requested') is not True
+                or data.get('all_waypoints_completed') is not True or data.get('delivery_eligible') is not True): return 0
         mid=data.get('mission_id');eid=data.get('execution_id')
         try: wire.identifier(mid,'carrier_mission_id',True);wire.identifier(eid,'carrier_execution_id')
         except ValueError: return 0

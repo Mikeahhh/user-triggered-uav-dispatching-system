@@ -32,6 +32,8 @@ def content_fingerprint(mission):
 def normalize_execution_payload(data, *, legacy_topic=False):
     if not isinstance(data, dict):
         raise MissionValidationError("mission payload must be an object")
+    if len(json.dumps(data, separators=(",", ":"), ensure_ascii=True, allow_nan=False).encode("utf-8")) > 16 * 1024 * 1024:
+        raise MissionValidationError("task exceeds 16 MiB")
     version = data.get("schema_version", 1)
     if type(version) is not int or version not in (1, 2):
         raise MissionValidationError("unsupported task schema_version")

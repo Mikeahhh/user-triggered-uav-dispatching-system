@@ -133,7 +133,6 @@
       "title": "發布元資料",
       "app": "Mobile App",
       "androidBuild": "Android versionCode",
-      "iosBuild": "iOS build",
       "releaseId": "系統發布 ID",
       "protocol": "UAV 協定",
       "outboxSchema": "待傳佇列儲存版本"
@@ -441,5 +440,22 @@
     "booking": "行程預約",
     "profile": "個人檔案",
     "health": "系統健康狀態"
+  },
+  "persistentTracking": {
+    "backgroundDescription": "切換頁面或鎖定螢幕時，仍會在本機記錄路線。",
+    "interrupted": "記錄已中斷",
+    "resume": "恢復記錄",
+    "uploaded": "已同步位置",
+    "pending": "待同步記錄",
+    "savedLocally": "資料已儲存在本機，連線恢復後會繼續同步。",
+    "previewLimit": "地圖顯示最近 1,000 個位置；所有已記錄位置均會保留。",
+    "legacyPreserved": "無法確認所屬使用者的舊路線仍保留在本機。",
+    "recordQueued": "已儲存在本機，等待雲端確認。",
+    "stopped": "記錄已停止",
+    "sync": {
+      "PENDING": "等待同步",
+      "SYNCED": "已儲存記錄全部同步完成",
+      "ERROR": "同步需要處理"
+    }
   }
 }

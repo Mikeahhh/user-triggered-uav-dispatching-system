@@ -28,6 +28,8 @@ from quadrotor_msgs.msg import TakeoffLand
 from rescue_bridge.msg import WaypointCommand, WaypointFeedback, ExecutionControl
 from execution_protocol import normalize_execution_payload
 from execution_state import ExecutionManager, ExecutionError
+from mission_transfer_store import MissionTransferStore
+from mission_transfer_protocol import decode as decode_transfer, messages as transfer_messages
 
 import paho.mqtt.client as mqtt
 
@@ -54,10 +56,13 @@ DEFAULT_CONFIG = {
     "topic_target_legacy": "alin1/mission/target_gps",
     "topic_target_multi": "alin1/mission/multi_waypoint",
     "topic_status": "alin1/mission/status", "topic_abort": "alin1/mission/abort",
+    "topic_operator_retry": "alin1/mission/operator_retry",
+    "topic_transfer": "alin1/mission/transfer",
     "topic_operator_reset": "alin1/mission/operator_reset",
     "execution_journal_path": "/home/mike/drone_system/data/mission_state/executions.json",
 
     "gps_timeout_seconds": 5.0,
+    "hold_feedback_timeout_seconds": 1.0,
 
     "target_acceptance_timeout_seconds": 5.0, "target_retry_limit": 3,
 }
@@ -79,12 +84,15 @@ def load_config():
                 cfg["gps_timeout_seconds"] = loaded["gps_fix_timeout_seconds"]
     except FileNotFoundError:
         rospy.logwarn("mission configuration missing; using documented defaults")
-    for key in ("gps_timeout_seconds", "target_acceptance_timeout_seconds"):
+    cfg['hold_feedback_timeout_seconds'] = rospy.get_param('~hold_feedback_timeout', cfg['hold_feedback_timeout_seconds'])
+    for key in ("gps_timeout_seconds", "target_acceptance_timeout_seconds", "hold_feedback_timeout_seconds"):
         value = cfg[key]
         if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value) or value <= 0:
             raise ValueError("invalid positive finite configuration: " + key)
     if type(cfg["target_retry_limit"]) is not int or cfg["target_retry_limit"] < 1:
         raise ValueError("target_retry_limit must be a positive integer")
+    if cfg["hold_feedback_timeout_seconds"] > cfg["gps_timeout_seconds"]:
+        raise ValueError("hold feedback timeout cannot exceed position data timeout")
     hover = cfg["hover_seconds"]
     if isinstance(hover, bool) or not isinstance(hover, (int, float)) or not math.isfinite(hover) or not 0 <= hover <= 600:
         raise ValueError("invalid hover_seconds")
@@ -120,7 +128,8 @@ class MqttBridge:
         path = self.cfg.get("execution_journal_path")
         if not isinstance(path, str) or not path.strip():
             raise ExecutionError("persistent execution journal is required")
-        self.engine = ExecutionManager(path)
+        self.engine = ExecutionManager(path, hold_feedback_timeout=self.cfg["hold_feedback_timeout_seconds"])
+        self.transfer_store = MissionTransferStore(path + ".transfers")
         self.target_pub = rospy.Publisher("/rescue/waypoint_command", WaypointCommand, queue_size=4)
         self.control_pub = rospy.Publisher("/rescue/execution_control", ExecutionControl, queue_size=4)
         self.takeoff_land_pub = rospy.Publisher("/px4ctrl/takeoff_land", TakeoffLand, queue_size=2)
@@ -146,7 +155,7 @@ class MqttBridge:
         if rc != 0:
             rospy.logerr("MQTT connection rejected rc=%s", rc)
             return
-        for key in ("topic_target_legacy", "topic_target_multi", "topic_abort", "topic_operator_reset"):
+        for key in ("topic_target_legacy", "topic_target_multi", "topic_abort", "topic_operator_reset", "topic_transfer", "topic_operator_retry"):
             client.subscribe(self.cfg[key], qos=1)
         self._emit({"schema_version": 2, "status": "ONLINE", "phase": "ONLINE",
                     "mission_id": "", "execution_id": "", "touchdown_confirmed": False})
@@ -164,6 +173,10 @@ class MqttBridge:
             self._handle_legacy(msg.payload)
         elif msg.topic == self.cfg["topic_abort"]:
             self._handle_abort(msg.payload)
+        elif msg.topic == self.cfg["topic_operator_retry"]:
+            self._handle_retry(msg.payload)
+        elif msg.topic == self.cfg["topic_transfer"]:
+            self._handle_transfer(msg.payload)
         elif msg.topic == self.cfg["topic_operator_reset"]:
             self._handle_reset(msg.payload)
 
@@ -180,27 +193,58 @@ class MqttBridge:
     def _handle_legacy(self, payload):
         return self._handle_mission(payload, True)
 
-    def _handle_mission(self, payload, legacy_topic):
+    def _transfer_store(self):
+        if not hasattr(self, 'transfer_store'):
+            import tempfile
+            self._transfer_temporary = tempfile.TemporaryDirectory()
+            self.transfer_store = MissionTransferStore(self._transfer_temporary.name)
+        return self.transfer_store
+
+    def _handle_transfer(self, payload):
         data = {}
         with self._lock:
             try:
-                data = self._decode(payload)
-                mission = normalize_execution_payload(data, legacy_topic=legacy_topic)
-                result, snapshot = self.engine.admit(
-                    mission, self._valid_launch_fix(), hover_seconds=float(self.cfg["hover_seconds"]))
-                self._publish_snapshot(snapshot, disposition=result)
-                if result == "NEW":
-                    self._receiver_session_id = ""
+                data = decode_transfer(payload)
+                response, result, snapshot = self._transfer_store().handle(
+                    data, self.engine, self._valid_launch_fix(), float(self.cfg['hover_seconds']))
+                self._emit(response)
+                if snapshot:
+                    self._publish_snapshot(snapshot, disposition=result)
+                if result == 'NEW':
+                    self._receiver_session_id = ''
                     self._send_current()
                 return result
             except (ValueError, TypeError, OSError) as exc:
                 self._reject(data, str(exc))
-                return "REJECTED"
+                return 'REJECTED'
+
+    def _handle_mission(self, payload, legacy_topic):
+        data = {}
+        try:
+            if len(payload) > 16 * 1024 * 1024:
+                raise ValueError('task exceeds 16 MiB')
+            data = self._decode(payload)
+            mission = normalize_execution_payload(data, legacy_topic=legacy_topic)
+            task = dict(schema_version=2, execution_id=mission['execution_id'],
+                        mission_id=mission['mission_id'], mission_type=mission['mission_type'],
+                        altitude=mission['altitude'], hover_seconds=mission['hover_seconds'],
+                        return_to_launch=mission['return_to_launch'],
+                        waypoints=[dict(latitude=p[0], longitude=p[1]) for p in mission['waypoints']])
+            result = None
+            for message in transfer_messages(task, mission['content_fingerprint'], data.get('attempt', 1)):
+                result = self._handle_transfer(json.dumps(message).encode())
+                if result == 'REJECTED': return result
+            return result
+        except (ValueError, TypeError, OSError) as exc:
+            self._reject(data, str(exc))
+            return 'REJECTED'
 
     def _reject(self, data, reason):
-        self._emit({"schema_version": 2, "status": "REJECTED", "phase": "MISSION_REJECTED",
+        self._emit({"schema_version": 2, "message_type": "PROTOCOL_ERROR", "status": "REJECTED", "phase": "MISSION_REJECTED",
                     "mission_id": data.get("mission_id", "") if isinstance(data.get("mission_id", ""), str) else "",
                     "execution_id": data.get("execution_id", "") if isinstance(data.get("execution_id", ""), str) else "",
+                    "content_fingerprint": data.get("content_fingerprint", ""),
+                    "attempt": data.get("attempt"),
                     "active_execution_id": self.engine.active_id, "reason": reason,
                     "message": reason, "waypoint_index": None, "touchdown_confirmed": False})
 
@@ -284,24 +328,36 @@ class MqttBridge:
             feedback_status, feedback_reason = msg.status, msg.reason
             if msg.status == "ACCEPTED":
                 profile = {key: getattr(msg, key, None) for key in
-                           ("effective_altitude", "arrival_threshold", "data_timeout")}
+                           ("effective_altitude", "arrival_threshold", "vertical_threshold", "data_timeout")}
                 if not all(isinstance(v, (int, float)) and not isinstance(v, bool)
                            and math.isfinite(v) and v > 0 for v in profile.values()):
                     feedback_status, feedback_reason = "REJECTED", "INVALID_RECEIVER_PROFILE"
                     profile = None
                 else:
-                    profile.update(receiver_session_id=msg.receiver_session_id, arrival_basis="HORIZONTAL_XY")
+                    profile.update(receiver_session_id=msg.receiver_session_id, arrival_basis="HORIZONTAL_XY_AND_VERTICAL_Z")
+            position = {}
+            position_fresh = False
+            if feedback_status in {'ARRIVED', 'HOLDING', 'OUTSIDE', 'POSITION_STALE'}:
+                stamp = getattr(msg, 'position_stamp', None)
+                age = rospy.Time.now().to_sec() - stamp if type(stamp) in (int, float) else float('inf')
+                position_fresh = math.isfinite(age) and 0 <= age <= self.cfg.get('hold_feedback_timeout_seconds', 1.0)
+                valid = position_fresh and getattr(msg, 'within_tolerance', False) is True
+                position = dict(position_valid=valid, feedback_seq=getattr(msg, 'feedback_seq', None))
             status = self.engine.feedback(msg.mission_id, msg.execution_id, msg.waypoint_index,
-                                          feedback_status, feedback_reason, runtime_profile=profile)
+                                          feedback_status, feedback_reason, runtime_profile=profile, **position)
             if status is None:
                 return
-            self._target_deadline = None
-            if feedback_status == "ACCEPTED":
+            if status.get('phase') not in {'NAVIGATING', 'WAITING_TARGET_ACCEPTANCE'}:
+                self._target_deadline = None
+            if feedback_status == "ACCEPTED" or (position_fresh and status.get("phase") == "NAVIGATING" and feedback_status in {"HOLDING", "OUTSIDE"}):
                 self._target_attempts = 0
                 self._target_deadline = time.monotonic() + self.cfg["target_acceptance_timeout_seconds"]
-            if msg.status == "ARRIVED":
-                self._publish_snapshot(status, status_override="ARRIVED", phase_override="ARRIVED")
-            self._publish_snapshot(status)
+            if status.get('state_revision') == current.get('state_revision'):
+                return
+            if msg.status == "ARRIVED" and position.get('position_valid') is True and status.get('phase') == 'HOVERING':
+                self._publish_snapshot(status, status_override="ARRIVED")
+            else:
+                self._publish_snapshot(status)
 
     def _on_ros_status(self, msg):
 
@@ -318,6 +374,8 @@ class MqttBridge:
                     self._send_current()
                 elif status["phase"] == "LAND_REQUEST_PENDING":
                     self._publish_snapshot(self.engine.land_result(self._send_land_command()))
+                else:
+                    self._publish_snapshot(status)
             if self._target_deadline is not None and time.monotonic() >= self._target_deadline:
                 current = self.engine.snapshot()
                 key = (current.get("execution_id"), current.get("waypoint_index"))
@@ -364,6 +422,21 @@ class MqttBridge:
             except (ValueError, TypeError, OSError) as exc:
                 self._reject(data, str(exc))
 
+    def _handle_retry(self, payload):
+        with self._lock:
+            data = {}
+            try:
+                data = self._decode(payload)
+                current = self.engine.snapshot()
+                if (data.get('operator_confirmed') is not True or data.get('mission_id') != current.get('mission_id')
+                        or not isinstance(data.get('reason'), str) or not data['reason'].strip()):
+                    raise ExecutionError('explicit same-execution retry confirmation required')
+                status = self.engine.retry_rejected_target(data.get('execution_id'))
+                self._publish_snapshot(status)
+                self._send_current()
+            except (ValueError, TypeError, OSError) as exc:
+                self._reject(data, str(exc))
+
     def _handle_reset(self, payload):
         with self._lock:
             data = {}
@@ -407,7 +480,7 @@ class MqttBridge:
                       "LAND_REQUESTED": "LANDING", "ABORT_LAND_REQUESTED": "ABORTED",
                       "LAND_REQUEST_FAILED": "REJECTED", "OPERATOR_RELEASED": "RELEASED"}
         payload = dict(snapshot)
-        payload.update(active_execution_id=self.engine.active_id, status=status_override or status_map.get(phase, phase),
+        payload.update(message_type="EXECUTION", accepted=True, active_execution_id=self.engine.active_id, status=status_override or status_map.get(phase, phase),
                        phase=phase_override or phase, message=snapshot.get("reason", ""),
                        disposition=disposition, touchdown_confirmed=False)
         self._emit(payload)

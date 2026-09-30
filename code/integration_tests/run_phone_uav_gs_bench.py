@@ -28,6 +28,14 @@ DRONE_RECEIVER = (
 GROUND_STATION = CODE_ROOT / "ground_station"
 sys.path.insert(0, str(DRONE_RECEIVER))
 sys.path.insert(0, str(GROUND_STATION))
+sys.path.insert(0, str(CODE_ROOT / 'search_uav/catkin_ws/src/rescue_bridge/src'))
+sys.path.insert(0, str(CODE_ROOT.parent / 'scripts'))
+
+from execution_protocol import normalize_execution_payload
+from execution_state import ExecutionManager
+from capture_store_v2 import JournalCollectionContextProvider
+from execution_test_support import arrive, complete_execution
+from local_verification import isolated_environment, new_result_directory
 
 import paho.mqtt.client as mqtt
 try:
@@ -99,7 +107,7 @@ def write_checksums(output_dir):
 
 
 def run(output_dir):
-    output_dir.mkdir(parents=True, exist_ok=False)
+    output_dir = new_result_directory(output_dir)
     broker_port = free_port()
     broker_config = output_dir / ".bench_mosquitto.conf"
     broker_config.write_text(
@@ -120,13 +128,17 @@ def run(output_dir):
     server_thread = None
     runtime = None
     gs_client = None
+    trigger_client = None
+    manager = None
     received_event = threading.Event()
     gs_connected_event = threading.Event()
     captured = {}
     failure = None
     try:
         wait_port(broker_port)
-        store = RescueStore(output_dir / "uav_store")
+        synthetic_clock = [100.0]
+        manager = ExecutionManager(str(output_dir / 'execution.json'), clock=lambda: synthetic_clock[0])
+        store = RescueStore(output_dir / "uav_store", execution_journal_path=manager.path)
         runtime = MqttRuntime(store, "127.0.0.1", broker_port)
         runtime.start()
 
@@ -152,7 +164,8 @@ def run(output_dir):
             raise RuntimeError("UAV MQTT runtime did not connect")
 
         token = "runtime-token-not-written-to-artifacts"
-        server = RescueHttpServer(("127.0.0.1", 0), store, token)
+        server = RescueHttpServer(("127.0.0.1", 0), store, token,
+                                  collection_context_provider=JournalCollectionContextProvider(manager.path))
         server_thread = threading.Thread(target=server.serve_forever, daemon=True)
         server_thread.start()
 
@@ -185,6 +198,12 @@ def run(output_dir):
             ],
             "test_mode": True,
         }
+        task = dict(schema_version=2, execution_id='bench-execution-' + str(timestamp_ms),
+                    mission_id=mission_id, mission_type='rescue', return_to_launch=True,
+                    altitude=5.0, hover_seconds=5.0,
+                    waypoints=[dict(latitude=22.352, longitude=114.183)])
+        manager.admit(normalize_execution_payload(task), launch_fix=(22.3519, 114.1829))
+        arrive(manager)
 
         body = json.dumps(payload).encode("utf-8")
         connection = http.client.HTTPConnection(
@@ -205,16 +224,14 @@ def run(output_dir):
         if response.status != 201 or receipt.get("status") != "STORED":
             raise RuntimeError("HTTP receiver did not store record")
 
+        if runtime.coordinator.handle_sync_request() != 0 or received_event.is_set():
+            raise RuntimeError('record forwarded before mission completion')
+        completed = complete_execution(manager, synthetic_clock)
         mission_status = {
+            **completed,
             "status": "LANDING",
             "message": "bench queue complete; LAND requested",
             "mission_id": mission_id,
-            "waypoint_index": 1,
-            "waypoint_total": 1,
-            "queue_remaining": 0,
-            "phase": "LAND_REQUESTED",
-            "land_command_requested": True,
-            "touchdown_confirmed": False,
             "test_mode": True,
         }
         trigger_client = make_client("bench_mission_status")
@@ -231,6 +248,7 @@ def run(output_dir):
             raise RuntimeError("mission status publish was not confirmed")
         trigger_client.loop_stop()
         trigger_client.disconnect()
+        trigger_client = None
 
         if not received_event.wait(5):
             raise RuntimeError("Ground Station client did not receive onboard record")
@@ -328,7 +346,8 @@ def run(output_dir):
                 "verified": [
                     "HTTP request reached the receiver",
                     "UAV-side JSON was durably stored before receipt",
-                    "matching LANDING compatibility status with phase=LAND_REQUESTED triggered MQTT forwarding",
+                    "the actual execution manager completed every synthetic waypoint and continuous hold before LAND was requested",
+                    "sync before completion forwarded no record; durable execution evidence enabled MQTT forwarding afterward",
                     "Ground Station verified both hashes and durably stored the record and envelope",
                     "Ground Station published a hash-bound QoS 1 ACK",
                     "the exact ACK closed the matching UAV outbox record",
@@ -343,6 +362,7 @@ def run(output_dir):
                     "ros_or_flight_control": False,
                     "physical_uav": False,
                     "physical_landing": False,
+                    "synthetic_position_feedback": True,
                     "landing_semantics": "mission queue complete and LAND command requested; physical touchdown not confirmed",
                     "touchdown_confirmed": False,
                 },
@@ -370,6 +390,11 @@ def run(output_dir):
             gs_client.disconnect()
         if runtime is not None:
             runtime.stop()
+        if trigger_client is not None:
+            trigger_client.loop_stop()
+            trigger_client.disconnect()
+        if manager is not None:
+            manager.close()
         broker.terminate()
         try:
             broker.wait(timeout=3)
@@ -389,6 +414,10 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--output", required=True)
     args = parser.parse_args()
+    if os.environ.get('MASS26_LOCAL_VERIFICATION') != '1':
+        completed = subprocess.run([sys.executable, str(Path(__file__).resolve()), '--output', args.output],
+                                   env=isolated_environment(args.output, sys.executable))
+        raise SystemExit(completed.returncode)
     run(Path(args.output))
     print(args.output)
 

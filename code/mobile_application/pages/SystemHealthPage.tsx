@@ -10,7 +10,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import {
   ANDROID_VERSION_CODE,
-  IOS_BUILD_NUMBER,
   MOBILE_APP_VERSION,
   MOBILE_STACK_SUMMARY,
   SYSTEM_RELEASE_ID,
@@ -111,10 +110,6 @@ const SystemHealthPage: React.FC<Props> = ({ onSelectPage }) => {
         <StatusRow
           label={t('systemHealth.release.androidBuild')}
           value={String(ANDROID_VERSION_CODE)}
-        />
-        <StatusRow
-          label={t('systemHealth.release.iosBuild')}
-          value={String(IOS_BUILD_NUMBER)}
         />
         <StatusRow
           label={t('systemHealth.release.releaseId')}

@@ -250,6 +250,8 @@ def detect_event_booking_timeout(
     record = _firebase_key(record_id, "primary_record_id")
     now = _epoch_ms(now_ms, "now_ms")
     assert now is not None
+    if isinstance(booking, Mapping) and booking.get("_deleted") is True:
+        return None
     end_at = expected_end_at_ms(booking, legacy_timezone)
     if now < end_at:
         return None

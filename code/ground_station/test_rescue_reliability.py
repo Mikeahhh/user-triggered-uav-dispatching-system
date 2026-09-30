@@ -43,15 +43,16 @@ class InputAndContactTests(unittest.TestCase):
 
     def test_source_waypoint_limit_is_explicit_and_does_not_truncate(self):
         point = {"timestamp": 1100000, "latitude": 22, "longitude": 114}
-        session = {"startTime": 1000000, "points": [copy.deepcopy(point) for _ in range(1000)]}
+        session = {"startTime": 1000000, "points": [copy.deepcopy(point) for _ in range(100000)]}
         user = {"QuickStartSessions": {"session_A": session}}
         prepared = gs.prepare_mission_for_rescue_event(user, self.quick_event(), 2000000)
-        self.assertEqual(len(prepared["waypoints"]), 1000)
+        self.assertEqual(len(prepared["waypoints"]), 100000)
+        self.assertEqual(prepared["waypoints"], [(22.0, 114.0)] * 100000)
         self.assertTrue(prepared["return_to_launch"])
         session["points"].append(copy.deepcopy(point))
-        with self.assertRaisesRegex(ValueError, "1000-waypoint limit"):
+        with self.assertRaisesRegex(ValueError, "100000-waypoint limit"):
             gs.prepare_mission_for_rescue_event(user, self.quick_event(), 2000000)
-        self.assertEqual(len(session["points"]), 1001)
+        self.assertEqual(len(session["points"]), 100001)
 
     def test_null_or_nonstring_contact_is_unavailable(self):
         for value in (None, True, {}, [], 1234, "   "):

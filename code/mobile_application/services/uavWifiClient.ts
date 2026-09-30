@@ -53,7 +53,7 @@ export const hasUavWifiSessionPassphrase = (): boolean =>
   sessionPassphrase.length > 0;
 
 export const supportsSystemUavWifiSelection = (): boolean =>
-  Platform.OS === 'android' && getAndroidApiLevel() >= 29;
+  getAndroidApiLevel() >= 29;
 
 const requestWifiRuntimePermission = async (): Promise<void> => {
   const apiLevel = getAndroidApiLevel();

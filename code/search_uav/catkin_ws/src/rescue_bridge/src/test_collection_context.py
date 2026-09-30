@@ -20,7 +20,7 @@ class CollectionContextTests(unittest.TestCase):
 
     def arrive(self, index):
         self.engine.feedback('AUDIT/a', 'exec-a', index, 'ACCEPTED')
-        self.engine.feedback('AUDIT/a', 'exec-a', index, 'ARRIVED')
+        self.engine.feedback('AUDIT/a', 'exec-a', index, 'ARRIVED', position_valid=True, feedback_seq=1)
 
     def saved(self):
         return json.loads(self.path.read_text())
@@ -37,14 +37,22 @@ class CollectionContextTests(unittest.TestCase):
 
     def test_actual_arrival_enables_collection_during_source_legs_and_rtl_closes_it(self):
         self.engine.admit(mission(return_to_launch=True), launch_fix=(22.,114.))
-        self.engine.feedback('AUDIT/a', 'old-execution', 0, 'ARRIVED')
+        self.engine.feedback('AUDIT/a', 'old-execution', 0, 'ARRIVED', position_valid=True, feedback_seq=1)
         self.assertFalse(self.engine.collection_context()['collection_ready'])
         self.arrive(0)
         self.assertTrue(self.saved()['collection_context']['collection_ready'])
-        self.now += 5; self.engine.tick()
+        for sequence in range(2, 12):
+            self.now += .5
+            self.engine.feedback('AUDIT/a', 'exec-a', self.engine.snapshot()['waypoint_index'], 'HOLDING',
+                                 position_valid=True, feedback_seq=sequence)
+        self.engine.tick()
         self.assertTrue(self.engine.collection_context()['collection_ready'])
         self.arrive(1)
-        self.now += 5; self.engine.tick()
+        for sequence in range(2, 12):
+            self.now += .5
+            self.engine.feedback('AUDIT/a', 'exec-a', self.engine.snapshot()['waypoint_index'], 'HOLDING',
+                                 position_valid=True, feedback_seq=sequence)
+        self.engine.tick()
         self.assertEqual(self.engine.snapshot()['waypoint_index'], 2)
         self.assertFalse(self.saved()['collection_context']['collection_ready'])
 
@@ -55,7 +63,7 @@ class CollectionContextTests(unittest.TestCase):
                 engine = ExecutionManager()
                 self.addCleanup(engine.close)
                 engine.admit(mission()); engine.feedback('AUDIT/a','exec-a',0,'ACCEPTED')
-                engine.feedback('AUDIT/a','exec-a',0,'ARRIVED')
+                engine.feedback('AUDIT/a','exec-a',0,'ARRIVED', position_valid=True, feedback_seq=1)
                 engine._commit('exec-a', phase=terminal)
                 self.assertFalse(engine.collection_context()['collection_ready'])
         self.engine.admit(mission()); self.arrive(0)

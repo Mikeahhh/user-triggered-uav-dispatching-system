@@ -1,5 +1,6 @@
 import React from 'react';
-import { Alert, StyleSheet } from 'react-native';
+import { Alert, StyleSheet, Platform, PermissionsAndroid } from 'react-native';
+import { persistCloudRecord } from '../services/persistentTracking';
 import ReactTestRenderer from 'react-test-renderer';
 import Geolocation from '@react-native-community/geolocation';
 import SosPage from '../pages/SosPage';
@@ -23,6 +24,8 @@ import {
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
 );
+
+jest.mock('../services/persistentTracking', () => ({ persistCloudRecord: jest.fn() }));
 
 jest.mock('@react-native-community/geolocation', () => ({
   getCurrentPosition: jest.fn(),
@@ -72,6 +75,8 @@ jest.mock('react-i18next', () => ({
 
 beforeEach(() => {
   jest.clearAllMocks();
+  jest.spyOn(PermissionsAndroid, 'request').mockResolvedValue(PermissionsAndroid.RESULTS.GRANTED);
+  (persistCloudRecord as jest.Mock).mockResolvedValue({ stored: true, synchronized: false });
   (saveCurrentSosRequest as jest.Mock).mockResolvedValue(undefined);
   (getCurrentSosRequest as jest.Mock).mockResolvedValue(source);
   (restoreCurrentSosFromLegacy as jest.Mock).mockResolvedValue(null);
@@ -159,17 +164,12 @@ test('queues the original GPS capture time separately from the SOS request time'
   expect(payload.captured_at).toBe(new Date(1_788_912_000_000).toISOString());
   expect(payload.gps_points[0].captured_at).toBe(payload.captured_at);
   expect(payload.request_id).toBe(String(payload.client_timestamp_ms));
-  expect(global.fetch).toHaveBeenCalledTimes(1);
-  const [requestUrl, requestOptions] = (global.fetch as jest.Mock).mock.calls[0];
-  expect(requestUrl).toBe(
-    `https://test-project-default-rtdb.firebaseio.com/users/26080101/rescue_requests/${payload.request_id}.json`,
-  );
-  expect(JSON.parse(requestOptions.body)).toMatchObject({
-    latitude: 22.352,
-    longitude: 114.183,
-    timestamp: payload.client_timestamp_ms,
-    status: 'PENDING',
-  });
+  expect(global.fetch).not.toHaveBeenCalled();
+  expect(persistCloudRecord).toHaveBeenCalledWith('26080101', 'rescue_requests', payload.request_id,
+    expect.objectContaining({
+      latitude: 22.352, longitude: 114.183,
+      timestamp: payload.client_timestamp_ms, status: 'PENDING', device: 'android',
+    }));
   expect(queueRescueForUav).toHaveBeenCalledWith(
     payload,
     expect.objectContaining({
@@ -421,11 +421,11 @@ test('manual network path does not start capture before user confirmation', asyn
   await ReactTestRenderer.act(async () => { confirm!(); await pending; });
   expect(captureCurrentSosForUav).toHaveBeenCalledTimes(1); expect(connectToUavWifi).not.toHaveBeenCalled();
 });
-test('SOS survives failed cloud upload in current-source storage without cloud success message', async () => {
+test('SOS source survives native cloud-queue storage failure without a delivery claim', async () => {
   const alert = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
   mockCaptureUser();
   (Geolocation.getCurrentPosition as jest.Mock).mockImplementation(success => success({ timestamp: 1788912000000, coords: { latitude: 22, longitude: 114, accuracy: 5 } }));
-  global.fetch = jest.fn().mockRejectedValue(new Error('offline'));
+  (persistCloudRecord as jest.Mock).mockRejectedValue(new Error('local queue unavailable'));
   (queueRescueForUav as jest.Mock).mockResolvedValue(undefined);
   let renderer: ReactTestRenderer.ReactTestRenderer;
   await ReactTestRenderer.act(() => { renderer = ReactTestRenderer.create(<SosPage />); });
@@ -443,4 +443,34 @@ test('invalid UAV settings do not prevent saving the new original SOS independen
   await ReactTestRenderer.act(async () => { await renderer!.root.findByProps({ testID: 'sos-button' }).props.onPress(); });
   expect(saveCurrentSosRequest).toHaveBeenCalledWith(expect.objectContaining({ user_id: '26080101', schema_version: 1 }));
   expect(queueRescueForUav).not.toHaveBeenCalled();
+});
+
+
+test('Android SOS is persisted for cloud retry without claiming delivery or using a page network request', async () => {
+  const originalOS = Platform.OS;
+  Object.defineProperty(Platform, 'OS', { configurable: true, value: 'android' });
+  const permission = jest.spyOn(PermissionsAndroid, 'request').mockResolvedValue(PermissionsAndroid.RESULTS.GRANTED);
+  const alert = jest.spyOn(Alert, 'alert').mockImplementation(() => {});
+  let renderer: ReactTestRenderer.ReactTestRenderer | undefined;
+  try {
+    mockCaptureUser();
+    (persistCloudRecord as jest.Mock).mockResolvedValue({ stored: true, synchronized: false });
+    (Geolocation.getCurrentPosition as jest.Mock).mockImplementation(success => success({
+      timestamp: Date.now(), coords: { latitude: 22.4, longitude: 114.3, accuracy: 5 },
+    }));
+    (queueRescueForUav as jest.Mock).mockResolvedValue(undefined);
+    global.fetch = jest.fn();
+    await ReactTestRenderer.act(async () => { renderer = ReactTestRenderer.create(<SosPage />); });
+    await ReactTestRenderer.act(async () => renderer!.root.findByProps({ testID: 'sos-button' }).props.onPress());
+    expect(persistCloudRecord).toHaveBeenCalledWith('26080101', 'rescue_requests', expect.any(String),
+      expect.objectContaining({ latitude: 22.4, longitude: 114.3, status: 'PENDING' }));
+    expect(global.fetch).not.toHaveBeenCalled();
+    expect(alert).toHaveBeenCalledWith('sosPage.successTitle', 'persistentTracking.recordQueued');
+    expect(saveCurrentSosRequest).toHaveBeenCalledTimes(1);
+  } finally {
+    if (renderer) await ReactTestRenderer.act(async () => renderer!.unmount());
+    Object.defineProperty(Platform, 'OS', { configurable: true, value: originalOS });
+    permission.mockRestore();
+    alert.mockRestore();
+  }
 });

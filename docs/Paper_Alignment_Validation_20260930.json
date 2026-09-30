@@ -1,0 +1,182 @@
+{
+  "revision": "paper-alignment-local-20260930",
+  "created_at": "2026-09-30T13:03:41.597381+00:00",
+  "status": "PASS",
+  "base_commit": "13fcdc1e26548bb0f65d0a661cdab540ba1b2847",
+  "paper": {
+    "sha256": "76676318e4e28e8f9c19bc1f037f24bc51dd2a7d05a996a320733ef903eca21f",
+    "modified": false,
+    "filename": "main_MetaCom26_anonymous.tex"
+  },
+  "historical_source_revision_label": "UAV-SEARCH-20260928",
+  "historical_source_revision_note": "The baseline label is UAV-SEARCH-20260928. The verified_source_snapshot identifies the source used for these results.",
+  "requirements": [
+    {
+      "id": "F01",
+      "requirement": "UAV admission, broker acknowledgement and execution are distinct",
+      "status": "FIXED_AND_LOCAL_CHECKS_PASSED",
+      "evidence": "Ground-station, bridge and integration suites"
+    },
+    {
+      "id": "F02",
+      "requirement": "Android recording is owned by the native foreground service",
+      "status": "FIXED_AND_LOCAL_CHECKS_PASSED",
+      "evidence": "Mobile page/service contracts, Kotlin/SQLite checks, actual-manifest offline build"
+    },
+    {
+      "id": "F03",
+      "requirement": "Every source-timestamped point has a stable, persistent retry identity",
+      "status": "FIXED_AND_LOCAL_CHECKS_PASSED",
+      "evidence": "Kotlin/SQLite and mobile synchronization checks"
+    },
+    {
+      "id": "F04",
+      "requirement": "Location persistence does not wait for cloud requests",
+      "status": "FIXED_AND_LOCAL_CHECKS_PASSED",
+      "evidence": "Separate native sampling/control/network workers and mobile contracts"
+    },
+    {
+      "id": "F05",
+      "requirement": "END and interrupted session states survive page/process lifetime",
+      "status": "FIXED_AND_LOCAL_CHECKS_PASSED",
+      "evidence": "Mobile state, durable queue and recovery checks"
+    },
+    {
+      "id": "F06",
+      "requirement": "Complete long routes use one durable execution and one RTL",
+      "status": "FIXED_AND_LOCAL_CHECKS_PASSED",
+      "evidence": "1000, 1001, 17281 and 100000-point transfer/integration tests; overflow and C++ index checks"
+    },
+    {
+      "id": "F07",
+      "requirement": "Every record delivery path requires durable full completion plus successful normal LAND publication",
+      "status": "FIXED_AND_LOCAL_CHECKS_PASSED",
+      "evidence": "Receiver and integration tests; actual loopback Mosquitto relay"
+    },
+    {
+      "id": "A01",
+      "requirement": "Transactional additive migration preserves unbound legacy data",
+      "status": "FIXED_AND_LOCAL_CHECKS_PASSED",
+      "evidence": "28 SQLite checks and legacy journal recovery tests"
+    },
+    {
+      "id": "A02",
+      "requirement": "Matched GPS/odometry, latched frame faults and continuous three-dimensional hover",
+      "status": "FIXED_AND_LOCAL_CHECKS_PASSED",
+      "evidence": "Pure C++ geometry/lifecycle and Python engine/bridge checks"
+    },
+    {
+      "id": "A03",
+      "requirement": "Video status requires successful finalization and matching execution",
+      "status": "FIXED_AND_LOCAL_CHECKS_PASSED",
+      "evidence": "22 recorder/console tests plus 16 real synthetic-video bench checks, including 23 encoded/decoded frames and production task journal association"
+    },
+    {
+      "id": "A04",
+      "requirement": "Simulation parameters, full route ordering, clearance and historical evidence remain traceable",
+      "status": "FIXED_AND_LOCAL_CHECKS_PASSED",
+      "evidence": "36 MATLAB assertions; 52 independent checks; 11 byte-identical CSV comparisons"
+    }
+  ],
+  "validation": {
+    "final_consolidated": {
+      "all_passed": true,
+      "completed_at": "2026-09-30T12:53:40.120294+00:00",
+      "software_tests": {
+        "total": 702,
+        "mobile_jest": 244,
+        "ground_station": 255,
+        "uav_receiver": 51,
+        "uav_bridge": 68,
+        "recorder_console": 22,
+        "uav_demo": 1,
+        "integration": 61
+      },
+      "additional_checks": {
+        "kotlin": 42,
+        "sqlite": 28,
+        "output_protection_network_isolation_and_clearance": 14,
+        "pure_cpp": "PASS",
+        "eslint": "PASS",
+        "typescript": "PASS",
+        "python_and_packaging_syntax": "PASS",
+        "ground_station_dependency_lock": "PASS"
+      }
+    },
+    "android_offline_build": {
+      "status": "PASS",
+      "production_manifest_retained": true,
+      "binary_manifest_checks": {
+        "foreground_service_permission": true,
+        "foreground_location_permission": true,
+        "location_service": true,
+        "sync_job": true,
+        "job_permission": true,
+        "location_foreground_type": true
+      },
+      "apk_sha256": "3acc3b2101e9624a46ed61089de152bffbce41f543906ea77db4bca1f34e1061",
+      "placeholder_configuration": true,
+      "installed": false,
+      "artifact_purpose": "COMPILE_ONLY_NO_LIVE_FIREBASE"
+    },
+    "simulation": {
+      "status": "PASS",
+      "matlab_checks": 36,
+      "independent_checks": 52,
+      "byte_identical_csv_count": 11,
+      "numerical_changes_from_archive": false
+    },
+    "loopback_relay": {
+      "status": "PASS",
+      "configuration": {
+        "http": "localhost",
+        "mqtt": "local Mosquitto",
+        "landing_semantics": "mission queue complete and LAND command requested",
+        "synthetic_position_feedback": true,
+        "synthetic_test_data": true
+      }
+    },
+    "historical_evidence": {
+      "all_unchanged": true,
+      "file_count": 85
+    },
+    "synthetic_video": {
+      "status": "PASS",
+      "checks": 16,
+      "recorded_frames": 23,
+      "decoded_frames": 23,
+      "source": "Synthetic local video only",
+      "real_production_recorder_and_codec": true,
+      "independent_ffprobe": true,
+      "correct_mission_execution_binding": true
+    }
+  },
+  "remaining_failed_required_local_checks": [],
+  "documentation": {
+    "alignment": "docs/Paper_Alignment_20260930.md",
+    "android": "code/mobile_application/ANDROID_RECORDING.md",
+    "android_validation": "docs/Android_Only_Validation_20260930.md",
+    "technical_guide": "docs/Technical_Guide.md"
+  },
+  "reproduction": {
+    "local_suite": "python scripts/verify.py --output local-results/verification-01",
+    "relay": "python code/integration_tests/run_phone_uav_gs_bench.py --output local-results/relay-01",
+    "android": "From code/mobile_application: npm run android:debug:safe (cached dependencies, Gradle offline mode)",
+    "matlab": "From simulation in MATLAB: run_all('simulate', fullfile(pwd, '..', 'local-results', 'NEW-SIMULATION-DIRECTORY')); use a new output directory",
+    "network_policy": "Python and Node subprocesses use loopback-only sockets and DNS with synthetic runtime configuration",
+    "video_setup": "python -m venv local-results/.video-venv; local-results/.video-venv/bin/python -m pip install -r scripts/requirements-video-verification.txt",
+    "video": "local-results/.video-venv/bin/python scripts/run_video_recording_bench.py --output local-results/video-01",
+    "output_directory_policy": "Commands generate local result directories containing logs and structured results."
+  },
+  "verified_source_snapshot": {
+    "file_count": 314,
+    "aggregate_sha256": "0f1adb99b27b5a0370855891b75b2b0c67c89f3d738a79e8206e3d2d94177471",
+    "manifest_sha256": "5f87c7328b5de3a77c54c60beae0d61142a611c609f67a0e0504beef86a434df"
+  },
+  "published_reports": {
+    "android": "docs/Android_Only_Validation_20260930.md",
+    "android_data": "docs/Android_Only_Validation_20260930.json",
+    "paper_alignment": "docs/Paper_Alignment_20260930.md",
+    "paper_alignment_data": "docs/Paper_Alignment_Validation_20260930.json"
+  }
+}

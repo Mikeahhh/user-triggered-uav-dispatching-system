@@ -56,6 +56,8 @@ class AdapterCallbackTests(unittest.TestCase):
         a._lock = threading.RLock()
         a.home_lat, a.home_lon, a.init_x, a.init_y = 22.,114.,0.,0.
         a.flight_alt, a.arrival_threshold, a.data_timeout = 1.,5.,5.
+        a.vertical_threshold, a.feedback_sequence = 1., 0
+        a.hold_feedback_timeout = 1.
         a.current_odom = None; a.odom_received_at = None
         a.receiver_session_id = 'receiver-a'
         a.lifecycle = TargetLifecycle()
@@ -64,10 +66,10 @@ class AdapterCallbackTests(unittest.TestCase):
         a.goal_pub = types.SimpleNamespace(publish=self.goals.append)
         a.status_pub = types.SimpleNamespace(publish=self.feedbacks.append)
 
-    def odom(self, stamp=100., x=0., y=0.):
+    def odom(self, stamp=100., x=0., y=0., z=0.):
         msg = types.SimpleNamespace(header=types.SimpleNamespace(stamp=types.SimpleNamespace(to_sec=lambda:stamp)),
                                     pose=types.SimpleNamespace(pose=pose()))
-        msg.pose.pose.position.x=x; msg.pose.pose.position.y=y
+        msg.pose.pose.position.x=x; msg.pose.pose.position.y=y; msg.pose.pose.position.z=z
         self.adapter.odom_callback(msg)
 
     def command(self, session='receiver-a', altitude=9., index=0):
@@ -89,6 +91,10 @@ class AdapterCallbackTests(unittest.TestCase):
         self.odom(stamp=90.)
         self.assertTrue(self.adapter.lifecycle.active)
         self.odom()
+        self.adapter.track_position()
+        self.assertEqual(self.feedbacks[-1].status,'OUTSIDE')
+        self.odom(z=9.)
+        self.adapter.track_position()
         self.assertEqual(self.feedbacks[-1].status,'ARRIVED')
         self.command()
         self.assertEqual([m.status for m in self.feedbacks[-2:]],['ACCEPTED','ARRIVED'])

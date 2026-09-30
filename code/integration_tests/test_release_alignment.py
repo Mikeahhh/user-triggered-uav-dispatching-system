@@ -31,13 +31,10 @@ class CrossComponentReleaseAlignmentTests(unittest.TestCase):
             encoding="utf-8"
         )
         gradle = (MOBILE / "android" / "app" / "build.gradle").read_text(encoding="utf-8")
-        ios = (MOBILE / "ios" / "FypProject.xcodeproj" / "project.pbxproj").read_text(
-            encoding="utf-8"
-        )
         self.assertEqual(package["version"], "1.2.0")
         self.assertIn("MOBILE_APP_VERSION = '1.2.0'", metadata)
         self.assertIn("ANDROID_VERSION_CODE = 3", metadata)
-        self.assertIn("IOS_BUILD_NUMBER = 3", metadata)
+        self.assertNotIn("IOS_BUILD_NUMBER", metadata)
         self.assertIn("SYSTEM_RELEASE_ID = 'MASS26-20260806'", metadata)
         self.assertIn("UAV_RESCUE_PROTOCOL = 'SOS schema v1'", metadata)
         self.assertIn("UAV_OUTBOX_STORAGE_VERSION = 3", metadata)
@@ -46,8 +43,8 @@ class CrossComponentReleaseAlignmentTests(unittest.TestCase):
         self.assertIn("OUTBOX_STORAGE_SCHEMA_VERSION = 3", rescue_client)
         self.assertRegex(gradle, r"\bversionCode\s+3\b")
         self.assertRegex(gradle, r'\bversionName\s+"1\.2\.0"')
-        self.assertRegex(ios, r"CURRENT_PROJECT_VERSION = 3;")
-        self.assertRegex(ios, r"MARKETING_VERSION = 1\.2\.0;")
+        self.assertFalse((MOBILE / "ios").exists())
+        self.assertNotIn("ios", package.get("scripts", {}))
 
     def test_ground_station_release_metadata_is_v7_0_4_0(self):
         metadata = load_module("mass26_ground_metadata", GROUND / "app_metadata.py")

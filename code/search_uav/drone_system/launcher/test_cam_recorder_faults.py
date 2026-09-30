@@ -10,7 +10,7 @@ import cam_recorder
 
 
 class RecorderFaultTests(unittest.TestCase):
-    def run_recorder(self, *, good_frames=1, stop_normally=False, finalize_failure=False):
+    def run_recorder(self, *, good_frames=1, stop_normally=False, finalize_failure=False, sync_failure=False, write_failure=False):
         temp = tempfile.TemporaryDirectory()
         self.addCleanup(temp.cleanup)
         output = Path(temp.name) / "flight.avi"
@@ -45,6 +45,7 @@ class RecorderFaultTests(unittest.TestCase):
                 return True
 
             def write(self, frame):
+                if write_failure: raise OSError("synthetic disk full")
                 with self.path.open("ab") as handle:
                     handle.write(b"SYNTHETIC_FRAME")
 
@@ -57,6 +58,11 @@ class RecorderFaultTests(unittest.TestCase):
             CAP_PROP_FPS=3, __version__="synthetic",
         )
         original_replace = cam_recorder.os.replace
+        original_fsync = cam_recorder.os.fsync
+
+        def fsync(fd):
+            if sync_failure: raise OSError("synthetic sync failure")
+            return original_fsync(fd)
 
         def replace(source, target):
             if finalize_failure:
@@ -67,7 +73,8 @@ class RecorderFaultTests(unittest.TestCase):
              patch.object(cam_recorder, "emit", lambda event, **kw: events.append(dict(event=event, **kw))), \
              patch.object(cam_recorder.signal, "signal", lambda sig, cb: handlers.update({sig: cb})), \
              patch.object(cam_recorder.threading, "Thread", lambda **kw: types.SimpleNamespace(start=lambda: None)), \
-             patch.object(cam_recorder.os, "replace", replace):
+             patch.object(cam_recorder.os, "replace", replace), \
+             patch.object(cam_recorder.os, "fsync", fsync):
             rc = cam_recorder.main(["0", str(output), "--max-read-failures", "2"])
         return rc, events, output
 
@@ -103,6 +110,18 @@ class RecorderFaultTests(unittest.TestCase):
         self.assertEqual(rc, 9)
         self.assertEqual(events[-1]["error_code"], "FINALIZE_FAILED")
         self.assertTrue(output.with_name("flight.part.avi").exists())
+        self.assertFalse(output.exists())
+    def test_disk_sync_failure_does_not_report_done(self):
+        rc, events, output = self.run_recorder(stop_normally=True, sync_failure=True)
+        self.assertEqual(rc, 9)
+        self.assertEqual(events[-1]["error_code"], "FINALIZE_SYNC_FAILED")
+        self.assertFalse(output.exists())
+        self.assertTrue(output.with_name("flight.part.avi").exists())
+
+    def test_disk_full_does_not_report_done(self):
+        rc, events, output = self.run_recorder(write_failure=True)
+        self.assertNotEqual(rc, 0)
+        self.assertEqual(events[-1]["event"], "ERROR")
         self.assertFalse(output.exists())
 
 

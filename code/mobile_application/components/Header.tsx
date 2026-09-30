@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Platform } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 
 interface HeaderProps {
@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
 
 const styles = StyleSheet.create({
   header: {
-    height: Platform.OS === 'ios' ? 130 : 100,
+    height: 100,
     justifyContent: 'flex-end',
     alignItems: 'center',
     backgroundColor: '#ffffff',

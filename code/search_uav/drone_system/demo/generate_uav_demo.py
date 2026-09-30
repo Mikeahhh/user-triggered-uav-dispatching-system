@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+from contextlib import ExitStack
 import hashlib
 import html
 import json
@@ -17,7 +18,7 @@ DRONE_SYSTEM = Path(__file__).resolve().parents[1]
 REPO_ROOT = DRONE_SYSTEM.parent
 BRIDGE_SRC = REPO_ROOT / "catkin_ws" / "src" / "rescue_bridge" / "src"
 RECEIVER_SRC = DRONE_SYSTEM / "receiver"
-for module_path in (BRIDGE_SRC, RECEIVER_SRC):
+for module_path in (BRIDGE_SRC, RECEIVER_SRC, DRONE_SYSTEM.parents[2] / 'scripts'):
     if str(module_path) not in sys.path:
         sys.path.insert(0, str(module_path))
 
@@ -25,10 +26,11 @@ from mission_protocol import (
     PHASE_LAND_REQUESTED,
     SYSTEM_RELEASE_ID,
     UAV_SOFTWARE_VERSION,
-    append_rtl_waypoint,
     build_status_payload,
-    normalize_multi_payload,
 )
+from execution_protocol import normalize_execution_payload
+from execution_state import ExecutionManager
+from local_verification import new_result_directory
 from phone_sos_receiver import (
     RescueDeliveryCoordinator,
     RescueStore,
@@ -39,6 +41,32 @@ from phone_sos_receiver import (
 DEMO_MISSION_ID = "DEMO_USER/demo_sos_001"
 
 
+def _arrive(engine):
+    state = engine.snapshot()
+    identity = (state['mission_id'], state['execution_id'], state['waypoint_index'])
+    engine.feedback(*identity, 'ACCEPTED')
+    engine.feedback(*identity, 'ARRIVED', position_valid=True, feedback_seq=1)
+
+
+def _complete_synthetic_execution(engine, clock):
+    while engine.snapshot()['phase'] != 'LAND_REQUEST_PENDING':
+        if engine.snapshot()['phase'] == 'WAITING_TARGET_ACCEPTANCE':
+            _arrive(engine)
+        state = engine.snapshot()
+        if state['phase'] != 'HOVERING':
+            raise RuntimeError('synthetic execution did not reach the expected waypoint')
+        finish = clock[0] + state['hover_seconds']
+        sequence = engine.last_feedback_seq
+        while clock[0] < finish:
+            clock[0] = min(finish, clock[0] + 0.5)
+            sequence += 1
+            engine.feedback(state['mission_id'], state['execution_id'], state['waypoint_index'],
+                            'HOLDING', position_valid=True, feedback_seq=sequence)
+            engine.tick()
+        engine.tick()
+    return engine.land_result(True)
+
+
 def _atomic_text(path: Path, value: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     temp_path = path.with_name("." + path.name + ".tmp")
@@ -47,7 +75,9 @@ def _atomic_text(path: Path, value: str) -> None:
 
 
 def build_demo_state() -> dict:
-    mission = normalize_multi_payload({
+    mission = normalize_execution_payload({
+        "schema_version": 2,
+        "execution_id": "synthetic-demo-execution",
         "mission_id": DEMO_MISSION_ID,
         "mission_type": "sos",
         "waypoints": [
@@ -59,22 +89,14 @@ def build_demo_state() -> dict:
         "altitude": 5.0,
         "hover_seconds": 5.0,
     })
-    queue, rtl_appended = append_rtl_waypoint(
-        mission["waypoints"], mission["return_to_launch"], (21.9995, 113.9995)
-    )
-    status = build_status_payload(
-        "LANDING",
-        "mission queue complete; LAND command request published",
-        mission["mission_id"],
-        waypoint_index=len(queue),
-        waypoint_total=len(queue),
-        queue_remaining=0,
-        phase=PHASE_LAND_REQUESTED,
-        land_command_requested=True,
-    )
-
-    with tempfile.TemporaryDirectory(prefix="mass26-uav-demo-") as temp_dir:
-        store = RescueStore(Path(temp_dir))
+    with tempfile.TemporaryDirectory(prefix="mass26-uav-demo-") as temp_dir, ExitStack() as resources:
+        clock = [100.0]
+        engine = ExecutionManager(str(Path(temp_dir) / 'execution.json'), clock=lambda: clock[0])
+        resources.callback(engine.close)
+        _, admitted = engine.admit(mission, launch_fix=(21.9995, 113.9995))
+        queue, rtl_appended = list(engine.queue), admitted['rtl_appended']
+        _arrive(engine)
+        store = RescueStore(Path(temp_dir) / 'records', execution_journal_path=engine.path)
         record, _ = store.store({
             "schema_version": 1,
             "request_id": "demo_sos_001",
@@ -93,11 +115,18 @@ def build_demo_state() -> dict:
                 "captured_at": "2026-08-06T06:00:00.000Z",
             }],
             "test_mode": True,
-        })
+        }, carrier_context=engine.collection_context())
         published = []
         coordinator = RescueDeliveryCoordinator(
             store, lambda topic, body: published.append((topic, body))
         )
+        if coordinator.handle_sync_request() != 0 or published:
+            raise RuntimeError('demo record forwarded before execution completed')
+        completed = _complete_synthetic_execution(engine, clock)
+        status = {**completed, **build_status_payload(
+            "LANDING", "synthetic mission queue complete; LAND command request published", mission["mission_id"],
+            waypoint_index=completed['waypoint_index'], waypoint_total=len(queue), queue_remaining=0,
+            phase=PHASE_LAND_REQUESTED, land_command_requested=True)}
         forwarded = coordinator.handle_mission_status(status)
         envelope = json.loads(published[0][1])
         delivery = store.read_delivery(record["request_id"])
@@ -119,6 +148,7 @@ def build_demo_state() -> dict:
             "ros_started": False,
             "camera_invoked": False,
             "contains_real_mission_data": False,
+            "synthetic_position_feedback": True,
             "notice": "Synthetic code-path demonstration; not physical-flight evidence.",
         },
         "release": {
@@ -224,7 +254,7 @@ padding:6px 9px; border-radius:99px; font:12px Consolas,monospace; }.foot { marg
 <div class="node"><strong>LAND_REQUESTED</strong><small>queue complete trigger</small></div><div class="arrow">→</div>
 <div class="node"><strong>FORWARDED_TO_GS</strong><small>QoS 1 envelope</small></div><div class="arrow">→</div>
 <div class="node"><strong>ACKNOWLEDGED_BY_GS</strong><small>matching hashes</small></div></div>
-<div class="semantic">This flow proves the software record/ACK path in a local deterministic demo. It does not prove a physical flight or physical landing.</div></article>
+<div class="semantic">The local demonstration exercises software record transfer and hash-bound acknowledgements.</div></article>
 <article class="card"><h2>VIDEO RECORDER STATE MODEL</h2><div class="kv"><span>Auto start</span><strong>NAVIGATING</strong></div>
 <div class="kv"><span>Auto stop</span><strong>LAND_REQUESTED</strong></div><div class="kv"><span>Camera invoked in demo</span><strong class="false">false</strong></div>
 <div class="states">$state_pills</div><div class="foot">Runtime READY includes OpenCV version, frame size and FPS.</div></article>
@@ -241,8 +271,7 @@ padding:6px 9px; border-radius:99px; font:12px Consolas,monospace; }.foot { marg
 
 
 def generate(output_dir: Path) -> dict:
-    output_dir = Path(output_dir)
-    output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir = new_result_directory(output_dir)
     state = build_demo_state()
     state_text = json.dumps(state, indent=2, sort_keys=True) + "\n"
     html_text = render_html(state)

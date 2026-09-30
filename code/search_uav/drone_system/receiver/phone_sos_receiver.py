@@ -2,6 +2,7 @@
 
 
 from __future__ import annotations
+from delivery_eligibility import JournalDeliveryEligibility
 
 import argparse
 import hashlib
@@ -236,11 +237,14 @@ def validate_payload(data: Any) -> Dict[str, Any]:
 class RescueStore:
 
 
-    def __init__(self, root: Path):
+    def __init__(self, root: Path, execution_journal_path=None):
         self.root = Path(root)
         self.records_dir = self.root / "records"
         self.outbox_dir = self.root / "outbox"
         self.triggers_dir = self.root / "land_requests"
+        self.bindings_dir = self.root / "carrier_bindings_v1"
+        self.delivery_eligibility = JournalDeliveryEligibility(execution_journal_path)
+        _mkdir_durable(self.bindings_dir)
         _mkdir_durable(self.records_dir)
         _mkdir_durable(self.outbox_dir)
         _mkdir_durable(self.triggers_dir)
@@ -257,7 +261,7 @@ class RescueStore:
         _fsync_directory(self.root.parent)
         self._recover_missing_outboxes()
         self.captures = CaptureStoreV2(self.root, self._write_json_atomic, self._write_json_exclusive,
-                                       _mkdir_durable, self._read_verified_record)
+                                       _mkdir_durable, self._read_verified_record, self.delivery_eligibility)
 
     @staticmethod
     def _write_json_atomic(path: Path, data: Dict[str, Any]) -> None:
@@ -380,7 +384,7 @@ class RescueStore:
         _fsync_directory(self.outbox_dir)
         return existing, True
 
-    def store(self, raw: Any) -> Tuple[Dict[str, Any], bool]:
+    def store(self, raw: Any, carrier_context=None) -> Tuple[Dict[str, Any], bool]:
         payload = validate_payload(raw)
         payload_sha256 = hashlib.sha256(canonical_json(payload)).hexdigest()
         record_path = self._record_path(payload["request_id"])
@@ -391,6 +395,20 @@ class RescueStore:
                     payload["request_id"], payload_sha256
                 )
 
+            if carrier_context is not None:
+                context = carrier_context
+                mid, eid, fingerprint = (context.get(key) for key in ('mission_id','execution_id','content_fingerprint'))
+                if (context.get('collection_ready') is not True or context.get('arrival_observed') is not True
+                        or not isinstance(mid,str) or not MISSION_ID_RE.fullmatch(mid)
+                        or mid.split('/')[0] != payload['user_id'] or not isinstance(eid,str) or not ID_RE.fullmatch(eid)
+                        or not isinstance(fingerprint,str) or not re.fullmatch('[0-9a-f]{64}',fingerprint)):
+                    raise PayloadValidationError('invalid carrier context')
+                binding = dict(mission_id=mid,execution_id=eid,content_fingerprint=fingerprint,payload_sha256=payload_sha256)
+                binding_path = self.bindings_dir / (payload['request_id'] + '.json')
+                try: self._write_json_exclusive(binding_path,binding)
+                except FileExistsError:
+                    with binding_path.open(encoding='utf-8') as handle: previous=json.load(handle)
+                    if previous != binding: raise RecordConflictError('carrier binding conflicts with original receipt')
             record = dict(payload)
             record.update({
                 "uav_received_at": utc_now(),
@@ -405,6 +423,14 @@ class RescueStore:
                 )
             self._ensure_outbox(record)
             return record, False
+
+    def can_deliver(self, record):
+        try:
+            with (self.bindings_dir / (record['request_id'] + '.json')).open(encoding='utf-8') as handle:
+                binding = json.load(handle)
+            return (binding.get('payload_sha256') == record['payload_sha256']
+                    and self.delivery_eligibility(binding['mission_id'],binding['execution_id'],binding['content_fingerprint']))
+        except (OSError,ValueError,TypeError,KeyError): return False
 
     def read_record(self, request_id: str) -> Dict[str, Any]:
         with self._record_path(request_id).open("r", encoding="utf-8") as handle:
@@ -531,11 +557,11 @@ class RescueStore:
         request_id: str,
         error_type: str,
     ) -> Dict[str, Any]:
-        return self._update_delivery(
-            request_id,
-            last_attempt_result="DEFERRED",
-            last_delivery_error=error_type,
-        )
+        with self._lock:
+            state = self.read_delivery(request_id)
+            if state.get('state') == 'ACKNOWLEDGED_BY_GS':
+                return state
+            return self._update_delivery(request_id, last_attempt_result="DEFERRED", last_delivery_error=error_type)
 
     def mark_forwarded(
         self,
@@ -544,16 +570,14 @@ class RescueStore:
         forwarded_at: str,
         envelope_sha256: str,
     ) -> Dict[str, Any]:
-        return self._update_delivery(
-            request_id,
-            state="FORWARDED_TO_GS",
-            forward_trigger=trigger,
-            forward_semantics=TRIGGER_SEMANTICS[trigger],
-            forwarded_at=forwarded_at,
-            envelope_sha256=envelope_sha256,
-            last_attempt_result="PUBLISHED",
-            last_delivery_error=None,
-        )
+        with self._lock:
+            state = self.read_delivery(request_id)
+            if state.get('state') == 'ACKNOWLEDGED_BY_GS':
+                return state
+            return self._update_delivery(
+                request_id, state="FORWARDED_TO_GS", forward_trigger=trigger,
+                forward_semantics=TRIGGER_SEMANTICS[trigger], forwarded_at=forwarded_at,
+                envelope_sha256=envelope_sha256, last_attempt_result="PUBLISHED", last_delivery_error=None)
 
     def mark_acknowledged(self, request_id: str, ack: Dict[str, Any]) -> Dict[str, Any]:
         if not isinstance(ack, dict):
@@ -640,6 +664,11 @@ class RescueStore:
         states["unreadable_outbox_entries"] = max(
             states["unreadable_outbox_entries"], len(self._bad_delivery_files)
         )
+        pending = list(self.pending_records())
+        states["withheld_pending_records"] = sum(not self.can_deliver(record) for record in pending)
+        states["legacy_unbound_records"] = sum(
+            not (self.bindings_dir / (record['request_id'] + '.json')).exists() for record in pending)
+        states["captures_v2"] = self.captures.health_summary()
         return states
 
 
@@ -686,6 +715,8 @@ class RescueDeliveryCoordinator:
     def _forward_record(self, record: Dict[str, Any], trigger: str) -> bool:
         request_id = record["request_id"]
         try:
+            if not self.store.can_deliver(record):
+                return False
             state = self.store.read_delivery(request_id)
             deadline = state.get("retry_after_epoch")
             if deadline is not None:
@@ -701,6 +732,11 @@ class RescueDeliveryCoordinator:
                 request_id, envelope["forward_trigger"], utc_now(),
                 retry_after_epoch=self.clock() + retry_delay,
             )
+            self.store._update_delivery(request_id, state="FORWARDED_TO_GS",
+                                        forward_trigger=envelope['forward_trigger'],
+                                        forwarded_at=envelope['forwarded_at'],
+                                        forward_semantics=envelope['trigger_semantics'],
+                                        envelope_sha256=envelope['envelope_sha256'])
             self.publish(self.record_topic, canonical_json(envelope).decode("utf-8"))
             self.store.mark_forwarded(
                 request_id, envelope["forward_trigger"], envelope["forwarded_at"],
@@ -735,7 +771,7 @@ class RescueDeliveryCoordinator:
             if trigger not in TRIGGER_SEMANTICS:
                 saved = state.get("delivery_envelope")
                 trigger = saved.get("forward_trigger") if isinstance(saved, dict) else None
-            if trigger not in TRIGGER_SEMANTICS and self.store.has_land_request(record["mission_id"]):
+            if trigger not in TRIGGER_SEMANTICS and self.store.can_deliver(record):
                 trigger = TRIGGER_LAND_REQUESTED
             if trigger in TRIGGER_SEMANTICS:
                 count += self._forward_record(record, trigger)
@@ -745,22 +781,11 @@ class RescueDeliveryCoordinator:
         return self._handle_v1_mission_status(data) + self.capture_coordinator.handle_status(data)
 
     def _handle_v1_mission_status(self, data: Dict[str, Any]) -> int:
-        if not isinstance(data, dict):
+        if (not isinstance(data, dict) or data.get('phase') != 'LAND_REQUESTED'
+                or data.get('all_waypoints_completed') is not True
+                or data.get('land_command_requested') is not True or data.get('delivery_eligible') is not True):
             return 0
-        status = str(data.get("status", "")).upper()
-        phase = str(data.get("phase", "")).upper()
-        if status not in ("LANDING", "LAND_REQUESTED"):
-            return 0
-        if phase and phase not in ("LANDING", "LAND_REQUESTED"):
-            return 0
-        if data.get("land_command_requested") is False:
-            return 0
-        mission_id = data.get("mission_id")
-        if not isinstance(mission_id, str) or not MISSION_ID_RE.fullmatch(mission_id):
-            return 0
-
-        self.store.remember_land_request(mission_id)
-        return self.forward_pending(mission_id, TRIGGER_LAND_REQUESTED)
+        return self.forward_pending(None, TRIGGER_LAND_REQUESTED)
 
     def handle_sync_request(self) -> int:
 
@@ -1074,7 +1099,13 @@ class RescueRequestHandler(BaseHTTPRequestHandler):
         try:
             raw = self.rfile.read(content_length)
             data = json.loads(raw.decode("utf-8"))
-            record, duplicate = self.server.store.store(data)
+            if not isinstance(data, dict):
+                raise PayloadValidationError("JSON body must be an object")
+            context = None
+            if self.server.collection_context_provider is not None:
+                try: context = self.server.collection_context_provider(data.get('user_id'))
+                except (NoCollectionContext, ValueError, TypeError): pass
+            record, duplicate = self.server.store.store(data, carrier_context=context)
         except PayloadValidationError as exc:
             self._json_response(400, {"error": str(exc)})
             return
@@ -1143,7 +1174,7 @@ def main(argv: Optional[List[str]] = None) -> int:
         )
         return 2
 
-    store = RescueStore(Path(args.data_dir))
+    store = RescueStore(Path(args.data_dir), args.execution_journal_path)
     mqtt_runtime = None
     if not args.no_mqtt:
         try:

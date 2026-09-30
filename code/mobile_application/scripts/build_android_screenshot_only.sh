@@ -47,7 +47,6 @@ rsync -a \
     --exclude '.npmrc' \
     --exclude '.yarnrc' \
     --exclude '.yarnrc.yml' \
-    --exclude 'ios/' \
     --exclude 'docs/' \
     --exclude '__tests__/' \
     --exclude 'coverage/' \
@@ -56,7 +55,6 @@ rsync -a \
     --exclude 'android/app/build/' \
     --exclude 'android/local.properties' \
     --exclude 'android/gradle.properties' \
-    --exclude 'android/app/src/main/AndroidManifest.xml' \
     --exclude 'services/db/firebaseConfig.ts' \
     --exclude 'google-services.json' \
     --exclude '*.jks' \
@@ -100,9 +98,6 @@ install -m 600 \
     "$MOBILE_DEMO_COPY/scripts/google-services.screenshot-only.json" \
     "$MOBILE_DEMO_COPY/android/app/google-services.json"
 install -m 600 \
-    "$MOBILE_DEMO_COPY/scripts/AndroidManifest.compile-only.xml" \
-    "$MOBILE_DEMO_COPY/android/app/src/main/AndroidManifest.xml"
-install -m 600 \
     "$MOBILE_DEMO_COPY/scripts/gradle.screenshot-only.properties" \
     "$MOBILE_DEMO_COPY/android/gradle.properties"
 install -m 600 \
@@ -139,11 +134,11 @@ cd "$MOBILE_DEMO_COPY/android"
 
 
 ANDROID_HOME="$MOBILE_DEMO_SDK" "$MOBILE_DEMO_JAVA" \
-    -jar gradle/wrapper/gradle-wrapper.jar \
+    -jar gradle/wrapper/gradle-wrapper.jar --offline \
     generateCodegenArtifactsFromSchema
 
 ANDROID_HOME="$MOBILE_DEMO_SDK" "$MOBILE_DEMO_JAVA" \
-    -jar gradle/wrapper/gradle-wrapper.jar \
+    -jar gradle/wrapper/gradle-wrapper.jar --offline \
     :react-native-worklets:externalNativeBuildRelease
 
 MOBILE_DEMO_FOUND_WORKLETS=false
@@ -163,7 +158,7 @@ test "$MOBILE_DEMO_FOUND_WORKLETS" = true || {
 }
 
 ANDROID_HOME="$MOBILE_DEMO_SDK" "$MOBILE_DEMO_JAVA" \
-    -jar gradle/wrapper/gradle-wrapper.jar \
+    -jar gradle/wrapper/gradle-wrapper.jar --offline \
     assembleScreenshot
 
 MOBILE_DEMO_APK_SOURCE="$MOBILE_DEMO_COPY/android/app/build/outputs/apk/screenshot/app-screenshot.apk"

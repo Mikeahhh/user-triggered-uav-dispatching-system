@@ -1,5 +1,6 @@
 function fix_saved_paper_figure(out)
 
+out=prepare_simulation_output(out,false);
 f=openfig(fullfile(out,'terrain_missions.fig'),'invisible');
 if isprop(f,'Theme'),f.Theme='light';end
 x0=[.055 .360 .665];w=.255;

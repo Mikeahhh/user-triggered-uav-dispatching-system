@@ -1,4 +1,5 @@
 import copy
+from receiver_test_support import completed_store, context_for
 import json
 import sys
 import tempfile
@@ -16,8 +17,7 @@ from test_phone_sos_receiver import sample_payload
 
 
 def eligible(kind='event',eid='exec-a'):
-    return dict(schema_version=2,context_epoch='a'*32,collection_ready=True,mission_id='TEST_USER/'+kind,
-                execution_id=eid,mission_type=kind,phase='HOVERING',waypoint_index=0,source_waypoint_total=2,arrival_observed=True)
+    return context_for('TEST_USER/'+kind,eid,kind)
 
 
 def capture(context,source=None):
@@ -32,7 +32,7 @@ def capture(context,source=None):
 class CaptureTests(unittest.TestCase):
     def setUp(self):
         self.temp=tempfile.TemporaryDirectory();self.addCleanup(self.temp.cleanup)
-        self.store=RescueStore(Path(self.temp.name)); self.active=eligible()
+        self.store=completed_store(Path(self.temp.name),"TEST_USER/event"); self.active=eligible()
         self.provider=lambda user: copy.deepcopy(self.active)
 
     def context(self,cid='cap-a'):
@@ -114,7 +114,7 @@ class CaptureTests(unittest.TestCase):
     def test_only_carrier_execution_land_forwards_and_late_capture_uses_saved_trigger(self):
         sent=[];coordinator=RescueDeliveryCoordinator(self.store,lambda t,p:sent.append(json.loads(p)))
         payload=capture(self.context())
-        status=dict(schema_version=2,status='LANDING',phase='LAND_REQUESTED',mission_id='TEST_USER/event',execution_id='old',land_command_requested=True)
+        status=dict(schema_version=2,status='LANDING',phase='LAND_REQUESTED',mission_id='TEST_USER/event',execution_id='old',land_command_requested=True,all_waypoints_completed=True,delivery_eligible=True)
         record,_=self.store.captures.store(payload)
         self.assertEqual(coordinator.handle_mission_status(status),0)
         status['execution_id']='exec-a';self.assertEqual(coordinator.handle_mission_status(status),1)
@@ -186,7 +186,7 @@ class RealProviderTests(unittest.TestCase):
             mission=normalize_execution_payload(dict(schema_version=2,mission_id='TEST_USER/event',execution_id='exec-a',mission_type='event',waypoints=[{'lat':22.,'lon':114.}],return_to_launch=False))
             engine.admit(mission);provider=JournalCollectionContextProvider(path)
             with self.assertRaises(NoCollectionContext): provider('TEST_USER')
-            engine.feedback('TEST_USER/event','exec-a',0,'ACCEPTED');engine.feedback('TEST_USER/event','exec-a',0,'ARRIVED')
+            engine.feedback('TEST_USER/event','exec-a',0,'ACCEPTED');engine.feedback('TEST_USER/event','exec-a',0,'ARRIVED',position_valid=True,feedback_seq=1)
             self.assertTrue(provider('TEST_USER')['collection_ready'])
             with self.assertRaises(NoCollectionContext): provider('OTHER')
             saved=json.loads(path.read_text());broken=copy.deepcopy(saved);broken['executions']['exec-a']['phase']='LAND_REQUESTED';path.write_text(json.dumps(broken))

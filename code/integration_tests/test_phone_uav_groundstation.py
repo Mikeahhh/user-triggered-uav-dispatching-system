@@ -17,6 +17,12 @@ DRONE_RECEIVER = (
 GROUND_STATION = CODE_ROOT / "ground_station"
 sys.path.insert(0, str(DRONE_RECEIVER))
 sys.path.insert(0, str(GROUND_STATION))
+sys.path.insert(0, str(CODE_ROOT / 'search_uav/catkin_ws/src/rescue_bridge/src'))
+
+from execution_protocol import normalize_execution_payload
+from execution_state import ExecutionManager
+from capture_store_v2 import JournalCollectionContextProvider
+from execution_test_support import arrive, complete_execution
 
 from phone_sos_receiver import (
     RescueDeliveryCoordinator,
@@ -56,8 +62,17 @@ class PhoneUavGroundStationIntegrationTest(unittest.TestCase):
         }
 
         with tempfile.TemporaryDirectory() as temp_dir:
-            store = RescueStore(Path(temp_dir))
-            server = RescueHttpServer(("127.0.0.1", 0), store)
+            now = [100.0]
+            manager = ExecutionManager(str(Path(temp_dir) / 'execution.json'), clock=lambda: now[0])
+            self.addCleanup(manager.close)
+            task = dict(schema_version=2, mission_id=payload['mission_id'], execution_id='synthetic-v1-execution',
+                        mission_type='rescue', return_to_launch=True, hover_seconds=5,
+                        waypoints=[dict(latitude=22.352, longitude=114.183)])
+            manager.admit(normalize_execution_payload(task), (22.0, 114.0))
+            arrive(manager)
+            store = RescueStore(Path(temp_dir) / 'records', execution_journal_path=manager.path)
+            server = RescueHttpServer(("127.0.0.1", 0), store,
+                                      collection_context_provider=JournalCollectionContextProvider(manager.path))
             thread = threading.Thread(target=server.serve_forever, daemon=True)
             thread.start()
             try:
@@ -92,9 +107,14 @@ class PhoneUavGroundStationIntegrationTest(unittest.TestCase):
                 coordinator = RescueDeliveryCoordinator(
                     store, lambda topic, value: mqtt_messages.append((topic, value))
                 )
+                self.assertEqual(coordinator.handle_sync_request(), 0)
+                self.assertEqual(coordinator.retry_pending(), 0)
+                self.assertEqual(mqtt_messages, [])
+                completed = complete_execution(manager, now)
                 self.assertEqual(
                     coordinator.handle_mission_status(
                         {
+                            **completed,
                             "status": "LANDING",
                             "phase": "LAND_REQUESTED",
                             "land_command_requested": True,

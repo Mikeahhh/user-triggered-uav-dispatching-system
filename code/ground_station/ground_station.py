@@ -83,6 +83,7 @@ from firebase_runtime_config import load_firebase_runtime_config
 from dispatch_journal import DispatchJournal
 from quick_start_observations import ObservationStore
 from mission_execution_protocol import task_fingerprint
+from mission_transfer_protocol import messages as transfer_messages, query as transfer_query, canonical as transfer_canonical
 from receiver_ready_protocol import ReceiverReadyGate
 import active_event_queue as active_queue
 
@@ -163,6 +164,8 @@ except ValueError:
     MQTT_PORT = 0
 MQTT_TOPIC_TARGET = "alin1/mission/target_gps"
 MQTT_TOPIC_MULTI  = "alin1/mission/multi_waypoint"
+MQTT_TOPIC_TRANSFER = "alin1/mission/transfer"
+MQTT_TOPIC_OPERATOR_RETRY = "alin1/mission/operator_retry"
 MQTT_TOPIC_STATUS = "alin1/mission/status"
 MQTT_TOPIC_ABORT  = "alin1/mission/abort"
 MQTT_TOPIC_ONBOARD_RECORD = "alin1/rescue/onboard_record"
@@ -183,7 +186,7 @@ RESCUE_CONFIG_ENV_NAMES = (
 )
 MISSION_PUBLISH_TIMEOUT_SECONDS = 5.0
 AUTO_REFRESH_INTERVAL_MS = 30_000
-MAX_MISSION_WAYPOINTS = 1000
+MAX_MISSION_WAYPOINTS = 100000
 MISSION_ID_TOKEN_RE = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 MISSION_TYPE_RE = re.compile(r"^[A-Za-z][A-Za-z0-9._-]{0,63}$")
 DISPATCH_CANCELLED = "CANCELLED"
@@ -280,6 +283,11 @@ LANGUAGES = {
         "rescue_requests_title": "救援請求",
         "pending_alerts_title": "待處理警報",
         "pending_events_title": "待處理救援事件",
+        "accepted_execution": "無人機已接受的任務：",
+        "retry_rejected_waypoint": "重試被拒絕的航點",
+        "retry_waypoint_title": "確認重試航點",
+        "retry_waypoint_confirm": "在同一項已接受的任務中，重試被拒絕的航點？",
+        "awaiting_execution_status": "等待任務執行狀態",
         "raw_records_title": "原始記錄（僅供查看）",
         "configuration_required": "需先配置救援閾值；目前不排序、不派遣",
         "no_pending_alerts": "目前沒有待處理警報",
@@ -360,6 +368,11 @@ LANGUAGES = {
         "rescue_requests_title": "Rescue Requests",
         "pending_alerts_title": "Pending Alerts",
         "pending_events_title": "Pending Rescue Events",
+        "accepted_execution": "Accepted execution: ",
+        "retry_rejected_waypoint": "Retry Rejected Waypoint",
+        "retry_waypoint_title": "Retry Waypoint",
+        "retry_waypoint_confirm": "Retry the rejected waypoint in the SAME accepted execution?",
+        "awaiting_execution_status": "Awaiting execution status",
         "raw_records_title": "Raw Records (Read-only)",
         "configuration_required": "Rescue thresholds are required; ranking and dispatch are disabled",
         "no_pending_alerts": "No pending alerts",
@@ -936,6 +949,7 @@ def _on_mqtt_connect(client, userdata, flags, rc):
         client.subscribe(MQTT_TOPIC_RECEIVER_READY, qos=1)
         threading.Thread(target=_respond_to_receiver_ready, args=(client, None, mqtt_connection_generation),
                          daemon=True).start()
+        threading.Thread(target=query_saved_executions, daemon=True).start()
         print("MQTT connected, subscribed to drone status and onboard rescue records")
 
         _schedule_ui(lambda: safe_configure(mqtt_status_label,
@@ -1048,6 +1062,16 @@ def _process_drone_status_message(payload):
         data = json.loads(payload.decode("utf-8"))
         status = data.get("status", "UNKNOWN")
         message = data.get("message", "")
+        if data.get('message_type') == 'ADMISSION':
+            process_admission_report(data)
+        elif data.get('message_type') == 'TRANSFER':
+            process_transfer_report(data)
+            return
+        elif data.get('message_type') == 'EXECUTION':
+            process_execution_report(data)
+        elif data.get('message_type') == 'PROTOCOL_ERROR':
+            data = process_protocol_error(data)
+            if data is None: return
         display = correlated_status_display(data)
         if display is None:
             print("[INFO] Ignored status for an unrecognized execution")
@@ -1158,6 +1182,7 @@ def dispatch_mission(
     publish_timeout=MISSION_PUBLISH_TIMEOUT_SECONDS,
     execution=None,
     before_publish=None,
+    admission_attempt=1,
 ):
 
 
@@ -1233,27 +1258,9 @@ def dispatch_mission(
                 or execution.get("return_to_launch", True) != return_to_launch
                 or [(float(p["latitude"]), float(p["longitude"])) for p in execution["waypoints"]] != normalized):
             raise ValueError("authorized execution differs from reviewed mission")
-        payload = json.dumps(
-            execution,
-            allow_nan=False,
-            separators=(",", ":"),
-        )
         before_publish()
         attempted = True
-        publish_info = mqtt_client.publish(MQTT_TOPIC_MULTI, payload, qos=1)
-        success_rc = getattr(paho_mqtt, "MQTT_ERR_SUCCESS", 0)
-        rc = getattr(publish_info, "rc", None)
-        if rc != success_rc:
-            raise RuntimeError(f"MQTT publish failed rc={rc}")
-        waiter = getattr(publish_info, "wait_for_publish", None)
-        if not callable(waiter):
-            raise RuntimeError("MQTT publish result cannot be awaited")
-        waited = waiter(timeout=publish_timeout)
-        if waited is False:
-            raise RuntimeError("MQTT publish confirmation timed out")
-        is_published = getattr(publish_info, "is_published", None)
-        if not callable(is_published) or not is_published():
-            raise RuntimeError("MQTT publish was not confirmed")
+        _publish_transfer_messages(transfer_messages(execution, task_fingerprint(execution), admission_attempt), publish_timeout)
     except Exception as exc:
         detail = str(exc) or type(exc).__name__
         _show_message_safely("showerror", "Publication Unknown" if attempted else "Publication Blocked",
@@ -1415,8 +1422,8 @@ def _primary_record(user_info, event):
     if not isinstance(records, dict):
         raise ValueError("primary record group is missing")
     record = records.get(record_id)
-    if not isinstance(record, dict):
-        raise ValueError("primary record is missing")
+    if not isinstance(record, dict) or record.get("_deleted") is True:
+        raise ValueError("primary record is missing or deleted")
     return record_type, str(record_id), record
 
 
@@ -1425,8 +1432,8 @@ def _booking_episode_problem(user_info, workflow):
         return None
     records = user_info.get(BOOKED_EVENTS)
     booking = records.get(workflow.get("primary_record_id")) if isinstance(records, dict) else None
-    if not isinstance(booking, dict):
-        return "Booking source is missing; current timeout episode cannot be verified"
+    if not isinstance(booking, dict) or booking.get("_deleted") is True:
+        return "Booking source is missing or deleted; current timeout episode cannot be verified"
     try:
         current_end = expected_end_at_ms(booking, rescue_runtime_config.get("event_timezone"))
     except RescueEventError as exc:
@@ -1554,7 +1561,7 @@ def supplementary_record_summary(user_info, event):
         count = sum(
             1
             for record_id, record in records.items()
-            if isinstance(record, dict)
+            if isinstance(record, dict) and record.get("_deleted") is not True
             and not (group_name == primary_type and str(record_id) == primary_id)
         )
         if count:
@@ -1630,8 +1637,9 @@ def _show_waypoint_route(waypoints, label="Primary route"):
         return
     map_widget.delete_all_marker()
     map_widget.delete_all_path()
-    for index, (latitude, longitude) in enumerate(waypoints, start=1):
-        map_widget.set_marker(latitude, longitude, text=f"{label} {index}")
+    for index in sorted({0, len(waypoints) - 1}) if len(waypoints) > 256 else range(len(waypoints)):
+        latitude, longitude = waypoints[index]
+        map_widget.set_marker(latitude, longitude, text=f"{label} {index + 1}")
     if len(waypoints) >= 2:
         map_widget.set_path(waypoints)
     average_lat = sum(point[0] for point in waypoints) / len(waypoints)
@@ -1916,6 +1924,10 @@ def _claim_execution(database_root, user_id, event_id, payload, source_hash=None
     def claim(current):
         event = active_queue.current_event(current, user_id, event_id)
         entry = active_queue.active_entry(current, user_id, event_id, owner_id, selection_id)
+        source_group = current.get(event.get('primary_record_type'), {})
+        source = source_group.get(event.get('primary_record_id')) if isinstance(source_group, dict) else None
+        if isinstance(source, dict) and source.get('_deleted') is True:
+            raise ValueError('primary record was deleted; dispatch requires review')
         existing = event.get("execution")
         if existing:
             if (existing.get("execution_id") != payload["execution_id"]
@@ -1931,7 +1943,7 @@ def _claim_execution(database_root, user_id, event_id, payload, source_hash=None
             raise ValueError("primary record changed during confirmation; prepare and review it again")
         active_queue.validate_quick_start_quarantine(current, event)
         event["execution"] = {"execution_id": payload["execution_id"], "fingerprint": fingerprint,
-                              "payload": payload, "state": "CLAIMED"}
+                              "payload": payload, "state": "CLAIMED", "transport_version": 1, "attempt": 1}
         entry.update({"phase": active_queue.AUTHORIZED, "execution_id": payload["execution_id"],
                       "version": entry["version"] + 1})
         entry.pop("confirmation_id", None)
@@ -1939,7 +1951,164 @@ def _claim_execution(database_root, user_id, event_id, payload, source_hash=None
     return user_transaction(database_root, user_id, claim)
 
 
+def _publish_transfer_messages(messages, timeout=MISSION_PUBLISH_TIMEOUT_SECONDS):
+    if not mqtt_connected or mqtt_client is None:
+        raise ValueError('MQTT is unavailable')
+    for message in messages:
+        info = mqtt_client.publish(MQTT_TOPIC_TRANSFER, transfer_canonical(message).decode(), qos=1, retain=False)
+        if getattr(info, 'rc', None) != getattr(paho_mqtt, 'MQTT_ERR_SUCCESS', 0):
+            raise RuntimeError('mission transfer publication failed')
+        if info.wait_for_publish(timeout=timeout) is False or not info.is_published():
+            raise RuntimeError('mission transfer publication is unconfirmed')
+
+
+def process_protocol_error(data, journal=None):
+    owned = journal is None
+    try:
+        journal = journal or get_dispatch_journal()
+        intent = journal.get_by_execution_id(data.get('execution_id'))
+        if (intent is None or data.get('content_fingerprint') != intent['fingerprint']
+                or data.get('attempt') != intent['attempt']): return None
+        key = journal.key_for_execution(intent['execution_id'])
+        journal.set_state(key, intent['execution_id'], 'UNKNOWN', str(data.get('reason', 'Transfer requires review'))[:512])
+        return dict(data, mission_id=intent['payload']['mission_id'])
+    finally:
+        if owned and journal is not None: journal.close()
+
+
+def process_execution_report(data, database_root=None, journal=None):
+    owned = journal is None
+    try:
+        journal = journal or get_dispatch_journal()
+        intent = journal.get_by_execution_id(data.get('execution_id'))
+        if (not intent or data.get('schema_version') != 2
+                or data.get('mission_id') != intent['payload']['mission_id']
+                or data.get('content_fingerprint') != intent['fingerprint']): return None
+        key = journal.key_for_execution(intent['execution_id'])
+        root = database_root if database_root is not None else initialize_firebase()
+        def update(user):
+            execution = user.get('rescue_events', {}).get(key[1], {}).get('execution', {})
+            if execution.get('execution_id') != intent['execution_id']:
+                raise ValueError('execution cloud identity changed')
+            revision = data.get('state_revision')
+            old_revision = execution.get('last_report', {}).get('state_revision', -1)
+            if type(revision) is not int or revision < 1: return user
+            if type(old_revision) is int and revision <= old_revision: return user
+            execution['last_report'] = data
+            return user
+        user_transaction(root, key[0], update)
+        _schedule_ui(refresh_data)
+        return data
+    finally:
+        if owned and journal is not None: journal.close()
+
+
+def query_saved_executions():
+    journal = None
+    try:
+        journal = get_dispatch_journal()
+        for intent in journal.outstanding():
+            _publish_transfer_messages([transfer_query(intent['payload'], intent['fingerprint'], intent['attempt'])])
+    except Exception as exc:
+        print('Saved execution query deferred: ' + type(exc).__name__)
+    finally:
+        if journal is not None: journal.close()
+
+
+def retry_rejected_waypoint(user_id, event_id, database_root=None, confirm_callback=None):
+    root, user = _load_live_user(user_id, database_root)
+    execution = user.get('rescue_events', {}).get(event_id, {}).get('execution', {})
+    report = execution.get('last_report', {})
+    if execution.get('state') != 'ACCEPTED' or report.get('phase') != 'TARGET_REJECTED':
+        raise ValueError('only the same explicitly rejected waypoint can be retried')
+    if not (confirm_callback or messagebox.askyesno)(LANGUAGES[current_lang]['retry_waypoint_title'], LANGUAGES[current_lang]['retry_waypoint_confirm']):
+        return
+    if not mqtt_connected or mqtt_client is None: raise ValueError('MQTT is unavailable')
+    payload = dict(execution_id=execution['execution_id'], mission_id=report['mission_id'],
+                   operator_confirmed=True, reason='Operator confirmed retry of rejected waypoint')
+    info = mqtt_client.publish(MQTT_TOPIC_OPERATOR_RETRY, json.dumps(payload), qos=1, retain=False)
+    if getattr(info, 'rc', None) != 0 or info.wait_for_publish(timeout=5) is False or not info.is_published():
+        raise ValueError('waypoint retry publication is unconfirmed; query before retrying')
+
+
+def _render_execution_progress(users_data):
+    for uid, user in users_data.items():
+        if not isinstance(user, dict): continue
+        for eid, event in user.get('rescue_events', {}).items():
+            if not isinstance(event, dict) or event.get('status') != 'DISPATCHED': continue
+            execution = event.get('execution', {})
+            if not isinstance(execution, dict): continue
+            report = execution.get('last_report', {})
+            if not isinstance(report, dict): report = {}
+            card = create_mission_card(scroll_frame, title=f'{uid}/{eid}',
+                subtitle=LANGUAGES[current_lang]['accepted_execution'] + str(execution.get('execution_id', '')),
+                status='warning', extra_info=str(report.get('phase', LANGUAGES[current_lang]['awaiting_execution_status'])) + '\n' + str(report.get('reason', '')))
+            mission_cards.append(card)
+            if report.get('phase') == 'TARGET_REJECTED':
+                _add_card_button(card, LANGUAGES[current_lang]['retry_rejected_waypoint'],
+                    lambda u=uid, e=eid: _run_active_queue_action(retry_rejected_waypoint, u, e))
+
+
+def process_admission_report(data, database_root=None, journal=None):
+    owned = journal is None
+    try:
+        journal = journal or get_dispatch_journal()
+        intent = journal.record_admission(data)
+        if intent is None: return None
+        key = journal.key_for_execution(intent['execution_id'])
+        root = database_root if database_root is not None else initialize_firebase()
+        if intent['state'] == 'ACCEPTED':
+            _commit_execution(root, key[0], key[1], intent, _epoch_now_ms())
+        else:
+            def update(user):
+                event = user.get('rescue_events', {}).get(key[1], {})
+                execution = event.get('execution', {})
+                if execution.get('execution_id') != intent['execution_id'] or execution.get('fingerprint') != intent['fingerprint']:
+                    raise ValueError('admission cloud identity changed')
+                if event.get('status') == PENDING:
+                    execution.update(state=intent['state'], admission=intent['admission'], attempt=intent['attempt'])
+                return user
+            user_transaction(root, key[0], update)
+        _schedule_ui(refresh_data)
+        return intent
+    finally:
+        if owned and journal is not None: journal.close()
+
+
+def process_transfer_report(data, journal=None, database_root=None):
+    if data.get('message_type') != 'TRANSFER' or data.get('request_kind') != 'QUERY': return
+    owned = journal is None
+    try:
+        journal = journal or get_dispatch_journal()
+        intent = journal.get_by_execution_id(data.get('execution_id'))
+        if (not intent or intent['protocol_version'] != 1 or intent['state'] == 'ACCEPTED'
+                or data.get('content_fingerprint') != intent['fingerprint']
+                or data.get('attempt') != intent['attempt']): return
+        key = journal.key_for_execution(intent['execution_id'])
+        root, user = _load_live_user(key[0], database_root)
+        event = user.get('rescue_events', {}).get(key[1], {})
+        remote = event.get('execution', {})
+        if remote.get('execution_id') != intent['execution_id'] or remote.get('fingerprint') != intent['fingerprint']:
+            raise ValueError('saved execution ownership changed')
+        source_group = user.get(event.get('primary_record_type'), {})
+        source = source_group.get(event.get('primary_record_id')) if isinstance(source_group, dict) else None
+        if isinstance(source, dict) and source.get('_deleted') is True:
+            journal.set_state(key, intent['execution_id'], 'UNKNOWN', 'Primary record deleted; transfer recovery requires review')
+            return
+        missing = data.get('missing_chunks')
+        if not isinstance(missing, list): raise ValueError('missing chunk list required')
+        _publish_transfer_messages(transfer_messages(intent['payload'], intent['fingerprint'], intent['attempt'],
+                                   None if data.get('manifest_required') is True else missing))
+    finally:
+        if owned and journal is not None: journal.close()
+
+
 def _commit_execution(database_root, user_id, event_id, intent, published_at_ms):
+    admission = intent.get('admission') or {}
+    if (intent.get('state') != 'ACCEPTED' or admission.get('accepted') is not True
+            or admission.get('execution_id') != intent['execution_id']
+            or admission.get('content_fingerprint') != intent['fingerprint']):
+        raise ValueError('UAV admission evidence required before dispatch commit')
     def commit(current):
         event = current.get("rescue_events", {}).get(event_id)
         if not isinstance(event, dict):
@@ -1952,7 +2121,8 @@ def _commit_execution(database_root, user_id, event_id, intent, published_at_ms)
             raise ValueError("event state changed; manual reconciliation required")
         event.update({"status": "DISPATCHED", "dispatch_mission_id": intent["payload"]["mission_id"]})
         event.setdefault("dispatch_published_at_ms", intent.get("broker_confirmed_at_ms") or published_at_ms)
-        execution["state"] = "COMMITTED"
+        event.setdefault("dispatch_accepted_at_ms", published_at_ms)
+        execution.update(state="ACCEPTED", admission=admission, attempt=intent["attempt"])
         active_entries = current.get("active_events", {})
         entry = active_entries.get(event_id) if isinstance(active_entries, dict) else None
         if entry is not None:
@@ -1988,24 +2158,29 @@ def dispatch_rescue_event(user_id, event_id, database_root=None, *, journal=None
             if (task_fingerprint(payload) != remote.get("fingerprint")
                     or remote.get("execution_id") != payload["execution_id"]):
                 raise ValueError("stored execution content is inconsistent")
-            intent = journal.prepare(key, payload)
-            intent = journal.set_state(key, intent["execution_id"],
-                                       "COMMITTED" if event.get("status") == "DISPATCHED" else "UNKNOWN")
+            intent = journal.restore_remote(key, remote)
+            intent = journal.set_state(key, intent["execution_id"], "UNKNOWN")
         if intent and isinstance(remote, dict) and (
                 remote.get("execution_id") != intent["execution_id"]
                 or remote.get("fingerprint") != intent["fingerprint"]):
             raise ValueError("local and cloud execution ownership differ; manual reconciliation required")
-        if intent and intent["state"] in {"BROKER_CONFIRMED", "COMMITTED"}:
+        if intent and intent["state"] == "ACCEPTED":
             _commit_execution(database_root, user_id, event_id, intent, _epoch_now_ms())
-            journal.set_state(key, intent["execution_id"], "COMMITTED")
+            journal.set_state(key, intent["execution_id"], "ACCEPTED")
             published_uncommitted_events.pop(key, None)
             result = _dispatch_result(DISPATCH_PUBLISHED, "Recovered without republishing",
                                       intent["payload"]["mission_id"], len(intent["payload"]["waypoints"]))
             result.update({"execution_id": intent["execution_id"], "firebase_status": "DISPATCHED"})
             return _refresh_after_committed_dispatch(result)
         if entry and entry.get("phase") == active_queue.RECOVERY_ONLY:
-            return {**_dispatch_result(DISPATCH_UNKNOWN, "Legacy execution: reconcile without republishing"),
+            if intent:
+                _publish_transfer_messages([transfer_query(intent['payload'], intent['fingerprint'], intent['attempt'])])
+            return {**_dispatch_result(DISPATCH_UNKNOWN, "Legacy execution: querying UAV evidence without republishing"),
                     "execution_id": intent["execution_id"] if intent else entry.get("execution_id")}
+        if intent and resume_execution and intent['state'] != 'REJECTED':
+            _publish_transfer_messages([transfer_query(intent['payload'], intent['fingerprint'], intent['attempt'])])
+            return {**_dispatch_result(DISPATCH_UNKNOWN, 'Querying saved execution; no new execution created'),
+                    'execution_id': intent['execution_id'], 'firebase_status': 'PENDING'}
         if intent and not resume_execution:
             return {**_dispatch_result(DISPATCH_UNKNOWN, "Existing authorized execution requires reconciliation"),
                     "execution_id": intent["execution_id"], "recovery_state": intent["state"]}
@@ -2052,6 +2227,14 @@ def dispatch_rescue_event(user_id, event_id, database_root=None, *, journal=None
                          owner_id=owner_id, selection_id=entry["selection_id"], confirmation_id=confirmation_id)
         if intent is None:
             intent = journal.prepare(key, payload)
+        if intent['state'] == 'REJECTED':
+            intent = journal.next_attempt(key, payload['execution_id'])
+            def record_attempt(user):
+                execution = user['rescue_events'][event_id]['execution']
+                if execution['execution_id'] != payload['execution_id']: raise ValueError('execution ownership changed')
+                execution.update(attempt=intent['attempt'], state='CLAIMED')
+                return user
+            user_transaction(database_root, user_id, record_attempt)
         journal.set_state(key, payload["execution_id"], "CLAIMED")
         def before_publish():
 
@@ -2062,21 +2245,17 @@ def dispatch_rescue_event(user_id, event_id, database_root=None, *, journal=None
         result = dispatch_mission(
             [(p["latitude"], p["longitude"]) for p in payload["waypoints"]],
             mission_user, mission_token, payload["mission_type"], payload["return_to_launch"],
-            confirm_callback=lambda *_args: True, execution=payload, before_publish=before_publish)
+            confirm_callback=lambda *_args: True, execution=payload, before_publish=before_publish, admission_attempt=intent["attempt"])
         result["execution_id"] = payload["execution_id"]
         if result["status"] != DISPATCH_PUBLISHED:
             journal.set_state(key, payload["execution_id"], "UNKNOWN", result.get("status", "unknown"))
             return result
-        intent = journal.set_state(key, payload["execution_id"], "BROKER_CONFIRMED")
-        try:
+        intent = journal.set_state(key, payload["execution_id"], "AWAITING_ACCEPTANCE")
+        if intent['state'] == 'ACCEPTED':
             _commit_execution(database_root, user_id, event_id, intent, _epoch_now_ms())
-            journal.set_state(key, payload["execution_id"], "COMMITTED")
-        except Exception:
-            published_uncommitted_events[key] = {"execution_id": payload["execution_id"]}
-            result["firebase_status"] = "PENDING_WRITE_RETRY"
-            return result
-        published_uncommitted_events.pop(key, None)
-        result["firebase_status"] = "DISPATCHED"
+            result['firebase_status'] = 'DISPATCHED'
+        else:
+            result['firebase_status'] = 'PENDING'
         return _refresh_after_committed_dispatch(result)
     except (ValueError, RescueEventError) as exc:
         _show_workflow_error(exc)
@@ -2394,8 +2573,16 @@ def _migrate_unqueued_executions(database_root, users_data, now_ms):
             if not isinstance(user, dict) or not isinstance(user.get("rescue_events"), dict):
                 continue
             for event_id, event in user["rescue_events"].items():
-                if not isinstance(event, dict) or event.get("status") != PENDING:
+                if not isinstance(event, dict): continue
+                remote = event.get('execution', {})
+                if not isinstance(remote, dict):
+                    issues.append({'record_type':'execution_storage','record_id':event_id,'error':'invalid saved execution metadata'})
                     continue
+                if event.get('status') == 'DISPATCHED' and not (remote.get('admission') or {}).get('accepted'):
+                    changed = active_queue.migrate_legacy_dispatch(database_root, user_id, event_id)
+                    user.update(changed)
+                    event = user['rescue_events'][event_id]
+                if event.get('status') != PENDING: continue
                 if event_id in user.get("active_events", {}):
                     continue
                 try:
@@ -2428,7 +2615,7 @@ def _show_associated_records(user, event):
         records = user.get(group, {})
         if isinstance(records, dict):
             supplementary[group] = {key: value for key, value in records.items()
-                                    if not (group == kind and key == record_id)}
+                                    if isinstance(value, dict) and value.get("_deleted") is not True and not (group == kind and key == record_id)}
     popup = ctk.CTkToplevel(root)
     popup.title("Associated Records — Read Only")
     popup.geometry("800x600")
@@ -2483,6 +2670,7 @@ def _render_active_events(users_data, now_ms):
             extra += f"\nPrepared source waypoints: {len(points)}/{MAX_MISSION_WAYPOINTS}; RTL is additional"
         if intent:
             extra += f"\nExecution: {intent['execution_id']} ({intent['state']})"
+            extra += "\n" + str(intent.get("detail", ""))
         if problem:
             extra += "\n" + problem
         card = create_mission_card(scroll_frame, title=f"{uid}/{eid}",
@@ -2508,7 +2696,7 @@ def _render_active_events(users_data, now_ms):
         elif phase == active_queue.CONFIRMING:
             action_button("Recover Interrupted Confirmation", recover_active_confirmation, can_act and intent is None)
         elif phase in {active_queue.AUTHORIZED, active_queue.RECOVERY_ONLY}:
-            commit_only = bool(intent and intent["state"] in {"BROKER_CONFIRMED", "COMMITTED"})
+            commit_only = bool(intent and intent["state"] == "ACCEPTED")
             retry = phase == active_queue.AUTHORIZED and not commit_only
             action_button("Recover Firebase Status (No Republish)" if commit_only else
                           "Review / Retry Same Saved Execution" if retry else "Reconcile Legacy Execution (No Republish)",
@@ -2596,7 +2784,7 @@ def _render_raw_records_read_only(users_data, now_ms=None):
         bookings = user_info.get(BOOKED_EVENTS)
         if isinstance(bookings, dict):
             for booking_id, booking in sorted(bookings.items(), key=lambda item: str(item[0])):
-                if not isinstance(booking, dict):
+                if not isinstance(booking, dict) or booking.get("_deleted") is True:
                     continue
                 card = create_mission_card(
                     scroll_frame,
@@ -2843,6 +3031,7 @@ def refresh_data():
     _render_pending_alerts(users_data, now_ms)
     _render_pending_events(users_data, now_ms)
     _render_active_events(users_data, now_ms)
+    _render_execution_progress(users_data)
     _render_raw_records_read_only(users_data, now_ms)
 
     safe_configure(
@@ -2876,6 +3065,9 @@ def on_card_click(data_str, mission_type):
     try:
         data = json.loads(data_str)
     except (json.JSONDecodeError, TypeError):
+        return
+
+    if not isinstance(data, dict) or data.get("_deleted") is True:
         return
 
     coords = []
@@ -2923,6 +3115,11 @@ def on_card_click(data_str, mission_type):
     map_widget.delete_all_marker()
     map_widget.delete_all_path()
 
+    if len(markers_to_add) > 256:
+        first, last = markers_to_add[0], markers_to_add[-1]
+        label = '點' if current_lang == 'zh' else 'Point'
+        markers_to_add = [(first[0], first[1], f'{label} 1/{len(coords)}'),
+                          (last[0], last[1], f'{label} {len(coords)}/{len(coords)}')]
     for lat, lon, text in markers_to_add:
         map_widget.set_marker(lat, lon, text=text)
 

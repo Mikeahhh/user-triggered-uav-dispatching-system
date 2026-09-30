@@ -10,6 +10,10 @@ MASS26_BRIDGE="$MASS26_DRONE/catkin_ws/src/rescue_bridge/src"
 MASS26_GROUND_PYTHON=${MASS26_GROUND_PYTHON:-python3}
 MASS26_PYTHON=${MASS26_PYTHON:-python3}
 
+if [ "${MASS26_LOCAL_VERIFICATION:-0}" != "1" ]; then
+    exec "$MASS26_PYTHON" "$MASS26_CODE_ROOT/../scripts/verify.py" "$@"
+fi
+
 run_step() {
     MASS26_STEP_NAME=$1
     shift
@@ -34,6 +38,8 @@ run_step "Mobile release metadata alignment" run_in_dir "$MASS26_MOBILE" \
     node scripts/check_version_alignment.js
 run_step "Mobile Jest" run_in_dir "$MASS26_MOBILE" \
     ./node_modules/.bin/jest --runInBand --no-cache
+run_step "Mobile SQLite and Kotlin tracking contracts" run_in_dir "$MASS26_MOBILE" \
+    "$MASS26_PYTHON" scripts/test_tracking_native.py
 
 run_step "All first-party Python and packaging syntax" \
     "$MASS26_PYTHON" "$MASS26_CODE_ROOT/verify_source_syntax.py"
@@ -58,4 +64,3 @@ run_step "Cross-component release and protocol integration" run_in_dir \
     "$MASS26_GROUND_PYTHON" -m unittest discover -s . -p 'test_*.py' -v
 
 printf '\nALL LOCAL SOFTWARE VERIFICATION STEPS PASSED\n'
-printf 'This does not verify a deployed build, a ROS package build, or physical flight.\n'

@@ -12,7 +12,6 @@ const requireMatch = (text, pattern, label) => {
 
 const expectedVersion = '1.2.0';
 const expectedAndroidCode = 3;
-const expectedIosBuild = 3;
 const expectedReleaseId = 'MASS26-20260806';
 const expectedProtocolSchema = 1;
 const expectedOutboxStorageVersion = 3;
@@ -41,21 +40,9 @@ requireMatch(
   'Android versionName',
 );
 
-const xcode = read('ios/FypProject.xcodeproj/project.pbxproj');
-const iosBuildMatches = xcode.match(
-  new RegExp(`CURRENT_PROJECT_VERSION = ${expectedIosBuild};`, 'g'),
-) || [];
-const iosVersionMatches = xcode.match(
-  new RegExp(`MARKETING_VERSION = ${expectedVersion.replace(/\./g, '\\.')};`, 'g'),
-) || [];
-if (iosBuildMatches.length !== 2 || iosVersionMatches.length !== 2) {
-  throw new Error('iOS project version/build is not aligned in both configurations');
-}
-
 const metadata = read('services/appMetadata.ts');
 requireMatch(metadata, /MOBILE_APP_VERSION = '1\.2\.0'/, 'App metadata version');
 requireMatch(metadata, /ANDROID_VERSION_CODE = 3/, 'App metadata Android code');
-requireMatch(metadata, /IOS_BUILD_NUMBER = 3/, 'App metadata iOS build');
 requireMatch(
   metadata,
   new RegExp(`SYSTEM_RELEASE_ID = '${expectedReleaseId}'`),
@@ -107,5 +94,5 @@ requireMatch(
 );
 
 process.stdout.write(
-  `Mobile version alignment OK: ${expectedVersion}, Android ${expectedAndroidCode}, iOS ${expectedIosBuild}, ${expectedReleaseId}, schema ${expectedProtocolSchema}, outbox v${expectedOutboxStorageVersion}\n`,
+  `Mobile version alignment OK: ${expectedVersion}, Android ${expectedAndroidCode}, ${expectedReleaseId}, schema ${expectedProtocolSchema}, outbox v${expectedOutboxStorageVersion}\n`,
 );

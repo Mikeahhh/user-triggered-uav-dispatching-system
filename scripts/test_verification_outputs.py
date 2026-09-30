@@ -19,6 +19,7 @@ class VerificationOutputTests(unittest.TestCase):
         self.simulation = self.root / "simulation"
         self.simulation.mkdir()
         shutil.copy2(ROOT / "simulation/verify_outputs.py", self.simulation)
+        shutil.copy2(ROOT / "simulation/flight_clearance.py", self.simulation)
         for name, pattern in (
             ("output", "*.csv"), ("output", "scenario_and_settings.json"),
             ("output", "figure_axes_audit.json"), ("data", "N22E114.hgt"),
@@ -55,7 +56,10 @@ class VerificationOutputTests(unittest.TestCase):
         self.assertEqual(completed.returncode, 0, completed.stderr)
         report = json.loads(output.read_text())
         self.assertTrue(report["all_passed"])
-        self.assertEqual(report["check_count"], 53)
+        self.assertEqual(report["check_count"], 52)
+        clearance = [item for item in report["checks"] if "2 m flight clearance" in item["name"]]
+        self.assertEqual(len(clearance), 3)
+        self.assertTrue(all(item["minimum_clearance_m"] >= 2 for item in clearance))
         self.assertIn("completed_at", report)
         self.assertEqual(before, hashlib.sha256(self.archived.read_bytes()).hexdigest())
 
@@ -66,6 +70,23 @@ class VerificationOutputTests(unittest.TestCase):
         self.assertNotEqual(completed.returncode, 0)
         self.assertIn("already exists", completed.stderr)
         self.assertEqual(output.read_text(), '{"original": true}\n')
+
+    def test_new_report_cannot_be_written_inside_archived_results(self):
+        output = self.simulation / "verification/new.json"
+        completed = self.run_verifier("--output", output)
+        self.assertNotEqual(completed.returncode, 0)
+        self.assertIn("outside archived", completed.stderr)
+        self.assertFalse(output.exists())
+
+    def test_modified_source_is_reported_without_relabeling_historical_manifest(self):
+        source = self.simulation / "run_all.m"
+        source.write_text(source.read_text() + "\n")
+        output = self.root / "new-report.json"
+        completed = self.run_verifier("--output", output)
+        self.assertEqual(completed.returncode, 0, completed.stderr)
+        report = json.loads(output.read_text())
+        entry = next(item for item in report["archived_source_comparison"] if item["path"] == "run_all.m")
+        self.assertFalse(entry["unchanged"])
 
 
 if __name__ == "__main__":

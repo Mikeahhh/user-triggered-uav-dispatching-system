@@ -61,7 +61,6 @@ rsync -a \
     --exclude '.npmrc' \
     --exclude '.yarnrc' \
     --exclude '.yarnrc.yml' \
-    --exclude 'ios/' \
     --exclude 'docs/' \
     --exclude '__tests__/' \
     --exclude 'coverage/' \
@@ -70,7 +69,6 @@ rsync -a \
     --exclude 'android/app/build/' \
     --exclude 'android/local.properties' \
     --exclude 'android/gradle.properties' \
-    --exclude 'android/app/src/main/AndroidManifest.xml' \
     --exclude 'services/db/firebaseConfig.ts' \
     --exclude 'google-services.json' \
     --exclude '*.jks' \
@@ -110,17 +108,11 @@ if [ -n "$MOBILE_BUILD_PROHIBITED" ]; then
     echo "Refusing compile-only build: prohibited file reached temporary copy." >&2
     exit 1
 fi
-if [ -d "$MOBILE_BUILD_COPY/ios" ]; then
-    echo "Refusing compile-only build: iOS tree reached temporary copy." >&2
-    exit 1
-fi
+
 
 install -m 600 \
     "$MOBILE_BUILD_COPY/scripts/google-services.compile-only.json" \
     "$MOBILE_BUILD_COPY/android/app/google-services.json"
-install -m 600 \
-    "$MOBILE_BUILD_COPY/scripts/AndroidManifest.compile-only.xml" \
-    "$MOBILE_BUILD_COPY/android/app/src/main/AndroidManifest.xml"
 install -m 600 \
     "$MOBILE_BUILD_COPY/scripts/gradle.compile-only.properties" \
     "$MOBILE_BUILD_COPY/android/gradle.properties"
@@ -153,7 +145,7 @@ fi
 cd "$MOBILE_BUILD_COPY/android"
 
 ANDROID_HOME="$MOBILE_BUILD_SDK" "$MOBILE_BUILD_JAVA_CMD" \
-    -jar gradle/wrapper/gradle-wrapper.jar \
+    -jar gradle/wrapper/gradle-wrapper.jar --offline \
     :react-native-worklets:externalNativeBuildDebug
 
 
@@ -177,11 +169,11 @@ if [ "$MOBILE_BUILD_FOUND_WORKLETS" != true ]; then
 fi
 
 ANDROID_HOME="$MOBILE_BUILD_SDK" "$MOBILE_BUILD_JAVA_CMD" \
-    -jar gradle/wrapper/gradle-wrapper.jar \
+    -jar gradle/wrapper/gradle-wrapper.jar --offline \
     assembleDebug
 
 MOBILE_BUILD_APK_SOURCE="$MOBILE_BUILD_COPY/android/app/build/outputs/apk/debug/app-debug.apk"
-MOBILE_BUILD_OUTPUT_DIR="$MOBILE_BUILD_PROJECT_ROOT/android/app/build/outputs/apk/compile-only"
+MOBILE_BUILD_OUTPUT_DIR=${MOBILE_BUILD_OUTPUT_DIR:-"$MOBILE_BUILD_PROJECT_ROOT/android/app/build/outputs/apk/compile-only"}
 MOBILE_BUILD_APK_TARGET="$MOBILE_BUILD_OUTPUT_DIR/app-debug-COMPILE-ONLY-NO-LIVE-FIREBASE.apk"
 MOBILE_BUILD_HASH_TARGET="$MOBILE_BUILD_APK_TARGET.sha256"
 MOBILE_BUILD_NOTICE="$MOBILE_BUILD_OUTPUT_DIR/README-COMPILE-ONLY.txt"

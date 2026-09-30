@@ -42,6 +42,8 @@ catkin_install_python(PROGRAMS
 install(FILES
   src/mission_protocol.py
   src/execution_protocol.py
+  src/mission_transfer_protocol.py
+  src/mission_transfer_store.py
   src/execution_state.py
   src/collection_context.py
   src/target_lifecycle.py

@@ -19,10 +19,13 @@ import ground_station as gs
 from dispatch_journal import DispatchJournal
 from execution_protocol import normalize_execution_payload
 from execution_state import ExecutionManager
+from mission_transfer_store import MissionTransferStore
+from mission_transfer_protocol import decode
 from capture_store_v2 import JournalCollectionContextProvider, NoCollectionContext
 from phone_sos_receiver import RescueStore, RescueHttpServer, RescueDeliveryCoordinator
 from rescue_record_protocol import GroundRescueStore, process_onboard_envelope, ACK_PUBLISHED, RECEIVED_STORED
 import test_flight_execution_contract as flight_fixture
+from execution_test_support import arrive, complete_hover
 
 
 def source_request():
@@ -88,15 +91,19 @@ class ArrivalCaptureContractTests(unittest.TestCase):
             data = {'users': {'SYNTHETIC': user}}
             reference = memory_database(data)
             commands = []
+            transfers = MissionTransferStore(directory / 'transfers')
             class Info:
                 rc = 0
                 def wait_for_publish(self, timeout): pass
                 def is_published(self): return True
             class Broker:
-                def publish(self, _topic, body, qos):
-                    payload = json.loads(body)
+                def publish(self, _topic, body, qos, retain=False):
+                    assert retain is False
+                    payload = decode(body.encode())
                     commands.append(payload)
-                    manager.admit(normalize_execution_payload(payload), launch_fix=(22.0, 114.0))
+                    response, _, _ = transfers.handle(payload, manager, (22.0, 114.0))
+                    if response['message_type'] == 'ADMISSION':
+                        gs.process_admission_report(response, database_root=reference, journal=ledger)
                     return Info()
             with patch.object(gs, 'rescue_runtime_config', {'ready': True}), \
                  patch.object(gs, 'mqtt_connected', True), patch.object(gs, 'mqtt_client', Broker()), \
@@ -110,11 +117,11 @@ class ArrivalCaptureContractTests(unittest.TestCase):
                 result = gs.dispatch_rescue_event('SYNTHETIC', event['event_id'], reference,
                     journal=ledger, confirm_callback=lambda *_: True)
             self.assertEqual(result['status'], gs.DISPATCH_PUBLISHED)
-            self.assertEqual(len(commands), 1)
+            self.assertEqual([command['kind'] for command in commands], ['MANIFEST', 'CHUNK', 'COMMIT'])
             self.assertEqual(data['users']['SYNTHETIC']['rescue_events'][event['event_id']]['status'], 'DISPATCHED')
             self.assertNotIn(event['event_id'], data['users']['SYNTHETIC'].get('active_events', {}))
-            wire = commands[0]
-            store = RescueStore(directory / 'uav')
+            wire = commands[0]['task']
+            store = RescueStore(directory / 'uav', execution_journal_path=manager.path)
             server = RescueHttpServer(('127.0.0.1', 0), store, collection_context_provider=provider)
             thread = threading.Thread(target=server.serve_forever, daemon=True)
             thread.start()
@@ -122,8 +129,7 @@ class ArrivalCaptureContractTests(unittest.TestCase):
 
                 status, _ = self.get_context(server, 'too-early')
                 self.assertNotEqual(status, 200)
-                manager.feedback(wire['mission_id'], wire['execution_id'], 0, 'ACCEPTED')
-                manager.feedback(wire['mission_id'], wire['execution_id'], 0, 'ARRIVED')
+                arrive(manager)
                 context = provider('SYNTHETIC')
                 self.assertEqual(context['mission_id'], wire['mission_id'])
                 self.assertEqual(context['execution_id'], wire['execution_id'])
@@ -145,17 +151,20 @@ class ArrivalCaptureContractTests(unittest.TestCase):
                 self.assertEqual(record['capture_started_at_ms'], 1788912060000)
                 self.assertEqual(record['client_timestamp_ms'], 1788912060123)
 
-                now[0] += 5
-                manager.tick()
+                early_messages = []
+                early_delivery = RescueDeliveryCoordinator(store, lambda topic, body: early_messages.append(body))
+                self.assertEqual(early_delivery.handle_sync_request(), 0)
+                self.assertEqual(early_delivery.handle_mission_status({**manager.snapshot(), 'phase': 'LAND_REQUESTED',
+                    'all_waypoints_completed': True, 'land_command_requested': True, 'delivery_eligible': True}), 0)
+                self.assertEqual(early_messages, [])
+                complete_hover(manager, now)
                 while manager.snapshot()['phase'] == 'WAITING_TARGET_ACCEPTANCE':
                     snapshot = manager.snapshot()
                     index = snapshot['waypoint_index']
                     self.assertEqual(manager.collection_context()['collection_ready'],
                                      index < snapshot['source_waypoint_total'])
-                    manager.feedback(wire['mission_id'], wire['execution_id'], index, 'ACCEPTED')
-                    manager.feedback(wire['mission_id'], wire['execution_id'], index, 'ARRIVED')
-                    now[0] += 5
-                    manager.tick()
+                    arrive(manager)
+                    complete_hover(manager, now)
                 self.assertEqual(manager.snapshot()['phase'], 'LAND_REQUEST_PENDING')
                 landed = manager.land_result(True)
                 status, _ = self.get_context(server, 'after-land-request')
@@ -215,7 +224,7 @@ task=json.loads(sys.stdin.readline())
 result,state=engine.admit(normalize_execution_payload(task),launch_fix=(22.0,114.0))
 if result=='NEW':
  engine.feedback(task['mission_id'],task['execution_id'],0,'ACCEPTED')
- engine.feedback(task['mission_id'],task['execution_id'],0,'ARRIVED')
+ engine.feedback(task['mission_id'],task['execution_id'],0,'ARRIVED',position_valid=True,feedback_seq=1)
 print(engine.snapshot()['phase'],flush=True)
 sys.stdin.readline()
 engine.close()

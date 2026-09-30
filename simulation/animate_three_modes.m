@@ -1,9 +1,12 @@
-function animate_three_modes(previewOnly,frameIndices)
+function animate_three_modes(previewOnly,frameIndices,out,studyFile)
 
 if nargin<1, previewOnly=false; end
 frameWorker=nargin>=2 && ~isempty(frameIndices);
-root=fileparts(mfilename('fullpath'));out=fullfile(root,'output');
-loaded=load(fullfile(out,'three_mode_study.mat'),'study');s=loaded.study;
+root=fileparts(mfilename('fullpath'));
+if nargin<3 || isempty(out), out=prepare_simulation_output();
+else, out=prepare_simulation_output(out,false); end
+if nargin<4, studyFile=fullfile(root,'output','three_mode_study.mat'); end
+loaded=load(studyFile,'study');s=loaded.study;
 cfg=s.config;t=s.terrain;
 outbound=[.04 .33 .64];search=[.91 .49 .04];returnColor=[.69 .13 .48];
 targetColor=[.8 .13 .12];launchColor=[.08 .12 .15];
@@ -106,7 +109,7 @@ for frameIndex=frameIndices
     end
     img=img(1:2*floor(size(img,1)/2),1:2*floor(size(img,2)/2),:);
     if previewOnly
-        imwrite(img,fullfile(root,'verification','print_capture_preview.png'));
+        imwrite(img,fullfile(out,'print_capture_preview.png'));
     else
         imwrite(img,fullfile(frameDirectory,sprintf('frame_%04d.png',frameIndex)));
     end
@@ -119,7 +122,7 @@ for frameIndex=frameIndices
 end
 if previewOnly || frameWorker, close(fig); return; end
 close(fig);
-assemble_animation;
+assemble_animation(out,studyFile);
 fprintf('Video saved. %d frames at %d fps.\n',numel(timeFrames),fps);
 end
 

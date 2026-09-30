@@ -30,11 +30,11 @@ class ExecutionTests(unittest.TestCase):
         with self.assertRaises(MissionValidationError):
             mission(execution_id="")
         with self.assertRaises(MissionValidationError):
-            mission(waypoints=[{"lat": 0, "lon": 0}] * 1001)
-        result = mission(waypoints=[{"lat": 0, "lon": 0}] * 1000, return_to_launch=True)
+            mission(waypoints=[{"lat": 0, "lon": 0}] * 100001)
+        result = mission(waypoints=[{"lat": 0, "lon": 0}] * 100000, return_to_launch=True)
         manager = ExecutionManager()
         _, status = manager.admit(result, (0.0, 0.0))
-        self.assertEqual(status["waypoint_total"], 1001)
+        self.assertEqual(status["waypoint_total"], 100001)
 
     def test_legacy_execution_key_is_stable(self):
         data = {"mission_id": "AUDIT/a", "waypoints": [{"lat": 0, "lon": 0}]}
@@ -55,15 +55,18 @@ class ExecutionTests(unittest.TestCase):
     def test_arrival_requires_matching_acceptance_and_identity(self):
         now = [0.0]
         manager = ExecutionManager(clock=lambda: now[0]); manager.admit(mission())
-        self.assertIsNone(manager.feedback("AUDIT/a", "exec-a", 0, "ARRIVED"))
+        self.assertIsNone(manager.feedback("AUDIT/a", "exec-a", 0, "ARRIVED", position_valid=True, feedback_seq=1))
         manager.feedback("AUDIT/a", "exec-a", 0, "ACCEPTED")
         for mid, eid, index in (("AUDIT/old", "exec-a", 0), ("AUDIT/a", "", 0),
                                 ("AUDIT/a", "old", 0), ("AUDIT/a", "exec-a", 1)):
-            self.assertIsNone(manager.feedback(mid, eid, index, "ARRIVED"))
-        manager.feedback("AUDIT/a", "exec-a", 0, "ARRIVED")
+            self.assertIsNone(manager.feedback(mid, eid, index, "ARRIVED", position_valid=True, feedback_seq=1))
+        manager.feedback("AUDIT/a", "exec-a", 0, "ARRIVED", position_valid=True, feedback_seq=1)
+        for sequence in range(2, 11):
+            now[0] = (sequence - 1) * .5
+            manager.feedback("AUDIT/a", "exec-a", 0, "HOLDING", position_valid=True, feedback_seq=sequence)
         now[0] = 4.999; self.assertIsNone(manager.tick())
         now[0] = 5; self.assertEqual(manager.tick()["waypoint_index"], 1)
-        self.assertIsNone(manager.feedback("AUDIT/a", "exec-a", 0, "ARRIVED"))
+        self.assertIsNone(manager.feedback("AUDIT/a", "exec-a", 0, "ARRIVED", position_valid=True, feedback_seq=1))
         self.assertEqual(manager.snapshot()["phase"], "WAITING_TARGET_ACCEPTANCE")
 
     def test_rejection_and_timeout_are_explicit_and_keep_target(self):

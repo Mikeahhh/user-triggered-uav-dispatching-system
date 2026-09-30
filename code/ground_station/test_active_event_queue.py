@@ -1,4 +1,5 @@
 import copy
+import json
 import tempfile
 import threading
 import unittest
@@ -46,6 +47,9 @@ class ActiveQueueTests(unittest.TestCase):
     def test_confirmed_dispatch_atomically_exits_active_and_marks_dispatched(self):
         self.select(); self.prepare()
         self.assertEqual(self.dispatch()["status"], gs.DISPATCH_PUBLISHED)
+        self.assertEqual(self.event()["status"], "PENDING")
+        self.assertIn(KEY[1], self.user()["active_events"])
+        flow._admit(self.root, self.journal)
         self.assertNotIn(KEY[1], self.user()["active_events"])
         self.assertEqual(self.event()["status"], "DISPATCHED")
         commits = [item for item in self.root.history if item[0] == "transaction"
@@ -173,7 +177,9 @@ class ActiveQueueTests(unittest.TestCase):
         self.assertEqual(self.client.calls, [])
         recovered = self.dispatch(resume_execution=True)
         self.assertEqual(recovered["execution_id"], execution_id)
-        self.assertEqual(recovered["status"], gs.DISPATCH_PUBLISHED)
+        self.assertEqual(recovered["status"], gs.DISPATCH_UNKNOWN)
+        self.assertEqual(len(self.client.calls), 1)
+        self.assertEqual(json.loads(self.client.calls[0][1])["kind"], "QUERY")
 
     def test_unknown_execution_stays_active_and_cannot_return_to_pending(self):
         self.select(); self.prepare()
@@ -217,7 +223,7 @@ class ActiveQueueTests(unittest.TestCase):
             release.set(); worker.join(3)
             self.assertFalse(worker.is_alive())
             self.assertEqual(results[0]["status"], gs.DISPATCH_PUBLISHED)
-            self.assertEqual(len(self.client.calls), 1)
+            self.assertEqual(len(self.client.calls), 3)
         finally:
             release.set(); worker.join(3); other.close()
 
@@ -226,20 +232,24 @@ class ActiveQueueTests(unittest.TestCase):
         self.client.info = flow._PublishInfo(wait_result=False)
         first = self.dispatch()
         del self.user()["active_events"][KEY[1]]
+        self.client.info = flow._PublishInfo()
         second = self.dispatch(resume_execution=True)
         self.assertEqual(second["status"], gs.DISPATCH_UNKNOWN)
         self.assertEqual(self.entry()["phase"], queue.RECOVERY_ONLY)
         self.assertEqual(second["execution_id"], first["execution_id"])
-        self.assertEqual(len(self.client.calls), 1)
+        self.assertEqual(len(self.client.calls), 2)
+        self.assertEqual(json.loads(self.client.calls[-1][1])["kind"], "QUERY")
 
-    def test_legacy_broker_confirmed_recovery_only_commits_and_exits_active(self):
+    def test_accepted_recovery_only_commits_and_exits_active(self):
         self.select(); self.prepare()
+        self.dispatch()
         with patch.object(gs, "_commit_execution", side_effect=OSError("synthetic database write failure")):
-            self.dispatch()
+            with self.assertRaisesRegex(OSError, "synthetic database write failure"):
+                flow._admit(self.root, self.journal)
         del self.user()["active_events"][KEY[1]]
         self.assertEqual(self.dispatch()["firebase_status"], "DISPATCHED")
         self.assertNotIn(KEY[1], self.user()["active_events"])
-        self.assertEqual(len(self.client.calls), 1)
+        self.assertEqual(len(self.client.calls), 3)
 
     def test_real_ui_callbacks_enforce_select_prepare_confirm_in_separate_views(self):
         buttons, headings = [], []
@@ -270,7 +280,9 @@ class ActiveQueueTests(unittest.TestCase):
             self.assertIn("Review Prepared Route", [item[0] for item in buttons])
             self.assertIn("Review Associated Records", [item[0] for item in buttons])
             click("Confirm Dispatch")
-        self.assertEqual(len(self.client.calls), 1)
+        self.assertEqual(len(self.client.calls), 3)
+        self.assertEqual(self.event()["status"], "PENDING")
+        flow._admit(self.root, self.journal)
         self.assertEqual(self.event()["status"], "DISPATCHED")
         self.assertNotIn(KEY[1], self.user()["active_events"])
 
@@ -347,7 +359,7 @@ class QuickStartQuarantineAuthorizationTests(unittest.TestCase):
         self.select(); self.prepare()
         self.quarantine("unrelated_session")
         self.assertEqual(self.dispatch()["status"], gs.DISPATCH_PUBLISHED)
-        self.assertEqual(len(self.client.calls), 1)
+        self.assertEqual(len(self.client.calls), 3)
 
     def test_malformed_quarantine_cannot_silently_authorize(self):
         self.configure_quick_start()
@@ -369,22 +381,24 @@ class QuickStartQuarantineAuthorizationTests(unittest.TestCase):
         self.quarantine()
         self.client.info = flow._PublishInfo()
         retried = self.dispatch(resume_execution=True)
-        self.assertEqual(retried["status"], gs.DISPATCH_PUBLISHED)
+        self.assertEqual(retried["status"], gs.DISPATCH_UNKNOWN)
         self.assertEqual(retried["execution_id"], first["execution_id"])
         self.assertEqual(self.event()["execution"]["payload"], payload)
 
     def test_later_quarantine_does_not_block_commit_only_recovery(self):
         self.configure_quick_start()
         self.select(); self.prepare()
+        first = self.dispatch()
         with patch.object(gs, "_commit_execution", side_effect=OSError("synthetic commit failure")):
-            first = self.dispatch()
+            with self.assertRaisesRegex(OSError, "synthetic commit failure"):
+                flow._admit(self.root, self.journal)
         payload = copy.deepcopy(self.event()["execution"]["payload"])
         self.quarantine()
         recovered = self.dispatch()
         self.assertEqual(recovered["firebase_status"], "DISPATCHED")
         self.assertEqual(recovered["execution_id"], first["execution_id"])
         self.assertEqual(self.event()["execution"]["payload"], payload)
-        self.assertEqual(len(self.client.calls), 1)
+        self.assertEqual(len(self.client.calls), 3)
 
 
 if __name__ == "__main__":

@@ -1,8 +1,11 @@
-function assemble_animation()
+function assemble_animation(out,studyFile)
 
-root=fileparts(mfilename('fullpath'));out=fullfile(root,'output');
+root=fileparts(mfilename('fullpath'));
+assert(nargin>=1,'simulation:OutputRequired','Pass the new directory containing generated animation frames.');
+out=prepare_simulation_output(out,false);
+if nargin<2, studyFile=fullfile(root,'output','three_mode_study.mat'); end
 frames=fullfile(out,'animation_frames');
-record=load(fullfile(out,'three_mode_study.mat'),'study');
+record=load(studyFile,'study');
 maxTime=max([record.study.missions.duration_s]);fps=8;speedup=48;
 times=unique([0:speedup/fps:maxTime,maxTime]);
 count=numel(times)+fps*2;

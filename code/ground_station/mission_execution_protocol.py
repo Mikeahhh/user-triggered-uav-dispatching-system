@@ -5,7 +5,7 @@ import re
 
 TOKEN = re.compile(r"^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$")
 TYPE = re.compile(r"^[A-Za-z][A-Za-z0-9._-]{0,63}$")
-MAX_SOURCE_WAYPOINTS = 1000
+MAX_SOURCE_WAYPOINTS = 100000
 
 
 def number(value):
@@ -34,7 +34,7 @@ def normalized_task(payload):
         raise ValueError("invalid mission_type")
     raw = payload.get("waypoints")
     if not isinstance(raw, list) or not 1 <= len(raw) <= MAX_SOURCE_WAYPOINTS:
-        raise ValueError("task requires 1 to 1000 source waypoints (RTL is additional)")
+        raise ValueError("task requires 1 to 100000 source waypoints (RTL is additional)")
     points = []
     for point in raw:
         if isinstance(point, dict):
@@ -61,6 +61,8 @@ def normalized_task(payload):
 
 
 def task_fingerprint(payload):
+    if len(json.dumps(payload, separators=(",", ":"), ensure_ascii=True, allow_nan=False).encode("utf-8")) > 16 * 1024 * 1024:
+        raise ValueError("task exceeds 16 MiB")
     canonical = json.dumps(normalized_task(payload), sort_keys=True,
                            separators=(",", ":"), ensure_ascii=True, allow_nan=False)
     return hashlib.sha256(canonical.encode("utf-8")).hexdigest()

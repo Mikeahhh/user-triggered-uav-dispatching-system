@@ -42,13 +42,20 @@ class SimGpsAdapter:
         self.has_active_goal = False
         self.goal_x = 0.0
         self.goal_y = 0.0
+        self.goal_z = 0.0
+        self.feedback_sequence = 0
         self.active_mission_id = ""
 
 
         self.arrival_threshold = rospy.get_param("~arrival_threshold", 5.0)
         self.data_timeout = rospy.get_param("~data_timeout", 5.0)
-        if not all(math.isfinite(v) and v > 0 for v in (self.flight_alt, self.arrival_threshold, self.data_timeout)):
+        self.vertical_threshold = rospy.get_param("~vertical_threshold", 1.0)
+        self.hold_feedback_timeout = rospy.get_param("~hold_feedback_timeout", 1.0)
+        self.position_feedback_hz = rospy.get_param("~position_feedback_hz", 5.0)
+        if not all(math.isfinite(v) and v > 0 for v in (self.flight_alt, self.arrival_threshold, self.data_timeout, self.vertical_threshold, self.hold_feedback_timeout, self.position_feedback_hz)):
             raise ValueError("invalid simulation profile")
+        if 1.0 / self.position_feedback_hz >= self.hold_feedback_timeout:
+            raise ValueError("feedback period must be shorter than the hold timeout")
         self.lifecycle = TargetLifecycle()
         self.receiver_session_id = uuid.uuid4().hex
         self.odom_received_at = None
@@ -63,6 +70,7 @@ class SimGpsAdapter:
         self.status_pub = rospy.Publisher('/rescue/waypoint_feedback', WaypointFeedback, queue_size=10, latch=True)
         self.publish_status("READY", "RECEIVER_STARTED", {"mission_id": "", "execution_id": "", "waypoint_index": 0})
         self.ready_timer = rospy.Timer(rospy.Duration(1.0), self.announce_ready)
+        self.tracking_timer = rospy.Timer(rospy.Duration(1.0 / self.position_feedback_hz), self.track_position)
 
         rospy.loginfo("SimGpsAdapter ready | Home GPS: (%.6f, %.6f) = Sim pos (%.1f, %.1f)",
                       self.home_lat, self.home_lon, self.init_x, self.init_y)
@@ -75,7 +83,7 @@ class SimGpsAdapter:
         lat1 = math.radians(lat1_deg)
         lat2 = math.radians(lat2_deg)
         dlat = lat2 - lat1
-        dlon = math.radians(lon2_deg - lon1_deg)
+        dlon = math.radians((lon2_deg - lon1_deg + 180) % 360 - 180)
 
         sin_lat = math.sin((lat1 + lat2) / 2.0)
         W = math.sqrt(1.0 - WGS84_E2 * sin_lat * sin_lat)
@@ -99,15 +107,24 @@ class SimGpsAdapter:
         self.odom_received_at = rospy.Time.now().to_sec()
 
 
-        if self.lifecycle.active:
-            dx = msg.pose.pose.position.x - self.goal_x
-            dy = msg.pose.pose.position.y - self.goal_y
-            dist = math.sqrt(dx * dx + dy * dy)
-
-            if self.lifecycle.arrived(dist, self.arrival_threshold):
-                rospy.loginfo("ARRIVED at goal (dist=%.2f m)", dist)
-                self.publish_status("ARRIVED", "HORIZONTAL_THRESHOLD_REACHED", self.lifecycle.current_target())
-                self.has_active_goal = False
+    @locked_callback
+    def track_position(self, _event=None):
+        if not self.has_active_goal:
+            return
+        target = self.lifecycle.current_target()
+        now = rospy.Time.now().to_sec()
+        if (self.current_odom is None or self.odom_received_at is None
+                or not 0 <= now - self.odom_received_at <= self.hold_feedback_timeout
+                or not 0 <= now - self.current_odom.header.stamp.to_sec() <= self.hold_feedback_timeout):
+            self.publish_status("POSITION_STALE", "POSITION_UNCONFIRMED", target)
+            return
+        position = self.current_odom.pose.pose.position
+        dx, dy, dz = position.x - self.goal_x, position.y - self.goal_y, position.z - self.goal_z
+        inside = math.hypot(dx, dy) < self.arrival_threshold and abs(dz) < self.vertical_threshold
+        first = self.lifecycle.arrived3d(dx, dy, dz, self.arrival_threshold, self.vertical_threshold)
+        self.publish_status("ARRIVED" if first else "HOLDING" if inside else "OUTSIDE",
+                            "THREE_DIMENSIONAL_TOLERANCE" if inside else "OUTSIDE_TARGET_TOLERANCE", target,
+                            inside, self.current_odom.header.stamp.to_sec())
 
     @locked_callback
     def control_callback(self, msg):
@@ -191,10 +208,11 @@ class SimGpsAdapter:
             return
         self.goal_x = goal_x
         self.goal_y = goal_y
+        self.goal_z = target["altitude"]
         self.has_active_goal = True
         self.publish_status("ACCEPTED", "LOCAL_GOAL_PUBLISHED", target)
 
-    def publish_status(self, status, reason, target):
+    def publish_status(self, status, reason, target, within=False, position_stamp=0.0):
         feedback = WaypointFeedback()
         feedback.mission_id = target["mission_id"]
         feedback.execution_id = target["execution_id"]
@@ -203,6 +221,11 @@ class SimGpsAdapter:
         feedback.effective_altitude = target.get("altitude", 0.0)
         feedback.arrival_threshold = self.arrival_threshold
         feedback.data_timeout = self.data_timeout
+        feedback.vertical_threshold = self.vertical_threshold
+        feedback.within_tolerance = within
+        feedback.position_stamp = position_stamp
+        self.feedback_sequence += 1
+        feedback.feedback_seq = self.feedback_sequence
         feedback.status = status
         feedback.reason = reason
         self.status_pub.publish(feedback)

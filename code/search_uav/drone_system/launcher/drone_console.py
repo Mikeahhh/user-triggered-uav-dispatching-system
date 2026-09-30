@@ -12,7 +12,7 @@ import datetime
 import collections
 import re
 
-from recording_state import RecordingJournal, RecordingStateError, matches_recording_status
+from recording_state import recording_result_error, RecordingJournal, RecordingStateError, matches_recording_status
 
 
 for p in (
@@ -455,9 +455,31 @@ class DroneConsole:
     def _on_status_update(self, data):
         if not isinstance(data, dict):
             return
+        message_type = data.get('message_type')
+        if message_type is not None and message_type != 'EXECUTION':
+            self._log('transport', '{}: {}'.format(message_type, data.get('reason', data.get('status', ''))))
+            return
+        if message_type == 'EXECUTION':
+            eid = data.get('execution_id')
+            revision = data.get('state_revision')
+            if not isinstance(eid, str) or not eid or type(revision) is not int or revision < 1:
+                return
+            if data.get('active_execution_id') == '' and eid != self.current_execution_id:
+                self._log('status', 'Historical execution status: ' + eid)
+                return
+            seen = getattr(self, '_execution_revisions', {})
+            if revision <= seen.get(eid, 0):
+                return
+            seen[eid] = revision
+            self._execution_revisions = seen
         if data.get("active_execution_id") and data.get("execution_id") != data["active_execution_id"]:
             self._log("status", "Other request rejected: {}".format(data.get("reason", "")), level="warn")
             return
+        if message_type == 'EXECUTION' and data.get('execution_id') != getattr(self, '_route_execution_id', None):
+            if not self._load_verified_route(data):
+                with self._lock:
+                    self.queue_waypoints = []
+                self.root.after(0, self._draw_map)
         with self._lock:
             prev_status = self.current_status
             self.current_status = data.get("status", "?")
@@ -491,6 +513,43 @@ class DroneConsole:
             self._rec_mission_id, self._rec_execution_id, data
         ):
             self._stop_recording(reason=self.current_phase or status)
+
+    def _load_verified_route(self, data):
+        import json
+        import os
+        import re
+        import sys
+        from pathlib import Path
+        eid = data.get('execution_id')
+        fingerprint = data.get('content_fingerprint')
+        if (not isinstance(eid, str) or not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9._-]{0,127}', eid)
+                or not isinstance(fingerprint, str) or not re.fullmatch(r'[0-9a-f]{64}', fingerprint)):
+            return False
+        journal = Path(self.cfg.get('execution_journal_path', '/home/mike/drone_system/data/mission_state/executions.json')).expanduser()
+        source = Path(__file__).resolve().parents[2] / 'catkin_ws' / 'src' / 'rescue_bridge' / 'src'
+        if str(source) not in sys.path:
+            sys.path.insert(0, str(source))
+        try:
+            from execution_protocol import normalize_execution_payload
+            task_path = Path(str(journal) + '.transfers') / eid / 'task.json'
+            if task_path.stat().st_size > 16 * 1024 * 1024:
+                raise ValueError('saved task exceeds size limit')
+            with task_path.open(encoding='utf-8') as handle:
+                task = json.load(handle)
+            mission = normalize_execution_payload(task)
+            if (mission['execution_id'] != eid or mission['mission_id'] != data.get('mission_id')
+                    or mission['content_fingerprint'] != fingerprint
+                    or len(mission['waypoints']) != data.get('source_waypoint_total')):
+                raise ValueError('saved task does not match accepted execution')
+            with self._lock:
+                self.queue_waypoints = list(mission['waypoints'])
+                self._route_execution_id = eid
+            self._log('dispatch', 'Verified task restored: {} ({} source waypoints)'.format(eid, len(mission['waypoints'])))
+            self.root.after(0, self._draw_map)
+            return True
+        except (OSError, ValueError, TypeError, KeyError, ImportError) as exc:
+            self._log('dispatch', 'Verified route unavailable: ' + str(exc), level='warn')
+            return False
 
     def _on_dispatch_seen(self, topic, data):
         wps = []
@@ -621,13 +680,24 @@ class DroneConsole:
             return x, y
 
 
-        for i in range(len(wps) - 1):
-            x1, y1 = project(*wps[i])
-            x2, y2 = project(*wps[i + 1])
+        source_total = len(wps)
+        preview_indices = list(range(source_total)) if source_total <= 1000 else sorted(
+            {round(index * (source_total - 1) / 999) for index in range(1000)}
+            | ({cur_idx - 1} if 1 <= cur_idx <= source_total else set()))
+        label_indices = set(preview_indices) if source_total <= 30 else {
+            preview_indices[round(index * (len(preview_indices) - 1) / 29)] for index in range(30)}
+        if 1 <= cur_idx <= source_total:
+            label_indices.add(cur_idx - 1)
+        c.create_text(8, 28, anchor='nw', text='Route preview: {} of {} source waypoints; full route retained'.format(
+            len(preview_indices), source_total), fill=COLOR_DIM, font=('Consolas', 9))
+        for first_index, last_index in zip(preview_indices, preview_indices[1:]):
+            x1, y1 = project(*wps[first_index])
+            x2, y2 = project(*wps[last_index])
             c.create_line(x1, y1, x2, y2, fill="#3a4a6b", width=2, dash=(4, 4))
 
 
-        for i, (lat, lon) in enumerate(wps):
+        for i in preview_indices:
+            lat, lon = wps[i]
             x, y = project(lat, lon)
             wp_num = i + 1
             if wp_num < cur_idx:
@@ -638,10 +708,11 @@ class DroneConsole:
                 fill = "#1565c0"
             r = 14 if wp_num == cur_idx else 10
             c.create_oval(x - r, y - r, x + r, y + r, fill=fill, outline=COLOR_TEXT, width=2)
-            c.create_text(x, y, text=str(wp_num), fill="white", font=("Consolas", 10, "bold"))
-            c.create_text(x, y + r + 12,
-                          text="{:.5f},{:.5f}".format(lat, lon),
-                          fill=COLOR_DIM, font=("Consolas", 8))
+            if i in label_indices:
+                c.create_text(x, y, text=str(wp_num), fill="white", font=("Consolas", 10, "bold"))
+                c.create_text(x, y + r + 12,
+                              text="{:.5f},{:.5f}".format(lat, lon),
+                              fill=COLOR_DIM, font=("Consolas", 8))
 
 
         if drone:
@@ -873,14 +944,16 @@ class DroneConsole:
             return
 
         threading.Thread(target=self._rec_stdout_reader,
-                         args=(self._rec_proc, self._rec_journal), daemon=True).start()
+                         args=(self._rec_proc, self._rec_journal, fpath), daemon=True).start()
         self._log("camera", "REC START REQUESTED → {}".format(fname))
         self.root.after(0, self._update_rec_ui)
 
-    def _rec_stdout_reader(self, proc=None, journal=None):
+    def _rec_stdout_reader(self, proc=None, journal=None, output_file=None):
 
         proc = proc or self._rec_proc
         journal = journal or self._rec_journal
+        output_file = output_file or getattr(self, "_rec_filename", None)
+        pending_done = None
         if not proc:
             return
 
@@ -927,9 +1000,10 @@ class DroneConsole:
                         self._rec_paused = False
                         self._rec_start_time = time.time()
                 elif event in ("DONE", "ERROR"):
-                    transition("COMPLETED" if event == "DONE" else "FAILED",
-                               reason="" if event == "DONE" else "recorder error",
-                               details=details)
+                    if event == "DONE":
+                        pending_done = details
+                    else:
+                        transition("FAILED", reason="recorder error", details=details)
 
                     if current:
                         self._recording = False
@@ -949,8 +1023,12 @@ class DroneConsole:
             except Exception:
                 terminal = ""
             if terminal not in ("COMPLETED", "FAILED"):
-                transition("FAILED", reason="recorder exited without terminal event",
-                           details={"error_code": "PROCESS_EXIT_{}".format(rc)})
+                error = recording_result_error(output_file, (pending_done or {}).get("frames_written"), rc)
+                if pending_done is not None and not error:
+                    transition("COMPLETED", details=pending_done)
+                else:
+                    transition("FAILED", reason="recording completion could not be verified",
+                               details={"error_code": error or "TERMINAL_EVENT_MISSING"})
         if self._rec_proc is proc:
             self._rec_proc = None
             self._recording = False

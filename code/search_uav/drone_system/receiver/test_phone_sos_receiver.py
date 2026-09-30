@@ -1,4 +1,5 @@
 import json
+from receiver_test_support import completed_store, context_for, completed_status
 import tempfile
 import threading
 import unittest
@@ -60,13 +61,13 @@ def matching_ack(record, envelope_sha256="e" * 64):
 class RescueReceiverTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
-        self.store = RescueStore(Path(self.temp.name))
+        self.store = completed_store(Path(self.temp.name))
 
     def tearDown(self):
         self.temp.cleanup()
 
     def test_validates_and_stores_immutable_record(self):
-        record, duplicate = self.store.store(sample_payload())
+        record, duplicate = self.store.store(sample_payload(), carrier_context=context_for())
         self.assertFalse(duplicate)
         self.assertEqual(record["storage_state"], "STORED")
         self.assertEqual(len(record["payload_sha256"]), 64)
@@ -74,8 +75,8 @@ class RescueReceiverTests(unittest.TestCase):
         self.assertEqual(on_disk["mission_id"], "TEST_USER/bench_001")
 
     def test_same_request_is_idempotent_but_conflict_is_rejected(self):
-        first, _ = self.store.store(sample_payload())
-        second, duplicate = self.store.store(sample_payload())
+        first, _ = self.store.store(sample_payload(), carrier_context=context_for())
+        second, duplicate = self.store.store(sample_payload(), carrier_context=context_for())
         self.assertTrue(duplicate)
         self.assertEqual(first["payload_sha256"], second["payload_sha256"])
         changed = sample_payload()
@@ -84,10 +85,10 @@ class RescueReceiverTests(unittest.TestCase):
             self.store.store(changed)
 
     def test_duplicate_repairs_missing_outbox_after_interrupted_first_store(self):
-        record, _ = self.store.store(sample_payload())
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
         self.store._outbox_path(record["request_id"]).unlink()
 
-        duplicate_record, duplicate = self.store.store(sample_payload())
+        duplicate_record, duplicate = self.store.store(sample_payload(), carrier_context=context_for())
 
         self.assertTrue(duplicate)
         self.assertEqual(duplicate_record["payload_sha256"], record["payload_sha256"])
@@ -100,17 +101,17 @@ class RescueReceiverTests(unittest.TestCase):
     def test_restart_recovers_record_without_waiting_for_phone_retransmission(self):
         with patch.object(self.store, "_ensure_outbox", side_effect=OSError("injected")):
             with self.assertRaises(OSError):
-                self.store.store(sample_payload())
-        restarted = RescueStore(Path(self.temp.name))
+                self.store.store(sample_payload(), carrier_context=context_for())
+        restarted = completed_store(Path(self.temp.name))
         self.assertEqual(restarted.recovered_outboxes, 1)
         self.assertEqual(len(list(restarted.pending_records())), 1)
         self.assertEqual(len(list(restarted.records_dir.glob("*.json"))), 1)
 
     def test_corrupt_outbox_is_preserved_without_blocking_healthy_record(self):
-        self.store.store(sample_payload())
+        self.store.store(sample_payload(), carrier_context=context_for())
         other = sample_payload()
         other.update(request_id="bench_002", mission_id="TEST_USER/bench_002")
-        self.store.store(other)
+        self.store.store(other, carrier_context=context_for())
         corrupt_path = self.store._outbox_path("bench_001")
         corrupt_path.write_text("{", encoding="utf-8")
         published = []
@@ -121,7 +122,7 @@ class RescueReceiverTests(unittest.TestCase):
         self.assertEqual(self.store.health_summary()["unreadable_outbox_entries"], 1)
 
     def test_tampered_record_is_not_forwarded_or_silently_repaired(self):
-        self.store.store(sample_payload())
+        self.store.store(sample_payload(), carrier_context=context_for())
         path = self.store._record_path("bench_001")
         record = json.loads(path.read_text())
         record["latitude"] = 23.0
@@ -132,9 +133,9 @@ class RescueReceiverTests(unittest.TestCase):
     def test_directory_sync_failure_cannot_return_a_storage_success(self):
         with patch("phone_sos_receiver._fsync_directory", side_effect=OSError("disk sync failed")):
             with self.assertRaises(OSError):
-                self.store.store(sample_payload())
-        record, duplicate = self.store.store(sample_payload())
-        self.assertTrue(duplicate)
+                self.store.store(sample_payload(), carrier_context=context_for())
+        record, duplicate = self.store.store(sample_payload(), carrier_context=context_for())
+        self.assertFalse(duplicate)
         self.assertEqual(record["storage_state"], "STORED")
         self.assertEqual(len(list(self.store.pending_records())), 1)
 
@@ -168,13 +169,13 @@ class RescueReceiverTests(unittest.TestCase):
         self.assertEqual(len(list(self.store.records_dir.glob("*.json"))), 0)
 
     def test_landing_state_forwards_matching_record_then_ground_ack_closes_outbox(self):
-        record, _ = self.store.store(sample_payload())
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
         published = []
         coordinator = RescueDeliveryCoordinator(
             self.store, lambda topic, body: published.append((topic, body))
         )
         count = coordinator.handle_mission_status(
-            {"status": "LANDING", "mission_id": "TEST_USER/bench_001"}
+            completed_status()
         )
         self.assertEqual(count, 1)
         self.assertEqual(len(published), 1)
@@ -216,14 +217,14 @@ class RescueReceiverTests(unittest.TestCase):
         )
 
     def test_ground_ack_requires_forwarded_state_and_all_matching_fields(self):
-        record, _ = self.store.store(sample_payload())
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
         coordinator = RescueDeliveryCoordinator(self.store, lambda *_: None)
 
         with self.assertRaises(PayloadValidationError):
             coordinator.handle_ground_ack(matching_ack(record))
 
         coordinator.handle_mission_status(
-            {"status": "LANDING", "mission_id": record["mission_id"]}
+            completed_status(record["mission_id"])
         )
         delivery = self.store.read_delivery(record["request_id"])
         valid = matching_ack(record, delivery["envelope_sha256"])
@@ -256,20 +257,20 @@ class RescueReceiverTests(unittest.TestCase):
             coordinator.handle_ground_ack(valid)
 
     def test_publish_failure_keeps_record_pending_for_retry(self):
-        record, _ = self.store.store(sample_payload())
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
 
         def fail_publish(_topic, _body):
             raise RuntimeError("broker unavailable")
 
         coordinator = RescueDeliveryCoordinator(self.store, fail_publish)
         count = coordinator.handle_mission_status(
-            {"status": "LANDING", "mission_id": record["mission_id"]}
+            completed_status(record["mission_id"])
         )
 
         self.assertEqual(count, 0)
         self.assertEqual(
             self.store.read_delivery(record["request_id"])["state"],
-            "STORED_ONBOARD",
+            "FORWARDED_TO_GS",
         )
         state = self.store.read_delivery(record["request_id"])
         self.assertEqual(state["delivery_attempts"], 1)
@@ -278,7 +279,7 @@ class RescueReceiverTests(unittest.TestCase):
         self.assertEqual(len(list(self.store.pending_records())), 1)
 
     def test_sync_replay_is_explicitly_not_landing_evidence(self):
-        self.store.store(sample_payload())
+        self.store.store(sample_payload(), carrier_context=context_for())
         published = []
         coordinator = RescueDeliveryCoordinator(
             self.store, lambda topic, body: published.append((topic, body))
@@ -289,8 +290,8 @@ class RescueReceiverTests(unittest.TestCase):
         self.assertEqual(envelope["forward_trigger"], TRIGGER_GS_SYNC)
         self.assertIn("not landing evidence", envelope["trigger_semantics"])
 
-    def test_land_requested_phase_and_legacy_landing_are_both_supported(self):
-        record, _ = self.store.store(sample_payload())
+    def test_complete_land_evidence_triggers_but_legacy_status_does_not(self):
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
         published = []
         coordinator = RescueDeliveryCoordinator(
             self.store, lambda topic, body: published.append((topic, body))
@@ -300,6 +301,7 @@ class RescueReceiverTests(unittest.TestCase):
             "status": "LANDING",
             "phase": "LAND_REQUESTED",
             "land_command_requested": True,
+            "all_waypoints_completed": True, "delivery_eligible": True,
             "touchdown_confirmed": False,
             "mission_id": record["mission_id"],
         })
@@ -308,15 +310,15 @@ class RescueReceiverTests(unittest.TestCase):
         other = sample_payload()
         other["request_id"] = "bench_002"
         other["mission_id"] = "TEST_USER/bench_002"
-        record2, _ = self.store.store(other)
+        record2, _ = self.store.store(other, carrier_context=context_for())
         count = coordinator.handle_mission_status({
             "status": "LAND_REQUESTED",
             "mission_id": record2["mission_id"],
         })
-        self.assertEqual(count, 1)
+        self.assertEqual(count, 0)
 
     def test_landing_with_explicit_false_command_request_is_not_forwarded(self):
-        record, _ = self.store.store(sample_payload())
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
         coordinator = RescueDeliveryCoordinator(self.store, lambda *_: None)
         count = coordinator.handle_mission_status({
             "status": "LANDING",
@@ -331,7 +333,7 @@ class RescueReceiverTests(unittest.TestCase):
         )
 
     def test_health_reports_versions_and_aggregate_persistence_only(self):
-        self.store.store(sample_payload())
+        self.store.store(sample_payload(), carrier_context=context_for())
         server = RescueHttpServer(("127.0.0.1", 0), self.store)
         thread = threading.Thread(target=server.serve_forever, daemon=True)
         thread.start()
@@ -353,6 +355,30 @@ class RescueReceiverTests(unittest.TestCase):
         self.assertTrue(health["persistence"]["persistence_ready"])
         self.assertEqual(health["delivery_transport"]["mode"], "disabled")
         self.assertNotIn("data_dir", health)
+
+    def test_non_object_json_is_bad_request_before_context_lookup(self):
+        lookups = []
+        server = RescueHttpServer(("127.0.0.1", 0), self.store,
+                                  collection_context_provider=lambda user: lookups.append(user))
+        thread = threading.Thread(target=server.serve_forever, daemon=True)
+        thread.start()
+        try:
+            for invalid in (None, [], 'text', 1, True):
+                with self.subTest(invalid=invalid):
+                    request = urllib.request.Request(
+                        "http://127.0.0.1:{}/api/v1/rescue-requests".format(server.server_port),
+                        data=json.dumps(invalid).encode(), headers={'Content-Type': 'application/json'})
+                    with self.assertRaises(urllib.error.HTTPError) as raised:
+                        urllib.request.urlopen(request, timeout=2)
+                    self.assertEqual(raised.exception.code, 400)
+                    self.assertEqual(json.loads(raised.exception.read())['error'], 'JSON body must be an object')
+                    raised.exception.close()
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=2)
+        self.assertEqual(lookups, [])
+        self.assertEqual(list(self.store.records_dir.glob('*.json')), [])
 
 
 if __name__ == "__main__":

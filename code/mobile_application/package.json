@@ -6,13 +6,13 @@
     "android": "react-native run-android",
     "android:debug:safe": "sh scripts/build_android_debug_safe.sh",
     "android:screenshot": "sh scripts/build_android_screenshot_only.sh",
-    "ios": "react-native run-ios",
     "lint": "node node_modules/eslint/bin/eslint.js .",
     "lint:uav": "node node_modules/eslint/bin/eslint.js services/uavRescueClient.ts services/uavWifiClient.ts pages/SosPage.tsx pages/SettingPage.tsx __tests__/uavRescueClient.test.ts __tests__/uavWifiClient.test.ts __tests__/SosPage.test.tsx __tests__/SettingPage.test.tsx",
     "version:check": "node scripts/check_version_alignment.js",
     "start": "react-native start",
     "test": "node node_modules/jest/bin/jest.js",
-    "typecheck": "node node_modules/typescript/bin/tsc --noEmit"
+    "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
+    "test:tracking-native": "python3 scripts/test_tracking_native.py"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^4.1.1",
@@ -48,7 +48,6 @@
     "@babel/runtime": "^7.25.0",
     "@react-native-community/cli": "19.1.1",
     "@react-native-community/cli-platform-android": "19.1.1",
-    "@react-native-community/cli-platform-ios": "19.1.1",
     "@react-native/babel-preset": "0.80.2",
     "@react-native/eslint-config": "0.80.2",
     "@react-native/metro-config": "0.80.2",

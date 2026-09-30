@@ -17,7 +17,7 @@ class ExecutionError(ValueError):
 
 
 class ExecutionManager:
-    def __init__(self, journal_path="", clock=time.monotonic):
+    def __init__(self, journal_path="", clock=time.monotonic, hold_feedback_timeout=1.0):
         self.path = os.path.expanduser(journal_path) if journal_path else ""
         self.clock = clock
         self.lock = threading.RLock()
@@ -29,6 +29,12 @@ class ExecutionManager:
         self.active_id = ""
         self.queue = []
         self.hover_deadline = None
+        self.last_hold_feedback = None
+        self.last_feedback_seq = -1
+        if (isinstance(hold_feedback_timeout, bool) or not isinstance(hold_feedback_timeout, (int, float))
+                or not math.isfinite(hold_feedback_timeout) or hold_feedback_timeout <= 0):
+            raise ExecutionError("invalid hold feedback timeout")
+        self.hold_feedback_timeout = float(hold_feedback_timeout)
         if self.path:
             os.makedirs(os.path.dirname(os.path.abspath(self.path)), mode=0o700, exist_ok=True)
             self._lock_fd = os.open(self.path + ".lock", os.O_CREAT | os.O_RDWR, 0o600)
@@ -107,6 +113,7 @@ class ExecutionManager:
     def _commit(self, execution_id, **updates):
         changed = copy.deepcopy(self.records)
         changed.setdefault(execution_id, {}).update(updates)
+        changed[execution_id]['state_revision'] = self.records.get(execution_id, {}).get('state_revision', 0) + 1
         self._write(changed, self.active_id)
         self.records = changed
         return self.snapshot(execution_id)
@@ -158,6 +165,7 @@ class ExecutionManager:
                 raise ExecutionError("invalid effective hover_seconds")
             record = {
                 "schema_version": 2, "mission_id": mission["mission_id"], "execution_id": eid,
+                "state_revision": 1,
                 "mission_type": mission["mission_type"], "content_fingerprint": mission["content_fingerprint"],
                 "legacy": mission["legacy"], "phase": "WAITING_TARGET_ACCEPTANCE", "reason": "",
                 "waypoint_index": 0, "source_waypoint_total": len(mission["waypoints"]),
@@ -165,6 +173,8 @@ class ExecutionManager:
                 "rtl_requested": mission["return_to_launch"], "rtl_appended": mission["return_to_launch"],
                 "altitude": mission["altitude"], "hover_seconds": float(hover),
                 "land_command_requested": False, "touchdown_confirmed": False,
+                "all_waypoints_completed": False, "delivery_eligible": False,
+                "execution_aborted": False,
                 "search_area_arrival_observed": False, "collection_controller_valid": True,
             }
             records = copy.deepcopy(self.records)
@@ -186,28 +196,48 @@ class ExecutionManager:
                         waypoint_index=index, latitude=lat, longitude=lon,
                         altitude=record["altitude"])
 
-    def feedback(self, mission_id, execution_id, waypoint_index, status, reason="", *, runtime_profile=None):
+    def feedback(self, mission_id, execution_id, waypoint_index, status, reason="", *, runtime_profile=None,
+                 position_valid=False, feedback_seq=None):
         with self.lock:
             current = self.snapshot()
             if (not current or not execution_id or execution_id != self.active_id
                     or mission_id != current["mission_id"] or type(waypoint_index) is not int
                     or waypoint_index != current["waypoint_index"]):
                 return None
+            if (status == "REJECTED" and reason == "COORDINATE_FRAME_CHANGED"
+                    and current["phase"] in ("WAITING_TARGET_ACCEPTANCE", "NAVIGATING", "HOVERING",
+                                             "TARGET_ACCEPTANCE_TIMEOUT", "NAVIGATION_FEEDBACK_TIMEOUT")):
+                self.hover_deadline = self.last_hold_feedback = None
+                return self._commit(execution_id, phase="RECOVERY_REQUIRED", reason=reason,
+                                    collection_controller_valid=False, delivery_eligible=False)
             if status == "ACCEPTED" and current["phase"] == "WAITING_TARGET_ACCEPTANCE":
+                self.hover_deadline = self.last_hold_feedback = None
+                self.last_feedback_seq = -1
                 details = {}
                 if runtime_profile is not None:
                     details["runtime_profile"] = copy.deepcopy(runtime_profile)
                 return self._commit(execution_id, phase="NAVIGATING", reason="", **details)
             if status == "REJECTED" and current["phase"] == "WAITING_TARGET_ACCEPTANCE":
                 return self._commit(execution_id, phase="TARGET_REJECTED", reason=reason)
-            if status == "ARRIVED" and current["phase"] == "NAVIGATING":
-                result = self._commit(execution_id, phase="HOVERING", reason="",
-                                      search_area_arrival_observed=(
-                                          current.get('search_area_arrival_observed') is True
-                                          or waypoint_index < current['source_waypoint_total']),
-                                      queue_remaining=current["waypoint_total"] - waypoint_index - 1)
-                self.hover_deadline = self.clock() + current["hover_seconds"]
-                return result
+            if status in ("ARRIVED", "HOLDING", "OUTSIDE", "POSITION_STALE") and current["phase"] in ("NAVIGATING", "HOVERING"):
+                if type(feedback_seq) is not int or feedback_seq <= self.last_feedback_seq:
+                    return None
+                self.last_feedback_seq = feedback_seq
+                now = self.clock()
+                if position_valid is not True or status in ("OUTSIDE", "POSITION_STALE"):
+                    self.hover_deadline = self.last_hold_feedback = None
+                    if current.get("reason") != "HOLD_RESET_POSITION_UNCONFIRMED":
+                        return self._commit(execution_id, reason="HOLD_RESET_POSITION_UNCONFIRMED")
+                    return self.snapshot()
+                if self.last_hold_feedback is None or now - self.last_hold_feedback > self.hold_feedback_timeout:
+                    self.hover_deadline = now + current["hover_seconds"]
+                self.last_hold_feedback = now
+                if current["phase"] != "HOVERING" or current.get("reason"):
+                    return self._commit(execution_id, phase="HOVERING", reason="",
+                                        search_area_arrival_observed=(
+                                            current.get('search_area_arrival_observed') is True
+                                            or waypoint_index < current['source_waypoint_total']))
+                return self.snapshot()
             return None
 
     def acceptance_timeout(self, execution_id, waypoint_index):
@@ -219,6 +249,16 @@ class ExecutionManager:
                 return self._commit(execution_id, phase="TARGET_ACCEPTANCE_TIMEOUT",
                                     reason="target acceptance not confirmed; operator review required")
             return None
+
+    def retry_rejected_target(self, execution_id):
+        with self.lock:
+            current = self.snapshot()
+            if (execution_id != self.active_id or current.get("phase") != "TARGET_REJECTED"
+                    or not self.queue or current.get("waypoint_index", -1) not in range(len(self.queue))):
+                raise ExecutionError("only a live rejected target can be retried")
+            self.hover_deadline = self.last_hold_feedback = None
+            self.last_feedback_seq = -1
+            return self._commit(execution_id, phase="WAITING_TARGET_ACCEPTANCE", reason="")
 
     def navigation_feedback_timeout(self, execution_id, waypoint_index):
         with self.lock:
@@ -245,13 +285,16 @@ class ExecutionManager:
             current = self.snapshot()
             if not current or current["phase"] != "HOVERING" or self.hover_deadline is None:
                 return None
+            if self.last_hold_feedback is None or self.clock() - self.last_hold_feedback > self.hold_feedback_timeout:
+                self.hover_deadline = self.last_hold_feedback = None
+                return self._commit(self.active_id, reason="HOLD_RESET_FEEDBACK_STALE")
             if self.clock() < self.hover_deadline:
                 return None
             self.hover_deadline = None
             index = current["waypoint_index"] + 1
             if index == current["waypoint_total"]:
                 return self._commit(self.active_id, phase="LAND_REQUEST_PENDING", reason="",
-                                    queue_remaining=0)
+                                    queue_remaining=0, all_waypoints_completed=True)
             return self._commit(self.active_id, phase="WAITING_TARGET_ACCEPTANCE",
                                 waypoint_index=index, queue_remaining=current["waypoint_total"] - index)
 
@@ -263,7 +306,11 @@ class ExecutionManager:
             self.hover_deadline = None
             phase = ("ABORT_LAND_REQUESTED" if aborted else "LAND_REQUESTED") if published else "LAND_REQUEST_FAILED"
             return self._commit(self.active_id, phase=phase, reason=reason,
-                                land_command_requested=bool(published), queue_remaining=0)
+                                land_command_requested=bool(published), queue_remaining=0,
+                                execution_aborted=bool(aborted or current.get("execution_aborted")),
+                                delivery_eligible=(bool(published) and not aborted
+                                                   and current.get("execution_aborted") is not True
+                                                   and current.get("all_waypoints_completed") is True))
 
     def operator_reset(self, execution_id, *, confirmed=False, reason=""):
         with self.lock:
@@ -276,6 +323,7 @@ class ExecutionManager:
                 raise ExecutionError("abort or reconcile execution before release")
             changed = copy.deepcopy(self.records)
             changed[execution_id].update(phase="OPERATOR_RELEASED", reason=reason.strip()[:256],
+                                        state_revision=current.get('state_revision', 0) + 1,
                                         release_basis="OPERATOR_CONFIRMATION", released_at=time.time(),
                                         released_from_phase=current.get("release_previous_phase", current["phase"]))
             self._write(changed, "")

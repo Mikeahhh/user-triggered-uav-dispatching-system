@@ -1,11 +1,11 @@
 import argparse
 from datetime import datetime, timezone
 import json
-import os
 from pathlib import Path
 import platform
 import subprocess
 import sys
+from local_verification import isolated_environment, new_result_directory
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -13,17 +13,22 @@ ROOT = Path(__file__).resolve().parents[1]
 def main():
     parser = argparse.ArgumentParser(description="Run local software and simulation checks")
     parser.add_argument("--output", default="local-results/verification")
+    parser.add_argument("--simulation-dir", type=Path,
+                        help="Read new simulation data from this directory; archived data is the default")
     args = parser.parse_args()
-    output = Path(args.output).resolve()
-    output.mkdir(parents=True, exist_ok=False)
-    subprocess.run([sys.executable, str(ROOT / "scripts/prepare_local.py")], check=True)
-    env = os.environ.copy()
-    env["MASS26_PYTHON"] = sys.executable
-    env["MASS26_GROUND_PYTHON"] = sys.executable
+    try:
+        output = new_result_directory(args.output)
+    except (ValueError, OSError) as error:
+        parser.error(str(error))
+    env = isolated_environment(output, sys.executable)
+    subprocess.run([sys.executable, str(ROOT / "scripts/prepare_local.py")], check=True, env=env)
+    simulation_command = [sys.executable, "simulation/verify_outputs.py", "--output", str(output / "simulation_checks.json")]
+    if args.simulation_dir is not None:
+        simulation_command.extend(["--data-dir", str(args.simulation_dir.resolve())])
     runs = [
         ("verification_outputs", [sys.executable, "-m", "unittest", "discover", "-s", "scripts", "-p", "test_*.py", "-v"]),
         ("software", ["sh", "code/run_all_local_verification.sh"]),
-        ("simulation", [sys.executable, "simulation/verify_outputs.py", "--output", str(output / "simulation_checks.json")]),
+        ("simulation", simulation_command),
     ]
     results = []
     for name, command in runs:
@@ -34,7 +39,9 @@ def main():
     report = {"completed_at": datetime.now(timezone.utc).isoformat(), "python": platform.python_version(),
               "system": platform.system(), "machine": platform.machine(),
               "source_revision": json.loads((ROOT / "code/source_revision.json").read_text())["source_revision_id"],
-              "all_passed": all(item["exit_code"] == 0 for item in results), "results": results}
+              "all_passed": all(item["exit_code"] == 0 for item in results), "results": results,
+              "network_policy": "Python and Node subprocesses enforce loopback-only sockets and DNS; synthetic runtime configuration; no device or live-cloud launch commands",
+              "scope": "Local software, protocol and saved simulation checks"}
     (output / "summary.json").write_text(json.dumps(report, indent=2) + "\n")
     return 0 if report["all_passed"] else 1
 

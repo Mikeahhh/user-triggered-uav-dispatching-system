@@ -11,9 +11,9 @@ import {
 } from 'react-native';
 import MapView, { Marker, Polyline } from 'react-native-maps';
 import DatePicker from 'react-native-date-picker';
+import { persistCloudRecord, readPersistentRecords, refreshPersistentRecords } from '../services/persistentTracking';
 import { useTranslation } from 'react-i18next';
 import { initDb, getDb } from '../services/db/initDb';
-import { buildRealtimeDatabaseRestUrl } from '../services/db/firebaseRealtimeDatabase';
 import {
   buildEventBookingRecord,
   estimateBookingTime,
@@ -110,20 +110,11 @@ const EventBookingPage = () => {
         return;
       }
 
-      const response = await fetch(
-        buildRealtimeDatabaseRestUrl('users', phone, 'booked_events')
-      );
-      const data = await response.json();
-
-      if (data) {
-        const loadedEvents: EventItem[] = Object.entries(data).map(([id, val]: [string, any]) => ({
-          id,
-          ...val,
-        }));
-        setEvents(loadedEvents.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()));
-      } else {
-        setEvents([]);
-      }
+      setEvents(await readPersistentRecords<EventItem>(phone, 'booked_events'));
+      setLoading(false);
+      try {
+        setEvents(await refreshPersistentRecords<EventItem>(phone, 'booked_events'));
+      } catch {}
     } catch (err) {
       console.error('Failed to load events:', err);
       Alert.alert(
@@ -189,19 +180,7 @@ const EventBookingPage = () => {
       createdAt,
       });
 
-      const response = await fetch(
-        buildRealtimeDatabaseRestUrl(
-          'users',
-          phone,
-          'booked_events',
-          eventId,
-        ),
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(updatedEvent),
-        }
-      );
+      const response = { ok: (await persistCloudRecord(phone, 'booked_events', eventId, updatedEvent)).stored };
 
       if (response.ok) {
         setEvents(prev => {
@@ -214,9 +193,7 @@ const EventBookingPage = () => {
 
         Alert.alert(
           t('eventBookingPage.alert.saveSuccess.title'),
-          editingEventId
-            ? t('eventBookingPage.alert.saveSuccess.updated')
-            : t('eventBookingPage.alert.saveSuccess.message')
+          t('persistentTracking.recordQueued')
         );
 
         resetForm();
@@ -246,23 +223,13 @@ const EventBookingPage = () => {
             if (!phone) return;
 
             try {
-              const response = await fetch(
-                buildRealtimeDatabaseRestUrl(
-                  'users',
-                  phone,
-                  'booked_events',
-                  eventId,
-                ),
-                {
-                  method: 'DELETE',
-                }
-              );
+              const response = { ok: (await persistCloudRecord(phone, 'booked_events', eventId, {}, true)).stored };
 
               if (response.ok) {
                 setEvents(prev => prev.filter(e => e.id !== eventId));
                 Alert.alert(
                   t('eventBookingPage.alert.deleteSuccess.title'),
-                  t('eventBookingPage.alert.deleteSuccess.message')
+                  t('persistentTracking.recordQueued')
                 );
               } else {
                 throw new Error('Delete failed');
@@ -361,6 +328,7 @@ const EventBookingPage = () => {
       </View>
       <View style={styles.controlSection}>
         <TouchableOpacity
+          testID="booking-form-toggle"
           style={[
             styles.actionButton,
             showForm ? styles.buttonCancel : styles.buttonAdd,
@@ -483,6 +451,7 @@ const EventBookingPage = () => {
               (waypoints.length < 2 || !title.trim()) && styles.disabledSaveButton,
               SHADOW_MD,
             ]}
+            testID="booking-save"
             onPress={saveEventToFirebase}
             disabled={waypoints.length < 2 || !title.trim()}
             activeOpacity={0.85}

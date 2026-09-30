@@ -1,4 +1,5 @@
 import json
+from receiver_test_support import completed_store, context_for, completed_status
 import tempfile
 import unittest
 from pathlib import Path
@@ -12,7 +13,7 @@ from test_phone_sos_receiver import matching_ack, sample_payload
 class RecoveryTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
-        self.store = receiver.RescueStore(Path(self.temp.name))
+        self.store = completed_store(Path(self.temp.name))
         self.now = 1000.0
         self.published = []
         self.coordinator = self.make_coordinator()
@@ -30,8 +31,8 @@ class RecoveryTests(unittest.TestCase):
         self.assertEqual(self.coordinator.handle_mission_status({
             'status': 'LAND_REQUESTED', 'mission_id': 'TEST_USER/bench_001',
         }), 0)
-        self.store = receiver.RescueStore(Path(self.temp.name))
-        record, _ = self.store.store(sample_payload())
+        self.store = completed_store(Path(self.temp.name))
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
         self.coordinator = self.make_coordinator()
         self.assertEqual(self.coordinator.retry_pending(), 1)
         self.assertEqual(self.published[0]['forward_trigger'], receiver.TRIGGER_LAND_REQUESTED)
@@ -48,7 +49,7 @@ class RecoveryTests(unittest.TestCase):
         self.assertEqual(self.published, [])
 
     def test_ack_loss_retries_same_envelope_then_stops_on_matching_ack(self):
-        record, _ = self.store.store(sample_payload())
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
         self.assertEqual(self.coordinator.handle_sync_request(), 1)
         self.assertEqual(self.coordinator.handle_sync_request(), 0)
         self.now += 2
@@ -57,11 +58,11 @@ class RecoveryTests(unittest.TestCase):
         self.coordinator.handle_ground_ack(matching_ack(record, self.published[0]['envelope_sha256']))
         self.now += 1000
         self.assertEqual(self.coordinator.retry_pending(), 0)
-        self.store = receiver.RescueStore(Path(self.temp.name))
+        self.store = completed_store(Path(self.temp.name))
         self.assertEqual(self.make_coordinator().retry_pending(), 0)
 
     def test_failed_publish_recovers_from_disk_with_same_envelope(self):
-        self.store.store(sample_payload())
+        self.store.store(sample_payload(), carrier_context=context_for())
         attempted = []
 
         def fail(topic, body):
@@ -69,32 +70,32 @@ class RecoveryTests(unittest.TestCase):
             raise RuntimeError('offline')
 
         self.assertEqual(self.make_coordinator(fail).handle_sync_request(), 0)
-        self.store = receiver.RescueStore(Path(self.temp.name))
+        self.store = completed_store(Path(self.temp.name))
         self.now += 2
         self.assertEqual(self.make_coordinator().retry_pending(), 1)
         self.assertEqual(attempted[0], self.published[0])
         self.assertEqual(self.published[0]['forward_trigger'], receiver.TRIGGER_GS_SYNC)
 
     def test_prepared_envelope_survives_crash_before_attempt_state(self):
-        record, _ = self.store.store(sample_payload())
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
         prepared = self.store.prepare_delivery(record, receiver.TRIGGER_GS_SYNC)
-        self.store = receiver.RescueStore(Path(self.temp.name))
+        self.store = completed_store(Path(self.temp.name))
         self.assertEqual(self.make_coordinator().retry_pending(), 1)
         self.assertEqual(self.published[0], prepared)
 
     def test_old_v1_forwarded_outbox_reconstructs_identical_envelope(self):
-        record, _ = self.store.store(sample_payload())
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
         self.coordinator.handle_sync_request()
         state = self.store.read_delivery(record['request_id'])
         del state['delivery_envelope']
         state.pop('retry_after_epoch')
         self.store._write_json_atomic(self.store._outbox_path(record['request_id']), state)
-        self.store = receiver.RescueStore(Path(self.temp.name))
+        self.store = completed_store(Path(self.temp.name))
         self.assertEqual(self.make_coordinator().retry_pending(), 1)
         self.assertEqual(self.published[0], self.published[1])
 
     def test_wrong_ack_preserves_retry_and_strict_schema_type(self):
-        record, _ = self.store.store(sample_payload())
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
         self.coordinator.handle_sync_request()
         for field, value in [('envelope_sha256', '0' * 64), ('schema_version', True)]:
             ack = matching_ack(record, self.published[0]['envelope_sha256'])
@@ -105,7 +106,7 @@ class RecoveryTests(unittest.TestCase):
         self.assertEqual(self.coordinator.retry_pending(), 1)
 
     def test_backoff_interval_is_capped_and_persisted(self):
-        record, _ = self.store.store(sample_payload())
+        record, _ = self.store.store(sample_payload(), carrier_context=context_for())
         self.coordinator.handle_sync_request()
         for attempt in range(1, 12):
             state = self.store.read_delivery(record['request_id'])
@@ -138,7 +139,7 @@ class FakeClient:
 class ReadinessTests(unittest.TestCase):
     def setUp(self):
         self.temp = tempfile.TemporaryDirectory()
-        self.store = receiver.RescueStore(Path(self.temp.name))
+        self.store = completed_store(Path(self.temp.name))
         with patch.object(receiver, 'mqtt', SimpleNamespace(Client=FakeClient, MQTT_ERR_SUCCESS=0)), patch.object(receiver, '_PAHO_V2', False):
             self.runtime = receiver.MqttRuntime(self.store, 'offline-test.invalid', 1883)
         self.client = self.runtime.client

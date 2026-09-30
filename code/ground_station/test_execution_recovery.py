@@ -59,7 +59,7 @@ class DispatchFaultTests(unittest.TestCase):
             for worker in workers: worker.start()
             for worker in workers: worker.join(timeout=5)
             self.assertTrue(all(not worker.is_alive() for worker in workers))
-            self.assertEqual(len(self.client.calls), 1)
+            self.assertEqual(len(self.client.calls), 3)
             self.assertEqual(sorted(item["status"] for item in outcomes),
                              sorted([gs.DISPATCH_PUBLISHED, gs.DISPATCH_INVALID_PARAMETERS]))
             cloud_id = self.root.data["users"]["USER_A"]["rescue_events"]["sos__request_1"]["execution"]["execution_id"]
@@ -79,21 +79,24 @@ class DispatchFaultTests(unittest.TestCase):
         self.assertEqual(self.client.calls, [])
 
     def test_confirmed_recovery_works_after_primary_removed_and_config_unavailable(self):
+        self.call()
         with patch.object(gs, "_commit_execution", side_effect=RuntimeError("offline write")):
-            self.call()
+            with self.assertRaisesRegex(RuntimeError, "offline write"):
+                flow._admit(self.root, self.journal)
         del self.root.data["users"]["USER_A"]["rescue_requests"]
         with patch.object(gs, "rescue_runtime_config", {"ready": False}):
             recovered = self.call()
         self.assertEqual(recovered["firebase_status"], "DISPATCHED")
-        self.assertEqual(len(self.client.calls), 1)
+        self.assertEqual(len(self.client.calls), 3)
 
     def test_idempotent_commit_preserves_original_publication_time(self):
         self.call()
+        flow._admit(self.root, self.journal)
         original = self.root.data["users"]["USER_A"]["rescue_events"]["sos__request_1"]["dispatch_published_at_ms"]
         with patch.object(gs, "_epoch_now_ms", return_value=original + 60_000):
             self.call()
         self.assertEqual(self.root.data["users"]["USER_A"]["rescue_events"]["sos__request_1"]["dispatch_published_at_ms"], original)
-        self.assertEqual(len(self.client.calls), 1)
+        self.assertEqual(len(self.client.calls), 3)
 
     def test_ledger_write_failure_prevents_publication(self):
         with patch.object(self.journal, "prepare", side_effect=OSError("synthetic disk full")):
@@ -188,9 +191,10 @@ class ReadyTests(unittest.TestCase):
              patch.object(gs.threading, "Thread") as worker:
             gs._on_mqtt_connect(client, None, None, 0)
         client.subscribe.assert_any_call(gs.MQTT_TOPIC_RECEIVER_READY, qos=1)
-        self.assertIs(worker.call_args.kwargs["target"], gs._respond_to_receiver_ready)
-        self.assertIsNone(worker.call_args.kwargs["args"][1])
-        worker.return_value.start.assert_called_once()
+        sync = next(call for call in worker.call_args_list if call.kwargs["target"] is gs._respond_to_receiver_ready)
+        self.assertIsNone(sync.kwargs["args"][1])
+        self.assertTrue(any(call.kwargs["target"] is gs.query_saved_executions for call in worker.call_args_list))
+        self.assertEqual(worker.return_value.start.call_count, 2)
 
     def test_sync_failure_retries_without_second_receiver_ready(self):
         gate = ReceiverReadyGate()

@@ -183,7 +183,9 @@ def main(argv=None) -> int:
         finally:
             os.close(fd)
     except OSError:
-        pass
+        emit("ERROR", error_code="FINALIZE_SYNC_FAILED", frames_written=frames_written,
+             incomplete_file=temp_path.name)
+        return 9
     try:
         os.replace(temp_path, final_path)
     except OSError:

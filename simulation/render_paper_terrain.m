@@ -1,5 +1,6 @@
 function render_paper_terrain(studyFile,out)
 
+out=prepare_simulation_output(out,false);
 load(studyFile,'study');
 c=palette();cfg=study.config;
 set(groot,'defaultAxesFontName','Helvetica','defaultTextFontName','Helvetica');

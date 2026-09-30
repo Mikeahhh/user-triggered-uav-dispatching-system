@@ -20,15 +20,23 @@ private:
     ros::Subscriber vins_odom_sub_;
     ros::Publisher goal_pub_;
     ros::Publisher status_pub_;
-    ros::Timer ready_timer_;
+    ros::Timer ready_timer_, tracking_timer_;
+    std::uint64_t feedback_sequence_ = 0;
+    double vertical_threshold_, hold_feedback_timeout_, position_feedback_hz_;
+    rescue_execution::FrameAlignment alignment_;
+    rescue_execution::CoordinateFrameState frame_state_;
+    nav_msgs::Odometry anchor_odom_;
     std::string receiver_session_id_;
 
     sensor_msgs::NavSatFix current_drone_gps_;
     nav_msgs::Odometry current_vins_odom_;
+    sensor_msgs::NavSatFix paired_gps_;
+    nav_msgs::Odometry paired_odom_;
+    ros::Time paired_gps_received_, paired_odom_received_;
+    bool has_paired_position_ = false;
 
     bool has_drone_gps_;
     bool has_vins_odom_;
-    bool has_initial_heading_;
 
 
     bool has_active_goal_;
@@ -38,8 +46,6 @@ private:
     rescue_execution::TargetLifecycle lifecycle_;
 
 
-    static constexpr double WGS84_A  = 6378137.0;
-    static constexpr double WGS84_E2 = 0.00669437999014;
 
 
     double data_timeout_;
@@ -49,27 +55,20 @@ private:
     double safe_flight_alt_;
 
 
-    double vins_heading_offset_;
 
 
     sensor_msgs::NavSatFix prev_gps_;
     bool has_prev_gps_;
-    double prev_vins_yaw_;
 
     ros::Time last_drone_gps_time_;
     ros::Time last_vins_odom_time_;
 
 
-    static double quaternionToYaw(const geometry_msgs::Quaternion& q) {
-        return std::atan2(2.0 * (q.w * q.z + q.x * q.y),
-                         1.0 - 2.0 * (q.y * q.y + q.z * q.z));
-    }
 
 public:
     MissionCommander()
         : has_drone_gps_(false), has_vins_odom_(false),
-          has_initial_heading_(false), has_active_goal_(false),
-          vins_heading_offset_(0.0), has_prev_gps_(false), prev_vins_yaw_(0.0) {
+          has_active_goal_(false), has_prev_gps_(false) {
 
         std::random_device random;
         receiver_session_id_ = std::to_string(std::chrono::high_resolution_clock::now().time_since_epoch().count())
@@ -79,9 +78,16 @@ public:
         pnh.param("flight_alt", safe_flight_alt_, 1.5);
         pnh.param("arrival_threshold", arrival_threshold_, 1.0);
         pnh.param("data_timeout", data_timeout_, 5.0);
+        pnh.param("vertical_threshold", vertical_threshold_, 1.0);
+        pnh.param("hold_feedback_timeout", hold_feedback_timeout_, 1.0);
+        pnh.param("position_feedback_hz", position_feedback_hz_, 5.0);
         if (!std::isfinite(safe_flight_alt_) || safe_flight_alt_ <= 0
             || !std::isfinite(arrival_threshold_) || arrival_threshold_ <= 0
-            || !std::isfinite(data_timeout_) || data_timeout_ <= 0)
+            || !std::isfinite(data_timeout_) || data_timeout_ <= 0
+            || !std::isfinite(vertical_threshold_) || vertical_threshold_ <= 0
+            || !std::isfinite(hold_feedback_timeout_) || hold_feedback_timeout_ <= 0
+            || !std::isfinite(position_feedback_hz_) || position_feedback_hz_ <= 0
+            || 1.0 / position_feedback_hz_ >= hold_feedback_timeout_)
             throw std::runtime_error("invalid commander profile");
         ROS_INFO("MissionCommander: flight_alt = %.2f m", safe_flight_alt_);
 
@@ -99,6 +105,7 @@ public:
         goal_pub_ = nh_.advertise<geometry_msgs::PoseStamped>("/move_base_simple/goal", 10);
         status_pub_ = nh_.advertise<rescue_bridge::WaypointFeedback>("/rescue/waypoint_feedback", 10, true);
         ready_timer_ = nh_.createTimer(ros::Duration(1.0), &MissionCommander::announceReady, this);
+        tracking_timer_ = nh_.createTimer(ros::Duration(1.0 / position_feedback_hz_), &MissionCommander::trackPosition, this);
         publishFeedback(rescue_execution::Target{}, "READY", "RECEIVER_STARTED");
 
         ROS_INFO("Mission Commander initialized (WGS-84 + heading alignment)");
@@ -115,38 +122,15 @@ public:
             || msg->longitude < -180 || msg->longitude > 180
             || !fresh(ros::Time::now(), msg->header.stamp)) {
             has_drone_gps_ = false;
+            has_paired_position_ = false;
             ROS_WARN_THROTTLE(5.0, "Drone GPS has no fix, ignoring");
             return;
         }
-
-
-        if (has_prev_gps_ && has_vins_odom_ && !has_initial_heading_
-            && fresh(last_vins_odom_time_, last_vins_odom_stamp_)) {
-            double dn, de;
-            gpsToENU(prev_gps_.latitude, prev_gps_.longitude,
-                     msg->latitude, msg->longitude, dn, de);
-            double dist = std::sqrt(dn * dn + de * de);
-
-
-            if (dist > 2.0) {
-                double gps_heading = std::atan2(de, dn);
-                double vins_yaw = quaternionToYaw(current_vins_odom_.pose.pose.orientation);
-                vins_heading_offset_ = gps_heading - vins_yaw;
-                has_initial_heading_ = true;
-                ROS_INFO("Heading calibrated: GPS=%.1f deg, VINS=%.1f deg, offset=%.1f deg",
-                         gps_heading * 180.0 / M_PI,
-                         vins_yaw * 180.0 / M_PI,
-                         vins_heading_offset_ * 180.0 / M_PI);
-            }
-        }
-
-        prev_gps_ = *msg;
-        has_prev_gps_ = true;
-
         current_drone_gps_ = *msg;
         has_drone_gps_ = true;
         last_drone_gps_time_ = ros::Time::now();
         last_drone_gps_stamp_ = msg->header.stamp;
+        updatePairedPosition();
     }
 
     void vinsOdomCallback(const nav_msgs::Odometry::ConstPtr& msg) {
@@ -154,34 +138,81 @@ public:
             || !std::isfinite(msg->pose.pose.position.z)
             || !std::isfinite(msg->pose.pose.orientation.x) || !std::isfinite(msg->pose.pose.orientation.y)
             || !std::isfinite(msg->pose.pose.orientation.z) || !std::isfinite(msg->pose.pose.orientation.w)
+            || !rescue_execution::validQuaternion(msg->pose.pose.orientation.x, msg->pose.pose.orientation.y,
+                                                   msg->pose.pose.orientation.z, msg->pose.pose.orientation.w)
             || !fresh(ros::Time::now(), msg->header.stamp)) {
             has_vins_odom_ = false;
+            has_paired_position_ = false;
+            frame_state_.observe(msg->header.frame_id, false, has_active_goal_);
             return;
+        }
+        if (frame_state_.observe(msg->header.frame_id, true, has_active_goal_)) {
+            alignment_.reset();
+            has_prev_gps_ = false;
+            has_paired_position_ = false;
+            if (frame_state_.targetInvalidated())
+                publishFeedback(lifecycle_.current(), "REJECTED", "COORDINATE_FRAME_CHANGED");
         }
         current_vins_odom_ = *msg;
         has_vins_odom_ = true;
         last_vins_odom_time_ = ros::Time::now();
         last_vins_odom_stamp_ = msg->header.stamp;
+        updatePairedPosition();
+    }
 
-
-        if (lifecycle_.active()) {
-            double dx = msg->pose.pose.position.x - goal_position_.x;
-            double dy = msg->pose.pose.position.y - goal_position_.y;
-            double dist = std::sqrt(dx * dx + dy * dy);
-
-            if (lifecycle_.arrived(dist, arrival_threshold_)) {
-                ROS_INFO("ARRIVED at goal (dist=%.2f m)", dist);
-                publishFeedback(lifecycle_.current(), "ARRIVED", "HORIZONTAL_THRESHOLD_REACHED");
-                has_active_goal_ = false;
+    void updatePairedPosition() {
+        if (!has_drone_gps_ || !has_vins_odom_
+            || !rescue_execution::matchedObservations(ros::Time::now().toSec(),
+                last_drone_gps_time_.toSec(), last_drone_gps_stamp_.toSec(),
+                last_vins_odom_time_.toSec(), last_vins_odom_stamp_.toSec(), data_timeout_)) return;
+        paired_gps_ = current_drone_gps_;
+        paired_odom_ = current_vins_odom_;
+        paired_gps_received_ = last_drone_gps_time_;
+        paired_odom_received_ = last_vins_odom_time_;
+        has_paired_position_ = true;
+        if (!alignment_.ready()) {
+            if (!has_prev_gps_) {
+                prev_gps_ = paired_gps_;
+                anchor_odom_ = paired_odom_;
+                has_prev_gps_ = true;
+            } else {
+                auto en = rescue_execution::gpsToEastNorth(prev_gps_.latitude, prev_gps_.longitude,
+                                                           paired_gps_.latitude, paired_gps_.longitude);
+                auto local = rescue_execution::PlanarVector{
+                    paired_odom_.pose.pose.position.x - anchor_odom_.pose.pose.position.x,
+                    paired_odom_.pose.pose.position.y - anchor_odom_.pose.pose.position.y};
+                alignment_.calibrate(en, local);
             }
         }
     }
 
+    void trackPosition(const ros::TimerEvent&) {
+        if (!has_active_goal_) return;
+        const auto target = lifecycle_.current();
+        if (frame_state_.targetInvalidated()) {
+            publishFeedback(target, "REJECTED", "COORDINATE_FRAME_CHANGED");
+            return;
+        }
+        const double now = ros::Time::now().toSec();
+        if (!has_vins_odom_ || !has_drone_gps_ || !alignment_.ready()
+            || !fresh(last_drone_gps_time_, last_drone_gps_stamp_)
+            || !rescue_execution::freshObservation(now, last_vins_odom_time_.toSec(), last_vins_odom_stamp_.toSec(), hold_feedback_timeout_)) {
+            publishFeedback(target, "POSITION_STALE", "POSITION_UNCONFIRMED");
+            return;
+        }
+        const double dx = current_vins_odom_.pose.pose.position.x - goal_position_.x;
+        const double dy = current_vins_odom_.pose.pose.position.y - goal_position_.y;
+        const double dz = current_vins_odom_.pose.pose.position.z - goal_position_.z;
+        const bool inside = rescue_execution::withinTarget(dx, dy, dz, arrival_threshold_, vertical_threshold_);
+        const bool first = lifecycle_.arrived3d(dx, dy, dz, arrival_threshold_, vertical_threshold_);
+        publishFeedback(target, first ? "ARRIVED" : inside ? "HOLDING" : "OUTSIDE",
+                        inside ? "THREE_DIMENSIONAL_TOLERANCE" : "OUTSIDE_TARGET_TOLERANCE", inside,
+                        last_vins_odom_stamp_.toSec());
+    }
+
     bool fresh(const ros::Time& received, const ros::Time& stamp) const {
         const ros::Time now = ros::Time::now();
-        const double age = (now - received).toSec();
-        const double source_age = (now - stamp).toSec();
-        return age >= 0 && age <= data_timeout_ && source_age >= 0 && source_age <= data_timeout_;
+        return rescue_execution::freshObservation(now.toSec(), received.toSec(), stamp.toSec(), data_timeout_);
     }
 
     void controlCallback(const rescue_bridge::ExecutionControl::ConstPtr& msg) {
@@ -189,6 +220,7 @@ public:
         if (msg->action != "CANCEL" && msg->action != "RELEASE") return;
         if (lifecycle_.control(msg->mission_id, msg->execution_id, msg->action == "RELEASE")) {
             has_active_goal_ = false;
+            if (msg->action == "RELEASE") frame_state_.releaseTarget();
             rescue_execution::Target identity;
             identity.mission_id = msg->mission_id;
             identity.execution_id = msg->execution_id;
@@ -204,11 +236,20 @@ public:
             publishFeedback(target, "REJECTED", "RECEIVER_SESSION_MISMATCH");
             return;
         }
+        if (frame_state_.targetInvalidated()) {
+            publishFeedback(target, "REJECTED", "COORDINATE_FRAME_CHANGED");
+            return;
+        }
         std::string not_ready;
         if (!has_drone_gps_) not_ready = "GPS_NOT_READY";
         else if (!has_vins_odom_) not_ready = "ODOMETRY_NOT_READY";
+        else if (!alignment_.ready()) not_ready = "FRAME_ALIGNMENT_UNAVAILABLE";
         else if (!fresh(last_drone_gps_time_, last_drone_gps_stamp_)) not_ready = "GPS_STALE";
         else if (!fresh(last_vins_odom_time_, last_vins_odom_stamp_)) not_ready = "ODOMETRY_STALE";
+        else if (!has_paired_position_ || !rescue_execution::matchedObservations(ros::Time::now().toSec(),
+                    paired_gps_received_.toSec(), paired_gps_.header.stamp.toSec(),
+                    paired_odom_received_.toSec(), paired_odom_.header.stamp.toSec(), data_timeout_))
+            not_ready = "SYNCHRONIZED_POSITION_UNAVAILABLE";
         if (msg->altitude_specified && (!std::isfinite(msg->altitude) || msg->altitude < .5 || msg->altitude > 120))
             not_ready = "INVALID_TASK_ALTITUDE";
         const auto decision = lifecycle_.offer(target, not_ready.empty(), not_ready);
@@ -217,31 +258,17 @@ public:
             publishFeedback(target, decision.status, decision.reason);
             return;
         }
-        if (!has_initial_heading_)
-            ROS_WARN_THROTTLE(3.0, "Heading not calibrated: existing zero-offset assumption remains active");
-
-        ROS_INFO("Target GPS: lat=%.6f, lon=%.6f", msg->latitude, msg->longitude);
-
-
-        double north_offset, east_offset;
-        gpsToENU(current_drone_gps_.latitude, current_drone_gps_.longitude,
-                 msg->latitude, msg->longitude,
-                 north_offset, east_offset);
-
-        ROS_INFO("ENU offset: N=%.2f m, E=%.2f m", north_offset, east_offset);
-
-
-        double theta = vins_heading_offset_;
-        double vins_dx =  std::cos(theta) * north_offset + std::sin(theta) * east_offset;
-        double vins_dy = -std::sin(theta) * north_offset + std::cos(theta) * east_offset;
-
+        const auto en = rescue_execution::gpsToEastNorth(paired_gps_.latitude, paired_gps_.longitude,
+                                                         msg->latitude, msg->longitude);
+        const auto local = alignment_.transform(en);
+        const double vins_dx = local.x, vins_dy = local.y;
 
         geometry_msgs::PoseStamped goal;
         goal.header.stamp = ros::Time::now();
-        goal.header.frame_id = current_vins_odom_.header.frame_id;
+        goal.header.frame_id = paired_odom_.header.frame_id;
 
-        goal.pose.position.x = current_vins_odom_.pose.pose.position.x + vins_dx;
-        goal.pose.position.y = current_vins_odom_.pose.pose.position.y + vins_dy;
+        goal.pose.position.x = paired_odom_.pose.pose.position.x + vins_dx;
+        goal.pose.position.y = paired_odom_.pose.pose.position.y + vins_dy;
         goal.pose.position.z = target.altitude;
 
 
@@ -271,7 +298,7 @@ public:
     }
 
     void publishFeedback(const rescue_execution::Target& target, const std::string& status,
-                         const std::string& reason) {
+                         const std::string& reason, bool within = false, double position_stamp = 0) {
         rescue_bridge::WaypointFeedback msg;
         msg.mission_id = target.mission_id;
         msg.execution_id = target.execution_id;
@@ -280,31 +307,15 @@ public:
         msg.effective_altitude = target.altitude;
         msg.arrival_threshold = arrival_threshold_;
         msg.data_timeout = data_timeout_;
+        msg.vertical_threshold = vertical_threshold_;
+        msg.within_tolerance = within;
+        msg.position_stamp = position_stamp;
+        msg.feedback_seq = ++feedback_sequence_;
         msg.status = status;
         msg.reason = reason;
         status_pub_.publish(msg);
     }
 
-private:
-
-
-    void gpsToENU(double lat1_deg, double lon1_deg,
-                  double lat2_deg, double lon2_deg,
-                  double& north_m, double& east_m) {
-        double lat1 = lat1_deg * M_PI / 180.0;
-        double lat2 = lat2_deg * M_PI / 180.0;
-        double dlat = lat2 - lat1;
-        double dlon = (lon2_deg - lon1_deg) * M_PI / 180.0;
-
-
-        double sin_lat = std::sin((lat1 + lat2) / 2.0);
-        double W = std::sqrt(1.0 - WGS84_E2 * sin_lat * sin_lat);
-        double M = WGS84_A * (1.0 - WGS84_E2) / (W * W * W);
-        double N = WGS84_A / W;
-
-        north_m = dlat * M;
-        east_m  = dlon * N * std::cos((lat1 + lat2) / 2.0);
-    }
 };
 
 int main(int argc, char** argv) {

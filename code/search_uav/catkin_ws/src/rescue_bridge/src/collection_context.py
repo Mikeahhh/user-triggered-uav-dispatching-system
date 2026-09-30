@@ -14,4 +14,5 @@ def build_collection_context(record, active_id, instance_id):
         'mission_type': record.get('mission_type', ''), 'phase': phase,
         'waypoint_index': index, 'source_waypoint_total': total,
         'arrival_observed': arrived,
+        'content_fingerprint': record.get('content_fingerprint', ''),
     }

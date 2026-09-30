@@ -4,8 +4,6 @@ import copy
 from datetime import datetime, timezone
 import json
 from pathlib import Path
-import shutil
-import subprocess
 import sys
 import unittest
 from unittest.mock import patch
@@ -18,6 +16,7 @@ import rescue_event_manager as manager
 import rescue_repository as repository
 import priority_scheduler as scheduler
 from deployment_preflight import check_deployment
+from native_tracking_probe import NativeTrackingProbe
 
 BASE = 1_800_000_000_000
 TEST_TIMEOUT_MS = 1_000
@@ -91,6 +90,11 @@ class MemoryDatabase:
 
 
 class FreshnessContracts(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.native_tracking = NativeTrackingProbe()
+        cls.addClassCleanup(cls.native_tracking.close)
+
     def setUp(self):
         for target in ('socket.socket.connect', 'socket.create_connection'):
             guard = patch(target, side_effect=AssertionError('network forbidden in this contract'))
@@ -115,15 +119,7 @@ class FreshnessContracts(unittest.TestCase):
         database.user['QuickStartSessions'][SESSION]['points'][key] = point(milliseconds, **coordinates)
 
     def mobile_times(self, arguments):
-        result = subprocess.run(
-            [shutil.which('node') or 'node', str(Path(__file__).with_name('mobile_export_probe.cjs'))],
-            input=json.dumps({'module': 'services/quickStartSample.ts',
-                              'export': 'getQuickStartSampleTime',
-                              'arguments': arguments, 'captureErrors': True}),
-            text=True, capture_output=True, timeout=30,
-        )
-        self.assertEqual(result.returncode, 0, result.stderr)
-        return json.loads(result.stdout)
+        return self.native_tracking.evaluate(arguments)
 
     def make_timed_out(self, now=BASE + TEST_TIMEOUT_MS):
         database = MemoryDatabase(user_record())
@@ -150,7 +146,7 @@ class FreshnessContracts(unittest.TestCase):
             [{'timestamp': sample}, sample - 20, sample + 10, samples[i - 1] if i else None]
             for i, sample in enumerate(samples)
         ])
-        self.assertTrue(all(value['accepted'] for value in values), values)
+        self.assertEqual([value['accepted'] for value in values], [True] * len(samples))
         for moving in (False, True):
             with self.subTest(moving=moving):
                 database = MemoryDatabase(user_record(points={}))

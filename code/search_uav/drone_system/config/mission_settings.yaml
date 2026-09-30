@@ -23,3 +23,7 @@ gps_timeout_seconds: 5.0
 target_acceptance_timeout_seconds: 5.0
 target_retry_limit: 3
 topic_operator_reset: "alin1/mission/operator_reset"
+
+topic_transfer: alin1/mission/transfer
+topic_operator_retry: alin1/mission/operator_retry
+hold_feedback_timeout_seconds: 1.0

@@ -1,9 +1,9 @@
-function study = run_three_mode_simulation()
+function [study,out] = run_three_mode_simulation(out)
 
 
 root = fileparts(mfilename('fullpath'));
-out = fullfile(root,'output');
-if ~isfolder(out), mkdir(out); end
+if nargin<1, out=''; end
+out = prepare_simulation_output(out);
 cfg = configuration();
 terrain = loadTerrain(fullfile(root,'data','N22E114.hgt'),cfg);
 rng(cfg.random_seed,'twister');
@@ -81,6 +81,8 @@ cfg.target_neighbourhood_min_ground_msl_m = 40;
 cfg.target_neighbourhood_half_width_m = 240;
 cfg.route_min_ground_msl_m = 2;
 cfg.route_land_check_step_m = 5;
+cfg.minimum_flight_clearance_m = 2;
+cfg.clearance_check_step_m = 5;
 cfg.altitude_agl_m = 80;
 cfg.horizontal_speed_limit_mps = 15;
 cfg.vertical_speed_limit_mps = 3;
@@ -101,6 +103,7 @@ cfg.assumptions = { ...
     'All supplied mission waypoints are visited, followed by direct horizontal RTL and landing'; ...
     'Mode 3 completes its whole spiral; no automatic person detection or proximity termination'; ...
     'Land/elevation constraints define this synthetic case, not official trail or terrain classification'; ...
+    'Flight clearance is checked separately from ground elevation on mission and return segments'; ...
     'One illustrative scenario does not establish comparative rescue performance'};
 end
 
@@ -337,6 +340,13 @@ for k=1:3
         m.return_start_s>=arrivals.time_s(end)+s.config.hover_seconds-1e-8);
     check(sprintf('Mode %d route stays on selected land',k), ...
         min(r.terrain_msl_m)>=s.config.route_min_ground_msl_m);
+    flight=(find(r.cruise,1)-1):find(r.cruise,1,'last');
+    clearance=flight_clearance(r.east_m(flight),r.north_m(flight),r.uav_msl_m(flight), ...
+        @(east,north)groundAt(s.terrain,east,north),s.config.minimum_flight_clearance_m, ...
+        s.config.clearance_check_step_m);
+    check(sprintf('Mode %d has at least 2 m flight clearance on mission and return',k),clearance.passed);
+    check(sprintf('Mode %d flight clearance samples are at most 5 m apart',k), ...
+        clearance.maximum_sample_spacing_m<=s.config.clearance_check_step_m+1e-9);
     check(sprintf('Mode %d reaches the common target',k),isfinite(m.target_arrival_s));
 end
 v.checks=checks;v.check_count=numel(checks);v.all_passed=all([checks.passed]);

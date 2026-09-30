@@ -133,7 +133,6 @@
       "title": "Release metadata",
       "app": "Mobile App",
       "androidBuild": "Android versionCode",
-      "iosBuild": "iOS build",
       "releaseId": "System release ID",
       "protocol": "UAV protocol",
       "outboxSchema": "Outbox storage schema"
@@ -441,5 +440,22 @@
     "booking": "Booking",
     "profile": "Profile",
     "health": "System Health"
+  },
+  "persistentTracking": {
+    "backgroundDescription": "Your route is saved on this phone while you use other pages or lock the screen.",
+    "interrupted": "Recording interrupted",
+    "resume": "Resume recording",
+    "uploaded": "Points synchronized",
+    "pending": "Records awaiting synchronization",
+    "savedLocally": "Saved on this phone. Synchronization resumes when a connection is available.",
+    "previewLimit": "The map previews the latest 1,000 points. All recorded points are retained.",
+    "legacyPreserved": "Older routes without a verified user binding remain on this phone.",
+    "recordQueued": "Saved on this phone; awaiting cloud confirmation.",
+    "stopped": "Recording stopped",
+    "sync": {
+      "PENDING": "Awaiting synchronization",
+      "SYNCED": "All saved records synchronized",
+      "ERROR": "Synchronization needs attention"
+    }
   }
 }

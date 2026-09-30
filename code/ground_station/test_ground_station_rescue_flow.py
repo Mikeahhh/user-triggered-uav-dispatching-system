@@ -182,9 +182,19 @@ class _MqttClient:
         self.info = info
         self.calls = []
 
-    def publish(self, topic, payload, qos=0):
+    def publish(self, topic, payload, qos=0, retain=False):
+        assert retain is False
         self.calls.append((topic, payload, qos))
         return self.info
+
+
+def _admit(root, journal, key=("USER_A", "sos__request_1"), accepted=True):
+    intent = journal.get(key)
+    report = {"schema_version": 2, "message_type": "ADMISSION", "mission_id": intent["payload"]["mission_id"],
+              "execution_id": intent["execution_id"], "content_fingerprint": intent["fingerprint"],
+              "attempt": intent["attempt"], "decision_seq": 1, "accepted": accepted,
+              "status": "ACCEPTED" if accepted else "REJECTED"}
+    return gs.process_admission_report(report, database_root=root, journal=journal)
 
 
 class RescueConfigurationAndDetectionTests(unittest.TestCase):
@@ -394,7 +404,7 @@ class MissionPreparationTests(unittest.TestCase):
                 },
                 booking_event,
             )
-        with self.assertRaisesRegex(ValueError, "1000-waypoint limit"):
+        with self.assertRaisesRegex(ValueError, "100000-waypoint limit"):
             gs.prepare_mission_for_rescue_event(
                 {
                     "booked_events": {
@@ -402,7 +412,7 @@ class MissionPreparationTests(unittest.TestCase):
                             "expectedEndAtMs": 100,
                             "waypoints": [
                                 {"latitude": 1, "longitude": 2}
-                                for _ in range(1001)
+                                for _ in range(100001)
                             ]
                         }
                     }
@@ -510,10 +520,11 @@ class GenericDispatchTests(unittest.TestCase):
         info = _PublishInfo()
         result, client = self._dispatch_with_info(info)
         self.assertEqual(result["status"], gs.DISPATCH_PUBLISHED)
-        self.assertEqual(client.calls[0][0], gs.MQTT_TOPIC_MULTI)
+        self.assertEqual(client.calls[0][0], gs.MQTT_TOPIC_TRANSFER)
         self.assertEqual(client.calls[0][2], 1)
         payload = json.loads(client.calls[0][1])
-        self.assertEqual(payload["mission_id"], "USER_A/event_1")
+        self.assertEqual(payload["task"]["mission_id"], "USER_A/event_1")
+        self.assertEqual([json.loads(call[1])["kind"] for call in client.calls], ["MANIFEST", "CHUNK", "COMMIT"])
         self.assertTrue(info.is_published())
 
 
@@ -558,31 +569,38 @@ class RescueEventDispatchWrapperTests(unittest.TestCase):
 
     def test_published_event_is_conditionally_marked_dispatched(self):
         result = self.call()
-        self.assertEqual(result["firebase_status"], "DISPATCHED")
-        self.assertEqual(len(self.client.calls), 1)
+        self.assertEqual(result["firebase_status"], "PENDING")
+        self.assertEqual(len(self.client.calls), 3)
+        self.assertEqual(self.journal.get(("USER_A", "sos__request_1"))["state"], "AWAITING_ACCEPTANCE")
+        _admit(self.root, self.journal)
         event = self.root.data["users"]["USER_A"]["rescue_events"]["sos__request_1"]
         self.assertEqual(event["status"], "DISPATCHED")
         self.assertEqual(event["execution"]["execution_id"], result["execution_id"])
-        self.assertEqual(self.journal.get(("USER_A", "sos__request_1"))["state"], "COMMITTED")
+        self.assertEqual(self.journal.get(("USER_A", "sos__request_1"))["state"], "ACCEPTED")
 
     def test_refresh_failure_cannot_reverse_committed_dispatch(self):
+        self.call()
+        _admit(self.root, self.journal)
         with patch.object(gs, "refresh_data", side_effect=RuntimeError("synthetic render error")):
             result = self.call()
         self.assertEqual(result["status"], gs.DISPATCH_PUBLISHED)
         self.assertEqual(result["refresh_status"], "FAILED")
-        self.assertEqual(len(self.client.calls), 1)
+        self.assertEqual(len(self.client.calls), 3)
 
     def test_firebase_failure_then_sqlite_reopen_only_commits_without_republish(self):
+        first = self.call()
         with patch.object(gs, "_commit_execution", side_effect=RuntimeError("synthetic commit failure")):
-            first = self.call()
-        self.assertEqual(first["firebase_status"], "PENDING_WRITE_RETRY")
+            with self.assertRaisesRegex(RuntimeError, "synthetic commit failure"):
+                _admit(self.root, self.journal)
+        self.assertEqual(self.journal.get(("USER_A", "sos__request_1"))["state"], "ACCEPTED")
+        self.assertEqual(self.root.data["users"]["USER_A"]["rescue_events"]["sos__request_1"]["status"], "PENDING")
         self.journal.close()
         self.journal = DispatchJournal(self.journal_path, "https://synthetic.firebaseio.com")
         gs.published_uncommitted_events.clear()
         second = self.call()
         self.assertEqual(second["firebase_status"], "DISPATCHED")
         self.assertEqual(second["execution_id"], first["execution_id"])
-        self.assertEqual(len(self.client.calls), 1)
+        self.assertEqual(len(self.client.calls), 3)
 
     def test_changed_event_during_confirmation_cannot_publish(self):
         def confirm(*args):
@@ -609,9 +627,11 @@ class RescueEventDispatchWrapperTests(unittest.TestCase):
         self.assertEqual(len(self.client.calls), 1)
         self.client.info = _PublishInfo()
         third = self.call(resume=True)
-        self.assertEqual(third["status"], gs.DISPATCH_PUBLISHED)
+        self.assertEqual(third["status"], gs.DISPATCH_UNKNOWN)
         sent = [json.loads(call[1]) for call in self.client.calls]
-        self.assertEqual(sent[0], sent[1])
+        self.assertEqual([item["kind"] for item in sent], ["MANIFEST", "QUERY"])
+        self.assertEqual(sent[0]["execution_id"], sent[1]["execution_id"])
+        self.assertEqual(sent[0]["content_fingerprint"], sent[1]["content_fingerprint"])
         self.assertEqual(third["execution_id"], first["execution_id"])
 
 

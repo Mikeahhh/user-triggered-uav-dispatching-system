@@ -47,6 +47,19 @@ class RecordingStateError(RuntimeError):
     pass
 
 
+def recording_result_error(output_file, frames_written, return_code):
+    if return_code != 0:
+        return "PROCESS_EXIT_{}".format(return_code)
+    if type(frames_written) is not int or frames_written <= 0:
+        return "NO_CONFIRMED_FRAMES"
+    try:
+        if not output_file or not Path(output_file).is_file() or Path(output_file).stat().st_size <= 0:
+            return "OUTPUT_FILE_MISSING_OR_EMPTY"
+    except OSError:
+        return "OUTPUT_FILE_UNREADABLE"
+    return ""
+
+
 class RecordingJournal:
 
 

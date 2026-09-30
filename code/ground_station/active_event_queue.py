@@ -26,8 +26,8 @@ def source_fingerprint(user, event):
     kind, record_id = event.get("primary_record_type"), event.get("primary_record_id")
     group = user.get(kind) if isinstance(kind, str) else None
     record = group.get(record_id) if isinstance(group, dict) and isinstance(record_id, str) else None
-    if not isinstance(record, dict):
-        raise StateConflict("primary record is unavailable")
+    if not isinstance(record, dict) or record.get("_deleted") is True:
+        raise StateConflict("primary record is unavailable or deleted")
     semantics = {"user_id": event.get("user_id"), "event_id": event.get("event_id"),
                  "trigger_type": event.get("trigger_type"), "primary_record_type": kind,
                  "primary_record_id": record_id}
@@ -193,3 +193,21 @@ def migrate_execution_to_active(database_root, user_id, event_id, owner_id, inte
                              "execution_id": execution_id}
         return user
     return user_transaction(database_root, user_id, migrate)["active_events"][event_id]
+
+
+def migrate_legacy_dispatch(database_root, user_id, event_id):
+    def migrate(user):
+        event = user.get('rescue_events', {}).get(event_id)
+        if not isinstance(event, dict): raise StateConflict('legacy event unavailable')
+        execution = event.get('execution')
+        if not isinstance(execution, dict) or not execution.get('execution_id'):
+            raise StateConflict('legacy dispatch has no execution identity')
+        if event.get('status') == 'DISPATCHED' and not (execution.get('admission') or {}).get('accepted'):
+            event.setdefault('legacy_dispatch_status', event['status'])
+            execution.setdefault('legacy_state', execution.get('state'))
+            execution.setdefault('legacy_detail', execution.get('detail'))
+            event['status'] = 'PENDING'
+            execution['state'] = 'UNKNOWN'
+            execution['legacy_dispatch_requires_admission'] = True
+        return user
+    return user_transaction(database_root, user_id, migrate)

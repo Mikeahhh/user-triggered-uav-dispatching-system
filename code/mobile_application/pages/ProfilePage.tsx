@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   ScrollView,
   KeyboardAvoidingView,
-  Platform,
   Alert,
   ActivityIndicator,
   SafeAreaView,
@@ -324,7 +323,7 @@ const ProfilePage = () => {
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
         style={styles.flex}
-        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        behavior={'height'}
       >
         <ScrollView contentContainerStyle={styles.scrollContent}>
           <Text style={styles.title}>

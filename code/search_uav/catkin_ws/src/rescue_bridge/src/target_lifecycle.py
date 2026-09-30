@@ -15,7 +15,7 @@ class TargetLifecycle:
         try:
             valid = (isinstance(target["execution_id"], str) and EXECUTION_ID_RE.fullmatch(target["execution_id"])
                      and isinstance(target["mission_id"], str) and MISSION_ID_RE.fullmatch(target["mission_id"])
-                     and type(target["waypoint_index"]) is int and 0 <= target["waypoint_index"] <= 1000
+                     and type(target["waypoint_index"]) is int and 0 <= target["waypoint_index"] <= 100000
                      and all(not isinstance(target[key], bool) and math.isfinite(target[key])
                              for key in ("latitude", "longitude", "altitude"))
                      and -90 <= target["latitude"] <= 90 and -180 <= target["longitude"] <= 180
@@ -35,6 +35,8 @@ class TargetLifecycle:
             old, arrived = self.history[key]
             if old != target:
                 return "REJECTED", "TARGET_CONTENT_CONFLICT", False
+            if not ready:
+                return "REJECTED", reason, False
             return ("ARRIVED" if arrived else "ACCEPTED"), "DUPLICATE", False
         if self.active:
             return "REJECTED", "TARGET_BUSY", False
@@ -56,6 +58,12 @@ class TargetLifecycle:
         self.history[self.current] = (target, True)
         self.active = False
         return True
+
+    def arrived3d(self, dx, dy, dz, horizontal, vertical):
+        if not all(isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v)
+                   for v in (dx, dy, dz, horizontal, vertical)) or vertical <= 0 or abs(dz) >= vertical:
+            return False
+        return self.arrived(math.hypot(dx, dy), horizontal)
 
     def control(self, mission_id, execution_id, release=False):
         if not execution_id or (self.locked and self.locked != (mission_id, execution_id)):

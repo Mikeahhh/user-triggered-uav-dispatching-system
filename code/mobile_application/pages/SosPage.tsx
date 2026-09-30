@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Alert,
   Linking,
-  Platform,
   ScrollView,
   PermissionsAndroid,
 } from 'react-native';
@@ -15,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 
 
 import { initDb, getDb } from '../services/db/initDb';
-import { buildRealtimeDatabaseRestUrl } from '../services/db/firebaseRealtimeDatabase';
+import { persistCloudRecord } from '../services/persistentTracking';
 import { getPositionCaptureTime } from '../services/positionTimestamp';
 import { getCurrentSosRequest, restoreCurrentSosFromLegacy, saveCurrentSosRequest } from '../services/currentSosStore';
 import { captureCurrentSosForUav, retrySavedUavCaptures, UavCaptureTransferError } from '../services/uavArrivalCaptureClient';
@@ -33,38 +32,6 @@ import {
   subscribeToUavWifiLoss,
   supportsSystemUavWifiSelection,
 } from '../services/uavWifiClient';
-
-const FIREBASE_TIMEOUT_MS = 8000;
-
-const sendRescueToFirebase = async (
-  normalizedPhone: string,
-  timestampKey: string,
-  rescueData: Record<string, unknown>,
-): Promise<boolean> => {
-  const controller = new AbortController();
-  const timeout = setTimeout(() => controller.abort(), FIREBASE_TIMEOUT_MS);
-  try {
-    const response = await fetch(
-      buildRealtimeDatabaseRestUrl(
-        'users',
-        normalizedPhone,
-        'rescue_requests',
-        timestampKey,
-      ),
-      {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(rescueData),
-        signal: controller.signal,
-      },
-    );
-    return response.ok;
-  } catch {
-    return false;
-  } finally {
-    clearTimeout(timeout);
-  }
-};
 
 const SosPage = () => {
   const { t } = useTranslation();
@@ -84,7 +51,6 @@ const SosPage = () => {
   }, [t]);
 
   const ensureLocationPermission = async (): Promise<boolean> => {
-    if (Platform.OS !== 'android') return true;
     const result = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
     );
@@ -93,7 +59,7 @@ const SosPage = () => {
 
   const callSOS = async () => {
     const number = '999';
-    const url = Platform.OS === 'ios' ? `telprompt:${number}` : `tel:${number}`;
+    const url = `tel:${number}`;
 
     try {
       const supported = await Linking.canOpenURL(url);
@@ -157,15 +123,14 @@ const SosPage = () => {
         longitude,
         status: 'PENDING',
         timestamp: timestampMs,
-        device: Platform.OS,
+        device: 'android',
       };
 
 
-      const firebaseAttempt = sendRescueToFirebase(
-        normalizedPhone,
-        timestampKey,
-        rescueData,
-      );
+      const cloudSave = persistCloudRecord(normalizedPhone, 'rescue_requests', timestampKey, rescueData)
+        .then(saved => saved.stored)
+        .catch(() => false);
+
 
       let config;
       try {
@@ -188,7 +153,7 @@ const SosPage = () => {
         captured_at: capturedAt,
         client_timestamp_ms: timestampMs,
         status: 'PENDING',
-        device: Platform.OS,
+        device: 'android',
         gps_points: [{ latitude, longitude, captured_at: capturedAt }],
         test_mode: config?.testMode ?? true,
       };
@@ -196,8 +161,8 @@ const SosPage = () => {
       const sourceAttempt = saveCurrentSosRequest(uavPayload).then(() => true).catch(() => false);
       const queueAttempt = config ? queueRescueForUav(uavPayload, { config })
         .then(() => true).catch(() => false) : Promise.resolve(false);
-      const [firebaseSent, queued, sourceSaved] = await Promise.all([
-        firebaseAttempt, queueAttempt, sourceAttempt,
+      const [cloudQueued, queued, sourceSaved] = await Promise.all([
+        cloudSave, queueAttempt, sourceAttempt,
       ]);
       if (queued) {
         setUavStatus(t('sosPage.uav.queued'));
@@ -206,16 +171,8 @@ const SosPage = () => {
       }
 
       if (!sourceSaved) setUavStatus(t('sosPage.uav.sourceSaveFailed'));
-      if (firebaseSent && queued) {
-        Alert.alert(
-          t('sosPage.successTitle') || '成功',
-          t('sosPage.successFirebaseQueued'),
-        );
-      } else if (firebaseSent) {
-        Alert.alert(
-          t('sosPage.successTitle') || '成功',
-          t('sosPage.successFirebaseNotQueued'),
-        );
+      if (cloudQueued) {
+        Alert.alert(t('sosPage.successTitle'), t('persistentTracking.recordQueued'));
       } else if (queued || sourceSaved) {
         Alert.alert(t('sosPage.errorTitle'), t('sosPage.savedLocallyOnly'));
       } else {

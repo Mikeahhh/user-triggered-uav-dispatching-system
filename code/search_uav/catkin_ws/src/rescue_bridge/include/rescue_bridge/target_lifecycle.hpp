@@ -6,6 +6,7 @@
 #include <set>
 #include <string>
 #include <tuple>
+#include "rescue_bridge/navigation_geometry.hpp"
 
 namespace rescue_execution {
 struct Target {
@@ -31,7 +32,7 @@ public:
         static const std::regex token("[A-Za-z0-9][A-Za-z0-9._-]{0,127}");
         static const std::regex mission("[A-Za-z0-9][A-Za-z0-9._-]{0,127}(/[A-Za-z0-9][A-Za-z0-9._-]{0,127})?");
         return std::regex_match(t.execution_id, token) && std::regex_match(t.mission_id, mission)
-            && t.waypoint_index <= 1000 && std::isfinite(t.latitude) && std::isfinite(t.longitude)
+            && t.waypoint_index <= 100000 && std::isfinite(t.latitude) && std::isfinite(t.longitude)
             && std::isfinite(t.altitude) && t.latitude >= -90 && t.latitude <= 90
             && t.longitude >= -180 && t.longitude <= 180 && t.altitude > 0;
     }
@@ -47,6 +48,7 @@ public:
             if (old.mission_id != target.mission_id || old.latitude != target.latitude
                 || old.longitude != target.longitude || old.altitude != target.altitude)
                 return {"REJECTED", "TARGET_CONTENT_CONFLICT", false};
+            if (!ready) return {"REJECTED", reason, false};
             return {existing->second.arrived ? "ARRIVED" : "ACCEPTED", "DUPLICATE", false};
         }
         if (active_) return {"REJECTED", "TARGET_BUSY", false};
@@ -68,6 +70,10 @@ public:
         return true;
     }
     Target current() const { return history_.at(current_).target; }
+    bool arrived3d(double dx, double dy, double dz, double horizontal, double vertical) {
+        if (!withinTarget(dx, dy, dz, horizontal, vertical)) return false;
+        return arrived(std::hypot(dx, dy), horizontal);
+    }
     bool active() const { return active_; }
     bool control(const std::string& mission, const std::string& execution, bool release) {
         if (execution.empty() || (!locked_execution_.empty()

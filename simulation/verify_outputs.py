@@ -9,15 +9,22 @@ import json
 from pathlib import Path
 
 import numpy as np
+from flight_clearance import flight_clearance
 
 parser = argparse.ArgumentParser(description="Check saved simulation data without replacing archived results")
 parser.add_argument("--output", type=Path, help="Write the full report to a new JSON file")
+parser.add_argument("--data-dir", type=Path, help="Check a new simulation result directory instead of the archived output")
 args = parser.parse_args()
 if args.output is not None and args.output.exists():
     parser.error(f"output already exists: {args.output}")
 
 ROOT = Path(__file__).resolve().parent
-OUT = ROOT / "output"
+OUT = args.data_dir.resolve() if args.data_dir is not None else ROOT / "output"
+if args.output is not None:
+    result_path = args.output.resolve()
+    for archived in ("output", "paper_current", "data", "reference", "verification"):
+        if result_path.is_relative_to((ROOT / archived).resolve()):
+            parser.error("reports must be written outside archived simulation inputs and results")
 config_record = json.loads((OUT / "scenario_and_settings.json").read_text())
 cfg = config_record["config"]
 scenario = config_record["scenario"]
@@ -87,6 +94,15 @@ for mode in (1, 2, 3):
     check(f"Mode {mode}: launch and landed at common home", np.max(np.abs(a[[0, -1]][:, [1, 2, 5]])) < 1e-8)
     cruise = np.isin(a[:, 6], [2, 3, 4, 5, 6])
     check(f"Mode {mode}: all cruise samples keep 80 m AGL", np.allclose(a[cruise, 4] - ground[cruise], 80, rtol=0, atol=1e-7))
+    cruise_indices = np.flatnonzero(cruise)
+    flight = a[max(0, cruise_indices[0] - 1):cruise_indices[-1] + 1]
+    clearance = flight_clearance(flight[:, 1], flight[:, 2], flight[:, 4], elevation,
+                                 cfg.get("minimum_flight_clearance_m", 2),
+                                 cfg.get("clearance_check_step_m", 5))
+    check(f"Mode {mode}: at least 2 m flight clearance throughout mission and return",
+          clearance["passed"], **{key: value for key, value in clearance.items() if key != "passed"})
+    check(f"Mode {mode}: flight clearance samples at most 5 m apart",
+          clearance["maximum_sample_spacing_m"] <= 5 + 1e-9)
     horizontal_speed = np.linalg.norm(np.diff(a[:, 1:3], axis=0), axis=1) / dt
     vertical_speed = np.abs(np.diff(a[:, 4])) / dt
     check(f"Mode {mode}: speed limits", np.max(horizontal_speed) <= 15 + 1e-7 and np.max(vertical_speed) <= 3 + 1e-7,
@@ -118,12 +134,23 @@ for group in ("main_3d_axes", "main_top_axes", "target_insets"):
     check(f"{group}: equal horizontal metre scaling", all(abs(ax["data_aspect_ratio"][0] - ax["data_aspect_ratio"][1]) < 1e-9 for ax in group_axes))
 
 source_manifest = json.loads((ROOT / "verification/source_manifest.json").read_text())
+source_comparison = []
 for source in source_manifest["sources"]:
-    check(f"Source copy unchanged: {source['local_copy']}", hashlib.sha256((ROOT / source["local_copy"]).read_bytes()).hexdigest() == source["sha256"])
+    current_hash = hashlib.sha256((ROOT / source["local_copy"]).read_bytes()).hexdigest()
+    unchanged = current_hash == source["sha256"]
+    source_comparison.append({"path": source["local_copy"], "archived_sha256": source["sha256"],
+                              "current_sha256": current_hash, "unchanged": unchanged})
+    if source["local_copy"].startswith(("data/", "reference/")):
+        check(f"Archived input unchanged: {source['local_copy']}", unchanged)
 
 report = {"completed_at": datetime.now(timezone.utc).isoformat(),
           "all_passed": all(c["passed"] for c in checks), "check_count": len(checks), "checks": checks,
-          "missions": results, "scope": "Independent numeric and figure-axis audit. No new flight-stack or field validation."}
+          "missions": results, "data_directory": str(OUT),
+          "archived_source_comparison": source_comparison,
+          "verification_source_sha256": {name: hashlib.sha256((ROOT / name).read_bytes()).hexdigest()
+                                         for name in ("verify_outputs.py", "flight_clearance.py", "flight_clearance.m",
+                                                      "run_three_mode_simulation.m")},
+          "scope": "Independent numeric, sampled flight-clearance and figure-axis audit. Current source changes are recorded separately from archived source hashes. No new flight-stack or field validation."}
 if args.output is not None:
     args.output.parent.mkdir(parents=True, exist_ok=True)
     with args.output.open("x", encoding="utf-8") as stream:

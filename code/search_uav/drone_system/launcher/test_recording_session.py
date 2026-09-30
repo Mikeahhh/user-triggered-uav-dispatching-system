@@ -2,11 +2,12 @@ import ast
 import io
 import json
 import threading
+import tempfile
 import types
 import unittest
 from pathlib import Path
 
-from recording_state import RecordingStateError, matches_recording_status
+from recording_state import recording_result_error, RecordingStateError, matches_recording_status
 
 
 def console_method(name):
@@ -14,7 +15,7 @@ def console_method(name):
     tree = ast.parse(path.read_text())
     cls = next(node for node in tree.body if isinstance(node, ast.ClassDef) and node.name == "DroneConsole")
     fn = next(node for node in cls.body if isinstance(node, ast.FunctionDef) and node.name == name)
-    namespace = {"json": json, "matches_recording_status": matches_recording_status,
+    namespace = {"json": json, "recording_result_error": recording_result_error, "matches_recording_status": matches_recording_status,
                  "RecordingStateError": RecordingStateError, "RECORDER_EVENT_PREFIX": "RECORDER_EVENT "}
     exec(compile(ast.fix_missing_locations(ast.Module(body=[fn], type_ignores=[])), str(path), "exec"), namespace)
     return namespace[name]
@@ -65,6 +66,29 @@ class RecordingSessionTests(unittest.TestCase):
         self.assertIs(console._rec_proc, new)
         self.assertTrue(console._recording)
         self.assertFalse(console._rec_stopping)
+    def test_done_requires_real_nonempty_output_and_successful_exit(self):
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory) / 'synthetic.avi'
+            self.assertEqual(recording_result_error(output, 2, 0), 'OUTPUT_FILE_MISSING_OR_EMPTY')
+            output.write_bytes(b'')
+            self.assertTrue(recording_result_error(output, 2, 0))
+            output.write_bytes(b'SYNTHETIC_FRAME')
+            self.assertTrue(recording_result_error(output, 2, 9))
+            self.assertTrue(recording_result_error(output, 0, 0))
+            self.assertEqual(recording_result_error(output, 2, 0), '')
+
+    def test_sudden_process_exit_marks_current_session_failed(self):
+        console, _ = self.make_console()
+        changes = []
+        journal = types.SimpleNamespace(transition=lambda status, **kw: changes.append((status, kw)),
+                                        load=lambda: {'status': 'RECORDING'})
+        proc = types.SimpleNamespace(stdout=io.StringIO(''), wait=lambda: -9)
+        console._rec_proc = proc
+        console._rec_journal = journal
+        console_method('_rec_stdout_reader')(console, proc, journal)
+        self.assertEqual(changes[-1][0], 'FAILED')
+        self.assertEqual(changes[-1][1]['details']['error_code'], 'PROCESS_EXIT_-9')
+        self.assertFalse(console._recording)
 
 
 if __name__ == "__main__":

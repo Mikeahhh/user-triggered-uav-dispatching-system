@@ -1,5 +1,7 @@
 # Mountain Search UAV System Technical Guide
 
+This guide describes setup, system behavior and test materials. See [paper alignment](Paper_Alignment_20260930.md) and [Android validation](Android_Only_Validation_20260930.md) for implementation and validation summaries; the corresponding [paper-alignment JSON](Paper_Alignment_Validation_20260930.json) and [Android JSON](Android_Only_Validation_20260930.json) contain result counts and source snapshot identifiers.
+
 ## 1  Archive Contents and Version
 
 Mountain Search UAV System | Technical Guide | 30 September 2026
@@ -116,7 +118,7 @@ Reference: Ordnance Survey, Map Reading, “Timing”, printed page 23. The comp
 
 ### Mobile deployment configuration
 
-For device operation, fill M/services/db/firebaseConfig.ts with the project's client configuration and use the same Realtime Database URL as the ground station. Configure the native Android or iOS toolchain, platform Firebase files and map credentials separately. From M, npm start starts Metro; npm run android or npm run ios invokes the native platform build. The screenshot and compile-only helpers use test stubs.
+The current mobile source supports Android only. For device operation, fill M/services/db/firebaseConfig.ts with the project's client configuration and use the same Realtime Database URL as the ground station. Configure the Android toolchain, native Firebase files and map credentials separately. From M, npm start starts Metro; npm run android invokes the Android build. The screenshot and compile-only helpers use synthetic configuration. Build and verification results are listed in [Android validation](Android_Only_Validation_20260930.md).
 
 ## 4  Ground-Station Verification and Dispatch
 
@@ -185,7 +187,7 @@ The flight stack uses Fast-Drone-250 from the original Drone repository at the c
 b3ac1591b63d15270c9856e7b664da0cf9d3ea48
 ```
 
-Download and placement commands are in docs/Flight_Environment_Setup.txt. The original onboard directories are /home/mike/Fast-Drone-250, /home/mike/catkin_ws and /home/mike/drone_system. On a different machine, check directory paths, camera indices, serial ports and sensor calibration.
+Download and placement commands are in [Flight environment setup](Flight_Environment_Setup.txt). Place the Fast-Drone-250 workspace, rescue_bridge catkin workspace and drone_system directory in the configured onboard workspace. Set directory paths, camera indices, serial ports and sensor calibration for that installation.
 
 The ROS environment uses Noetic and catkin. Build the external flight workspace before the rescue_bridge workspace. The default flight altitude in rescue_bridge.launch is the original project setting of 5 m. The 80 m above-ground setting in Section 6 belongs to the separate MATLAB simulation.
 
@@ -212,11 +214,11 @@ Set the MATLAB current folder to simulation and select the required entry point:
 
 ```
 run_all('paper')
-run_all('simulate')
-run_all('video')
+run_all('simulate', fullfile(pwd, '..', 'local-results', 'simulation-01'))
+run_all('video', fullfile(pwd, '..', 'local-results', 'video-01'))
 ```
 
-paper redraws the paper figure from saved trajectories into simulation/regenerated/paper. simulate recomputes all modes and replaces files in simulation/output. video replaces animation outputs there and requires ffmpeg. Preserve simulation/output in a separate working copy before simulate or video. The updated renderers use Event Booking, Quick Start and SOS; existing archived outputs retain their original provenance.
+paper redraws the figure from saved trajectories into a new directory under simulation/regenerated. simulate recomputes all modes into the selected output directory. video renders the saved trajectories into its selected directory and requires ffmpeg. Each output directory must be new; simulation/output remains the saved input and result archive. The renderers use Event Booking, Quick Start and SOS.
 
 | Mode | Input waypoints | Target arrival / s | Landing complete / s |
 | --- | --- | --- | --- |
@@ -231,6 +233,8 @@ Mode 2 timestamps use 1 m/s to construct the synthetic walking history; this is 
 The archived MATLAB computation passed 30 assertions. A separate Python verification contains 53 checks covering terrain interpolation, 80 m ground clearance, speed limits, waypoint order, return and landing, and the saved figure-axis audit. Rechecking these outputs or redrawing the figure is separate from recomputing the MATLAB scenario.
 
 ## 7  Software Verification and Relay Records
+
+The [Android validation summary](Android_Only_Validation_20260930.md#verification-results) lists the Android release checks. The software-test table below describes the saved run in records/.
 
 Verification ran on 28 September 2026 using macOS arm64, Python 3.12.14 and Node.js 24.19.0. Detailed results are in records/software.log and records/verification_summary.json.
 
@@ -251,12 +255,12 @@ TypeScript type checking, ESLint, Python syntax, dependency-version checks, and 
 
 ### Local phone-record reception and forwarding
 
-A synthetic phone record containing an SOS location and GPS data is sent through local HTTP to the UAV receiver. After the receiver saves it, the test sends a matching mission-stage message to trigger forwarding. The ground station validates and saves the received data, then sends an acknowledgement. The UAV uses that acknowledgement to complete the transfer.
+The [relay bench](../code/integration_tests/run_phone_uav_gs_bench.py) sends a synthetic phone record containing an SOS location and GPS data through local HTTP to the UAV receiver. After the receiver saves it, the execution manager completes every waypoint and continuous hold, then persists the normal landing request before forwarding. The ground station validates and saves the received data, then sends an acknowledgement. The UAV uses that acknowledgement to complete the transfer.
 
 | Record numbers | Saved contents |
 | --- | --- |
 | 01–03 | Phone request, HTTP receipt and record saved by the UAV |
-| 04–05 | Mission stage triggering forwarding and outgoing MQTT envelope |
+| 04–05 | Completed execution authorizing forwarding and outgoing MQTT envelope |
 | 06–07 | Phone record and envelope saved by the ground station |
 | 08–09 | Ground-station acknowledgement and final UAV delivery state |
 
@@ -316,7 +320,7 @@ This index follows the 30 September anonymous manuscript. M, G and U use the com
 
 Event Booking is implemented in M/services/eventBookingRecord.ts and M/pages/EventBookingPage.tsx. M/__tests__/eventBookingRecord.test.ts checks the 4 km/h estimate, complete end timestamps and route edits. G/rescue_event_manager.py detects overdue records and manages the contact steps; G/test_rescue_event_manager.py checks the transitions.
 
-Quick Start records samples in M/pages/QuickStartPage.tsx and M/services/quickStartSample.ts. G/quick_start_freshness.py uses the latest valid sample time. code/integration_tests/test_quick_start_freshness_contract.py exercises the mobile and ground-station contract, including 0.999 s, 1.000 s and 1.001 s boundary cases. Configure GS_T_LOCATION_UPDATE_SECONDS for deployment.
+Quick Start uses M/pages/AndroidQuickStartPage.tsx and M/services/persistentTracking.ts. The native TrackingService, TrackingStore and TrackingCore in M/android/app/src/main/java/com/fypproject/tracking/ collect and persist samples. G/quick_start_freshness.py uses the latest valid sample time. code/integration_tests/test_quick_start_freshness_contract.py compiles the production Kotlin gate and exercises the mobile and ground-station contract, including 0.999 s, 1.000 s and 1.001 s boundary cases. Configure GS_T_LOCATION_UPDATE_SECONDS for deployment.
 
 SOS upload and dialing are implemented in M/pages/SosPage.tsx and checked by M/__tests__/SosPage.test.tsx. G/rescue_event_manager.py enforces contact verification and explicit search confirmation. G/test_sos_verification.py checks premature confirmation, cancellation, duplicate handling and unverified legacy events. The SOS instruction change is recorded in records/sos_operator_verification_20260929.json.
 

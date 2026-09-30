@@ -16,6 +16,8 @@ from dispatch_journal import DispatchJournal
 from rescue_event_manager import detect_pending_sos, record_user_contact, convert_alert_to_rescue_event, SAFETY_UNCONFIRMED
 from execution_protocol import normalize_execution_payload, normalized_content
 from execution_state import ExecutionError, ExecutionManager
+from mission_transfer_store import MissionTransferStore
+from mission_transfer_protocol import decode
 
 NOW = 2_000_000
 
@@ -68,15 +70,17 @@ class FlightExecutionContractTests(unittest.TestCase):
                 self.assertEqual(manager.command()['execution_id'], wire['execution_id'])
 
     def test_maximum_source_length_and_duplicate_points_survive_with_extra_rtl(self):
-        prepared, wire = self.produce(count=1000)
-        manager = ExecutionManager()
-        self.addCleanup(manager.close)
-        _, state = manager.admit(normalize_execution_payload(wire), launch_fix=(22.0, 114.0))
-        self.assertEqual(state['waypoint_total'], 1001)
-        self.assertEqual(manager.queue[:1000], prepared['waypoints'])
-        self.assertEqual(manager.queue[-1], (22.0, 114.0))
+        for count in (1000, 1001, 10000, 17281, 100000):
+            with self.subTest(count=count):
+                prepared, wire = self.produce(count=count)
+                manager = ExecutionManager()
+                self.addCleanup(manager.close)
+                _, state = manager.admit(normalize_execution_payload(wire), launch_fix=(22.0, 114.0))
+                self.assertEqual(state['waypoint_total'], count + 1)
+                self.assertEqual(manager.queue[:count], prepared['waypoints'])
+                self.assertEqual(manager.queue[-1], (22.0, 114.0))
         with self.assertRaises(ValueError):
-            self.produce(count=1001)
+            self.produce(count=100001)
 
     def test_effective_parameter_boundaries_and_nulls_match(self):
         for altitude, hover in [(0.5, 0), (120, 600), (None, None)]:
@@ -135,7 +139,7 @@ class FlightExecutionContractTests(unittest.TestCase):
             self.assertIsNone(manager.feedback(mission, execution, index, 'ARRIVED'))
         self.assertIsNone(manager.feedback(wire['mission_id'], wire['execution_id'], 0, 'ARRIVED'))
         manager.feedback(wire['mission_id'], wire['execution_id'], 0, 'ACCEPTED')
-        manager.feedback(wire['mission_id'], wire['execution_id'], 0, 'ARRIVED')
+        manager.feedback(wire['mission_id'], wire['execution_id'], 0, 'ARRIVED', position_valid=True, feedback_seq=1)
         self.assertEqual(manager.tick()['phase'], 'LAND_REQUEST_PENDING')
         state = manager.land_result(True)
         self.assertEqual(state['phase'], 'LAND_REQUESTED')
@@ -154,7 +158,8 @@ class FlightExecutionContractTests(unittest.TestCase):
             def is_published(self):
                 return True
         class FakeBroker:
-            def publish(self, topic, payload, qos):
+            def publish(self, topic, payload, qos, retain=False):
+                assert retain is False
                 order.append('publish')
                 messages.append((topic, json.loads(payload), qos))
                 return Info()
@@ -168,10 +173,17 @@ class FlightExecutionContractTests(unittest.TestCase):
                                          confirm_callback=lambda *_: True, execution=wire,
                                          before_publish=authorized)
         self.assertEqual(result['status'], gs.DISPATCH_PUBLISHED)
-        self.assertEqual(order, ['durable_authorization', 'publish'])
+        self.assertEqual(order, ['durable_authorization', 'publish', 'publish', 'publish'])
         self.assertEqual(messages[0][2], 1)
-        self.assertEqual(normalize_execution_payload(messages[0][1])['content_fingerprint'],
-                         task_fingerprint(wire))
+        with tempfile.TemporaryDirectory() as directory:
+            manager = ExecutionManager(str(Path(directory) / 'execution.json'))
+            self.addCleanup(manager.close)
+            transfers = MissionTransferStore(Path(directory) / 'transfers')
+            for _, message, _ in messages:
+                decision, _, state = transfers.handle(message, manager, (22.0, 114.0))
+            self.assertTrue(decision['accepted'])
+            self.assertEqual(state['content_fingerprint'], task_fingerprint(wire))
+            self.assertEqual(manager.queue[:-1], prepared['waypoints'])
 
     def test_lost_broker_confirmation_then_gs_restart_reuses_uav_execution(self):
         user, event = self.fixture()
@@ -194,23 +206,31 @@ class FlightExecutionContractTests(unittest.TestCase):
                     current = current[segment]
                 current[self.path[-1]] = copy.deepcopy(updated)
                 return copy.deepcopy(updated)
-        manager = ExecutionManager()
-        self.addCleanup(manager.close)
         deliveries = []
+        confirmations = []
+        active_journal = [None]
         class Info:
             rc = 0
+            def __init__(self, lost=False): self.lost = lost
             def wait_for_publish(self, timeout):
-                if len(deliveries) == 1:
+                if self.lost:
                     raise TimeoutError('synthetic lost broker confirmation after UAV receipt')
             def is_published(self):
                 return True
         class Broker:
-            def publish(self, topic, payload, qos):
-                normalized = normalize_execution_payload(json.loads(payload))
-                disposition, state = manager.admit(normalized, launch_fix=(22.0, 114.0))
-                deliveries.append((disposition, state['execution_id']))
-                return Info()
+            def publish(self, topic, payload, qos, retain=False):
+                message = decode(payload.encode())
+                response, disposition, state = transfers.handle(message, manager, (22.0, 114.0))
+                if disposition is not None:
+                    deliveries.append((disposition, state['execution_id']))
+                if message['kind'] == 'QUERY':
+                    confirmations.append(response)
+                    gs.process_admission_report(response, database_root=Reference(), journal=active_journal[0])
+                return Info(message['kind'] == 'COMMIT')
         with tempfile.TemporaryDirectory() as directory:
+            manager = ExecutionManager(str(Path(directory) / 'execution.json'))
+            self.addCleanup(manager.close)
+            transfers = MissionTransferStore(Path(directory) / 'transfers')
             journal_path = Path(directory) / 'dispatch.sqlite3'
             with patch.object(gs, 'rescue_runtime_config', {'ready': True}), \
                  patch.object(gs, 'mqtt_connected', True), patch.object(gs, 'mqtt_client', Broker()), \
@@ -228,6 +248,7 @@ class FlightExecutionContractTests(unittest.TestCase):
                 self.assertEqual(first.get(('SYNTHETIC', event['event_id']))['state'], 'UNKNOWN')
                 first.close()
                 restarted = DispatchJournal(journal_path, 'synthetic-scope')
+                active_journal[0] = restarted
                 try:
                     review = gs.dispatch_rescue_event('SYNTHETIC', event['event_id'], Reference(),
                         journal=restarted, confirm_callback=lambda *_: True)
@@ -235,9 +256,10 @@ class FlightExecutionContractTests(unittest.TestCase):
                     self.assertEqual(len(deliveries), 1)
                     retry = gs.dispatch_rescue_event('SYNTHETIC', event['event_id'], Reference(),
                         journal=restarted, confirm_callback=lambda *_: True, resume_execution=True)
-                    self.assertEqual(retry['status'], gs.DISPATCH_PUBLISHED)
+                    self.assertEqual(retry['status'], gs.DISPATCH_UNKNOWN)
                     self.assertEqual(retry['execution_id'], result['execution_id'])
-                    self.assertEqual(restarted.get(('SYNTHETIC', event['event_id']))['state'], 'COMMITTED')
+                    self.assertEqual(restarted.get(('SYNTHETIC', event['event_id']))['state'], 'ACCEPTED')
+                    self.assertEqual(len(confirmations), 1)
                     self.assertEqual([entry[0] for entry in deliveries], ['NEW', 'DUPLICATE'])
                     self.assertEqual(deliveries[0][1], deliveries[1][1])
                     self.assertEqual(data['users']['SYNTHETIC']['rescue_events'][event['event_id']]['status'],

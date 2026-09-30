@@ -4,6 +4,8 @@ A system that connects hikers' mobile records with UAV search missions confirmed
 
 The implementation baseline is `UAV-SEARCH-20260928`; Git history identifies subsequent changes. Application and wire-protocol versions are recorded separately in [source metadata](code/source_revision.json).
 
+The mobile application supports Android. The [Android validation report](docs/Android_Only_Validation_20260930.md) records 658 software tests, 43 Kotlin checks and 28 SQLite checks, with emulator, ROS and simulation results listed separately.
+
 ## Demo videos
 
 | Test component | Demo video |
@@ -32,6 +34,7 @@ For every mode, the operator contacts the user or emergency contact and explicit
 | Find implementation and supporting tests | [Implementation and evidence index](docs/Technical_Guide.md#9-implementation-and-evidence-index) | Source files and saved records |
 | Run local software and saved-data checks | [scripts/verify.py](scripts/verify.py) | Python 3.12 with Tk, Node.js 24, C++14 compiler |
 | Run the phone-record relay bench | [run_phone_uav_gs_bench.py](code/integration_tests/run_phone_uav_gs_bench.py) | Python dependencies and Mosquitto |
+| Build and exercise the actual ROS mission package locally | [ROS verification](scripts/ros_local/README.md) | Local Linux container and archived message dependencies |
 | Inspect or redraw the terrain figure | [simulation/](simulation/), `run_all('paper')` | MATLAB; saved inputs are included |
 | Prepare the onboard environment | [Flight environment setup](docs/Flight_Environment_Setup.txt) | Ubuntu 20.04, ROS Noetic, external flight stack and configured hardware |
 
@@ -60,15 +63,17 @@ To repeat the relay bench with a real local broker:
 python code/integration_tests/run_phone_uav_gs_bench.py --output local-results/phone-relay-01
 ```
 
-The bench starts a temporary loopback-only Mosquitto broker. It validates local HTTP upload, MQTT forwarding, persistence and acknowledgement with synthetic records. A landing-request message triggers forwarding.
+The bench starts a temporary loopback-only Mosquitto broker. It validates local HTTP upload, MQTT forwarding, persistence and acknowledgement with synthetic records. The actual local execution manager must complete every waypoint and persist a successful land request before forwarding. An early synchronization request or landing-status message alone cannot authorize forwarding.
+
+Published summaries: [Android validation](docs/Android_Only_Validation_20260930.md), [Android JSON](docs/Android_Only_Validation_20260930.json), [paper alignment](docs/Paper_Alignment_20260930.md) and [paper-alignment JSON](docs/Paper_Alignment_Validation_20260930.json).
 
 Test materials include the [30 September verification](records/verification_20260930/summary.json), [28 September verification](records/verification_summary.json), [phone-record relay records](experiments/phone_relay_20260928/), [outdoor footage and images](experiments/outdoor/) and [demo videos](docs/Demo_Videos.md).
 
 ## Simulation and deployment
 
-In MATLAB, open `simulation/` and use `run_all('paper')` to redraw the paper figure from saved data into `simulation/regenerated/paper/`. The saved figure is [terrain_missions.png](simulation/paper_current/terrain_missions.png); its editable `.fig` is beside it. MATLAB R2025b was used for the archived simulation.
+In MATLAB, open `simulation/` and use `run_all('paper')` to redraw the paper figure from saved data into a new directory under `simulation/regenerated/`. The saved figure is [terrain_missions.png](simulation/paper_current/terrain_missions.png); its editable `.fig` is beside it. MATLAB R2025b was used for the archived simulation.
 
-`run_all('simulate')` recomputes the scenario and replaces files in `simulation/output/`; `run_all('video')` replaces animation outputs there and requires ffmpeg. Preserve the archived output directory in a separate working copy before either operation. New renderings use Event Booking, Quick Start and SOS; archived outputs retain their original provenance.
+Simulation and video regeneration require a new explicit output directory; archived outputs are protected. See `simulation/run_all.m` for supported modes and output arguments. Video generation requires ffmpeg. New renderings use Event Booking, Quick Start and SOS; archived outputs retain their original provenance.
 
 For live operation, configure the mobile Firebase file, ground-station service account, database URL, both timeout thresholds, the shared broker and UAV receiver token as described in the guide. Thresholds in the configuration template remain unset; the 1-second GPS interval is a test setting. The onboard stack is pinned to its source commit in the flight setup guide.
 
@@ -80,6 +85,6 @@ Check file integrity with:
 python scripts/check_archive.py
 ```
 
-The manifest checks packaged files; new local results are excluded. Original repository commits and local input hashes are in [source provenance](records/source_provenance.json).
+This command checks the packaged snapshot against its file manifest. Source changes are reported as checksum differences. Source snapshots and verification results are recorded in the [published JSON reports](docs/Android_Only_Validation_20260930.json); generated results are excluded from the archive manifest. Original repository commits and local input hashes are in [source provenance](records/source_provenance.json).
 
 The walking-speed reference is Ordnance Survey's *Map Reading* guide; see [Sources](docs/Sources.txt). Elevation data comes from Mapzen / Tilezen Skadi tile N22E114. Routes and GPS history are synthetic simulation inputs. Component licenses and third-party notices remain in [LICENSES/](LICENSES/); the repository does not apply one replacement license to all components.

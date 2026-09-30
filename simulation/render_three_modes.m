@@ -3,8 +3,9 @@ function render_three_modes(study,out)
 if nargin<1
     root=fileparts(mfilename('fullpath'));
     loaded=load(fullfile(root,'output','three_mode_study.mat'),'study');
-    study=loaded.study;out=fullfile(root,'output');
+    study=loaded.study;out=prepare_simulation_output();
 end
+out=prepare_simulation_output(out,false);
 c=palette();cfg=study.config;t=study.terrain;
 set(groot,'defaultAxesFontName','Helvetica','defaultTextFontName','Helvetica');
 fig=figure('Visible','off','Color','w','Position',[40 40 2100 1450], ...
