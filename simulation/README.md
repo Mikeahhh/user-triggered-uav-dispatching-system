@@ -83,7 +83,7 @@ To check saved numerical outputs without MATLAB, use the repository Python verif
 python simulation/verify_outputs.py
 ```
 
-This prints the results without writing a report. To save a new report, add `--output local-results/simulation-check-01.json`. The [current validation report](../docs/Android_Only_Validation_20260930.md#verification-results) records the separately rerun MATLAB/Python checks and 11 CSV outputs matching the saved numerical results byte for byte.
+This prints the results without writing a report. To save a new report, add `--output local-results/simulation-check-01.json`. The [current validation report](../verification/reports/Android_Only_Validation_20260930.md#verification-results) records the separately rerun MATLAB/Python checks and 11 CSV outputs matching the saved numerical results byte for byte.
 
 ## Files to inspect
 

@@ -1,4 +1,4 @@
-import { formatQuickStartTimestamp } from '../services/quickStartMetrics';
+import { formatQuickStartTimestamp } from '../src/services/quickStartMetrics';
 
 test('formats the Android preview capture timestamp and rejects invalid input', () => {
   expect(formatQuickStartTimestamp('not-a-date')).toBe('--:--');

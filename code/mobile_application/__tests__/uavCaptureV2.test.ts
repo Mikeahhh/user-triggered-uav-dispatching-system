@@ -1,5 +1,5 @@
-import { canonicalV2PayloadJson, hashV2Payload, validateCaptureV2Payload, validateCaptureReceipt, validateMissionContext } from '../services/uavCaptureV2';
-import { source, context, position, makePayload, receiptFor } from '../testSupport/uavCaptureFixtures';
+import { canonicalV2PayloadJson, hashV2Payload, validateCaptureV2Payload, validateCaptureReceipt, validateMissionContext } from '../src/services/uavCaptureV2';
+import { source, context, position, makePayload, receiptFor } from './support/uavCaptureFixtures';
 
 
 test('keeps source SOS immutable and carries exactly one fresh sample under a separate execution', () => {

@@ -1,17 +1,17 @@
 import React from 'react';
 import { Platform, Text } from 'react-native';
 import Renderer from 'react-test-renderer';
-import AndroidQuickStartPage from '../pages/AndroidQuickStartPage';
+import AndroidQuickStartPage from '../src/pages/AndroidQuickStartPage';
 import {
   readTrackingSnapshot, resumePersistentTracking, retryPersistentSync,
   startPersistentTracking, stopPersistentTracking,
-} from '../services/persistentTracking';
+} from '../src/services/persistentTracking';
 
-jest.mock('../services/db/initDb', () => ({
+jest.mock('../src/services/db/initDb', () => ({
   initDb: jest.fn().mockResolvedValue(undefined),
   getDb: () => ({ executeSql: jest.fn().mockResolvedValue([{ rows: { length: 1, item: () => ({ phone: '+852 26080101' }) } }]) }),
 }));
-jest.mock('../services/persistentTracking', () => ({
+jest.mock('../src/services/persistentTracking', () => ({
   readTrackingSnapshot: jest.fn(), resumePersistentTracking: jest.fn(),
   retryPersistentSync: jest.fn(), startPersistentTracking: jest.fn(),
   stopPersistentTracking: jest.fn(),

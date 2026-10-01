@@ -19,9 +19,8 @@ android/local.properties
 *.ipa
 *.aab
 *.log
-!records/*.log
-!records/**/*.log
-!experiments/**/broker.log
+!verification/records/*.log
+!verification/records/**/*.log
 simulation/regenerated/
 simulation/frames/
 external/

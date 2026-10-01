@@ -69,7 +69,7 @@ rsync -a \
     --exclude 'android/app/build/' \
     --exclude 'android/local.properties' \
     --exclude 'android/gradle.properties' \
-    --exclude 'services/db/firebaseConfig.ts' \
+    --exclude 'src/services/db/firebaseConfig.ts' \
     --exclude 'google-services.json' \
     --exclude '*.jks' \
     --exclude '*.keystore' \
@@ -118,7 +118,7 @@ install -m 600 \
     "$MOBILE_BUILD_COPY/android/gradle.properties"
 install -m 600 \
     "$MOBILE_BUILD_COPY/scripts/firebaseConfig.compile-only.ts" \
-    "$MOBILE_BUILD_COPY/services/db/firebaseConfig.ts"
+    "$MOBILE_BUILD_COPY/src/services/db/firebaseConfig.ts"
 
 
 "$MOBILE_BUILD_NODE_CMD" \

@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "android:debug:safe": "sh scripts/build_android_debug_safe.sh",
     "lint": "node node_modules/eslint/bin/eslint.js .",
-    "lint:uav": "node node_modules/eslint/bin/eslint.js services/uavRescueClient.ts services/uavWifiClient.ts pages/SosPage.tsx pages/SettingPage.tsx __tests__/uavRescueClient.test.ts __tests__/uavWifiClient.test.ts __tests__/SosPage.test.tsx __tests__/SettingPage.test.tsx",
+    "lint:uav": "node node_modules/eslint/bin/eslint.js src/services/uavRescueClient.ts src/services/uavWifiClient.ts src/pages/SosPage.tsx src/pages/SettingPage.tsx __tests__/uavRescueClient.test.ts __tests__/uavWifiClient.test.ts __tests__/SosPage.test.tsx __tests__/SettingPage.test.tsx",
     "version:check": "node scripts/check_version_alignment.js",
     "start": "react-native start",
     "test": "node node_modules/jest/bin/jest.js",

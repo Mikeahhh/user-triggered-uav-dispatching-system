@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { hashV1Payload } from '../services/rescueRecordHash';
+import { hashV1Payload } from '../src/services/rescueRecordHash';
 import {
   UAV_OUTBOX_MAX_ITEMS,
   UAV_OUTBOX_TTL_MS,
@@ -17,7 +17,7 @@ import {
   saveUavConnectionConfig,
   sendRescueToUav,
   setUavSessionToken,
-} from '../services/uavRescueClient';
+} from '../src/services/uavRescueClient';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock'),

@@ -1,4 +1,4 @@
-import { canonicalV1PayloadJson, hashV1Payload } from '../services/rescueRecordHash';
+import { canonicalV1PayloadJson, hashV1Payload } from '../src/services/rescueRecordHash';
 
 
 const vectors: Array<{

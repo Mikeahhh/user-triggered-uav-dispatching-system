@@ -10,10 +10,10 @@
 
 | Material | Repository location |
 | --- | --- |
-| Outdoor flight video | [outdoor_flight.mp4](../experiments/outdoor/outdoor_flight.mp4) |
-| Ground-station operation video | [ground_station.mp4](../experiments/outdoor/ground_station.mp4) |
-| UAV photograph and site images | [Outdoor materials](../experiments/outdoor/) |
-| Phone-record reception and relay | [28 September records](../experiments/phone_relay_20260928/) · [30 September records](../experiments/phone_relay_20260930/) |
-| Software verification | [28 September results](../records/verification_summary.json) · [30 September results](../records/verification_20260930/summary.json) |
+| Outdoor flight video | [outdoor_flight.mp4](assets/outdoor/outdoor_flight.mp4) |
+| Ground-station operation video | [ground_station.mp4](assets/outdoor/ground_station.mp4) |
+| UAV photograph and site images | [Outdoor materials](assets/outdoor/) |
+| Phone-record reception and relay | [28 September records](../verification/records/phone_relay/20260928/) · [30 September records](../verification/records/phone_relay/20260930/) |
+| Software verification | [28 September results](../verification/records/verification_summary.json) · [30 September results](../verification/records/verification_20260930/summary.json) |
 | Three-mode mission simulation | [Simulation](../simulation/) |
 | Setup, execution and tests | [Technical guide](Technical_Guide.md) |

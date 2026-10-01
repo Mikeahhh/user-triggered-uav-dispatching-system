@@ -3,7 +3,7 @@ import { Platform } from 'react-native';
 jest.mock('react-native-sqlite-storage', () => ({
   enablePromise: jest.fn(), openDatabase: jest.fn(),
 }));
-jest.mock('../services/db/firebaseRealtimeDatabase', () => ({
+jest.mock('../src/services/db/firebaseRealtimeDatabase', () => ({
   getRealtimeDatabaseUrl: () => 'https://synthetic-project.firebaseio.com',
 }));
 
@@ -27,8 +27,8 @@ test('both database entry points use the native migrated file and do not run leg
   const executeSql = jest.fn().mockResolvedValue([{ rows: { length: 1, item: () => ({ name: 'main', file: '/same/location_tracker.db' }) } }]);
   const opened = { executeSql, close: jest.fn() };
   sqlite.openDatabase.mockResolvedValue(opened);
-  const first = require('../services/db/initDb');
-  const second = require('../services/db/database');
+  const first = require('../src/services/db/initDb');
+  const second = require('../src/services/db/database');
   await Promise.all([first.initDb(), second.getDB()]);
   expect(first.getDb()).toBe(opened);
   expect(await second.getDB()).toBe(opened);
@@ -51,7 +51,7 @@ test('a different database path is rejected before it is used', async () => {
     close,
     executeSql: jest.fn().mockResolvedValue([{ rows: { length: 1, item: () => ({ name: 'main', file: '/wrong/location_tracker.db' }) } }]),
   });
-  const database = require('../services/db/initDb');
+  const database = require('../src/services/db/initDb');
   await expect(database.initDb()).rejects.toThrow('different databases');
   expect(close).toHaveBeenCalledTimes(1);
   expect(() => database.getDb()).toThrow('not initialized');
@@ -70,7 +70,7 @@ test('Android bind mount aliases are accepted only when native file identity agr
     executeSql: jest.fn().mockResolvedValue([{ rows: { length: 1, item: () => ({ name: 'main', file: alias }) } }]),
   };
   sqlite.openDatabase.mockResolvedValue(opened);
-  const database = require('../services/db/initDb');
+  const database = require('../src/services/db/initDb');
   await database.initDb();
   expect(database.getDb()).toBe(opened);
   expect(rn.NativeModules.PersistentTracking.matchesDatabase).toHaveBeenCalledWith(alias);

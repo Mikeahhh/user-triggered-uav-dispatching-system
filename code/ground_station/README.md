@@ -74,17 +74,30 @@ The update-timeout rule uses **sample time**, preserving the distinction between
 
 | Responsibility | Implementation |
 | --- | --- |
-| Desktop interface and route preparation | [ground_station.py](ground_station.py) |
-| Contact verification and event creation | [rescue_event_manager.py](rescue_event_manager.py) |
-| Record persistence and queue management | [rescue_repository.py](rescue_repository.py) · [active_event_queue.py](active_event_queue.py) |
-| Waiting-time priority and GPS freshness | [priority_scheduler.py](priority_scheduler.py) · [quick_start_freshness.py](quick_start_freshness.py) |
-| SOS geometry | [sos_pattern.py](sos_pattern.py) |
-| Durable mission transfer and admission | [mission_transfer_protocol.py](mission_transfer_protocol.py) · [dispatch_journal.py](dispatch_journal.py) |
-| Returned-record validation and storage | [rescue_record_protocol.py](rescue_record_protocol.py) |
+| Desktop interface and route preparation | [ground_station.py](src/ground_station.py) |
+| Contact verification and event creation | [rescue_event_manager.py](src/rescue_event_manager.py) |
+| Record persistence and queue management | [rescue_repository.py](src/rescue_repository.py) · [active_event_queue.py](src/active_event_queue.py) |
+| Waiting-time priority and GPS freshness | [priority_scheduler.py](src/priority_scheduler.py) · [quick_start_freshness.py](src/quick_start_freshness.py) |
+| SOS geometry | [sos_pattern.py](src/sos_pattern.py) |
+| Durable mission transfer and admission | [mission_transfer_protocol.py](src/mission_transfer_protocol.py) · [dispatch_journal.py](src/dispatch_journal.py) |
+| Returned-record validation and storage | [rescue_record_protocol.py](src/rescue_record_protocol.py) |
 
 ### Mission communication
 
 The ground station sends the reviewed mission and receives matching acceptance, execution status and returned records. It also supports explicit target retry and mission abort. The dispatch journal preserves the mission and execution identifiers across retries and restarts. Message transmission alone does not confirm UAV acceptance.
+
+## Project structure
+
+| Location | Contents |
+| --- | --- |
+| [main.py](main.py) | Application entry point |
+| [src/](src/) | Interface, verification workflow, route preparation and mission communication |
+| [config/](config/) | Deployment configuration template |
+| [assets/](assets/) | Application icon |
+| [packaging/](packaging/) | Windows executable build script, specification and version resources |
+| [tests/](tests/) | Automated regression checks and protocol fixtures |
+
+Run the component tests with `python tests/run.py` from this directory. The complete repository verification also runs them.
 
 ## Getting started
 
@@ -96,7 +109,7 @@ py -3.12 -m venv .venv
 python -m pip install -r code\ground_station\requirements.txt
 ```
 
-For normal operation, copy [runtime.env.example](runtime.env.example) to `runtime.env` and fill the deployment values:
+For normal operation, copy [runtime.env.example](config/runtime.env.example) to `config/runtime.env` and fill the deployment values:
 
 | Setting | Purpose |
 | --- | --- |
@@ -108,25 +121,25 @@ For normal operation, copy [runtime.env.example](runtime.env.example) to `runtim
 | `GS_STATE_DIR` | Durable dispatch state directory |
 | Communication endpoint | Shared address and port in the runtime template |
 
-Both time thresholds are unset in the template. Save the completed file as `code/ground_station/runtime.env`, then export its values into the PowerShell process before launch:
+Both time thresholds are unset in the template. Save the completed file as `code/ground_station/config/runtime.env`, then export its values into the PowerShell process before launch:
 
 ```powershell
-Get-Content code\ground_station\runtime.env | ForEach-Object {
+Get-Content code\ground_station\config\runtime.env | ForEach-Object {
     if ($_ -match '^\s*([^#=\s]+)=(.*)$') {
         [Environment]::SetEnvironmentVariable($matches[1], $matches[2].Trim(), 'Process')
     }
 }
-python code\deployment_preflight.py
+python verification\tools\deployment_preflight.py
 Set-Location code\ground_station
-python ground_station.py
+python main.py
 ```
 
-The preflight checks configuration consistency locally. For Windows executable packaging, use the existing [build script](build_windows_release.ps1) with [requirements-build.txt](requirements-build.txt). It runs the component tests, builds the executable and writes its checksum and build information. See the [technical guide](../../docs/Technical_Guide.md#4--ground-station-verification-and-dispatch) for deployment settings.
+The preflight checks configuration consistency locally. For Windows executable packaging, use the existing [build script](packaging/build_windows_release.ps1) with [requirements-build.txt](packaging/requirements-build.txt). It runs the component tests, builds the executable and writes its checksum and build information. See the [technical guide](../../docs/Technical_Guide.md#4--ground-station-verification-and-dispatch) for deployment settings.
 
 ## Verification and recorded operation
 
-The saved [30 September report](../../docs/Android_Only_Validation_20260930.md#verification-results) records the ground-station tests for that dated snapshot, with separate cross-component and protocol-fault checks. Coverage includes contact confirmation, cancellation, sample freshness, complete-route ordering, mission admission, retries and restart reconciliation.
+The saved [30 September report](../../verification/reports/Android_Only_Validation_20260930.md#verification-results) records the ground-station tests for that dated snapshot, with separate cross-component and protocol-fault checks. Coverage includes contact confirmation, cancellation, sample freshness, complete-route ordering, mission admission, retries and restart reconciliation.
 
-Use the [repository verification command](../../README.md#local-verification) for a new software run. The [phone-record relay bench](../integration_tests/run_phone_uav_gs_bench.py) exercises real loopback record return with synthetic records. Watch the [system pipeline demonstration](https://www.youtube.com/watch?v=oQvX7AQdywA) and consult the [video index](../../docs/Demo_Videos.md) for its evidence context.
+Use the [repository verification command](../../README.md#local-verification) for a new software run. The [phone-record relay bench](../../verification/integration/run_phone_uav_gs_bench.py) exercises real loopback record return with synthetic records. Watch the [system pipeline demonstration](https://www.youtube.com/watch?v=oQvX7AQdywA) and consult the [video index](../../docs/Demo_Videos.md) for its evidence context.
 
 [Next: onboard execution and record delivery →](../search_uav/README.md)

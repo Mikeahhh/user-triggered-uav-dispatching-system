@@ -43,7 +43,7 @@ All modes begin with the same event priority and use the same operator confirmat
 
 <table>
   <tr>
-    <td align="center" width="34%"><a href="code/search_uav/README.md"><img src="experiments/outdoor/airframe.jpg" alt="Existing outdoor test photograph of the UAV airframe" width="270"></a><br><strong>Physical prototype</strong><br>Existing outdoor test material</td>
+    <td align="center" width="34%"><a href="code/search_uav/README.md"><img src="docs/assets/outdoor/airframe.jpg" alt="Existing outdoor test photograph of the UAV airframe" width="270"></a><br><strong>Physical prototype</strong><br>Existing outdoor test material</td>
     <td align="center" width="66%"><a href="simulation/README.md"><img src="simulation/paper_current/terrain_missions.png" alt="Saved three-mode terrain mission figure" width="560"></a><br><strong>Shared terrain scenario</strong><br>Saved MATLAB trajectories</td>
   </tr>
 </table>
@@ -63,7 +63,7 @@ The [video and test-material index](docs/Demo_Videos.md) links each demonstratio
 | Read the complete setup and behavior guide | [Markdown](docs/Technical_Guide.md) · [PDF](docs/Technical_Guide.pdf) · [Word](docs/Technical_Guide.docx) |
 | Install and use a component | [Android](code/mobile_application/README.md#getting-started) · [Ground station](code/ground_station/README.md#getting-started) · [UAV](code/search_uav/README.md#getting-started) |
 | Find implementation and supporting tests | [Implementation and evidence index](docs/Technical_Guide.md#9-implementation-and-evidence-index) |
-| Build the ROS package locally | [Local ROS verification](scripts/ros_local/README.md) |
+| Build the ROS package locally | [Local ROS verification](verification/tools/ros_local/README.md) |
 | Redraw or recompute the terrain study | [Simulation guide](simulation/README.md#reproduce-the-study) |
 
 ## Local verification
@@ -73,12 +73,12 @@ Use Python 3.12 with Tk support, Node.js 24 and a C++14 compiler. From the repos
 ```sh
 python3.12 -m venv .venv
 source .venv/bin/activate
-python -m pip install -r requirements-verification.txt
-python scripts/prepare_local.py
+python -m pip install -r verification/requirements.txt
+python verification/tools/prepare_local.py
 cd code/mobile_application
 npm ci
 cd ../..
-python scripts/verify.py --output local-results/verification-01
+python verification/run.py --output local-results/verification-01
 ```
 
 Choose a **new output directory** for every run. Read its `summary.json`, per-step logs and `simulation_checks.json`. The software checks use synthetic inputs and mocked service connections. The preparation script creates an ignored placeholder client configuration only if the local file is absent.
@@ -86,30 +86,29 @@ Choose a **new output directory** for every run. Read its `summary.json`, per-st
 To exercise phone-record reception, return, persistence and acknowledgement with a temporary loopback-only Mosquitto broker:
 
 ```sh
-python code/integration_tests/run_phone_uav_gs_bench.py --output local-results/phone-relay-01
+python verification/integration/run_phone_uav_gs_bench.py --output local-results/phone-relay-01
 ```
 
-The [30 September Android validation report](docs/Android_Only_Validation_20260930.md) records the results of that dated software snapshot. Emulator, ROS, protocol-fault, relay, video and MATLAB results are listed separately. Running the commands above creates a new verification record for the current source.
+The [30 September Android validation report](verification/reports/Android_Only_Validation_20260930.md) records the results of that dated software snapshot. Emulator, ROS, protocol-fault, relay, video and MATLAB results are listed separately. Running the commands above creates a new verification record for the current source.
 
-The [1 October release verification](records/release_verification_20261001.json) passed 647 software tests, the native recording checks and saved simulation checks. It also passed 100 concurrent database migrations and 100 transient-lock recovery runs after the dispatch-journal startup fix.
+The [1 October layout verification](verification/reports/layout_verification_20261001.json) passed 647 software tests, the native recording checks, 52 saved-simulation checks and the loopback record relay after the directory reorganization. The earlier [startup verification](verification/records/release_verification_20261001.json) separately records 100 concurrent database migrations and 100 transient-lock recovery runs.
 
 ## Repository map
 
+Start with the three component guides or the simulation. [Documentation](docs/README.md) collects the manuals and images; [Verification](verification/README.md) explains the automated checks and saved evidence.
+
 ```text
 code/
-  mobile_application/       Android app and native recording
-  ground_station/           Operator interface and dispatch
-  search_uav/               Mission bridge, receiver and recorder
-  integration_tests/        Cross-component contracts and relay bench
-simulation/                 MATLAB study, saved trajectories and terrain
-experiments/                Outdoor material and local relay records
-docs/                       Technical guides, validation reports and figures
-records/                    Saved verification logs and file manifest
-scripts/                    Preparation and local verification tools
+  mobile_application/       Android application
+  ground_station/           Windows operator application
+  search_uav/               Onboard UAV software
+simulation/                 MATLAB study and saved numerical outputs
+docs/                       Setup manuals, figures and outdoor media
+verification/               Tests, validation tools and saved run records
 LICENSES/                   Component licenses and third-party notices
 ```
 
-The implementation baseline is `UAV-SEARCH-20260928`; Git history records later revisions. Application versions and protocol versions are recorded separately in [source metadata](code/source_revision.json).
+The implementation baseline is `UAV-SEARCH-20260928`; Git history records later revisions. Application versions and protocol versions are recorded separately in [source metadata](verification/source_revision.json).
 
 ## Deployment and evidence
 
@@ -119,14 +118,14 @@ The simulation’s 80 m above-ground cruise setting belongs to the MATLAB study.
 
 | Evidence | Read more |
 | --- | --- |
-| Current implementation and validation summary | [Android report](docs/Android_Only_Validation_20260930.md) · [Structured results](docs/Android_Only_Validation_20260930.json) |
-| Manuscript correspondence | [Paper alignment](docs/Paper_Alignment_20260930.md) · [Structured results](docs/Paper_Alignment_Validation_20260930.json) |
-| Earlier saved software runs | [30 September](records/verification_20260930/summary.json) · [28 September](records/verification_summary.json) |
-| Local phone-record relay | [Saved relay materials](experiments/phone_relay_20260928/) |
-| Photos, video and documentation images | [Outdoor archive](experiments/outdoor/) · [Image source index](docs/assets/README.md) |
+| Current implementation and validation summary | [Android report](verification/reports/Android_Only_Validation_20260930.md) · [Structured results](verification/reports/Android_Only_Validation_20260930.json) |
+| Manuscript correspondence | [Paper alignment](verification/reports/Paper_Alignment_20260930.md) · [Structured results](verification/reports/Paper_Alignment_Validation_20260930.json) |
+| Earlier saved software runs | [30 September](verification/records/verification_20260930/summary.json) · [28 September](verification/records/verification_summary.json) |
+| Local phone-record relay | [Saved relay materials](verification/records/phone_relay/20260928/) |
+| Photos, video and documentation images | [Outdoor archive](docs/assets/outdoor/) · [Image source index](docs/assets/README.md) |
 
 ## Integrity and sources
 
-Run `python scripts/check_archive.py` to check the packaged files against their manifest. Original input hashes and source commits remain in [source provenance](records/source_provenance.json). New verification output belongs in a fresh results directory.
+Run `python verification/tools/check_archive.py` to check the packaged files against their manifest. Original input hashes and source commits remain in [source provenance](verification/records/source_provenance.json). New verification output belongs in a fresh results directory.
 
 Elevation data is the Mapzen / Tilezen Skadi N22E114 tile; routes and GPS history are synthetic simulation inputs. The walking-speed reference is Ordnance Survey’s *Map Reading* guide; see [Sources](docs/Sources.txt). [Component licenses and third-party notices](LICENSES/) retain their individual terms.

@@ -6,7 +6,7 @@ import {
   parseLocalCalendarDate,
   parseLocalDateTime,
   type EventBookingItem,
-} from '../services/eventBookingRecord';
+} from '../src/services/eventBookingRecord';
 
 const route = [
   {latitude: 0, longitude: 0},

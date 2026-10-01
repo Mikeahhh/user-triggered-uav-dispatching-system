@@ -1,25 +1,25 @@
 import React from 'react';
 import { Alert } from 'react-native';
 import ReactTestRenderer from 'react-test-renderer';
-import SettingPage from '../pages/SettingPage';
+import SettingPage from '../src/pages/SettingPage';
 import {
   getUavConnectionConfig,
   saveUavConnectionConfig,
   setUavSessionToken,
-} from '../services/uavRescueClient';
+} from '../src/services/uavRescueClient';
 import {
   setUavWifiSessionPassphrase,
   validateUavWifiSessionPassphrase,
-} from '../services/uavWifiClient';
+} from '../src/services/uavWifiClient';
 
-jest.mock('../services/uavRescueClient', () => ({
+jest.mock('../src/services/uavRescueClient', () => ({
   DEFAULT_UAV_BASE_URL: 'http://192.168.31.146:8080',
   getUavConnectionConfig: jest.fn(),
   saveUavConnectionConfig: jest.fn(),
   setUavSessionToken: jest.fn(),
 }));
 
-jest.mock('../services/uavWifiClient', () => ({
+jest.mock('../src/services/uavWifiClient', () => ({
   setUavWifiSessionPassphrase: jest.fn(),
   validateUavWifiSessionPassphrase: jest.fn(),
 }));

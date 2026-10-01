@@ -40,7 +40,7 @@ requireMatch(
   'Android versionName',
 );
 
-const metadata = read('services/appMetadata.ts');
+const metadata = read('src/services/appMetadata.ts');
 requireMatch(metadata, /MOBILE_APP_VERSION = '1\.2\.0'/, 'App metadata version');
 requireMatch(metadata, /ANDROID_VERSION_CODE = 3/, 'App metadata Android code');
 requireMatch(
@@ -59,7 +59,7 @@ requireMatch(
   'UAV outbox storage version',
 );
 
-const uavRescueClient = read('services/uavRescueClient.ts');
+const uavRescueClient = read('src/services/uavRescueClient.ts');
 requireMatch(
   uavRescueClient,
   /schema_version: 1;/,
@@ -76,14 +76,14 @@ requireMatch(
   'Persistent UAV outbox envelope schema',
 );
 
-requireMatch(read('pages/SettingPage.tsx'), /v1\.2\.0/, 'Settings footer');
+requireMatch(read('src/pages/SettingPage.tsx'), /v1\.2\.0/, 'Settings footer');
 requireMatch(
-  read('translations/en/translations.json'),
+  read('src/translations/en/translations.json'),
   /Version: 1\.2\.0/,
   'English About version',
 );
 requireMatch(
-  read('translations/zh/translations.json'),
+  read('src/translations/zh/translations.json'),
   /版本：1\.2\.0/,
   'Chinese About version',
 );

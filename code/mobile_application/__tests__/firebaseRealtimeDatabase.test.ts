@@ -1,4 +1,4 @@
-jest.mock('../services/db/firebaseConfig', () => ({}));
+jest.mock('../src/services/db/firebaseConfig', () => ({}));
 
 const mockGetApp = jest.fn();
 
@@ -11,7 +11,7 @@ import {
   describeRealtimeDatabaseTarget,
   getRealtimeDatabaseUrl,
   resolveRealtimeDatabaseUrl,
-} from '../services/db/firebaseRealtimeDatabase';
+} from '../src/services/db/firebaseRealtimeDatabase';
 
 const projectId = 'rescue-drone-fyp-e0c23';
 

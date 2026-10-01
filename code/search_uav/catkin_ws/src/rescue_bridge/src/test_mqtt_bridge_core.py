@@ -129,7 +129,7 @@ class MqttBridgeCoreTests(unittest.TestCase):
     def test_hover_frame_fault_is_execution_recovery_not_ground_admission_rejection(self):
         from pathlib import Path
         ground = Path(__file__).resolve().parents[5] / 'ground_station'
-        with patch.object(sys, 'path', [str(ground)] + sys.path):
+        with patch.object(sys, 'path', [str(ground / 'src'), str(ground / 'tests')] + sys.path):
             import test_ground_station_rescue_flow as flow
         fixture = flow.RescueEventDispatchWrapperTests()
         fixture.setUp()

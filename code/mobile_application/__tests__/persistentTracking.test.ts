@@ -2,9 +2,9 @@ import { NativeModules, PermissionsAndroid, Platform } from 'react-native';
 import {
   initializePersistentTracking, persistCloudRecord, readTrackingSnapshot,
   startPersistentTracking, stopPersistentTracking,
-} from '../services/persistentTracking';
+} from '../src/services/persistentTracking';
 
-jest.mock('../services/db/firebaseRealtimeDatabase', () => ({
+jest.mock('../src/services/db/firebaseRealtimeDatabase', () => ({
   getRealtimeDatabaseUrl: () => 'https://synthetic-project-default-rtdb.firebaseio.com',
 }));
 

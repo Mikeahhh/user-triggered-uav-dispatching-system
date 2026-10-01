@@ -142,7 +142,7 @@ def check_kotlin():
         subprocess.run([java,"-cp",classpath,"org.jetbrains.kotlin.cli.jvm.K2JVMCompiler",
                         "-no-stdlib","-no-reflect","-classpath",classpath,"-d",temporary,
                         str(NATIVE/"TrackingCore.kt"),str(NATIVE/"FirebaseRestTransport.kt"),
-                        str(ROOT/"tests/tracking/TrackingCoreCheck.kt")],check=True)
+                        str(ROOT/"__tests__/native/tracking/TrackingCoreCheck.kt")],check=True)
         subprocess.run([java,"-cp",temporary+":"+classpath,"com.fypproject.tracking.TrackingCoreCheckKt"],check=True)
 
 

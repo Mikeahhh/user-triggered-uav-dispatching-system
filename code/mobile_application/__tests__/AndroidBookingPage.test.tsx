@@ -1,15 +1,15 @@
 import React from 'react';
 import { Alert, Platform, Text, TextInput } from 'react-native';
 import Renderer from 'react-test-renderer';
-import EventBookingPage from '../pages/EventBookingPage';
-import { persistCloudRecord, readPersistentRecords, refreshPersistentRecords } from '../services/persistentTracking';
+import EventBookingPage from '../src/pages/EventBookingPage';
+import { persistCloudRecord, readPersistentRecords, refreshPersistentRecords } from '../src/services/persistentTracking';
 
-jest.mock('../services/db/initDb', () => ({
+jest.mock('../src/services/db/initDb', () => ({
   initDb: jest.fn().mockResolvedValue(undefined),
   getDb: () => ({ executeSql: jest.fn().mockResolvedValue([{ rows: { length: 1, item: () => ({ phone: '26080101' }) } }]) }),
 }));
-jest.mock('../services/db/firebaseRealtimeDatabase', () => ({ buildRealtimeDatabaseRestUrl: jest.fn() }));
-jest.mock('../services/persistentTracking', () => ({
+jest.mock('../src/services/db/firebaseRealtimeDatabase', () => ({ buildRealtimeDatabaseRestUrl: jest.fn() }));
+jest.mock('../src/services/persistentTracking', () => ({
   persistCloudRecord: jest.fn(), readPersistentRecords: jest.fn(), refreshPersistentRecords: jest.fn(),
 }));
 jest.mock('react-native-maps', () => ({ __esModule: true, default: 'MapView', Polyline: 'Polyline', Marker: 'Marker' }));

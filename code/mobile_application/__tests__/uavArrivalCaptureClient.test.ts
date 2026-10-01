@@ -1,6 +1,6 @@
-import { createUavArrivalCaptureClient, UavCaptureTransferError } from '../services/uavArrivalCaptureClient';
-import { context, source, position, receiptFor } from '../testSupport/uavCaptureFixtures';
-import { canonicalV2PayloadJson, hashV2Payload } from '../services/uavCaptureV2';
+import { createUavArrivalCaptureClient, UavCaptureTransferError } from '../src/services/uavArrivalCaptureClient';
+import { context, source, position, receiptFor } from './support/uavCaptureFixtures';
+import { canonicalV2PayloadJson, hashV2Payload } from '../src/services/uavCaptureV2';
 jest.mock('@react-native-async-storage/async-storage', () => require('@react-native-async-storage/async-storage/jest/async-storage-mock'));
 jest.mock('@react-native-community/geolocation', () => ({ getCurrentPosition: jest.fn() }));
 const config = { baseUrl: 'http://127.0.0.1:8080', wifiSsid: 'TEST-UAV' };

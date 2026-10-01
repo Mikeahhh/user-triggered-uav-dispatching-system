@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactTestRenderer from 'react-test-renderer';
-import App from '../App';
+import App from '../src/App';
 
-jest.mock('../translations/i18n', () => ({}));
-jest.mock('../services/db/initDb', () => ({
+jest.mock('../src/translations/i18n', () => ({}));
+jest.mock('../src/services/db/initDb', () => ({
   initDb: jest.fn().mockResolvedValue(undefined),
 }));
-jest.mock('../services/uavRescueClient', () => ({
+jest.mock('../src/services/uavRescueClient', () => ({
   pruneExpiredUavOutbox: jest.fn().mockResolvedValue(0),
 }));
-jest.mock('../components', () => {
+jest.mock('../src/components', () => {
   const MockReact = require('react');
   const { View: MockView } = require('react-native');
   return {

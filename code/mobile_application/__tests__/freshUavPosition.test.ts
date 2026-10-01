@@ -1,6 +1,6 @@
 import { PermissionsAndroid, Platform } from 'react-native';
 import Geolocation from '@react-native-community/geolocation';
-import { captureFreshUavPosition } from '../services/freshUavPosition';
+import { captureFreshUavPosition } from '../src/services/freshUavPosition';
 jest.mock('@react-native-community/geolocation', () => ({ getCurrentPosition: jest.fn() }));
 const start = Date.parse('2026-09-09T01:00:00Z');
 const good = { timestamp: start + 50, coords: { latitude: 22, longitude: 114, accuracy: 5 } };

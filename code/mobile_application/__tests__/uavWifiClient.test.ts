@@ -9,7 +9,7 @@ import {
   disconnectFromUavWifi,
   setUavWifiSessionPassphrase,
   supportsSystemUavWifiSelection,
-} from '../services/uavWifiClient';
+} from '../src/services/uavWifiClient';
 
 const nativeConnect = jest.fn();
 const nativeDisconnect = jest.fn();

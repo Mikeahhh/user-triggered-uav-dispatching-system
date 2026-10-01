@@ -1,57 +1,57 @@
 import React from 'react';
 import { Alert, StyleSheet, Platform, PermissionsAndroid } from 'react-native';
-import { persistCloudRecord } from '../services/persistentTracking';
+import { persistCloudRecord } from '../src/services/persistentTracking';
 import ReactTestRenderer from 'react-test-renderer';
 import Geolocation from '@react-native-community/geolocation';
-import SosPage from '../pages/SosPage';
-import { getCurrentSosRequest, restoreCurrentSosFromLegacy, saveCurrentSosRequest } from '../services/currentSosStore';
-import { captureCurrentSosForUav, retrySavedUavCaptures } from '../services/uavArrivalCaptureClient';
-import { source, receiptFor } from '../testSupport/uavCaptureFixtures';
-import { getDb, initDb } from '../services/db/initDb';
+import SosPage from '../src/pages/SosPage';
+import { getCurrentSosRequest, restoreCurrentSosFromLegacy, saveCurrentSosRequest } from '../src/services/currentSosStore';
+import { captureCurrentSosForUav, retrySavedUavCaptures } from '../src/services/uavArrivalCaptureClient';
+import { source, receiptFor } from './support/uavCaptureFixtures';
+import { getDb, initDb } from '../src/services/db/initDb';
 import {
   flushPendingUavRescues,
   getUavConnectionConfig,
   getPendingUavRescues,
   queueRescueForUav,
-} from '../services/uavRescueClient';
+} from '../src/services/uavRescueClient';
 import {
   connectToUavWifi,
   disconnectFromUavWifi,
   subscribeToUavWifiLoss,
   supportsSystemUavWifiSelection,
-} from '../services/uavWifiClient';
+} from '../src/services/uavWifiClient';
 
 jest.mock('@react-native-async-storage/async-storage', () =>
   require('@react-native-async-storage/async-storage/jest/async-storage-mock'),
 );
 
-jest.mock('../services/persistentTracking', () => ({ persistCloudRecord: jest.fn() }));
+jest.mock('../src/services/persistentTracking', () => ({ persistCloudRecord: jest.fn() }));
 
 jest.mock('@react-native-community/geolocation', () => ({
   getCurrentPosition: jest.fn(),
 }));
 
-jest.mock('../services/db/initDb', () => ({
+jest.mock('../src/services/db/initDb', () => ({
   initDb: jest.fn(),
   getDb: jest.fn(),
 }));
 
-jest.mock('../services/db/firebaseRealtimeDatabase', () => ({
+jest.mock('../src/services/db/firebaseRealtimeDatabase', () => ({
   buildRealtimeDatabaseRestUrl: (...segments: string[]) =>
     `https://test-project-default-rtdb.firebaseio.com/${segments.join('/')}.json`,
 }));
 
-jest.mock('../services/uavRescueClient', () => ({
+jest.mock('../src/services/uavRescueClient', () => ({
   getUavConnectionConfig: jest.fn(),
   getPendingUavRescues: jest.fn(),
   queueRescueForUav: jest.fn(),
   flushPendingUavRescues: jest.fn(),
 }));
 
-jest.mock('../services/currentSosStore', () => ({ getCurrentSosRequest: jest.fn(), saveCurrentSosRequest: jest.fn(), restoreCurrentSosFromLegacy: jest.fn() }));
-jest.mock('../services/uavArrivalCaptureClient', () => ({ ...jest.requireActual('../services/uavArrivalCaptureClient'), captureCurrentSosForUav: jest.fn(), retrySavedUavCaptures: jest.fn() }));
+jest.mock('../src/services/currentSosStore', () => ({ getCurrentSosRequest: jest.fn(), saveCurrentSosRequest: jest.fn(), restoreCurrentSosFromLegacy: jest.fn() }));
+jest.mock('../src/services/uavArrivalCaptureClient', () => ({ ...jest.requireActual('../src/services/uavArrivalCaptureClient'), captureCurrentSosForUav: jest.fn(), retrySavedUavCaptures: jest.fn() }));
 
-jest.mock('../services/uavWifiClient', () => ({
+jest.mock('../src/services/uavWifiClient', () => ({
   connectToUavWifi: jest.fn(),
   disconnectFromUavWifi: jest.fn(),
   subscribeToUavWifiLoss: jest.fn(),

@@ -15,7 +15,7 @@ The component guides use existing manuscript figures and outdoor materials. Diag
 ## Search UAV
 
 - [Hardware figure](screenshots/uav-hardware-paper.png): `drone(alin).pdf`, the manuscript prototype figure, rendered with outer blank page margins omitted.
-- [Airframe photograph](../../experiments/outdoor/airframe.jpg): existing outdoor test image in this repository.
+- [Airframe photograph](outdoor/airframe.jpg): existing outdoor test image in this repository.
 
 ## Source figure checksums
 
@@ -30,12 +30,12 @@ The component guides use existing manuscript figures and outdoor materials. Diag
 | Diagram | Source reference |
 | --- | --- |
 | [System topology](diagrams/system-topology.svg) | [Technical guide](../Technical_Guide.md) and the three component sources |
-| [Android architecture](diagrams/mobile-architecture.svg) | [Persistent recording](../../code/mobile_application/ANDROID_RECORDING.md) |
-| [Ground-station architecture](diagrams/ground-station-architecture.svg) | [Ground station](../../code/ground_station/ground_station.py), event manager, repository and dispatch journal |
-| [Operator workflow](diagrams/operator-workflow.svg) | [Rescue event manager](../../code/ground_station/rescue_event_manager.py) and mission preparation |
+| [Android architecture](diagrams/mobile-architecture.svg) | [Persistent recording](../Android_Recording.md) |
+| [Ground-station architecture](diagrams/ground-station-architecture.svg) | [Ground station](../../code/ground_station/src/ground_station.py), event manager, repository and dispatch journal |
+| [Operator workflow](diagrams/operator-workflow.svg) | [Rescue event manager](../../code/ground_station/src/rescue_event_manager.py) and mission preparation |
 | [UAV architecture](diagrams/uav-architecture.svg) | [Mission bridge](../../code/search_uav/catkin_ws/src/rescue_bridge/src/mqtt_bridge.py) and [flight setup](../Flight_Environment_Setup.txt) |
 | [Mission lifecycle](diagrams/mission-lifecycle.svg) | [Execution state](../../code/search_uav/catkin_ws/src/rescue_bridge/src/execution_state.py) |
 | [Phone-record delivery](diagrams/record-delivery.svg) | [Receiver](../../code/search_uav/drone_system/receiver/phone_sos_receiver.py) and delivery eligibility |
 | [Simulation workflow](diagrams/simulation-workflow.svg) | [Simulation entry point](../../simulation/run_all.m) and saved scenario |
 
-The diagrams use transparent backgrounds, black text and simple connectors. Screenshots and photographs retain their original evidence scope.
+The diagrams use white backgrounds, black text and simple connectors. Screenshots and photographs retain their original evidence scope.

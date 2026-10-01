@@ -1,4 +1,4 @@
-import { getPositionCaptureTime } from '../services/positionTimestamp';
+import { getPositionCaptureTime } from '../src/services/positionTimestamp';
 
 test('preserves the actual capture timestamp of a cached location', () => {
   expect(getPositionCaptureTime({ timestamp: 1_788_912_000_000 })).toEqual({

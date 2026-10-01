@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { getCurrentSosRequest, restoreCurrentSosFromLegacy, saveCurrentSosRequest } from '../services/currentSosStore';
-import { source } from '../testSupport/uavCaptureFixtures';
+import { getCurrentSosRequest, restoreCurrentSosFromLegacy, saveCurrentSosRequest } from '../src/services/currentSosStore';
+import { source } from './support/uavCaptureFixtures';
 jest.mock('@react-native-async-storage/async-storage', () => require('@react-native-async-storage/async-storage/jest/async-storage-mock'));
 beforeEach(async () => { await AsyncStorage.clear(); jest.clearAllMocks(); });
 test('source survives outbox removal and is isolated by user', async () => {

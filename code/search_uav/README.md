@@ -10,9 +10,9 @@
 
 ## Prototype
 
-<p align="center"><img src="../../experiments/outdoor/airframe.jpg" alt="Mountain-search UAV prototype during an existing outdoor flight test" width="600"></p>
+<p align="center"><img src="../../docs/assets/outdoor/airframe.jpg" alt="Mountain-search UAV prototype during an existing outdoor flight test" width="600"></p>
 
-The photographed airframe comes from the existing outdoor test archive. The documented prototype combines an onboard computer, flight controller, depth camera and separate downward-facing recording camera. [Full-size photograph](../../experiments/outdoor/airframe.jpg) · [Outdoor footage](../../experiments/outdoor/outdoor_flight.mp4).
+The photographed airframe comes from the existing outdoor test archive. The documented prototype combines an onboard computer, flight controller, depth camera and separate downward-facing recording camera. [Full-size photograph](../../docs/assets/outdoor/airframe.jpg) · [Outdoor footage](../../docs/assets/outdoor/outdoor_flight.mp4).
 
 | Hardware | Role |
 | --- | --- |
@@ -101,8 +101,8 @@ roslaunch rescue_bridge rescue_bridge.launch mqtt_broker:=BROKER_HOST
 
 ## Verification and test material
 
-The saved [30 September validation report](../../docs/Android_Only_Validation_20260930.md) records 55 receiver tests, 69 mission-bridge tests and 22 recorder/console tests. Additional execution invariants, relay checks and ROS runtime scenarios are listed separately.
+The saved [30 September validation report](../../verification/reports/Android_Only_Validation_20260930.md) records 55 receiver tests, 69 mission-bridge tests and 22 recorder/console tests. Additional execution invariants, relay checks and ROS runtime scenarios are listed separately.
 
-The [local ROS bench](../../scripts/ros_local/README.md) builds and runs the actual bridge and commander with synthetic GPS and odometry in a local container. Its saved run passed eight scenarios and 57 assertions. The [loopback relay bench](../integration_tests/run_phone_uav_gs_bench.py) links receipt, persisted completion, forwarding, ground storage and acknowledgement.
+The [local ROS bench](../../verification/tools/ros_local/README.md) builds and runs the actual bridge and commander with synthetic GPS and odometry in a local container. Its saved run passed eight scenarios and 57 assertions. The [loopback relay bench](../../verification/integration/run_phone_uav_gs_bench.py) links receipt, persisted completion, forwarding, ground storage and acknowledgement.
 
-[Real-world test video](https://www.youtube.com/watch?v=Zf9cXaNFMGM) · [Archived outdoor materials](../../experiments/outdoor/) · [Component license](LICENSE)
+[Real-world test video](https://www.youtube.com/watch?v=Zf9cXaNFMGM) · [Archived outdoor materials](../../docs/assets/outdoor/) · [Component license](LICENSE)

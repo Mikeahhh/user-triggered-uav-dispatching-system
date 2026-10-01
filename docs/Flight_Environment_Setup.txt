@@ -49,4 +49,4 @@ bash /home/mike/drone_system/bin/start_rescue_receiver.sh
 
 The receiver's --help command only displays options. Directly launching the Python receiver requires exporting the same environment variables yourself. Before operation, check the flight-controller connection, positioning, camera indices and mission settings. Onboard recordings are managed by drone_system/launcher/cam_recorder.py and the console; inspect camera and log settings in drone_system/config/.
 
-These steps describe onboard setup and startup. The software verification in records/ ran on a local computer; the outdoor footage is retained from the existing experiments.
+These steps describe onboard setup and startup. The software verification in verification/records/ ran on a local computer; the outdoor footage is retained from the existing experiments.
