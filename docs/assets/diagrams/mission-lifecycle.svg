@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="690" viewBox="0 0 1120 690" role="img" aria-labelledby="title desc">
+  <title id="title">Mission execution lifecycle</title>
+  <desc id="desc">The normal route is sequential; fresh feedback must remain valid throughout each hold.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000000" />
+    </marker>
+  </defs>
+  <text x="40" y="49" font-family="Times New Roman, Times, serif" font-size="26" font-weight="400" fill="#000000">Mission execution lifecycle</text>
+  <text x="40" y="80" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">The normal route is sequential; fresh feedback must remain valid throughout each hold.</text>
+  <text x="60" y="152" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">01</text>
+  <text x="60" y="184" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Admit mission</text>
+  <text x="60" y="216" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Persist mission + execution IDs</text>
+  <text x="60" y="241" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Build source route and optional RTL</text>
+  <text x="420" y="152" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">02</text>
+  <text x="420" y="184" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Wait for target acceptance</text>
+  <text x="420" y="216" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">WAITING_TARGET_ACCEPTANCE</text>
+  <text x="420" y="241" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Match the current target identity</text>
+  <text x="780" y="152" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">03</text>
+  <text x="780" y="184" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Navigate</text>
+  <text x="780" y="216" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">NAVIGATING</text>
+  <text x="780" y="241" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Check horizontal and vertical arrival</text>
+  <path d="M 360 199 L 398 199" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 720 199 L 758 199" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <text x="780" y="391" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">04</text>
+  <text x="780" y="423" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Hold continuously</text>
+  <text x="780" y="455" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">HOVERING</text>
+  <text x="780" y="480" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Fresh, valid position feedback</text>
+  <text x="780" y="505" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Remain at the target for the hold</text>
+  <text x="420" y="391" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">05</text>
+  <text x="420" y="423" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Finish the queue</text>
+  <text x="420" y="455" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">LAND_REQUEST_PENDING</text>
+  <text x="420" y="480" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">All route targets and RTL complete</text>
+  <text x="420" y="505" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Publish the normal landing request</text>
+  <text x="60" y="391" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">06</text>
+  <text x="60" y="423" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Persist landing request</text>
+  <text x="60" y="455" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">LAND_REQUESTED</text>
+  <text x="60" y="480" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Authorize eligible record forwarding</text>
+  <text x="60" y="505" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Track ground acknowledgement</text>
+  <path d="M 920 266 L 920 360" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 760 435 L 722 435" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 400 435 L 362 435" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 1080 435 L 1100 435 L 1100 328 L 560 328 L 560 268" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" stroke-dasharray="7 6" />
+  <text x="630" y="313" font-family="Times New Roman, Times, serif" font-size="16" font-weight="400" fill="#000000">More targets → step 02</text>
+  <text x="40" y="630" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Timeout, invalid feedback or restart may require explicit recovery; abort does not open the delivery gate.</text>
+</svg>

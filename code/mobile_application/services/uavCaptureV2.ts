@@ -120,11 +120,11 @@ export const validateMissionContext = (value: unknown, identity: { capture_id: s
   utcTimestamp(raw.issued_at, 'context issued_at');
   return { ...raw } as UavMissionContext;
 };
-export const buildCaptureV2Payload = (source: UavRescuePayload, context: UavMissionContext, position: FreshUavPosition, device: string, testMode: boolean): UavCapturePayload => {
+export const buildCaptureV2Payload = (source: UavRescuePayload, context: UavMissionContext, position: FreshUavPosition, device: string): UavCapturePayload => {
   validateMissionContext(context, { capture_id: context.capture_id, request_id: source.request_id, user_id: source.user_id });
   return validateCaptureV2Payload({ schema_version: 2, capture_id: context.capture_id, request_id: source.request_id,
     user_id: source.user_id, context_id: context.context_id, carrier_mission_id: context.carrier_mission_id,
-    carrier_execution_id: context.carrier_execution_id, source_request: source, ...position, device, test_mode: testMode });
+    carrier_execution_id: context.carrier_execution_id, source_request: source, ...position, device, test_mode: false });
 };
 export const validateCaptureReceipt = (value: unknown, payload: UavCapturePayload): UavCaptureReceipt => {
   const raw = exact(value, RECEIPT_FIELDS);

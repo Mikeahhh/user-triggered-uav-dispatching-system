@@ -224,11 +224,11 @@ class ReadyTests(unittest.TestCase):
 class ConfigurationAndStatusTests(unittest.TestCase):
     def test_cached_or_named_firebase_app_cannot_use_another_database(self):
         cfg = {"GS_FIREBASE_DATABASE_URL": "https://new-synthetic.firebaseio.com"}
-        with patch.dict(gs.os.environ, cfg), patch.object(gs, "DEMO_SCREENSHOT_MODE", False), \
+        with patch.dict(gs.os.environ, cfg), \
              patch.object(gs, "rt_db", object()), patch.object(gs, "_firebase_active_target", "https://old-synthetic.firebaseio.com"):
             with self.assertRaisesRegex(ValueError, "target changed"): gs.initialize_firebase()
         app = SimpleNamespace(options={"databaseURL": "https://old-synthetic.firebaseio.com"})
-        with patch.dict(gs.os.environ, cfg), patch.object(gs, "DEMO_SCREENSHOT_MODE", False), \
+        with patch.dict(gs.os.environ, cfg), \
              patch.object(gs, "rt_db", None), patch.object(gs.firebase_admin, "get_app", return_value=app), \
              patch.object(gs.db, "reference") as ref:
             with self.assertRaisesRegex(ValueError, "different target"): gs.initialize_firebase()

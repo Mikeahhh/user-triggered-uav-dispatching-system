@@ -85,7 +85,6 @@ beforeEach(() => {
   (getUavConnectionConfig as jest.Mock).mockResolvedValue({
     baseUrl: 'http://127.0.0.1:8080',
     wifiSsid: 'ALIN1-UAV',
-    testMode: true,
   });
   (getPendingUavRescues as jest.Mock).mockResolvedValue([]);
   (supportsSystemUavWifiSelection as jest.Mock).mockReturnValue(true);
@@ -124,7 +123,6 @@ test('queues the original GPS capture time separately from the SOS request time'
   (getUavConnectionConfig as jest.Mock).mockResolvedValue({
     baseUrl: 'http://127.0.0.1:8080',
     wifiSsid: 'ALIN1-UAV',
-    testMode: true,
   });
   (initDb as jest.Mock).mockResolvedValue(undefined);
   (getDb as jest.Mock).mockReturnValue({
@@ -156,7 +154,7 @@ test('queues the original GPS capture time separately from the SOS request time'
   });
 
   const payload = (queueRescueForUav as jest.Mock).mock.calls[0][0];
-  expect(payload.test_mode).toBe(true);
+  expect(payload.test_mode).toBe(false);
   expect(payload.gps_points).toEqual([
     expect.objectContaining({ latitude: 22.352, longitude: 114.183 }),
   ]);
@@ -173,10 +171,9 @@ test('queues the original GPS capture time separately from the SOS request time'
   expect(queueRescueForUav).toHaveBeenCalledWith(
     payload,
     expect.objectContaining({
-      config: expect.objectContaining({ testMode: true }),
+      config: expect.objectContaining({ wifiSsid: 'ALIN1-UAV' }),
     }),
   );
-  expect(renderer!.root.findByProps({ testID: 'uav-test-mode-banner' })).toBeTruthy();
   expect(alertSpy).toHaveBeenCalled();
   alertSpy.mockRestore();
 });

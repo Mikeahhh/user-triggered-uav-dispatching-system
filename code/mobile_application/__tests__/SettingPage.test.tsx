@@ -35,7 +35,6 @@ beforeEach(() => {
   (getUavConnectionConfig as jest.Mock).mockResolvedValue({
     baseUrl: 'http://192.168.31.146:8080',
     wifiSsid: 'ALIN1-UAV',
-    testMode: true,
   });
   (saveUavConnectionConfig as jest.Mock).mockResolvedValue(undefined);
   jest.spyOn(Alert, 'alert').mockImplementation(() => {});
@@ -45,14 +44,11 @@ afterEach(() => {
   jest.restoreAllMocks();
 });
 
-test('defaults to visible TEST mode and keeps the token session-only', async () => {
+test('saves receiver settings and keeps credentials session-only', async () => {
   let renderer: ReactTestRenderer.ReactTestRenderer;
   await ReactTestRenderer.act(async () => {
     renderer = ReactTestRenderer.create(<SettingPage onSelectPage={jest.fn()} />);
   });
-  expect(
-    renderer!.root.findByProps({ testID: 'settings-uav-test-banner' }),
-  ).toBeTruthy();
 
   await ReactTestRenderer.act(async () => {
     renderer!.root
@@ -61,9 +57,6 @@ test('defaults to visible TEST mode and keeps the token session-only', async () 
     renderer!.root
       .findByProps({ testID: 'uav-wifi-passphrase-input' })
       .props.onChangeText('session-only-wifi');
-    renderer!.root
-      .findByProps({ testID: 'uav-test-mode-switch' })
-      .props.onValueChange(false);
   });
   await ReactTestRenderer.act(async () => {
     await renderer!.root
@@ -74,14 +67,10 @@ test('defaults to visible TEST mode and keeps the token session-only', async () 
   expect(saveUavConnectionConfig).toHaveBeenCalledWith({
     baseUrl: 'http://192.168.31.146:8080',
     wifiSsid: 'ALIN1-UAV',
-    testMode: false,
   });
   expect(setUavSessionToken).toHaveBeenCalledWith('session-only-token');
   expect(validateUavWifiSessionPassphrase).toHaveBeenCalledWith(
     'session-only-wifi',
   );
   expect(setUavWifiSessionPassphrase).toHaveBeenCalledWith('session-only-wifi');
-  expect(
-    renderer!.root.findAllByProps({ testID: 'settings-uav-test-banner' }),
-  ).toHaveLength(0);
 });

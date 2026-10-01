@@ -20,7 +20,6 @@ let outboxTail: Promise<void> = Promise.resolve();
 export interface UavConnectionConfig {
   baseUrl: string;
   wifiSsid: string;
-  testMode: boolean;
 }
 
 export interface StoredGpsPoint {
@@ -196,16 +195,17 @@ export const getUavConnectionConfig = async (): Promise<UavConnectionConfig> => 
     return {
       baseUrl: DEFAULT_UAV_BASE_URL,
       wifiSsid: DEFAULT_UAV_WIFI_SSID,
-      testMode: true,
     };
   }
   try {
     const parsed = JSON.parse(raw);
-    return {
+    const normalized = {
       baseUrl: normalizeBaseUrl(parsed.baseUrl || DEFAULT_UAV_BASE_URL),
       wifiSsid: normalizeWifiSsid(parsed.wifiSsid),
-      testMode: parsed.testMode !== false,
     };
+    const serialized = JSON.stringify(normalized);
+    if (raw !== serialized) await AsyncStorage.setItem(CONFIG_KEY, serialized);
+    return normalized;
   } catch {
     throw new UavRescueTransferError(
       'Stored UAV receiver settings are invalid; re-save them in Settings',
@@ -219,7 +219,6 @@ export const saveUavConnectionConfig = async (
   const normalized: UavConnectionConfig = {
     baseUrl: normalizeBaseUrl(config.baseUrl),
     wifiSsid: normalizeWifiSsid(config.wifiSsid),
-    testMode: config.testMode !== false,
   };
   await removeLegacySensitiveStorage();
   await AsyncStorage.setItem(CONFIG_KEY, JSON.stringify(normalized));

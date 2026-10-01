@@ -20,7 +20,6 @@ a = Analysis(
         'google.auth',
         'google.auth.transport.requests',
         'app_metadata',
-        'ground_station_demo',
         'rescue_event_manager',
         'priority_scheduler',
         'sos_pattern',

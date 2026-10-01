@@ -65,15 +65,6 @@ android {
         debug {
             signingConfig signingConfigs.debug
         }
-        screenshot {
-            initWith release
-            debuggable false
-            signingConfig signingConfigs.debug
-            applicationIdSuffix ".screenshot"
-            versionNameSuffix "-local-demo"
-            matchingFallbacks = ["release", "debug"]
-            minifyEnabled false
-        }
         release {
             if (hasReleaseSigning) {
                 signingConfig signingConfigs.release

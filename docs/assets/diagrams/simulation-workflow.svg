@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="585" viewBox="0 0 1120 585" role="img" aria-labelledby="title desc">
+  <title id="title">Terrain simulation workflow</title>
+  <desc id="desc">Saved data, recomputation and rendering have separate entry points and outputs.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000000" />
+    </marker>
+  </defs>
+  <text x="40" y="49" font-family="Times New Roman, Times, serif" font-size="26" font-weight="400" fill="#000000">Terrain simulation workflow</text>
+  <text x="40" y="80" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Saved data, recomputation and rendering have separate entry points and outputs.</text>
+  <text x="60" y="152" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">INPUTS</text>
+  <text x="60" y="184" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Shared scenario</text>
+  <text x="60" y="216" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">N22E114 elevation tile</text>
+  <text x="60" y="241" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Fixed seed: 20260926</text>
+  <text x="60" y="266" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Common launch and target</text>
+  <text x="60" y="291" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Synthetic routes and GPS history</text>
+  <text x="420" y="152" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">COMPUTATION</text>
+  <text x="420" y="184" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Three complete missions</text>
+  <text x="420" y="216" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">80 m terrain-following cruise</text>
+  <text x="420" y="241" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">15 m/s horizontal · 3 m/s vertical</text>
+  <text x="420" y="266" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">5 s waypoint hover</text>
+  <text x="420" y="291" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Takeoff → route → return → land</text>
+  <text x="780" y="152" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">OUTPUTS</text>
+  <text x="780" y="184" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Trajectories and figures</text>
+  <text x="780" y="216" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Per-mode waypoint and trace CSVs</text>
+  <text x="780" y="241" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Summary timings and saved study</text>
+  <text x="780" y="266" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Terrain figure and altitude profiles</text>
+  <text x="780" y="291" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Optional mission replay video</text>
+  <path d="M 360 220 L 398 220" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 720 220 L 758 220" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <text x="60" y="420" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">PAPER</text>
+  <text x="60" y="452" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Redraw saved trajectories</text>
+  <text x="60" y="484" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">run_all('paper')</text>
+  <text x="60" y="509" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Existing numbers remain unchanged</text>
+  <text x="420" y="420" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">SIMULATE</text>
+  <text x="420" y="452" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Recompute the study</text>
+  <text x="420" y="484" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">run_all('simulate', new_directory)</text>
+  <text x="420" y="509" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Write a separate result set</text>
+  <text x="780" y="420" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">VIDEO</text>
+  <text x="780" y="452" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Render a saved replay</text>
+  <text x="780" y="484" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">run_all('video', new_directory)</text>
+  <text x="780" y="509" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Requires ffmpeg</text>
+</svg>

@@ -1,48 +1,74 @@
+<p align="center">
+  <a href="code/mobile_application/README.md">Mobile application</a> ·
+  <a href="code/ground_station/README.md">Ground station</a> ·
+  <a href="code/search_uav/README.md">Search UAV</a> ·
+  <a href="simulation/README.md">Simulation</a> ·
+  <a href="docs/Technical_Guide.md">Technical guide</a>
+</p>
+
 # Mountain Search UAV
 
-A system that connects hikers' mobile records with UAV search missions confirmed by an operator. It accompanies *A User-Triggered UAV Dispatching System for Precise and Fast Mountain Search Missions* and contains the mobile application, ground station, UAV software, MATLAB terrain simulation and experimental records.
+A research system that connects hikers’ mobile records with UAV search missions confirmed by an operator. An Android application records planned trips, GPS history and SOS requests; the Windows ground station supports contact verification and route review; the onboard software executes the accepted mission and returns collected records.
 
-The implementation baseline is `UAV-SEARCH-20260928`; Git history identifies subsequent changes. Application and wire-protocol versions are recorded separately in [source metadata](code/source_revision.json).
+This repository accompanies *A User-Triggered UAV Dispatching System for Precise and Fast Mountain Search Missions*. It includes the three software components, MATLAB terrain simulation, local verification records and existing outdoor test footage.
 
-The mobile application supports Android. The [Android validation report](docs/Android_Only_Validation_20260930.md) records 658 software tests, 43 Kotlin checks and 28 SQLite checks, with emulator, ROS and simulation results listed separately.
+**Technology:** Android / React Native + Kotlin · Windows / Python + CustomTkinter · ROS Noetic + C++ · Wi-Fi · MATLAB
 
-## Demo videos
+## Explore the components
 
-| Test component | Demo video |
-| --- | --- |
-| SOS search pattern and end-to-end pipeline | [DEMO — SOS Search Pattern  End to End Pipeline](https://www.youtube.com/watch?v=oQvX7AQdywA) |
-| Onboard console and failsafe interface | [DEMO — Drone Console  On Board Failsafe GUI](https://www.youtube.com/watch?v=A7RMnk3LN9k) |
-| Real-world test footage | [DEMO — Real-World Test Footage](https://www.youtube.com/watch?v=Zf9cXaNFMGM) |
-
-Video links and related test materials are listed in [Demo videos and test materials](docs/Demo_Videos.md).
-
-## System workflow
-
-| Service mode | Mobile record | Notice for operator verification |
+| Component | What it does | Illustrated guide |
 | --- | --- | --- |
-| Mode 1: Event Booking | Planned route and departure time; end time estimated at 4 km/h | The trip exceeds its estimated end time |
-| Mode 2: Quick Start | GPS positions and sample timestamps | The latest valid sample reaches the configured update timeout |
-| Mode 3: SOS | SOS position and request time | A pending SOS request arrives |
+| **Mobile application** | Creates trip records, persists timestamped GPS and submits SOS requests | [Screens, recording architecture and Android setup](code/mobile_application/README.md) |
+| **Windows ground station** | Verifies notices, creates search events, reviews routes and coordinates dispatch | [Interface, system topology and operator workflow](code/ground_station/README.md) |
+| **Search UAV** | Receives missions, executes ordered targets, records video and relays collected phone records | [Airframe, onboard architecture and mission lifecycle](code/search_uav/README.md) |
+| **Terrain simulation** | Compares three complete missions over a shared terrain scenario | [Figures, parameters and reproduction](simulation/README.md) |
 
-For every mode, the operator contacts the user or emergency contact and explicitly confirms a search before an event is created. The operator then selects the event, prepares and reviews its route, and confirms dispatch. All modes start with the same event priority. SOS uploads go to this system's database and ground station; the separate call button opens the phone dialer. The application retains English and Chinese interface options.
+## System topology
+
+![System topology: mobile records, shared database, operator ground station and onboard UAV](docs/assets/diagrams/system-topology.svg)
+
+The operator contacts the hiker or emergency contact and **explicitly confirms a search** before a dispatchable event is created. The selected event’s route is then prepared, reviewed and dispatched. UAV admission confirms the transition into execution. [Open the diagram at full size](docs/assets/diagrams/system-topology.svg).
+
+## Three service modes
+
+| Mode | Record supplied by the phone | Notice for verification | Route after search confirmation |
+| --- | --- | --- | --- |
+| **01 · Event Booking** | Planned route and departure time; end time estimated at 4 km/h | Trip exceeds its estimated end time | Planned waypoint order |
+| **02 · Quick Start** | GPS positions with their original sample timestamps | Latest valid sample reaches the configured update timeout | Complete position history in time order |
+| **03 · SOS** | Request time and current position | A pending SOS request arrives | Expanding square around the SOS position |
+
+All modes begin with the same event priority and use the same operator confirmation process. Fresh samples at an unchanged position do not satisfy the current update-timeout rule. The separate emergency-call button opens the phone dialer; SOS uploads enter this system’s database and ground station.
+
+## See the system
+
+<table>
+  <tr>
+    <td align="center" width="34%"><a href="code/search_uav/README.md"><img src="experiments/outdoor/airframe.jpg" alt="Existing outdoor test photograph of the UAV airframe" width="270"></a><br><strong>Physical prototype</strong><br>Existing outdoor test material</td>
+    <td align="center" width="66%"><a href="simulation/README.md"><img src="simulation/paper_current/terrain_missions.png" alt="Saved three-mode terrain mission figure" width="560"></a><br><strong>Shared terrain scenario</strong><br>Saved MATLAB trajectories</td>
+  </tr>
+</table>
+
+| Watch | Focus |
+| --- | --- |
+| [SOS search pattern and end-to-end pipeline](https://www.youtube.com/watch?v=oQvX7AQdywA) | System demonstration and route preparation |
+| [Onboard console and failsafe interface](https://www.youtube.com/watch?v=A7RMnk3LN9k) | Onboard interface and controls |
+| [Real-world test footage](https://www.youtube.com/watch?v=Zf9cXaNFMGM) | Existing outdoor flight material |
+
+The [video and test-material index](docs/Demo_Videos.md) links each demonstration to its supporting repository files. Current software checks, simulated trajectories and existing outdoor footage have separate evidence scopes.
 
 ## Start here
 
-| Goal | Entry point | Requirements |
-| --- | --- | --- |
-| Understand setup and behavior | Technical guide: [Markdown](docs/Technical_Guide.md), [PDF](docs/Technical_Guide.pdf), [Word](docs/Technical_Guide.docx) | Document reader |
-| Find implementation and supporting tests | [Implementation and evidence index](docs/Technical_Guide.md#9-implementation-and-evidence-index) | Source files and saved records |
-| Run local software and saved-data checks | [scripts/verify.py](scripts/verify.py) | Python 3.12 with Tk, Node.js 24, C++14 compiler |
-| Run the phone-record relay bench | [run_phone_uav_gs_bench.py](code/integration_tests/run_phone_uav_gs_bench.py) | Python dependencies and Mosquitto |
-| Build and exercise the actual ROS mission package locally | [ROS verification](scripts/ros_local/README.md) | Local Linux container and archived message dependencies |
-| Inspect or redraw the terrain figure | [simulation/](simulation/), `run_all('paper')` | MATLAB; saved inputs are included |
-| Prepare the onboard environment | [Flight environment setup](docs/Flight_Environment_Setup.txt) | Ubuntu 20.04, ROS Noetic, external flight stack and configured hardware |
-
-The components are [mobile_application](code/mobile_application/), [ground_station](code/ground_station/) and [search_uav](code/search_uav/). Cross-component tests are in [integration_tests](code/integration_tests/).
+| Goal | Entry point |
+| --- | --- |
+| Read the complete setup and behavior guide | [Markdown](docs/Technical_Guide.md) · [PDF](docs/Technical_Guide.pdf) · [Word](docs/Technical_Guide.docx) |
+| Install and use a component | [Android](code/mobile_application/README.md#getting-started) · [Ground station](code/ground_station/README.md#getting-started) · [UAV](code/search_uav/README.md#getting-started) |
+| Find implementation and supporting tests | [Implementation and evidence index](docs/Technical_Guide.md#9-implementation-and-evidence-index) |
+| Build the ROS package locally | [Local ROS verification](scripts/ros_local/README.md) |
+| Redraw or recompute the terrain study | [Simulation guide](simulation/README.md#reproduce-the-study) |
 
 ## Local verification
 
-Use Python 3.12, Node.js 24 and a C++14 compiler. On Linux, the Python installation needs Tk support for ground-station imports. Run from the repository root:
+Use Python 3.12 with Tk support, Node.js 24 and a C++14 compiler. From the repository root:
 
 ```sh
 python3.12 -m venv .venv
@@ -55,36 +81,52 @@ cd ../..
 python scripts/verify.py --output local-results/verification-01
 ```
 
-Choose a new output directory for each run. Read `summary.json`, the per-step logs and `simulation_checks.json` in that directory. The checks use synthetic inputs and mocked service connections. `prepare_local.py` creates an ignored Firebase placeholder only when the local file is absent.
+Choose a **new output directory** for every run. Read its `summary.json`, per-step logs and `simulation_checks.json`. The software checks use synthetic inputs and mocked service connections. The preparation script creates an ignored placeholder client configuration only if the local file is absent.
 
-To repeat the relay bench with a real local broker:
+To exercise phone-record reception, return, persistence and acknowledgement with a temporary loopback-only Mosquitto broker:
 
 ```sh
 python code/integration_tests/run_phone_uav_gs_bench.py --output local-results/phone-relay-01
 ```
 
-The bench starts a temporary loopback-only Mosquitto broker. It validates local HTTP upload, MQTT forwarding, persistence and acknowledgement with synthetic records. The actual local execution manager must complete every waypoint and persist a successful land request before forwarding. An early synchronization request or landing-status message alone cannot authorize forwarding.
+The [30 September Android validation report](docs/Android_Only_Validation_20260930.md) records the results of that dated software snapshot. Emulator, ROS, protocol-fault, relay, video and MATLAB results are listed separately. Running the commands above creates a new verification record for the current source.
 
-Published summaries: [Android validation](docs/Android_Only_Validation_20260930.md), [Android JSON](docs/Android_Only_Validation_20260930.json), [paper alignment](docs/Paper_Alignment_20260930.md) and [paper-alignment JSON](docs/Paper_Alignment_Validation_20260930.json).
+The [1 October release verification](records/release_verification_20261001.json) passed 647 software tests, the native recording checks and saved simulation checks. It also passed 100 concurrent database migrations and 100 transient-lock recovery runs after the dispatch-journal startup fix.
 
-Test materials include the [30 September verification](records/verification_20260930/summary.json), [28 September verification](records/verification_summary.json), [phone-record relay records](experiments/phone_relay_20260928/), [outdoor footage and images](experiments/outdoor/) and [demo videos](docs/Demo_Videos.md).
+## Repository map
 
-## Simulation and deployment
+```text
+code/
+  mobile_application/       Android app and native recording
+  ground_station/           Operator interface and dispatch
+  search_uav/               Mission bridge, receiver and recorder
+  integration_tests/        Cross-component contracts and relay bench
+simulation/                 MATLAB study, saved trajectories and terrain
+experiments/                Outdoor material and local relay records
+docs/                       Technical guides, validation reports and figures
+records/                    Saved verification logs and file manifest
+scripts/                    Preparation and local verification tools
+LICENSES/                   Component licenses and third-party notices
+```
 
-In MATLAB, open `simulation/` and use `run_all('paper')` to redraw the paper figure from saved data into a new directory under `simulation/regenerated/`. The saved figure is [terrain_missions.png](simulation/paper_current/terrain_missions.png); its editable `.fig` is beside it. MATLAB R2025b was used for the archived simulation.
+The implementation baseline is `UAV-SEARCH-20260928`; Git history records later revisions. Application versions and protocol versions are recorded separately in [source metadata](code/source_revision.json).
 
-Simulation and video regeneration require a new explicit output directory; archived outputs are protected. See `simulation/run_all.m` for supported modes and output arguments. Video generation requires ffmpeg. New renderings use Event Booking, Quick Start and SOS; archived outputs retain their original provenance.
+## Deployment and evidence
 
-For live operation, configure the mobile Firebase file, ground-station service account, database URL, both timeout thresholds, the shared broker and UAV receiver token as described in the guide. Thresholds in the configuration template remain unset; the 1-second GPS interval is a test setting. The onboard stack is pinned to its source commit in the flight setup guide.
+The mobile source supports **Android**. Configure the shared database, ground-station credentials and timeout thresholds, reachable communication service and onboard receiver before live operation. The configuration template leaves the two ground-station thresholds unset; the 1-second location threshold appears in tests. The [technical guide](docs/Technical_Guide.md) explains these settings, and the [flight setup guide](docs/Flight_Environment_Setup.txt) pins the external flight workspace.
+
+The simulation’s 80 m above-ground cruise setting belongs to the MATLAB study. It does not override the onboard launch configuration. Existing outdoor footage supports the documented prototype observations; local software verification does not establish deployment of every current revision on a physical aircraft.
+
+| Evidence | Read more |
+| --- | --- |
+| Current implementation and validation summary | [Android report](docs/Android_Only_Validation_20260930.md) · [Structured results](docs/Android_Only_Validation_20260930.json) |
+| Manuscript correspondence | [Paper alignment](docs/Paper_Alignment_20260930.md) · [Structured results](docs/Paper_Alignment_Validation_20260930.json) |
+| Earlier saved software runs | [30 September](records/verification_20260930/summary.json) · [28 September](records/verification_summary.json) |
+| Local phone-record relay | [Saved relay materials](experiments/phone_relay_20260928/) |
+| Photos, video and documentation images | [Outdoor archive](experiments/outdoor/) · [Image source index](docs/assets/README.md) |
 
 ## Integrity and sources
 
-Check file integrity with:
+Run `python scripts/check_archive.py` to check the packaged files against their manifest. Original input hashes and source commits remain in [source provenance](records/source_provenance.json). New verification output belongs in a fresh results directory.
 
-```sh
-python scripts/check_archive.py
-```
-
-This command checks the packaged snapshot against its file manifest. Source changes are reported as checksum differences. Source snapshots and verification results are recorded in the [published JSON reports](docs/Android_Only_Validation_20260930.json); generated results are excluded from the archive manifest. Original repository commits and local input hashes are in [source provenance](records/source_provenance.json).
-
-The walking-speed reference is Ordnance Survey's *Map Reading* guide; see [Sources](docs/Sources.txt). Elevation data comes from Mapzen / Tilezen Skadi tile N22E114. Routes and GPS history are synthetic simulation inputs. Component licenses and third-party notices remain in [LICENSES/](LICENSES/); the repository does not apply one replacement license to all components.
+Elevation data is the Mapzen / Tilezen Skadi N22E114 tile; routes and GPS history are synthetic simulation inputs. The walking-speed reference is Ordnance Survey’s *Map Reading* guide; see [Sources](docs/Sources.txt). [Component licenses and third-party notices](LICENSES/) retain their individual terms.

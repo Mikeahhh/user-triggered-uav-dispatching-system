@@ -112,13 +112,13 @@ Mode 2 uploads GPS positions and sample timestamps during the hike. The ground s
 
 Mode 2 uses sampling time, not upload or receipt time. A stationary position with fresh samples does not trigger the current update-timeout rule. SOS uploads go to this system's Firebase database and ground station. The separate Call 999 Now button opens the phone dialer. The manuscript retains an earlier interface screenshot; the current English and Chinese SOS instructions explicitly describe ground-station operator verification.
 
-Implementation: M/services/eventBookingRecord.ts. Booking interface: M/pages/EventBookingPage.tsx. Tests: M/__tests__/eventBookingRecord.test.ts.
+Implementation: M/services/eventBookingRecord.ts. Booking interface: M/pages/EventBookingPage.tsx. Tests: `M/__tests__/eventBookingRecord.test.ts`.
 
 Reference: Ordnance Survey, Map Reading, “Timing”, printed page 23. The complete source link is in docs/Sources.txt.
 
 ### Mobile deployment configuration
 
-The current mobile source supports Android only. For device operation, fill M/services/db/firebaseConfig.ts with the project's client configuration and use the same Realtime Database URL as the ground station. Configure the Android toolchain, native Firebase files and map credentials separately. From M, npm start starts Metro; npm run android invokes the Android build. The screenshot and compile-only helpers use synthetic configuration. Build and verification results are listed in [Android validation](Android_Only_Validation_20260930.md).
+The current mobile source supports Android only. For device operation, fill M/services/db/firebaseConfig.ts with the project's client configuration and use the same Realtime Database URL as the ground station. Configure the Android toolchain, native Firebase files and map credentials separately. From M, npm start starts Metro; npm run android invokes the Android build. The Android compile-only helper uses synthetic configuration. Build and verification results are listed in [Android validation](Android_Only_Validation_20260930.md).
 
 ## 4  Ground-Station Verification and Dispatch
 
@@ -136,7 +136,7 @@ All three modes have the same initial event priority and the same waiting-time r
 
 ### Runtime configuration
 
-| Environment variable | Purpose |
+| Setting | Purpose |
 | --- | --- |
 | GS_FIREBASE_DATABASE_URL | Database URL shared with the mobile application |
 | GS_FIREBASE_CREDENTIALS | Local service-account file path |
@@ -144,7 +144,7 @@ All three modes have the same initial event priority and the same waiting-time r
 | GS_T_WAIT_SECONDS | Positive queue waiting-time threshold, in seconds |
 | GS_EVENT_TIMEZONE | Time zone for legacy bookings; template: Asia/Hong_Kong |
 | GS_STATE_DIR | Local directory for dispatch journal files |
-| MQTT_BROKER / MQTT_PORT | Message broker address shared with the UAV |
+| Communication endpoint | Shared service address and port; see G/runtime.env.example |
 
 Use G/runtime.env.example as the template. Supply and export the actual values, then run python ground_station.py from G. Both threshold fields are blank in the template. The 1-second GPS threshold in the tests checks time-boundary behavior.
 
@@ -167,13 +167,13 @@ Verification logic: G/rescue_event_manager.py. Persistence and mission preparati
 
 ### Mission reception and execution status
 
-The ground station and UAV exchange missions and status over Wi-Fi using MQTT messages. A mission contains event and execution identifiers, a waypoint sequence, flight altitude, hover duration and return settings. The bridge validates the mission, passes it to the flight program and reports waypoint arrivals and mission stages to the ground station.
+The ground station and UAV exchange missions and status over Wi-Fi. A mission contains event and execution identifiers, a waypoint sequence, flight altitude, hover duration and return settings. The bridge validates the mission, passes it to the flight program and reports waypoint arrivals and mission stages to the ground station.
 
 The phone-record receiver saves uploads received through its HTTP interface. After a matching mission reports completion of all waypoints and requests landing, the receiver forwards stored records to the ground station. The ground station saves each record and returns an acknowledgement matching its identifier and content hash. The UAV then marks that transfer as complete. The recording program saves downward-facing video on the onboard computer.
 
-| File within U | Purpose |
+| Location within U | Purpose |
 | --- | --- |
-| catkin_ws/src/rescue_bridge/src/mqtt_bridge.py | Mission reception and execution-status exchange |
+| catkin_ws/src/rescue_bridge/src/ | Mission communication and execution programs |
 | catkin_ws/src/rescue_bridge/src/mission_commander.cpp | Waypoint and return-stage execution |
 | drone_system/receiver/phone_sos_receiver.py | Phone-record reception, storage and forwarding |
 | drone_system/launcher/cam_recorder.py | Onboard video recording |
@@ -238,7 +238,7 @@ The [Android validation summary](Android_Only_Validation_20260930.md#verificatio
 
 Verification ran on 28 September 2026 using macOS arm64, Python 3.12.14 and Node.js 24.19.0. Detailed results are in records/software.log and records/verification_summary.json.
 
-The 30 September rerun is recorded separately in records/verification_20260930/. It passed all 624 software tests below, three verification-output regression tests and 53 saved-simulation checks. The original protocol fixture from 9 September is now included at G/fixtures/capture_record_v2.json, so its six ground-station tests no longer depend on a file outside this repository. Existing verification logs retain their original dates.
+The 30 September rerun is recorded separately in records/verification_20260930/. Selected component results are listed below. The run also passed three verification-output regression tests and 53 saved-simulation checks. The original protocol fixture from 9 September is now included at G/fixtures/capture_record_v2.json, so its six ground-station tests no longer depend on a file outside this repository. The archived software logs contain selected output for retained components and keep the original run dates.
 
 | Test group | Tests passed |
 | --- | --- |
@@ -247,9 +247,7 @@ The 30 September rerun is recorded separately in records/verification_20260930/.
 | UAV phone-record receiver | 44 |
 | UAV mission bridge | 44 |
 | Video recorder and recording state | 12 |
-| Onboard sample data | 1 |
 | Cross-component protocols and state transitions | 61 |
-| Total | 624 |
 
 TypeScript type checking, ESLint, Python syntax, dependency-version checks, and compilation and execution of the C++ target-state tests also passed. New cases cover trip-time estimation, midnight rollover, recalculation after route edits, SOS contact steps, cancellation, stale requests, repeated scans and rejection of unverified events at dispatch preparation.
 
@@ -260,7 +258,7 @@ The [relay bench](../code/integration_tests/run_phone_uav_gs_bench.py) sends a s
 | Record numbers | Saved contents |
 | --- | --- |
 | 01–03 | Phone request, HTTP receipt and record saved by the UAV |
-| 04–05 | Completed execution authorizing forwarding and outgoing MQTT envelope |
+| 04–05 | Completed execution authorizing forwarding and outgoing record envelope |
 | 06–07 | Phone record and envelope saved by the ground station |
 | 08–09 | Ground-station acknowledgement and final UAV delivery state |
 
@@ -318,11 +316,11 @@ This index follows the 30 September anonymous manuscript. M, G and U use the com
 
 ### User records and event creation
 
-Event Booking is implemented in M/services/eventBookingRecord.ts and M/pages/EventBookingPage.tsx. M/__tests__/eventBookingRecord.test.ts checks the 4 km/h estimate, complete end timestamps and route edits. G/rescue_event_manager.py detects overdue records and manages the contact steps; G/test_rescue_event_manager.py checks the transitions.
+Event Booking is implemented in M/services/eventBookingRecord.ts and M/pages/EventBookingPage.tsx. `M/__tests__/eventBookingRecord.test.ts` checks the 4 km/h estimate, complete end timestamps and route edits. G/rescue_event_manager.py detects overdue records and manages the contact steps; G/test_rescue_event_manager.py checks the transitions.
 
 Quick Start uses M/pages/AndroidQuickStartPage.tsx and M/services/persistentTracking.ts. The native TrackingService, TrackingStore and TrackingCore in M/android/app/src/main/java/com/fypproject/tracking/ collect and persist samples. G/quick_start_freshness.py uses the latest valid sample time. code/integration_tests/test_quick_start_freshness_contract.py compiles the production Kotlin gate and exercises the mobile and ground-station contract, including 0.999 s, 1.000 s and 1.001 s boundary cases. Configure GS_T_LOCATION_UPDATE_SECONDS for deployment.
 
-SOS upload and dialing are implemented in M/pages/SosPage.tsx and checked by M/__tests__/SosPage.test.tsx. G/rescue_event_manager.py enforces contact verification and explicit search confirmation. G/test_sos_verification.py checks premature confirmation, cancellation, duplicate handling and unverified legacy events. The SOS instruction change is recorded in records/sos_operator_verification_20260929.json.
+SOS upload and dialing are implemented in M/pages/SosPage.tsx and checked by `M/__tests__/SosPage.test.tsx`. G/rescue_event_manager.py enforces contact verification and explicit search confirmation. G/test_sos_verification.py checks premature confirmation, cancellation, duplicate handling and unverified legacy events. The SOS instruction change is recorded in records/sos_operator_verification_20260929.json.
 
 ### Route preparation and dispatch
 
@@ -330,7 +328,7 @@ G/ground_station.py and G/active_event_queue.py implement event selection, prepa
 
 ### Mission execution and phone records
 
-U/catkin_ws/src/rescue_bridge/src/mqtt_bridge.py receives missions and publishes status; mission_commander.cpp in the same directory advances navigation goals. The test_*.py files there and U/catkin_ws/src/rescue_bridge/test/test_target_lifecycle.cpp test local logic. A ROS build requires the environment in docs/Flight_Environment_Setup.txt.
+U/catkin_ws/src/rescue_bridge/src/ contains the mission communication program and mission_commander.cpp, which advances navigation goals. The test_*.py files there and U/catkin_ws/src/rescue_bridge/test/test_target_lifecycle.cpp test local logic. A ROS build requires the environment in docs/Flight_Environment_Setup.txt.
 
 U/drone_system/receiver/phone_sos_receiver.py and G/rescue_record_protocol.py receive, persist, forward and acknowledge records. Their adjacent test files and code/integration_tests/test_phone_uav_groundstation.py check integrity, retries and mission association. experiments/phone_relay_20260928/ and experiments/phone_relay_20260930/ preserve concrete broker-test inputs and outputs.
 

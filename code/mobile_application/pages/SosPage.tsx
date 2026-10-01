@@ -36,7 +36,6 @@ import {
 const SosPage = () => {
   const { t } = useTranslation();
   const [uavStatus, setUavStatus] = useState(t('sosPage.uav.notSent'));
-  const [uavTestMode, setUavTestMode] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [retrying, setRetrying] = useState(false);
   const submittingRef = useRef(false);
@@ -46,7 +45,6 @@ const SosPage = () => {
 
   useEffect(() => {
     getUavConnectionConfig()
-      .then(config => setUavTestMode(config.testMode))
       .catch(() => setUavStatus(t('sosPage.uav.configInvalid')));
   }, [t]);
 
@@ -135,7 +133,6 @@ const SosPage = () => {
       let config;
       try {
         config = await getUavConnectionConfig();
-        setUavTestMode(config.testMode);
       } catch {
 
         setUavStatus(t('sosPage.uav.configInvalid'));
@@ -155,7 +152,7 @@ const SosPage = () => {
         status: 'PENDING',
         device: 'android',
         gps_points: [{ latitude, longitude, captured_at: capturedAt }],
-        test_mode: config?.testMode ?? true,
+        test_mode: false,
       };
 
       const sourceAttempt = saveCurrentSosRequest(uavPayload).then(() => true).catch(() => false);
@@ -225,7 +222,6 @@ const SosPage = () => {
         }
       }
       const config = await getUavConnectionConfig();
-      setUavTestMode(config.testMode);
       stage = 'connecting';
       setUavStatus(t('sosPage.uav.connectingWifi'));
       if (supportsSystemUavWifiSelection()) {
@@ -304,7 +300,6 @@ const SosPage = () => {
       }
 
       const config = await getUavConnectionConfig();
-      setUavTestMode(config.testMode);
       if (supportsSystemUavWifiSelection()) {
         if (!config.wifiSsid) {
           setUavStatus(t('sosPage.uav.wifiNotConfigured'));
@@ -403,11 +398,6 @@ const SosPage = () => {
       </View>
       <Text style={styles.confirmText}>{t('sosPage.confirmText')}</Text>
 
-      {uavTestMode && (
-        <View testID="uav-test-mode-banner" style={styles.testModeBanner}>
-          <Text style={styles.testModeText}>{t('sosPage.uav.testBanner')}</Text>
-        </View>
-      )}
       <TouchableOpacity
         testID="sos-button"
         style={[
@@ -502,19 +492,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 32,
     lineHeight: 28,
-  },
-  testModeBanner: {
-    backgroundColor: '#F9A825',
-    borderRadius: 8,
-    paddingHorizontal: 14,
-    paddingVertical: 9,
-    marginBottom: 18,
-  },
-  testModeText: {
-    color: '#000000',
-    fontSize: 15,
-    fontWeight: 'bold',
-    textAlign: 'center',
   },
 
   sosButton: {

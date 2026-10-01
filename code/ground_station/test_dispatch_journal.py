@@ -41,6 +41,83 @@ class TaskProtocolTests(unittest.TestCase):
 
 
 class JournalTests(unittest.TestCase):
+    def test_initialization_recovers_after_a_transient_database_lock(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "locked.sqlite3"
+            blocker = sqlite3.connect(path)
+            blocker.execute("CREATE TABLE retained_evidence (value TEXT)")
+            blocker.execute("INSERT INTO retained_evidence VALUES ('original evidence')")
+            blocker.commit()
+            blocker.execute("BEGIN EXCLUSIVE")
+            busy = threading.Event()
+            errors = []
+            connections = []
+            connect = sqlite3.connect
+
+            class ObservedConnection(sqlite3.Connection):
+                def execute(self, *args, **kwargs):
+                    try:
+                        return super().execute(*args, **kwargs)
+                    except sqlite3.OperationalError as error:
+                        if error.sqlite_errorcode == sqlite3.SQLITE_BUSY:
+                            busy.set()
+                        raise
+
+            def open_connection(*args, **kwargs):
+                kwargs.update(timeout=0, factory=ObservedConnection)
+                connection = connect(*args, **kwargs)
+                connections.append(connection)
+                return connection
+
+            def open_journal():
+                try:
+                    journal = DispatchJournal(path, "synthetic")
+                    try:
+                        journal.prepare(("U", "E"), FIXTURES["cases"][0]["input"])
+                    finally:
+                        journal.close()
+                except Exception as error:
+                    errors.append(error)
+
+            with patch("dispatch_journal.sqlite3.connect", side_effect=open_connection):
+                worker = threading.Thread(target=open_journal)
+                worker.start()
+                try:
+                    self.assertTrue(busy.wait(3), "the database lock must be exercised")
+                finally:
+                    blocker.rollback()
+                    blocker.close()
+                    worker.join(10)
+                    for connection in connections:
+                        connection.close()
+            self.assertFalse(worker.is_alive())
+            self.assertFalse(errors)
+            journal = DispatchJournal(path, "synthetic")
+            try:
+                self.assertEqual(journal.get(("U", "E"))["state"], "PREPARED")
+                self.assertEqual(journal.connection.execute(
+                    "SELECT value FROM retained_evidence").fetchone()[0], "original evidence")
+            finally:
+                journal.close()
+
+    def test_invalid_database_fails_without_retry_and_closes_connection(self):
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "invalid.sqlite3"
+            content = b"invalid database contents" * 256
+            path.write_bytes(content)
+            connection = sqlite3.connect(path)
+            try:
+                with patch("dispatch_journal.sqlite3.connect", return_value=connection), \
+                        patch("dispatch_journal.time.sleep") as sleep:
+                    with self.assertRaises(sqlite3.DatabaseError):
+                        DispatchJournal(path, "synthetic")
+                    sleep.assert_not_called()
+                with self.assertRaises(sqlite3.ProgrammingError):
+                    connection.execute("SELECT 1")
+                self.assertEqual(path.read_bytes(), content)
+            finally:
+                connection.close()
+
     def test_immutable_intent_and_target_scope(self):
         with tempfile.TemporaryDirectory() as directory:
             path = Path(directory) / "journal.sqlite3"

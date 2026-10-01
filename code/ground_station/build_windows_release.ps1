@@ -60,7 +60,6 @@ $BuildInfo = @(
 $SourceFiles = @(
     "ground_station.py",
     "app_metadata.py",
-    "ground_station_demo.py",
     "rescue_event_manager.py",
     "priority_scheduler.py",
     "rescue_record_protocol.py",
@@ -72,7 +71,6 @@ $SourceFiles = @(
     "verify_runtime_dependencies.py",
     "build_windows_release.ps1",
     "test_dependency_lock.py",
-    "test_ground_station_demo.py",
     "test_ground_station_rescue_flow.py",
     "test_ground_station_runtime.py",
     "test_rescue_event_manager.py",

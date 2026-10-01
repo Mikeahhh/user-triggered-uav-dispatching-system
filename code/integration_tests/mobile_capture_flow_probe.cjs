@@ -55,7 +55,7 @@ const {loadMobile} = require('./mobile_export_probe.cjs');
   const dependencies = {storage, createId: async () => input.captureId, fetchImpl,
     now: () => (++timeReads % 2 === 1 ? input.position.capture_started_at_ms : input.position.client_timestamp_ms + 1),
     device: 'synthetic-mobile-client'};
-  const config = {baseUrl: input.baseUrl, wifiSsid: 'SYNTHETIC_UAV', testMode: true};
+  const config = {baseUrl: input.baseUrl, wifiSsid: 'SYNTHETIC_UAV'};
   const options = {wifiConfirmed: true};
   let receipt, retry, failure;
   if (input.mode === 'retry-only') {

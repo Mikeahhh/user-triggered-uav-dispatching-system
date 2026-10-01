@@ -1,9 +1,9 @@
 import { createUavArrivalCaptureClient, UavCaptureTransferError } from '../services/uavArrivalCaptureClient';
 import { context, source, position, receiptFor } from '../testSupport/uavCaptureFixtures';
-import { canonicalV2PayloadJson } from '../services/uavCaptureV2';
+import { canonicalV2PayloadJson, hashV2Payload } from '../services/uavCaptureV2';
 jest.mock('@react-native-async-storage/async-storage', () => require('@react-native-async-storage/async-storage/jest/async-storage-mock'));
 jest.mock('@react-native-community/geolocation', () => ({ getCurrentPosition: jest.fn() }));
-const config = { baseUrl: 'http://127.0.0.1:8080', wifiSsid: 'TEST-UAV', testMode: true };
+const config = { baseUrl: 'http://127.0.0.1:8080', wifiSsid: 'TEST-UAV' };
 const confirmed = { wifiConfirmed: true };
 const setup = () => {
   let raw: string | null = null;
@@ -24,12 +24,30 @@ test('persists identity/context/fresh payload before network effects, then recei
   const body = deps.postCapture.mock.calls[0][0];
   expect(body).toBe(canonicalV2PayloadJson(JSON.parse(body)));
   expect(JSON.parse(body).source_request).toEqual(source);
+  expect(JSON.parse(body).test_mode).toBe(false);
   expect(deps.capturePosition).toHaveBeenCalledTimes(1);
 });
 test('refuses unconfirmed Wi-Fi without any location or network work', async () => {
   const { client, deps } = setup();
   await expect(client.capture(source, config, { wifiConfirmed: false })).rejects.toThrow('WIFI_CONFIRMATION_REQUIRED');
   expect(deps.requestContext).not.toHaveBeenCalled(); expect(deps.capturePosition).not.toHaveBeenCalled();
+});
+test('retries an earlier stored payload without changing its content or hash', async () => {
+  const { client, deps, raw, setRaw } = setup();
+  deps.postCapture.mockRejectedValueOnce(new Error('response lost'));
+  await expect(client.capture(source, config, confirmed)).rejects.toThrow();
+  const saved = JSON.parse(raw()!);
+  const entry = saved.items[0];
+  const earlierPayload = { ...JSON.parse(entry.payload_json), test_mode: true };
+  entry.test_mode = true;
+  entry.payload_json = canonicalV2PayloadJson(earlierPayload);
+  entry.payload_sha256 = hashV2Payload(earlierPayload);
+  setRaw(JSON.stringify(saved));
+  const restarted = createUavArrivalCaptureClient(deps);
+  expect((await restarted.retry(source.user_id, config, confirmed)).sent).toBe(1);
+  expect(deps.postCapture.mock.calls[1][0]).toBe(entry.payload_json);
+  expect(JSON.parse(raw()!).items[0].receipt.payload_sha256).toBe(entry.payload_sha256);
+  expect(deps.capturePosition).toHaveBeenCalledTimes(1);
 });
 test('a lost POST response followed by process restart resends identical bytes and identity', async () => {
   const { client, deps } = setup();

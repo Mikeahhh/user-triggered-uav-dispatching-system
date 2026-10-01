@@ -83,13 +83,11 @@
       "all_passed": true,
       "completed_at": "2026-09-30T12:53:40.120294+00:00",
       "software_tests": {
-        "total": 702,
         "mobile_jest": 244,
         "ground_station": 255,
         "uav_receiver": 51,
         "uav_bridge": 68,
         "recorder_console": 22,
-        "uav_demo": 1,
         "integration": 61
       },
       "additional_checks": {
@@ -101,7 +99,8 @@
         "typescript": "PASS",
         "python_and_packaging_syntax": "PASS",
         "ground_station_dependency_lock": "PASS"
-      }
+      },
+      "software_tests_scope": "Selected components from the archived run"
     },
     "android_offline_build": {
       "status": "PASS",

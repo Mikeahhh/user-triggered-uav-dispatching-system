@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="594" viewBox="0 0 1120 594" role="img" aria-labelledby="title desc">
+  <title id="title">Phone-record delivery</title>
+  <desc id="desc">Persistent identity and matching hashes connect receipt, transfer and acknowledgement.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000000" />
+    </marker>
+  </defs>
+  <text x="40" y="49" font-family="Times New Roman, Times, serif" font-size="26" font-weight="400" fill="#000000">Phone-record delivery</text>
+  <text x="40" y="80" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Persistent identity and matching hashes connect receipt, transfer and acknowledgement.</text>
+  <text x="60" y="151" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">01 · RECEIVE</text>
+  <text x="60" y="183" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Phone → onboard HTTP</text>
+  <text x="60" y="215" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Validate the submitted record</text>
+  <text x="60" y="240" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Save original data and its hash</text>
+  <text x="60" y="265" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Bind to a live collection context</text>
+  <text x="420" y="151" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">02 · KEEP</text>
+  <text x="420" y="183" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Durable onboard store</text>
+  <text x="420" y="215" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Record survives process restart</text>
+  <text x="420" y="240" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Wait for eligible mission completion</text>
+  <text x="420" y="265" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Keep failed transfers for retry</text>
+  <text x="780" y="151" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">03 · RELEASE</text>
+  <text x="780" y="183" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Check execution journal</text>
+  <text x="780" y="215" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">All waypoints completed</text>
+  <text x="780" y="240" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Normal landing request persisted</text>
+  <text x="780" y="265" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Execution is explicitly non-aborted</text>
+  <path d="M 360 205 L 398 205" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 720 205 L 758 205" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <text x="780" y="399" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">04 · FORWARD</text>
+  <text x="780" y="431" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Record return</text>
+  <text x="780" y="463" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Deliver record + transfer hashes</text>
+  <text x="780" y="488" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Ground station validates and stores</text>
+  <text x="420" y="399" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">05 · ACKNOWLEDGE</text>
+  <text x="420" y="431" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Ground → onboard ACK</text>
+  <text x="420" y="463" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Match identifiers and both hashes</text>
+  <text x="420" y="488" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Mark transfer as acknowledged</text>
+  <text x="60" y="399" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">RESULT</text>
+  <text x="60" y="431" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Traceable delivery</text>
+  <text x="60" y="463" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Receipt ≠ successful forwarding</text>
+  <text x="60" y="488" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Forwarding ≠ acknowledgement</text>
+  <path d="M 920 292 L 920 368" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 760 440 L 722 440" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 400 440 L 362 440" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+</svg>

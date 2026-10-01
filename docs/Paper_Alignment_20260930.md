@@ -65,7 +65,7 @@ Result summaries, source snapshot hashes and reproduction commands are listed in
 
 ## Verification results
 
-The paper-alignment run completed at 12:53:40 UTC on 30 September 2026. All steps passed: 702 software tests (244 mobile, 255 ground station, 51 receiver, 68 bridge, 22 recorder/console, 1 demo and 61 integration), 42 Kotlin checks, 28 SQLite checks, 14 output-protection/network-isolation/clearance tests, TypeScript, ESLint, dependency and syntax checks, and the compiled C++ core. Long-route tests include 1,000, 1,001, 17,281 and 100,000 source points, complete ordered reconstruction with one extra RTL point, and explicit overflow rejection.
+The paper-alignment run completed at 12:53:40 UTC on 30 September 2026. All steps passed: software verification (selected archived counts: 244 mobile, 255 ground station, 51 receiver, 68 bridge, 22 recorder/console and 61 integration), 42 Kotlin checks, 28 SQLite checks, 14 output-protection/network-isolation/clearance tests, TypeScript, ESLint, dependency and syntax checks, and the compiled C++ core. Long-route tests include 1,000, 1,001, 17,281 and 100,000 source points, complete ordered reconstruction with one extra RTL point, and explicit overflow rejection.
 
 | Item | Final status | Evidence |
 | --- | --- | --- |
@@ -75,7 +75,7 @@ The paper-alignment run completed at 12:53:40 UTC on 30 September 2026. All step
 | F04: network waits block local collection | Fixed; local contracts passed | Separate sampling/control/synchronization workers and local-first persistence checks |
 | F05: recording end state can be lost | Fixed; local tests passed | Durable END, separate synchronization state and interruption/resumption checks |
 | F06: long routes are inconsistently limited | Fixed; local tests passed | Ground route generation, manifest/chunk/commit persistence, complete ordered reconstruction and C++ index bounds |
-| F07: retry/SYNC can forward collected records early | Fixed; local tests and loopback MQTT bench passed | Shared persistent completion gate, failed landing publication, abort, restart and acknowledgement regressions |
+| F07: retry/SYNC can forward collected records early | Fixed; local tests and loopback record-transfer bench passed | Shared persistent completion gate, failed landing publication, abort, restart and acknowledgement regressions |
 | Migration, GPS/local-frame conversion and continuous hold | Fixed; local checks passed | SQLite rollback and legacy preservation; paired-frame C++ tests; latched frame recovery; vertical/stale/drift/continuous-dwell tests |
 | Video failure reporting and task association | Fixed; synthetic recorder tests and actual file encoding passed | File existence/size, frame count, exit status, finalization faults and execution identity; 23 production-encoded frames decoded by OpenCV and counted independently by ffprobe |
 | Simulation settings, route order and terrain clearance | Local recomputation and independent checks passed | 36 MATLAB assertions, 52 Python checks and 11 CSV files byte-identical to archived results |

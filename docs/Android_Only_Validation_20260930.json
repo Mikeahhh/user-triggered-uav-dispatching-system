@@ -11,7 +11,6 @@
     "mobile": [
       "Android"
     ],
-    "ios_application_removed": true,
     "shared_third_party_dependencies": "Shared dependencies required by the Android application",
     "verification_environment": "macOS ARM64; isolated Android emulator; ROS Noetic Linux ARM64 container; synthetic inputs and loopback services"
   },
@@ -40,14 +39,12 @@
   "verification": {
     "software": {
       "status": "PASS",
-      "total_tests": 658,
       "by_component": {
         "android_jest": 185,
         "ground_station": 265,
         "receiver": 55,
         "mission_bridge": 69,
         "recorder_console": 22,
-        "demo": 1,
         "cross_component": 61
       },
       "kotlin_checks": 43,
@@ -57,7 +54,8 @@
       "lint": "PASS",
       "python_syntax": "PASS",
       "dependency_and_version_checks": "PASS",
-      "pure_cpp_compile_and_run": "PASS"
+      "pure_cpp_compile_and_run": "PASS",
+      "scope": "Selected components from the archived run"
     },
     "android": {
       "status": "PASS",

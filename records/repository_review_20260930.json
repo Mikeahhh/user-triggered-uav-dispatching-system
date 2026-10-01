@@ -18,7 +18,6 @@
     "Packaged the original synthetic capture v2 protocol fixture and replaced the external test-data path with a repository-relative path.",
     "Made simulation verification read-only by default and added exclusive creation of an explicitly selected report.",
     "Routed verification reports to each new results directory and added regression tests for archived-result preservation.",
-    "Used repository-local screenshot output by default while retaining the existing environment override.",
     "Aligned secondary renderer and animation titles with Event Booking, Quick Start and SOS.",
     "Expanded the README, synchronized the technical guide formats and documented deployment inputs and supporting evidence."
   ],
@@ -36,9 +35,7 @@
       "uav_receiver": 44,
       "uav_bridge": 44,
       "recording": 12,
-      "onboard_demo": 1,
-      "cross_component": 61,
-      "total": 624
+      "cross_component": 61
     },
     "output_preservation_regression_tests": 3,
     "saved_simulation_checks": 53,
@@ -46,9 +43,9 @@
     "local_relay_run": "experiments/phone_relay_20260930/run_summary.json",
     "paper_figure_redraw": "records/verification_20260930/paper_figure.json",
     "paper_png_matches_nominated_manuscript": true,
-    "screenshot_helper_shell_syntax": "passed",
     "packaged_secret_pattern_scan": "no matching private keys or provider access keys",
-    "new_python_verification_files_have_no_explanatory_comments": true
+    "new_python_verification_files_have_no_explanatory_comments": true,
+    "software_tests_scope": "Selected components from the archived run"
   },
   "review": {
     "document_pages": 9,
@@ -84,7 +81,6 @@
     "README.md": "6e77ccf22cd1d76f3e4b2ab43a5b3d9179e73470bf6fabc09dab351679208a59",
     "code/ground_station/test_capture_record_protocol_v2.py": "fb0bd210916be574788bd299c87609070e1dd0e1c4bbab1a2fa4c6d4a599ac3d",
     "code/mobile_application/__tests__/SosPage.test.tsx": "bb05dfb29736c176f6b3d1a5918a4afc13b11060ebd3ed6979128b8a4fc1bbba",
-    "code/mobile_application/scripts/build_android_screenshot_only.sh": "43236e81b8a5b9a64ede10d17bef3a7e57d367e882cf5b442145478dc8704d0f",
     "code/mobile_application/translations/en/translations.json": "1d1c8aaf913a73fe643175bddd6a3bd65d74ead22d08b9adf59405c190a13bf1",
     "code/mobile_application/translations/zh/translations.json": "868eb77ce6413342fc5745ec01dc3cdea9364fb0bffef63e4ad8a5c09a9844b8",
     "docs/Flight_Environment_Setup.txt": "a37dc1780a9073043a7b9ba59cfaa9825506343ff593757850d473301cfd81c4",

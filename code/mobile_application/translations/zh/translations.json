@@ -55,7 +55,6 @@
       "partial": "傳輸未全部完成 — 尚餘 {{remaining}} 條",
       "expired": "已移除 {{count}} 條過期記錄，未曾傳送",
       "configInvalid": "UAV 接收器設定無效，請在設定頁重新儲存",
-      "testBanner": "測試模式 — 只屬台架證據，不是戶外飛行",
       "captureButton": "採集目前位置並傳送",
       "retryCaptureButton": "重傳已儲存的位置",
       "captureExplanation": "接入無人機 Wi-Fi 後，重新取得位置並連同目前 SOS 傳送。重傳只傳送已儲存的內容，不會重新定位。",
@@ -85,8 +84,6 @@
     "profileSubtitle": "姓名、電話、緊急聯絡人",
     "language": "語言",
     "aboutApp": "關於 MyDrone",
-    "systemHealth": "發布與運行健康狀態",
-    "systemHealthSubtitle": "已脱敏截圖頁面",
     "uav": {
       "title": "UAV Wi-Fi 接收器",
       "url": "接收器網址",
@@ -96,14 +93,10 @@
       "wifiPassphraseHelp": "只有开放式 UAV 网络才可留空。WPA2 密码须为 8–63 个字符，且不会写入 App 储存。",
       "token": "工作階段令牌",
       "tokenHelp": "只保存在記憶體；App 程序重新啟動後即清除。待傳 SOS/GPS 副本會另行保存，但不包含此令牌或 Wi-Fi 密碼；24 小時後不再允許傳送，並在下次存取待傳佇列時移除。",
-      "testMode": "證據模式",
-      "testModeOn": "TEST 已開啟，記錄會明確標示為台架測試資料。",
-      "testModeOff": "PRODUCTION 已開啟；只有真正的非測試操作才應關閉 TEST。",
-      "testBanner": "測試模式已開啟 — 產生的記錄不是戶外飛行證據",
       "save": "儲存 UAV 連線設定",
       "savedTitle": "已儲存",
-      "savedMessage": "接收器網址、UAV Wi-Fi SSID 和模式已儲存；接收器令牌与 Wi-Fi 密码只在本次 App 工作階段有效。",
-      "savedWithoutToken": "接收器網址、UAV Wi-Fi SSID 和模式已儲存；目前没有接收器令牌，Wi-Fi 密码仍只在本次工作階段有效。",
+      "savedMessage": "接收器網址和 UAV Wi-Fi SSID已儲存；接收器令牌与 Wi-Fi 密码只在本次 App 工作階段有效。",
+      "savedWithoutToken": "接收器網址和 UAV Wi-Fi SSID已儲存；目前没有接收器令牌，Wi-Fi 密码仍只在本次工作階段有效。",
       "errorTitle": "設定無效",
       "invalidUrl": "請輸入有效的 HTTP 或 HTTPS 接收器網址。",
       "invalidConnection": "請檢查接收器網址、UAV Wi-Fi SSID，以及 8–63 字符的 WPA2 密码。",
@@ -124,45 +117,6 @@
       "title": "隱私政策",
       "message": "我們非常重視您的隱私。\n\n我們收集的資料包括：電話號碼、即時位置、緊急聯絡人、醫療備註等。\n\n資料用途：\n- 發送 SOS 求救請求\n- 記錄與顯示您的路線\n- 協助救援單位協調\n\n保護方式與限制：\n- 不會出售或出租您的個人資料\n- 待傳 UAV SOS/GPS 副本在 24 小時後不再允許傳送，並在下次存取待傳佇列時移除\n- UAV 接收器令牌和 Wi-Fi 密碼只保存在程序記憶體，絕不與待傳佇列一同儲存\n- 私人區域網路 HTTP 並非端對端加密，只可在可信任的 UAV Wi-Fi 使用；公網接收器必須使用 HTTPS\n- 您有權隨時查閱、更正或要求刪除您的資料\n\n如需行使權利，請聯絡我們。"
     }
-  },
-  "systemHealth": {
-    "eyebrow": "已脱敏截圖頁面",
-    "title": "Mobile 發布與運行健康狀態",
-    "disclaimer": "本頁只顯示程式版本與本機運行狀態，不顯示電話、GPS、接收器地址、SSID、令牌或 Wi-Fi 密碼，也不能作為實體飛行證據。",
-    "release": {
-      "title": "發布元資料",
-      "app": "Mobile App",
-      "androidBuild": "Android versionCode",
-      "releaseId": "系統發布 ID",
-      "protocol": "UAV 協定",
-      "outboxSchema": "待傳佇列儲存版本"
-    },
-    "runtime": {
-      "title": "本機就緒狀態",
-      "storage": "待傳佇列可讀",
-      "pending": "待傳記錄",
-      "retention": "最長保存時間",
-      "hours": "{{count}} 小時",
-      "receiverConfigured": "接收器地址已設定",
-      "wifiConfigured": "UAV SSID 已設定",
-      "androidSelector": "Android 系統 Wi-Fi 確認",
-      "mode": "證據模式",
-      "redaction": "本頁只顯示是否就緒與記錄數量。令牌和密碼只在記憶體中；持久待傳佇列只保存白名單中的 SOS/GPS 記錄及目標綁定。"
-    },
-    "workflow": {
-      "title": "用戶確認的 UAV 同步流程",
-      "one": "用戶建立 SOS 記錄，App 只加入一個目前 GPS 點。",
-      "two": "App 將白名單欄位保存至本機待傳佇列，傳送資格限 24 小時；不保存令牌或 Wi-Fi 密碼。",
-      "three": "用戶點擊同步，Android 顯示系統提供的 UAV Wi-Fi 確認對話框。",
-      "four": "用戶確認後，App 將程序流量綁定到該 WLAN，並向已設定的機載接收器傳送記錄。",
-      "five": "App 只接受 ID 相符的 STORED 回執，隨後解除 WLAN 綁定並恢復預設網路。"
-    },
-    "value": {
-      "yes": "是",
-      "no": "否",
-      "unavailable": "不可用"
-    },
-    "back": "返回設定"
   },
   "quickStartPage": {
     "title": "快速定位追蹤",
@@ -438,8 +392,7 @@
     "settings": "設置",
     "quickStart": "快速追蹤",
     "booking": "行程預約",
-    "profile": "個人檔案",
-    "health": "系統健康狀態"
+    "profile": "個人檔案"
   },
   "persistentTracking": {
     "backgroundDescription": "切換頁面或鎖定螢幕時，仍會在本機記錄路線。",

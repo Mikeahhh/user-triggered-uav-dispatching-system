@@ -6,7 +6,7 @@ The requirement source is `main_MetaCom26_anonymous.tex`, SHA-256 `76676318e4e28
 
 ## Changes
 
-The iOS project, native Apple-platform resources, Gemfile, iOS launch command, iOS build-number metadata and application-specific iOS branches have been removed. The mobile application now uses the Android native recording implementation directly. The obsolete page-owned Quick Start implementation and its exclusive helpers/tests have also been removed. React Native and other shared dependencies remain where Android requires them; transitive third-party packages are not the repository's own iOS application.
+The mobile application targets Android. Shared third-party dependencies remain where the Android application requires them.
 
 The implementation includes these corrections:
 
@@ -20,7 +20,7 @@ The implementation includes these corrections:
 
 The ROS Noetic/catkin build runs in a local ARM64 Linux container on the Mac. It builds the existing `rescue_bridge` sources and the original `quadrotor_msgs` and `cmake_utils` dependencies, generates message classes, compiles and links C++ nodes, and installs the Python executables and launch resources.
 
-Runtime verification starts ROS and MQTT processes and drives the production bridge and commander with synthetic GPS and odometry. The container uses `--network none`, a read-only source mount and an unprivileged user. Public build dependencies are obtained during environment setup. Each run saves source snapshots, dependency provenance, image digests, build logs and scenario traces.
+Runtime verification starts ROS and mission-communication processes and drives the production bridge and commander with synthetic GPS and odometry. The container uses `--network none`, a read-only source mount and an unprivileged user. Public build dependencies are obtained during environment setup. Each run saves source snapshots, dependency provenance, image digests, build logs and scenario traces.
 
 The [ROS runtime bench](../scripts/ros_local/ros_runtime_bench.py) passed eight scenarios and 57 assertions. The two-point route plus RTL produced three continuous hovers of 5.0963, 5.0867 and 5.2590 seconds. Separate cases verified vertical arrival, stale feedback, drift, mismatched GPS/odometry timestamps, invalid quaternion, missing GPS fix, and coordinate-frame failure followed by explicit recovery. Verification matched the compiled snapshot to all 37 ROS source files recorded for the run. The installed C++ executable is a real Linux ARM64 ELF binary.
 
@@ -28,14 +28,14 @@ The [ROS runtime bench](../scripts/ros_local/ros_runtime_bench.py) passed eight 
 
 | Verification | Result | Entry point |
 | --- | --- | --- |
-| Software regressions | 658 passed: Android Jest 185, ground station 265, receiver 55, mission bridge 69, recorder/console 22, demo 1 and cross-component contracts 61 | [Software runner](../scripts/verify.py) |
+| Software regressions | Selected archived counts: Android Jest 185, ground station 265, receiver 55, mission bridge 69, recorder/console 22 and cross-component contracts 61 | [Software runner](../scripts/verify.py) |
 | Native and database contracts | 43 Kotlin and 28 SQLite checks passed; TypeScript, ESLint, metadata, Python syntax and dependency checks passed | [Native checks](../code/mobile_application/scripts/test_tracking_native.py) |
 | Output protection and network isolation | 14 checks passed | [Verification checks](../scripts/) |
 | Seeded protocol faults | 2,048 scenario groups across two seed ranges and six deterministic regressions passed | [Protocol runner](../scripts/verify_protocol_faults.py) |
 | Execution invariants | 100 executions and 300 waypoints including RTL passed | [Execution tests](../code/search_uav/catkin_ws/src/rescue_bridge/src/test_execution_invariants.py) |
 | C++ and ROS | Standalone C++ checks, ROS build/install and eight runtime scenarios with 57 assertions passed | [ROS verification](../scripts/ros_local/README.md) |
 | Android build and runtime | Offline Gradle build, 19 emulator checks and independent integrity checks of 12 SQLite snapshots passed | [Android recording](../code/mobile_application/ANDROID_RECORDING.md) |
-| Record relay | HTTP receipt, completion gating, MQTT transfer, durable ground storage and hash-bound acknowledgement passed | [Relay bench](../code/integration_tests/run_phone_uav_gs_bench.py) |
+| Record relay | HTTP receipt, completion gating, record return, durable ground storage and hash-bound acknowledgement passed | [Relay bench](../code/integration_tests/run_phone_uav_gs_bench.py) |
 | Synthetic video | 16 checks and 23 encoded/decoded frames passed | [Video bench](../scripts/run_video_recording_bench.py) |
 | Paper simulation | MATLAB 36 checks and Python 52 checks passed; 11 CSV outputs matched the saved numerical results byte for byte | [Simulation checks](../simulation/verify_outputs.py) |
 
@@ -53,7 +53,7 @@ Seeded groups and additional checks are listed separately from the software-test
 | Overdue booking, GPS timeout and SOS create notices before operator verification | Actual ground-station trigger and repository tests; source timestamps remain distinct from upload/processing time |
 | Verified event, route review and explicit dispatch confirmation | Confirmation gates and seeded changes/cancellation/revocation cases cannot publish without valid authorization |
 | Mode 1 planned order, Mode 2 chronological full history with repeated positions, Mode 3 expanding square | Deterministic route regressions, seeded list/map ordering tests and the paper's MATLAB study |
-| Stage 3 begins only after UAV acceptance | Durable correlated admission, late/duplicate report handling and restart recovery; MQTT delivery alone cannot commit dispatch |
+| Stage 3 begins only after UAV acceptance | Durable correlated admission, late/duplicate report handling and restart recovery; Message delivery alone cannot commit dispatch |
 | Sequential arrival, configured hover, final RTL and landing request | Production execution-state tests, C++ geometry checks, continuous-feedback invariants and real ROS scenarios |
 | Collected phone records forwarded only after full completion and normal landing request | Shared persistent gate, all completion/abort combinations, actual loopback relay and ground-store acknowledgement tests |
 | Onboard video for human and post-flight review | Production recorder/console/journal with synthetic video encoding and decoding |

@@ -28,8 +28,30 @@ class DispatchJournal:
                 self._restrict_file(companion)
         self.scope = scope
         self.lock = threading.RLock()
-        self.connection = sqlite3.connect(str(self.path), timeout=5, check_same_thread=False)
-        self.connection.execute("PRAGMA journal_mode=WAL")
+        self.connection = sqlite3.connect(str(self.path), timeout=0, check_same_thread=False)
+        try:
+            self._enable_wal()
+            self.connection.execute("PRAGMA busy_timeout=5000")
+            self._initialize_schema()
+        except BaseException:
+            self.connection.close()
+            raise
+
+    def _enable_wal(self):
+        deadline = time.monotonic() + 5
+        while True:
+            try:
+                self.connection.execute("PRAGMA journal_mode=WAL")
+                return
+            except sqlite3.OperationalError as error:
+                code = getattr(error, "sqlite_errorcode", None)
+                remaining = deadline - time.monotonic()
+                if (code is None or (code & 0xff) not in (sqlite3.SQLITE_BUSY, sqlite3.SQLITE_LOCKED)
+                        or remaining <= 0):
+                    raise
+                time.sleep(min(0.01, remaining))
+
+    def _initialize_schema(self):
         self.connection.execute("PRAGMA synchronous=FULL")
         self.connection.execute("CREATE TABLE IF NOT EXISTS execution_intents ("
                                 "scope TEXT NOT NULL,event_key TEXT NOT NULL,execution_id TEXT NOT NULL,"

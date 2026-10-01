@@ -87,11 +87,6 @@ requireMatch(
   /版本：1\.2\.0/,
   'Chinese About version',
 );
-requireMatch(
-  read('scripts/build_android_screenshot_only.sh'),
-  /Mobile_Local_Demo_1\.2\.0_screenshot-only/,
-  'Screenshot APK filename',
-);
 
 process.stdout.write(
   `Mobile version alignment OK: ${expectedVersion}, Android ${expectedAndroidCode}, ${expectedReleaseId}, schema ${expectedProtocolSchema}, outbox v${expectedOutboxStorageVersion}\n`,

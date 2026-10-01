@@ -1,0 +1,60 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="790" viewBox="0 0 1120 790" role="img" aria-labelledby="title desc">
+  <title id="title">UAV end-to-end architecture</title>
+  <desc id="desc">Mission control exchanges tasks and status with the ground station. Phone records are stored onboard and returned separately after full route completion and a normal landing request.</desc>
+  <defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#000000" /></marker></defs>
+  <text x="40" y="49" font-family="Times New Roman, Times, serif" font-size="26" font-weight="400" fill="#000000">UAV end-to-end architecture</text>
+  <text x="40" y="80" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Mission control, onboard recording and the return of collected phone records.</text>
+  <text x="60" y="144" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">OPERATOR</text>
+  <text x="60" y="175" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Ground station</text>
+  <text x="60" y="207" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Review and confirm the route</text>
+  <text x="60" y="232" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Send the mission</text>
+  <text x="60" y="257" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Receive acceptance and status</text>
+  <text x="420" y="144" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">ONBOARD CONTROL</text>
+  <text x="420" y="175" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Mission control</text>
+  <text x="420" y="207" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Validate and accept the task</text>
+  <text x="420" y="232" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Execute ordered navigation goals</text>
+  <text x="420" y="257" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Check arrival and continuous hover</text>
+  <text x="800" y="144" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">FLIGHT AND POSITIONING</text>
+  <text x="800" y="175" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">External flight workspace</text>
+  <text x="800" y="207" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">VINS · EGO-Planner · px4ctrl</text>
+  <text x="800" y="232" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">MAVROS · flight controller</text>
+  <text x="800" y="257" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Camera, odometry and GPS inputs</text>
+  <path d="M 340 192 L 397 192" fill="none" stroke="#000000" stroke-width="1.25" marker-end="url(#arrow)" />
+  <path d="M 398 233 L 342 233" fill="none" stroke="#000000" stroke-width="1.25" marker-end="url(#arrow)" />
+  <path d="M 742 192 L 777 192" fill="none" stroke="#000000" stroke-width="1.25" marker-end="url(#arrow)" />
+  <path d="M 778 233 L 744 233" fill="none" stroke="#000000" stroke-width="1.25" marker-end="url(#arrow)" />
+  <text x="420" y="352" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">DELIVERY CONDITIONS</text>
+  <text x="420" y="383" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Execution journal</text>
+  <text x="420" y="415" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">All queued targets completed</text>
+  <text x="420" y="440" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Normal landing request persisted</text>
+  <text x="420" y="465" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">No aborted or ambiguous execution</text>
+  <text x="800" y="352" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">ONBOARD OBSERVATION</text>
+  <text x="800" y="383" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Video recording</text>
+  <text x="800" y="415" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Downward-facing camera</text>
+  <text x="800" y="440" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Video saved on the onboard computer</text>
+  <text x="800" y="465" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Human inspection after the flight</text>
+  <path d="M 560 277 L 560 323" fill="none" stroke="#000000" stroke-width="1.25" marker-end="url(#arrow)" />
+  <path d="M 740 278 L 760 278 L 760 317 L 930 317 L 930 329" fill="none" stroke="#000000" stroke-width="1.25" marker-end="url(#arrow)" stroke-dasharray="7 6" />
+  <text x="775" y="304" font-family="Times New Roman, Times, serif" font-size="16" font-weight="400" fill="#000000">Mission phase</text>
+  <text x="60" y="560" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">LOCAL WI-FI</text>
+  <text x="60" y="591" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Mobile application</text>
+  <text x="60" y="623" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">SOS and a current location</text>
+  <text x="60" y="648" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Upload to the onboard receiver</text>
+  <text x="60" y="673" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Receive storage confirmation</text>
+  <text x="420" y="560" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">ONBOARD STORAGE</text>
+  <text x="420" y="591" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Phone-record receiver</text>
+  <text x="420" y="623" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Validate and save phone records</text>
+  <text x="420" y="648" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Apply the delivery conditions</text>
+  <text x="420" y="673" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Return records and await receipt</text>
+  <text x="800" y="560" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">RECORD RETURN</text>
+  <text x="800" y="591" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Ground station</text>
+  <text x="800" y="623" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Validate and save returned records</text>
+  <text x="800" y="648" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Acknowledge the matching record</text>
+  <text x="800" y="673" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Complete the transfer</text>
+  <path d="M 340 609 L 397 609" fill="none" stroke="#000000" stroke-width="1.25" marker-end="url(#arrow)" />
+  <path d="M 398 650 L 342 650" fill="none" stroke="#000000" stroke-width="1.25" marker-end="url(#arrow)" />
+  <path d="M 742 609 L 777 609" fill="none" stroke="#000000" stroke-width="1.25" marker-end="url(#arrow)" />
+  <path d="M 778 650 L 744 650" fill="none" stroke="#000000" stroke-width="1.25" marker-end="url(#arrow)" />
+  <path d="M 560 485 L 560 534" fill="none" stroke="#000000" stroke-width="1.25" marker-end="url(#arrow)" stroke-dasharray="7 6" />
+  <text x="40" y="752" font-family="Times New Roman, Times, serif" font-size="17" font-weight="400" fill="#000000">A landing request records a command; physical touchdown requires separate flight-state evidence.</text>
+</svg>

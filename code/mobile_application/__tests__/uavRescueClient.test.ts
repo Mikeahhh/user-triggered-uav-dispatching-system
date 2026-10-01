@@ -26,12 +26,10 @@ jest.mock('@react-native-async-storage/async-storage', () =>
 const configA: UavConnectionConfig = {
   baseUrl: 'http://127.0.0.1:8080',
   wifiSsid: 'ALIN1-UAV',
-  testMode: true,
 };
 const configB: UavConnectionConfig = {
   baseUrl: 'http://127.0.0.2:8080',
   wifiSsid: 'ALIN1-UAV-B',
-  testMode: true,
 };
 
 const makePayload = (requestId = 'bench_001'): UavRescuePayload => ({
@@ -142,13 +140,15 @@ test('loads an existing v2 config without an SSID as manual-join compatible', as
     '@trigger-search/uav-rescue-config-v2',
     JSON.stringify({
       baseUrl: 'http://127.0.0.1:8080',
-      testMode: false,
+      testMode: true,
     }),
   );
   await expect(getUavConnectionConfig()).resolves.toEqual({
     baseUrl: 'http://127.0.0.1:8080',
     wifiSsid: '',
-    testMode: false,
+  });
+  expect(JSON.parse((await AsyncStorage.getItem('@trigger-search/uav-rescue-config-v2'))!)).toEqual({
+    baseUrl: 'http://127.0.0.1:8080', wifiSsid: '',
   });
 });
 

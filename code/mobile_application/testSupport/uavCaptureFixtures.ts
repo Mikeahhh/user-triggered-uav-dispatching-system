@@ -8,7 +8,7 @@ export const context: UavMissionContext = { schema_version: 2, status: 'CONTEXT_
   carrier_mission_type: 'GOTO', phase: 'HOVERING', issued_at: '2026-09-09T01:01:00Z' };
 export const position = { latitude: 22.1, longitude: 114.1, accuracy: 4, captured_at: '2026-09-09T01:01:01.123Z',
   client_timestamp_ms: Date.parse('2026-09-09T01:01:01.123Z'), capture_started_at_ms: Date.parse('2026-09-09T01:01:01.000Z') };
-export const makePayload = () => buildCaptureV2Payload(source, context, position, 'android', true);
+export const makePayload = () => buildCaptureV2Payload(source, context, position, 'android');
 export const receiptFor = (payload = makePayload()) => ({ schema_version: 2, status: 'STORED',
   capture_id: payload.capture_id, request_id: payload.request_id, context_id: payload.context_id,
   carrier_mission_id: payload.carrier_mission_id, carrier_execution_id: payload.carrier_execution_id,

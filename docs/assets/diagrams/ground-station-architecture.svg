@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="675" viewBox="0 0 1120 675" role="img" aria-labelledby="title desc">
+  <title id="title">Ground-station application architecture</title>
+  <desc id="desc">From incoming mobile records to an admitted mission and durable returned data.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000000" />
+    </marker>
+  </defs>
+  <text x="40" y="49" font-family="Times New Roman, Times, serif" font-size="26" font-weight="400" fill="#000000">Ground-station application architecture</text>
+  <text x="40" y="80" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">From incoming mobile records to an admitted mission and durable returned data.</text>
+  <text x="60" y="151" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">INPUT AND PERSISTENCE</text>
+  <text x="60" y="183" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Record repository</text>
+  <text x="60" y="215" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">rescue_repository.py</text>
+  <text x="60" y="240" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">quick_start_observations.py</text>
+  <text x="60" y="265" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Sample-time freshness checks</text>
+  <text x="420" y="151" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">VERIFICATION</text>
+  <text x="420" y="183" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Rescue event manager</text>
+  <text x="420" y="215" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">rescue_event_manager.py</text>
+  <text x="420" y="240" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Contact results and confirmation</text>
+  <text x="420" y="265" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Duplicate and cancellation guards</text>
+  <text x="780" y="151" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">OPERATOR WORKSPACE</text>
+  <text x="780" y="183" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Queue and route review</text>
+  <text x="780" y="215" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">active_event_queue.py</text>
+  <text x="780" y="240" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">priority_scheduler.py · sos_pattern.py</text>
+  <text x="780" y="265" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">ground_station.py</text>
+  <path d="M 360 212 L 398 212" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 720 212 L 758 212" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <text x="780" y="409" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">DISPATCH</text>
+  <text x="780" y="441" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Mission transfer + journal</text>
+  <text x="780" y="473" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">mission_transfer_protocol.py</text>
+  <text x="780" y="498" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">dispatch_journal.py</text>
+  <text x="780" y="523" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Correlated UAV admission</text>
+  <text x="420" y="409" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">RUNTIME</text>
+  <text x="420" y="441" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Mission communication and status</text>
+  <text x="420" y="473" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Mission / execution identifiers</text>
+  <text x="420" y="498" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Waypoint and mission progress</text>
+  <text x="420" y="523" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Retry and restart reconciliation</text>
+  <text x="60" y="409" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">RETURNED RECORDS</text>
+  <text x="60" y="441" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Ground record store</text>
+  <text x="60" y="473" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">rescue_record_protocol.py</text>
+  <text x="60" y="498" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Validate and persist envelope</text>
+  <text x="60" y="523" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Send hash-bound acknowledgement</text>
+  <path d="M 920 302 L 920 378" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 760 469 L 722 469" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 400 469 L 362 469" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <text x="40" y="622" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">UI updates use the existing application; mission admission is confirmed by the UAV.</text>
+</svg>

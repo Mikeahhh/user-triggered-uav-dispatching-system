@@ -19,21 +19,6 @@ import hashlib
 import uuid
 
 from app_metadata import APP_VERSION, SYSTEM_RELEASE_ID
-from ground_station_demo import (
-    DEMO_BANNER,
-    DEMO_BROKER_LABEL,
-    DEMO_DATA_NOTICE,
-    DEMO_DATABASE_STATUS,
-    DEMO_LOCATION_LABEL,
-    DEMO_NOW_MS,
-    DEMO_RAW_RECORDS_NOTICE,
-    DEMO_TEST_PARAMETER_NOTICE,
-    build_demo_drone_status,
-    build_demo_onboard_summary,
-    build_demo_ordered_rescue_events,
-    build_demo_pending_alerts,
-    build_demo_users_data,
-)
 from rescue_record_protocol import (
     ACK_PUBLISHED,
     RECEIVED_STORED,
@@ -124,7 +109,6 @@ FIREBASE_DATABASE_URL = load_firebase_runtime_config()["database_url"]
 FIREBASE_APP_NAME = "mass26-ground-station"
 FIREBASE_HTTP_TIMEOUT_SECONDS = 10
 INVALID_FIREBASE_KEY_CHARS = re.compile(r'[.#$\[\]/\x00-\x1f\x7f]')
-DEMO_SCREENSHOT_MODE = "--demo-screenshot" in sys.argv
 
 
 def get_firebase_credential_path():
@@ -447,8 +431,6 @@ def initialize_firebase():
 
     global rt_db, firebase_init_error, _firebase_active_target
 
-    if DEMO_SCREENSHOT_MODE:
-        raise RuntimeError("Firebase is disabled in local demo mode")
 
     config = load_firebase_runtime_config()
     if not config["ready"]:
@@ -507,136 +489,6 @@ fb_title_label = None
 logout_btn = None
 onboard_rescue_title_label = None
 onboard_rescue_status_label = None
-
-
-class OfflineDemoMap(ctk.CTkFrame):
-
-
-    def __init__(self, master, **kwargs):
-        super().__init__(master, fg_color="#101827", corner_radius=0, **kwargs)
-        self._markers = []
-        self._path = []
-        self._canvas = tk.Canvas(
-            self,
-            bg="#101827",
-            highlightthickness=0,
-            bd=0,
-        )
-        self._canvas.pack(fill="both", expand=True)
-        self._canvas.bind("<Configure>", lambda _event: self._redraw_schematic())
-
-    def set_position(self, _latitude, _longitude):
-        return None
-
-    def set_zoom(self, _zoom):
-        return None
-
-    def delete_all_marker(self):
-        self._markers = []
-        self._redraw_schematic()
-
-    def delete_all_path(self):
-        self._path = []
-        self._redraw_schematic()
-
-    def set_marker(self, latitude, longitude, text=""):
-        self._markers.append((float(latitude), float(longitude), str(text)))
-        self._redraw_schematic()
-
-    def set_path(self, coordinates):
-        self._path = [(float(lat), float(lon)) for lat, lon in coordinates]
-        self._redraw_schematic()
-
-    def _project(self, points, width, height):
-        if not points:
-            return []
-        latitudes = [point[0] for point in points]
-        longitudes = [point[1] for point in points]
-        lat_min, lat_max = min(latitudes), max(latitudes)
-        lon_min, lon_max = min(longitudes), max(longitudes)
-        lat_span = max(lat_max - lat_min, 0.0001)
-        lon_span = max(lon_max - lon_min, 0.0001)
-        margin_x = max(80, width * 0.14)
-        margin_y = max(100, height * 0.18)
-        usable_w = max(1, width - 2 * margin_x)
-        usable_h = max(1, height - 2 * margin_y)
-        return [
-            (
-                margin_x + ((lon - lon_min) / lon_span) * usable_w,
-                height - margin_y - ((lat - lat_min) / lat_span) * usable_h,
-            )
-            for lat, lon in points
-        ]
-
-    def _redraw_schematic(self):
-        canvas = self._canvas
-        canvas.delete("all")
-        width = max(canvas.winfo_width(), 640)
-        height = max(canvas.winfo_height(), 600)
-
-        for x in range(60, width, 60):
-            canvas.create_line(x, 0, x, height, fill="#1d2a3d", width=1)
-        for y in range(60, height, 60):
-            canvas.create_line(0, y, width, y, fill="#1d2a3d", width=1)
-
-        canvas.create_text(
-            width / 2,
-            40,
-            text="OFFLINE ROUTE SCHEMATIC",
-            fill="#7dd3fc",
-            font=("Segoe UI", 20, "bold"),
-        )
-        canvas.create_text(
-            width / 2,
-            70,
-            text="Coordinate values intentionally hidden — no map tiles loaded",
-            fill="#a8b3c7",
-            font=("Segoe UI", 12),
-        )
-
-        raw_points = [(lat, lon) for lat, lon, _text in self._markers]
-        projected = self._project(raw_points, width, height)
-        if self._path:
-            path_projected = self._project(self._path, width, height)
-            if len(path_projected) >= 2:
-                flattened = [value for point in path_projected for value in point]
-                canvas.create_line(
-                    *flattened,
-                    fill="#38bdf8",
-                    width=4,
-                    smooth=True,
-                    arrow=tk.LAST,
-                )
-
-        for index, ((x, y), (_lat, _lon, label)) in enumerate(
-            zip(projected, self._markers),
-            start=1,
-        ):
-            canvas.create_oval(
-                x - 10,
-                y - 10,
-                x + 10,
-                y + 10,
-                fill="#fbbf24" if index == 1 else "#22c55e",
-                outline="#ffffff",
-                width=2,
-            )
-            canvas.create_text(
-                x,
-                y - 24,
-                text=label or f"WP {index}",
-                fill="#ffffff",
-                font=("Segoe UI", 11, "bold"),
-            )
-
-        canvas.create_text(
-            24,
-            height - 30,
-            anchor="w",
-            text=DEMO_DATA_NOTICE,
-            fill="#fb7185",
-            font=("Segoe UI", 11, "bold"),
-        )
 
 
 sos_title_label = None
@@ -783,8 +635,6 @@ def update_language():
 
 
 def mqtt_endpoint_label():
-    if DEMO_SCREENSHOT_MODE:
-        return DEMO_BROKER_LABEL
     if not MQTT_BROKER or not 1 <= MQTT_PORT <= 65535:
         return "Broker: not configured"
     return f"Broker: {MQTT_BROKER}:{MQTT_PORT}"
@@ -793,9 +643,6 @@ def mqtt_endpoint_label():
 def connect_mqtt():
     global mqtt_client, mqtt_connected
 
-    if DEMO_SCREENSHOT_MODE:
-        messagebox.showinfo("Local Demo", DEMO_BANNER)
-        return
 
     if not MQTT_BROKER or not 1 <= MQTT_PORT <= 65535:
         messagebox.showerror(
@@ -1199,14 +1046,6 @@ def dispatch_mission(
         return _dispatch_result(DISPATCH_INVALID_PARAMETERS, str(exc))
 
     full_mission_id = f"{user_id}/{mission_id}"
-    if DEMO_SCREENSHOT_MODE:
-        _show_message_safely("showinfo", "Local Demo", DEMO_BANNER)
-        return _dispatch_result(
-            DISPATCH_MQTT_UNAVAILABLE,
-            "MQTT is disabled in local demo mode",
-            full_mission_id,
-            len(normalized),
-        )
     if not mqtt_connected or mqtt_client is None:
         _show_message_safely("showerror", "Error", lang["mqtt_not_connected"])
         return _dispatch_result(
@@ -2826,104 +2665,10 @@ def _render_raw_records_read_only(users_data, now_ms=None):
                 mission_cards.append(card)
 
 
-def _render_demo_mission_cards(users_data):
-
-    global pending_rescue_event_card_ids
-    demo_user = users_data["DEMO_USER"]
-    _section_heading("Pending Alerts — synthetic preview", "#fbbf24")
-    for alert in build_demo_pending_alerts(users_data):
-        alert_card = create_mission_card(
-            scroll_frame,
-            title=alert["alert_id"],
-            subtitle=(
-                f"Trigger: {alert['trigger_type']}\n"
-                f"Primary: {alert['primary_record_type']} / "
-                f"{alert['primary_record_id']}\n"
-                "Emergency contact: NOT_AVAILABLE"
-            ),
-            status="warning",
-            extra_info=(
-                f"Stage: {alert['stage']} — PREVIEW ONLY\n"
-                "Demonstration contact outcomes; no calls are placed"
-            ),
-        )
-        mission_cards.append(alert_card)
-
-    _section_heading("Pending Rescue Events — scheduler order", "#fb7185")
-    ordered_events = build_demo_ordered_rescue_events(users_data)
-    pending_rescue_event_card_ids = [
-        f"{event['user_id']}/{event['event_id']}" for event in ordered_events
-    ]
-    first_route = None
-    for queue_position, event in enumerate(ordered_events, start=1):
-        prepared = prepare_mission_for_rescue_event(demo_user, event)
-        if first_route is None:
-            first_route = list(prepared["waypoints"])
-        search_detail = (
-            "\nSearch points: 19" if event["trigger_type"] == "SOS" else ""
-        )
-        event_card = create_mission_card(
-            scroll_frame,
-            title=f"#{queue_position} {event['event_id']}",
-            subtitle=(
-                f"Priority: {event['effective_priority']}\n"
-                f"Trigger: {event['trigger_type']}\n"
-                f"Queue wait: {_format_duration_ms(event['queue_waiting_time_ms'])}\n"
-                f"Primary: {event['primary_record_type']} / "
-                f"{event['primary_record_id']}"
-                f"{search_detail}"
-            ),
-            status="critical" if event["effective_priority"] == "HIGH" else "warning",
-            extra_info="PREVIEW ONLY — dispatch disabled",
-        )
-        event_card.bind(
-            "<Button-1>",
-            lambda _event, points=tuple(prepared["waypoints"]):
-                _show_waypoint_route(list(points), "Synthetic primary route"),
-        )
-        mission_cards.append(event_card)
-
-    _section_heading("Raw Records — read-only reference", "#94a3b8")
-    raw_summary = create_mission_card(
-        scroll_frame,
-        title="Event Booking / Quick Start / SOS",
-        subtitle=(
-            "2 Event Bookings; 1 Quick Start; 1 SOS\n"
-            "SOS route preview: 19 search points"
-        ),
-        status="normal",
-        extra_info=DEMO_RAW_RECORDS_NOTICE,
-    )
-    mission_cards.append(raw_summary)
-    ctk.CTkLabel(
-        scroll_frame,
-        text=f"{DEMO_TEST_PARAMETER_NOTICE}\nPreview time: {DEMO_NOW_MS}",
-        text_color="#fbbf24",
-        justify="left",
-        wraplength=330,
-    ).pack(fill="x", padx=5, pady=(6, 10))
-    safe_configure(fb_status_label, text=DEMO_DATABASE_STATUS, text_color="#fbbf24")
-
-    if first_route:
-        root.after(
-            150,
-            lambda points=tuple(first_route): _show_waypoint_route(
-                list(points), "Synthetic queue leader"
-            ),
-        )
-
-
 def refresh_data():
     global mission_cards, current_users_data, refresh_issues, quick_start_observations
     print("Reloading Ground Station data...")
 
-    if DEMO_SCREENSHOT_MODE:
-        for widget in scroll_frame.winfo_children():
-            widget.destroy()
-        mission_cards = []
-        _render_demo_mission_cards(build_demo_users_data())
-        print("Local demo records loaded; Firebase and MQTT remain disabled")
-        return
 
     try:
         database_root = initialize_firebase()
@@ -3497,34 +3242,16 @@ def show_main_window():
 
     root = ctk.CTk()
     root.title(
-        f"[LOCAL DEMO] {LANGUAGES[current_lang]['title']}"
-        if DEMO_SCREENSHOT_MODE
-        else LANGUAGES[current_lang]["title"]
+        LANGUAGES[current_lang]["title"]
     )
-    root.geometry("1500x900" if DEMO_SCREENSHOT_MODE else "1400x850")
+    root.geometry("1400x850")
     root.minsize(1200, 700)
     root.configure(fg_color="#0d1b2a")
-
-    if DEMO_SCREENSHOT_MODE:
-        demo_banner = ctk.CTkFrame(
-            root,
-            height=58,
-            corner_radius=0,
-            fg_color="#7f1d1d",
-        )
-        demo_banner.pack(side="top", fill="x")
-        demo_banner.pack_propagate(False)
-        ctk.CTkLabel(
-            demo_banner,
-            text=f"{DEMO_BANNER}    |    {DEMO_DATA_NOTICE}",
-            font=("Segoe UI", 16, "bold"),
-            text_color="#ffffff",
-        ).pack(expand=True)
 
 
     left_frame = ctk.CTkFrame(
         root,
-        width=430 if DEMO_SCREENSHOT_MODE else 380,
+        width=380,
         corner_radius=0,
         fg_color="#1b263b",
     )
@@ -3549,19 +3276,10 @@ def show_main_window():
     center_frame = ctk.CTkFrame(root, fg_color="#0d1b2a")
     center_frame.pack(side="left", fill="both", expand=True)
 
-    if DEMO_SCREENSHOT_MODE:
-        map_widget = OfflineDemoMap(center_frame)
-    else:
-        map_widget = TkinterMapView(
-            center_frame,
-            width=800,
-            height=800,
-            corner_radius=0,
-        )
+    map_widget = TkinterMapView(center_frame, width=800, height=800, corner_radius=0)
     map_widget.pack(fill="both", expand=True)
-    if not DEMO_SCREENSHOT_MODE:
-        map_widget.set_position(22.3193, 114.1694)
-        map_widget.set_zoom(12)
+    map_widget.set_position(22.3193, 114.1694)
+    map_widget.set_zoom(12)
 
 
     tools_frame = ctk.CTkFrame(right_frame, fg_color="transparent")
@@ -3694,13 +3412,13 @@ def show_main_window():
     sos_lat_label_widget = ctk.CTkLabel(sos_input_frame, text=lang["sos_lat_label"], width=50)
     sos_lat_label_widget.grid(row=0, column=0, padx=2)
     sos_lat_entry = ctk.CTkEntry(sos_input_frame, width=110)
-    sos_lat_entry.insert(0, "HIDDEN" if DEMO_SCREENSHOT_MODE else "22.352")
+    sos_lat_entry.insert(0, "22.352")
     sos_lat_entry.grid(row=0, column=1, padx=2)
 
     sos_lon_label_widget = ctk.CTkLabel(sos_input_frame, text=lang["sos_lon_label"], width=50)
     sos_lon_label_widget.grid(row=0, column=2, padx=2)
     sos_lon_entry = ctk.CTkEntry(sos_input_frame, width=110)
-    sos_lon_entry.insert(0, "HIDDEN" if DEMO_SCREENSHOT_MODE else "114.183")
+    sos_lon_entry.insert(0, "114.183")
     sos_lon_entry.grid(row=0, column=3, padx=2)
 
     sos_radius_label_widget = ctk.CTkLabel(
@@ -3708,7 +3426,7 @@ def show_main_window():
     )
     sos_radius_label_widget.grid(row=1, column=0, columnspan=2, pady=(6, 0))
     sos_radius_entry = ctk.CTkEntry(sos_input_frame, width=110)
-    sos_radius_entry.insert(0, "N/A" if DEMO_SCREENSHOT_MODE else "200")
+    sos_radius_entry.insert(0, "200")
     sos_radius_entry.grid(row=1, column=2, columnspan=2, pady=(6, 0))
 
     sos_status_label = ctk.CTkLabel(
@@ -3764,12 +3482,6 @@ def show_main_window():
     )
     sos_grid_btn_widget.pack(side="left", expand=True, fill="x", padx=(4, 0))
 
-    if DEMO_SCREENSHOT_MODE:
-
-
-        sos_input_frame.pack_forget()
-        sos_btn_frame.pack_forget()
-
 
     def switch_lang_main():
         toggle_language()
@@ -3791,62 +3503,8 @@ def show_main_window():
 
 
     update_language()
-    if DEMO_SCREENSHOT_MODE:
-        root.title(f"[LOCAL DEMO] Rescue Drone Ground Station - v{APP_VERSION}")
-        safe_configure(
-            mqtt_status_label,
-            text="Disabled — no MQTT connection",
-            text_color="#fbbf24",
-        )
-        safe_configure(
-            mqtt_connect_btn_widget,
-            text="MQTT disabled in local demo",
-            state="disabled",
-        )
-        safe_configure(
-            drone_status_label,
-            text=build_demo_drone_status(),
-            text_color="#fbbf24",
-        )
-        safe_configure(
-            onboard_rescue_status_label,
-            text=build_demo_onboard_summary(),
-            text_color="#7dd3fc",
-        )
-        safe_configure(
-            reload_button,
-            text="Reload local demo data",
-        )
-        safe_configure(
-            lang_button,
-            text="English demo",
-            state="disabled",
-        )
-        safe_configure(
-            logout_btn,
-            text="Offline demo",
-            state="disabled",
-        )
-        safe_configure(
-            sos_status_label,
-            text=f"{DEMO_LOCATION_LABEL}\n19 synthetic search points",
-            text_color="#fbbf24",
-        )
-        for entry in (sos_lat_entry, sos_lon_entry, sos_radius_entry):
-            safe_configure(entry, state="disabled")
-        safe_configure(
-            sos_spiral_btn_widget,
-            text="Pattern execution disabled",
-            state="disabled",
-        )
-        safe_configure(
-            sos_grid_btn_widget,
-            text="No physical dispatch",
-            state="disabled",
-        )
     refresh_data()
-    if not DEMO_SCREENSHOT_MODE:
-        _schedule_periodic_refresh()
+    _schedule_periodic_refresh()
 
     print("主介面已載入")
     root.mainloop()
@@ -3854,13 +3512,7 @@ def show_main_window():
 def main():
 
     global current_lang
-    if DEMO_SCREENSHOT_MODE:
-        current_lang = "en"
-        show_main_window()
-    elif (
-        not getattr(sys, "frozen", False)
-        and os.environ.get("GS_BYPASS_LOGIN", "").strip() == "1"
-    ):
+    if not getattr(sys, 'frozen', False) and os.environ.get('GS_BYPASS_LOGIN', '').strip() == '1':
         show_main_window()
     else:
         show_login_page()

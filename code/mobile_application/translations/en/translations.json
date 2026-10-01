@@ -55,7 +55,6 @@
       "partial": "Transfer incomplete — {{remaining}} record(s) remain",
       "expired": "{{count}} expired record(s) removed without sending",
       "configInvalid": "UAV receiver settings are invalid; re-save them in Settings",
-      "testBanner": "TEST MODE — BENCH EVIDENCE ONLY, NOT AN OUTDOOR FLIGHT",
       "captureButton": "Capture current location and send",
       "retryCaptureButton": "Retry saved location transfers",
       "captureExplanation": "After joining the UAV Wi-Fi, capture a new location together with your current SOS. Retry sends saved content without taking another location.",
@@ -85,8 +84,6 @@
     "profileSubtitle": "Name, Phone, Emergency Contacts",
     "language": "Language",
     "aboutApp": "About MyDrone",
-    "systemHealth": "Release & Runtime Health",
-    "systemHealthSubtitle": "Redacted screenshot view",
     "uav": {
       "title": "UAV Wi-Fi Receiver",
       "url": "Receiver URL",
@@ -96,14 +93,10 @@
       "wifiPassphraseHelp": "Leave blank only for an open UAV network. WPA2 passphrases must be 8–63 characters and are never written to app storage.",
       "token": "Session token",
       "tokenHelp": "Held only in memory and cleared when the app process restarts. Pending SOS/GPS copies are persisted separately without this token or the Wi-Fi passphrase; they stop being eligible for sending after 24 hours and are removed on the next outbox access.",
-      "testMode": "Evidence mode",
-      "testModeOn": "TEST is on. Records are explicitly marked as bench-test data.",
-      "testModeOff": "PRODUCTION is on. Turn this off only for a genuine non-test operation.",
-      "testBanner": "TEST MODE ACTIVE — GENERATED RECORDS ARE NOT OUTDOOR-FLIGHT EVIDENCE",
       "save": "Save UAV Connection",
       "savedTitle": "Saved",
-      "savedMessage": "Receiver URL, UAV Wi-Fi SSID, and mode were saved. The receiver token and Wi-Fi passphrase are available only for this app session.",
-      "savedWithoutToken": "Receiver URL, UAV Wi-Fi SSID, and mode were saved. No receiver token is active; any Wi-Fi passphrase remains session-only.",
+      "savedMessage": "Receiver URL and UAV Wi-Fi SSID were saved. The receiver token and Wi-Fi passphrase are available only for this app session.",
+      "savedWithoutToken": "Receiver URL and UAV Wi-Fi SSID were saved. No receiver token is active; any Wi-Fi passphrase remains session-only.",
       "errorTitle": "Invalid Settings",
       "invalidUrl": "Enter a valid HTTP or HTTPS receiver URL.",
       "invalidConnection": "Check the receiver URL, UAV Wi-Fi SSID, and the 8–63 character WPA2 passphrase.",
@@ -124,45 +117,6 @@
       "title": "Privacy Policy",
       "message": "We take your privacy seriously.\n\nWe collect: phone number, real-time location, emergency contacts, medical notes, etc.\n\nData usage:\n- Sending SOS rescue requests\n- Recording and displaying your routes\n- Assisting rescue coordination\n\nProtection and limits:\n- We do not sell or rent your personal data\n- Pending UAV SOS/GPS copies stop being eligible for sending after 24 hours and are removed on the next outbox access\n- UAV receiver tokens and Wi-Fi passphrases remain in process memory and are never stored with the outbox\n- Private-LAN HTTP is not end-to-end encrypted; use it only on the trusted UAV Wi-Fi. Public receiver addresses require HTTPS\n- You have the right to access, correct, or request deletion of your data at any time\n\nTo exercise your rights, please contact us."
     }
-  },
-  "systemHealth": {
-    "eyebrow": "REDACTED SCREENSHOT VIEW",
-    "title": "Mobile Release & Runtime Health",
-    "disclaimer": "This page shows code and local runtime status only. It contains no phone number, GPS coordinate, receiver address, SSID, token or Wi-Fi password, and it is not proof of a physical flight.",
-    "release": {
-      "title": "Release metadata",
-      "app": "Mobile App",
-      "androidBuild": "Android versionCode",
-      "releaseId": "System release ID",
-      "protocol": "UAV protocol",
-      "outboxSchema": "Outbox storage schema"
-    },
-    "runtime": {
-      "title": "Local readiness",
-      "storage": "Outbox readable",
-      "pending": "Pending records",
-      "retention": "Maximum retention",
-      "hours": "{{count}} hours",
-      "receiverConfigured": "Receiver URL configured",
-      "wifiConfigured": "UAV SSID configured",
-      "androidSelector": "Android system Wi-Fi confirmation",
-      "mode": "Evidence mode",
-      "redaction": "Only readiness booleans and counts are shown. Credentials remain in memory; the persistent outbox contains only the allow-listed SOS/GPS record and target binding."
-    },
-    "workflow": {
-      "title": "User-confirmed UAV sync flow",
-      "one": "The user creates an SOS record with one current GPS point.",
-      "two": "The App saves an allow-listed copy in the local outbox with a 24-hour send-eligibility limit; no token or Wi-Fi password is stored.",
-      "three": "The user taps Sync and Android displays its own UAV Wi-Fi confirmation dialog.",
-      "four": "After user approval, the App binds its traffic to that WLAN and sends the queued record to the configured onboard receiver.",
-      "five": "The App accepts only a matching STORED receipt, then releases the WLAN binding and restores the default network."
-    },
-    "value": {
-      "yes": "YES",
-      "no": "NO",
-      "unavailable": "UNAVAILABLE"
-    },
-    "back": "Back to Settings"
   },
   "quickStartPage": {
     "title": "Quick Location Tracking",
@@ -438,8 +392,7 @@
     "settings": "Settings",
     "quickStart": "Quick Track",
     "booking": "Booking",
-    "profile": "Profile",
-    "health": "System Health"
+    "profile": "Profile"
   },
   "persistentTracking": {
     "backgroundDescription": "Your route is saved on this phone while you use other pages or lock the screen.",

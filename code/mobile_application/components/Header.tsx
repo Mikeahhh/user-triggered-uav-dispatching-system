@@ -17,7 +17,6 @@ const Header: React.FC<HeaderProps> = ({ currentPage }) => {
       case 4: return 'pages.quickStart';
       case 5: return 'pages.booking';
       case 6: return 'pages.profile';
-      case 7: return 'pages.health';
       default: return 'pages.map';
     }
   };

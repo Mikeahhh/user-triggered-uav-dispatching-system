@@ -54,8 +54,6 @@ run_step "UAV bridge tests" run_in_dir "$MASS26_BRIDGE" \
     "$MASS26_PYTHON" -m unittest discover -s . -p 'test_*.py' -v
 run_step "UAV recorder tests" run_in_dir "$MASS26_DRONE/drone_system/launcher" \
     "$MASS26_PYTHON" -m unittest discover -s . -p 'test_*.py' -v
-run_step "UAV demo tests" run_in_dir "$MASS26_DRONE/drone_system/demo" \
-    "$MASS26_PYTHON" -m unittest discover -s . -p 'test_*.py' -v
 run_step "Pure C++ target lifecycle compile and execution" \
     sh "$MASS26_CODE_ROOT/run_cpp_core_verification.sh"
 

@@ -458,13 +458,10 @@ class MissionPreparationTests(unittest.TestCase):
 
 class GenericDispatchTests(unittest.TestCase):
     def setUp(self):
-        self.original_demo = gs.DEMO_SCREENSHOT_MODE
         self.original_connected = gs.mqtt_connected
         self.original_client = gs.mqtt_client
-        gs.DEMO_SCREENSHOT_MODE = False
 
     def tearDown(self):
-        gs.DEMO_SCREENSHOT_MODE = self.original_demo
         gs.mqtt_connected = self.original_connected
         gs.mqtt_client = self.original_client
 
@@ -539,7 +536,7 @@ class RescueEventDispatchWrapperTests(unittest.TestCase):
         self.client = _MqttClient(_PublishInfo())
         self.patches = [patch.object(gs, "rescue_runtime_config", {"ready": True}),
                         patch.object(gs, "mqtt_connected", True), patch.object(gs, "mqtt_client", self.client),
-                        patch.object(gs, "DEMO_SCREENSHOT_MODE", False), patch.object(gs, "refresh_data"),
+                        patch.object(gs, "refresh_data"),
                         patch.object(gs, "_show_workflow_error"), patch.object(gs, "_show_message_safely")]
         for patcher in self.patches: patcher.start()
 

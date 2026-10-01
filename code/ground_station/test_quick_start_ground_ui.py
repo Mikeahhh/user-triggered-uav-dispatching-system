@@ -44,8 +44,7 @@ class QuickStartGroundTests(unittest.TestCase):
                 return copy.deepcopy(user), {"issues": [], "alerts": {}, "events": {}}
             with tempfile.TemporaryDirectory() as directory:
                 store = ObservationStore(Path(directory) / "local.sqlite3", "synthetic")
-                with patch.object(gs, "DEMO_SCREENSHOT_MODE", False), \
-                     patch.object(gs, "initialize_firebase", return_value=database), \
+                with patch.object(gs, "initialize_firebase", return_value=database), \
                      patch.object(gs, "_epoch_now_ms", side_effect=lambda: next(times)), \
                      patch.object(gs, "reconcile_user", side_effect=reconcile), \
                      patch.object(gs, "get_observation_store", return_value=store) as factory, \

@@ -113,15 +113,3 @@ def waypoints_to_mqtt_payload(waypoints, mission_id, altitude=5.0,
         "altitude": altitude,
         "hover_seconds": hover_seconds,
     }
-
-
-if __name__ == "__main__":
-
-    import json
-    SYNTHETIC_CENTER = (0.0, 0.0)
-    sp = generate_spiral(*SYNTHETIC_CENTER, radius_m=300.0, spacing_m=30.0)
-    gd = generate_grid(*SYNTHETIC_CENTER, width_m=300.0, spacing_m=50.0)
-    print(f"spiral: {len(sp)} waypoints, last={sp[-1]}")
-    print(f"grid:   {len(gd)} waypoints, last={gd[-1]}")
-    payload = waypoints_to_mqtt_payload(sp, mission_id="demo/synthetic-spiral")
-    print(json.dumps(payload, indent=2)[:500])

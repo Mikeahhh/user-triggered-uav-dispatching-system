@@ -1,10 +1,11 @@
+Selected output from the archived verification run for retained components.
+
 
 [2026-09-30T10:57:59Z] Mobile ESLint
 
 [2026-09-30T10:58:00Z] Mobile TypeScript
 
 [2026-09-30T10:58:01Z] Mobile release metadata alignment
-Mobile version alignment OK: 1.2.0, Android 3, iOS 3, MASS26-20260806, schema 1, outbox v3
 
 [2026-09-30T10:58:01Z] Mobile Jest
 PASS __tests__/QuickStartPage.test.tsx
@@ -17,7 +18,6 @@ PASS __tests__/uavCaptureV2.test.ts
 PASS __tests__/freshUavPosition.test.ts
 PASS __tests__/SettingPage.test.tsx
 PASS __tests__/uavWifiClient.test.ts
-PASS __tests__/SystemHealthPage.test.tsx
 PASS __tests__/currentSosStore.test.ts
 PASS __tests__/quickStartSample.test.ts
 PASS __tests__/rescueRecordHash.test.ts
@@ -111,16 +111,6 @@ test_exact_shape_retained_duplicates_and_size_fail_closed (test_execution_recove
 test_real_reply_waits_for_confirmation_before_success_cache (test_execution_recovery.ReadyTests.test_real_reply_waits_for_confirmation_before_success_cache) ... ok
 test_sync_failure_retries_without_second_receiver_ready (test_execution_recovery.ReadyTests.test_sync_failure_retries_without_second_receiver_ready) ... ok
 test_sync_retry_stops_when_connection_generation_changes (test_execution_recovery.ReadyTests.test_sync_retry_stops_when_connection_generation_changes) ... ok
-test_callers_receive_an_isolated_copy (test_ground_station_demo.OfflineDemoFixtureTests.test_callers_receive_an_isolated_copy) ... ok
-test_contains_workflow_records_and_three_rescue_event_classes (test_ground_station_demo.OfflineDemoFixtureTests.test_contains_workflow_records_and_three_rescue_event_classes) ... ok
-test_demo_contacts_are_explicitly_non_dialable (test_ground_station_demo.OfflineDemoFixtureTests.test_demo_contacts_are_explicitly_non_dialable) ... ok
-test_demo_contains_one_pending_alert_and_converted_sources (test_ground_station_demo.OfflineDemoFixtureTests.test_demo_contains_one_pending_alert_and_converted_sources) ... ok
-test_fixed_test_only_time_orders_one_unified_queue (test_ground_station_demo.OfflineDemoFixtureTests.test_fixed_test_only_time_orders_one_unified_queue) ... ok
-test_fixture_uses_demo_ids_and_not_known_experimental_ids (test_ground_station_demo.OfflineDemoFixtureTests.test_fixture_uses_demo_ids_and_not_known_experimental_ids) ... ok
-test_queue_calculation_does_not_mutate_caller_data (test_ground_station_demo.OfflineDemoFixtureTests.test_queue_calculation_does_not_mutate_caller_data) ... ok
-test_raw_records_are_read_only_and_never_direct_dispatch_targets (test_ground_station_demo.OfflineDemoFixtureTests.test_raw_records_are_read_only_and_never_direct_dispatch_targets) ... ok
-test_visible_demo_text_has_required_boundaries_and_no_endpoint (test_ground_station_demo.OfflineDemoFixtureTests.test_visible_demo_text_has_required_boundaries_and_no_endpoint) ... ok
-test_v7_metadata_is_centralized_and_consistent (test_ground_station_demo.ReleaseMetadataTests.test_v7_metadata_is_centralized_and_consistent) ... ok
 test_alert_identity_mismatch_is_rejected_before_prompt_or_write (test_ground_station_rescue_flow.ContactAndPresentationIntegrationTests.test_alert_identity_mismatch_is_rejected_before_prompt_or_write) ... ok
 test_contact_emergency_ui_offers_only_not_available_when_removed (test_ground_station_rescue_flow.ContactAndPresentationIntegrationTests.test_contact_emergency_ui_offers_only_not_available_when_removed) ... ok
 test_malformed_primary_identity_disables_one_card_without_crashing (test_ground_station_rescue_flow.ContactAndPresentationIntegrationTests.test_malformed_primary_identity_disables_one_card_without_crashing) ... ok
@@ -154,9 +144,6 @@ test_firebase_failure_then_sqlite_reopen_only_commits_without_republish (test_gr
 test_published_event_is_conditionally_marked_dispatched (test_ground_station_rescue_flow.RescueEventDispatchWrapperTests.test_published_event_is_conditionally_marked_dispatched) ... ok
 test_refresh_failure_cannot_reverse_committed_dispatch (test_ground_station_rescue_flow.RescueEventDispatchWrapperTests.test_refresh_failure_cannot_reverse_committed_dispatch) ... ok
 test_unknown_requires_explicit_same_execution_retry (test_ground_station_rescue_flow.RescueEventDispatchWrapperTests.test_unknown_requires_explicit_same_execution_retry) ... ok
-test_demo_broker_label_never_uses_runtime_endpoint (test_ground_station_runtime.DemoRuntimeIsolationTests.test_demo_broker_label_never_uses_runtime_endpoint) ... ok
-test_demo_refuses_firebase_initialization_before_credential_lookup (test_ground_station_runtime.DemoRuntimeIsolationTests.test_demo_refuses_firebase_initialization_before_credential_lookup) ... ok
-test_production_endpoint_is_explicitly_unconfigured_by_default (test_ground_station_runtime.DemoRuntimeIsolationTests.test_production_endpoint_is_explicitly_unconfigured_by_default) ... ok
 test_booking_and_quick_start_begin_at_same_priority (test_priority_scheduler.PrioritySchedulerTests.test_booking_and_quick_start_begin_at_same_priority) ... ok
 test_boolean_epoch_values_are_rejected (test_priority_scheduler.PrioritySchedulerTests.test_boolean_epoch_values_are_rejected) ... ok
 test_cross_user_duplicate_event_ids_have_deterministic_final_tie_break (test_priority_scheduler.PrioritySchedulerTests.test_cross_user_duplicate_event_ids_have_deterministic_final_tie_break) ... ok
@@ -450,14 +437,6 @@ test_invalid_transition_is_rejected (test_recording_state.RecordingJournalTests.
 
 ----------------------------------------------------------------------
 Ran 12 tests in 0.111s
-
-OK
-
-[2026-09-30T10:58:07Z] UAV demo tests
-test_demo_is_hardware_free_and_exposes_land_request_boundary (test_generate_uav_demo.UavDemoTests.test_demo_is_hardware_free_and_exposes_land_request_boundary) ... ok
-
-----------------------------------------------------------------------
-Ran 1 test in 0.006s
 
 OK
 

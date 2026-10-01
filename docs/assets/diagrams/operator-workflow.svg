@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="680" viewBox="0 0 1120 680" role="img" aria-labelledby="title desc">
+  <title id="title">Operator workflow</title>
+  <desc id="desc">Every service mode passes through the same verification and dispatch decisions.</desc>
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M 0 0 L 10 5 L 0 10 z" fill="#000000" />
+    </marker>
+  </defs>
+  <text x="40" y="49" font-family="Times New Roman, Times, serif" font-size="26" font-weight="400" fill="#000000">Operator workflow</text>
+  <text x="40" y="80" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Every service mode passes through the same verification and dispatch decisions.</text>
+  <text x="60" y="151" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">MODE 1</text>
+  <text x="60" y="183" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Event Booking</text>
+  <text x="60" y="215" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Planned route and end estimate</text>
+  <text x="60" y="240" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Notice when the trip is overdue</text>
+  <text x="420" y="151" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">MODE 2</text>
+  <text x="420" y="183" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Quick Start</text>
+  <text x="420" y="215" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Position history with sample times</text>
+  <text x="420" y="240" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Notice on a valid-sample timeout</text>
+  <text x="780" y="151" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">MODE 3</text>
+  <text x="780" y="183" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">SOS</text>
+  <text x="780" y="215" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">User-triggered request and location</text>
+  <text x="780" y="240" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Notice when a request is pending</text>
+  <path d="M 200 299 L 200 328 L 560 328 L 560 353" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 560 299 L 560 353" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 920 299 L 920 328 L 560 328" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" />
+  <text x="560" y="389" font-family="Times New Roman, Times, serif" font-size="21" font-weight="700" fill="#000000" text-anchor="middle">CONTACT → VERIFY → EXPLICITLY CONFIRM SEARCH</text>
+  <text x="560" y="419" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000" text-anchor="middle">Safe outcome closes the alert. A confirmed search creates a dispatchable event.</text>
+  <text x="60" y="520" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">THEN</text>
+  <text x="60" y="552" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Select an event</text>
+  <text x="60" y="584" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">All modes start at equal priority</text>
+  <text x="420" y="520" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">THEN</text>
+  <text x="420" y="552" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Prepare and review route</text>
+  <text x="420" y="584" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Recheck current source records</text>
+  <text x="780" y="520" font-family="Times New Roman, Times, serif" font-size="15" font-weight="400" fill="#000000">THEN</text>
+  <text x="780" y="552" font-family="Times New Roman, Times, serif" font-size="22" font-weight="700" fill="#000000">Confirm dispatch</text>
+  <text x="780" y="584" font-family="Times New Roman, Times, serif" font-size="18" font-weight="400" fill="#000000">Execution follows UAV acceptance</text>
+  <path d="M 560 443 L 560 468 L 200 468 L 200 489" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 360 550 L 398 550" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+  <path d="M 720 550 L 758 550" fill="none" stroke="#000000" stroke-width="1.25" stroke-linejoin="miter" marker-end="url(#arrow)" />
+</svg>

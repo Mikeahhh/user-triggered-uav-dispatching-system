@@ -107,7 +107,7 @@ class ArrivalCaptureContractTests(unittest.TestCase):
                     return Info()
             with patch.object(gs, 'rescue_runtime_config', {'ready': True}), \
                  patch.object(gs, 'mqtt_connected', True), patch.object(gs, 'mqtt_client', Broker()), \
-                 patch.object(gs, 'DEMO_SCREENSHOT_MODE', False), patch.object(gs, '_show_message_safely'), \
+                 patch.object(gs, '_show_message_safely'), \
                  patch.object(gs, '_show_workflow_error'), patch.object(gs, 'refresh_data'), \
                  patch.object(gs, '_epoch_now_ms', return_value=flight_fixture.NOW):
                 selected = gs.select_rescue_event('SYNTHETIC', event['event_id'], reference, journal=ledger)

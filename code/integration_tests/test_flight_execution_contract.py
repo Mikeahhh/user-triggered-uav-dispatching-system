@@ -167,7 +167,7 @@ class FlightExecutionContractTests(unittest.TestCase):
             order.append('durable_authorization')
         user, token = wire['mission_id'].split('/')
         with patch.object(gs, 'mqtt_connected', True), patch.object(gs, 'mqtt_client', FakeBroker()), \
-             patch.object(gs, 'DEMO_SCREENSHOT_MODE', False), patch.object(gs, '_show_message_safely'):
+             patch.object(gs, '_show_message_safely'):
             result = gs.dispatch_mission(prepared['waypoints'], user, token,
                                          wire['mission_type'], wire['return_to_launch'],
                                          confirm_callback=lambda *_: True, execution=wire,
@@ -234,7 +234,7 @@ class FlightExecutionContractTests(unittest.TestCase):
             journal_path = Path(directory) / 'dispatch.sqlite3'
             with patch.object(gs, 'rescue_runtime_config', {'ready': True}), \
                  patch.object(gs, 'mqtt_connected', True), patch.object(gs, 'mqtt_client', Broker()), \
-                 patch.object(gs, 'DEMO_SCREENSHOT_MODE', False), patch.object(gs, '_show_message_safely'), \
+                 patch.object(gs, '_show_message_safely'), \
                  patch.object(gs, '_show_workflow_error'), patch.object(gs, 'refresh_data'), \
                  patch.object(gs, '_epoch_now_ms', return_value=NOW):
                 first = DispatchJournal(journal_path, 'synthetic-scope')

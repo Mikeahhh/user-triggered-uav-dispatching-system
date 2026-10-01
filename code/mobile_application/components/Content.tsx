@@ -6,7 +6,6 @@ import SettingPage from '../pages/SettingPage';
 import QuickStartPage from '../pages/QuickStartPage';
 import EventBookingPage from '../pages/EventBookingPage';
 import ProfilePage from '../pages/ProfilePage';
-import SystemHealthPage from '../pages/SystemHealthPage';
 
 interface ContentProps {
   currentPage: number;
@@ -23,7 +22,6 @@ const Content: React.FC<ContentProps> = ({ currentPage, onSelectPage }) => {
       case 4: return <QuickStartPage />;
       case 5: return <EventBookingPage />;
       case 6: return <ProfilePage />;
-      case 7: return <SystemHealthPage onSelectPage={onSelectPage} />;
       default: return <MapPage onSelectPage={onSelectPage} />;
     }
   };

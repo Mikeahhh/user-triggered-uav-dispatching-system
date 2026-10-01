@@ -7,7 +7,6 @@ import {
   ScrollView,
   Alert,
   TextInput,
-  Switch,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import {
@@ -21,7 +20,6 @@ import {
   setUavWifiSessionPassphrase,
   validateUavWifiSessionPassphrase,
 } from '../services/uavWifiClient';
-import { SYSTEM_RELEASE_ID } from '../services/appMetadata';
 
 interface Props {
   onSelectPage: (page: number) => void;
@@ -57,13 +55,11 @@ const SettingPage: React.FC<Props> = ({ onSelectPage }) => {
   const [uavWifiSsid, setUavWifiSsid] = useState(DEFAULT_UAV_WIFI_SSID);
   const [uavWifiPassphrase, setUavWifiPassphrase] = useState('');
   const [uavToken, setUavToken] = useState('');
-  const [uavTestMode, setUavTestMode] = useState(true);
 
   useEffect(() => {
     getUavConnectionConfig().then(config => {
       setUavBaseUrl(config.baseUrl);
       setUavWifiSsid(config.wifiSsid);
-      setUavTestMode(config.testMode);
     }).catch(() => {
       Alert.alert(t('settingPage.uav.errorTitle'), t('settingPage.uav.reenterConfig'));
     });
@@ -107,7 +103,6 @@ const SettingPage: React.FC<Props> = ({ onSelectPage }) => {
       await saveUavConnectionConfig({
         baseUrl: uavBaseUrl,
         wifiSsid: uavWifiSsid,
-        testMode: uavTestMode,
       });
       setUavSessionToken(uavToken);
       setUavWifiSessionPassphrase(uavWifiPassphrase);
@@ -135,26 +130,6 @@ const SettingPage: React.FC<Props> = ({ onSelectPage }) => {
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>{t('settingPage.uav.title')}</Text>
-        {uavTestMode && (
-          <View testID="settings-uav-test-banner" style={styles.testModeBanner}>
-            <Text style={styles.testModeText}>{t('settingPage.uav.testBanner')}</Text>
-          </View>
-        )}
-        <View style={styles.switchRow}>
-          <View style={styles.switchCopy}>
-            <Text style={styles.switchTitle}>{t('settingPage.uav.testMode')}</Text>
-            <Text style={styles.switchSubtitle}>
-              {uavTestMode
-                ? t('settingPage.uav.testModeOn')
-                : t('settingPage.uav.testModeOff')}
-            </Text>
-          </View>
-          <Switch
-            testID="uav-test-mode-switch"
-            value={uavTestMode}
-            onValueChange={setUavTestMode}
-          />
-        </View>
         <Text style={styles.fieldLabel}>{t('settingPage.uav.url')}</Text>
         <TextInput
           testID="uav-base-url-input"
@@ -211,11 +186,6 @@ const SettingPage: React.FC<Props> = ({ onSelectPage }) => {
       </View>
 
       <View style={styles.section}>
-        <SettingItem
-          title={t('settingPage.systemHealth')}
-          subtitle={`${t('settingPage.systemHealthSubtitle')} • ${SYSTEM_RELEASE_ID}`}
-          onPress={() => onSelectPage(7)}
-        />
         <SettingItem
           title={t('settingPage.profile')}
           subtitle={t('settingPage.profileSubtitle')}
@@ -361,40 +331,6 @@ const styles = StyleSheet.create({
   saveButtonText: {
     color: '#ffffff',
     fontWeight: '700',
-  },
-  testModeBanner: {
-    backgroundColor: '#F9A825',
-    marginHorizontal: 16,
-    marginBottom: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 9,
-    borderRadius: 8,
-  },
-  testModeText: {
-    color: '#000000',
-    fontWeight: '700',
-    textAlign: 'center',
-  },
-  switchRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingHorizontal: 16,
-    paddingBottom: 10,
-  },
-  switchCopy: {
-    flex: 1,
-    paddingRight: 12,
-  },
-  switchTitle: {
-    color: '#111827',
-    fontSize: 15,
-    fontWeight: '600',
-  },
-  switchSubtitle: {
-    color: '#6b7280',
-    fontSize: 12,
-    marginTop: 3,
   },
 });
 

@@ -45,10 +45,10 @@ const cancelled = (signal?: AbortSignal) => {
   if (signal?.aborted) throw new UavCaptureTransferError('CANCELLED');
 };
 const networkConfig = (config: UavConnectionConfig): UavConnectionConfig => {
-  if (typeof config.wifiSsid !== 'string' || config.wifiSsid.trim().length > 32 || typeof config.testMode !== 'boolean') {
+  if (typeof config.wifiSsid !== 'string' || config.wifiSsid.trim().length > 32) {
     throw new UavCaptureTransferError('INVALID_CONFIG');
   }
-  return { baseUrl: normalizeBaseUrl(config.baseUrl), wifiSsid: config.wifiSsid.trim(), testMode: config.testMode };
+  return { baseUrl: normalizeBaseUrl(config.baseUrl), wifiSsid: config.wifiSsid.trim() };
 };
 const sameReceiver = (entry: CaptureEntry, config: UavConnectionConfig) =>
   entry.receiver_base_url === config.baseUrl && entry.wifi_ssid === config.wifiSsid;
@@ -76,8 +76,8 @@ export const createUavArrivalCaptureClient = (dependencies: CaptureDependencies 
       if (ids.has(entry.capture_id)) throw new UavCaptureTransferError('STORAGE_INVALID');
       ids.add(entry.capture_id);
       const source = validateCaptureSource(entry.source_request);
-      const config = networkConfig({ baseUrl: entry.receiver_base_url, wifiSsid: entry.wifi_ssid, testMode: entry.test_mode });
-      if (!sameReceiver(entry, config) || typeof entry.device !== 'string' || !entry.device) throw new UavCaptureTransferError('STORAGE_INVALID');
+      const config = networkConfig({ baseUrl: entry.receiver_base_url, wifiSsid: entry.wifi_ssid });
+      if (!sameReceiver(entry, config) || typeof entry.test_mode !== 'boolean' || typeof entry.device !== 'string' || !entry.device) throw new UavCaptureTransferError('STORAGE_INVALID');
       if (entry.retired_reason !== undefined && (!['NO_COLLECTION_CONTEXT', 'CONTEXT_IDENTITY_CONFLICT'].includes(entry.retired_reason)
         || entry.payload_json !== undefined || entry.receipt !== undefined)) throw new UavCaptureTransferError('STORAGE_INVALID');
       if (entry.context) validateMissionContext(entry.context, { capture_id: entry.capture_id, request_id: source.request_id, user_id: source.user_id });
@@ -153,7 +153,7 @@ export const createUavArrivalCaptureClient = (dependencies: CaptureDependencies 
         const captureId = validateCaptureIdentifier(await createId());
         if (items.some(item => item.capture_id === captureId)) throw new UavCaptureTransferError('CAPTURE_ID_CONFLICT');
         entry = { capture_id: captureId, source_request: source, receiver_base_url: config.baseUrl,
-          wifi_ssid: config.wifiSsid, test_mode: config.testMode, device: dependencies.device || 'android' };
+          wifi_ssid: config.wifiSsid, test_mode: false, device: dependencies.device || 'android' };
         items.push(entry);
         await write(items);
       }
@@ -180,7 +180,8 @@ export const createUavArrivalCaptureClient = (dependencies: CaptureDependencies 
       options.onStage?.('location');
       const position = await capturePosition({ signal: options.signal, now: dependencies.now });
       cancelled(options.signal);
-      const payload = buildCaptureV2Payload(source, entry.context!, position, entry.device, entry.test_mode);
+      const payload = buildCaptureV2Payload(source, entry.context!, position, entry.device);
+      entry.test_mode = payload.test_mode;
       entry.payload_json = canonicalV2PayloadJson(payload);
       entry.payload_sha256 = hashV2Payload(payload);
       await write(items);
