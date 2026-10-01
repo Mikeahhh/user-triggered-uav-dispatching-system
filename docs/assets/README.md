@@ -17,14 +17,6 @@ The component guides use existing manuscript figures and outdoor materials. Diag
 - [Hardware figure](screenshots/uav-hardware-paper.png): `drone(alin).pdf`, the manuscript prototype figure, rendered with outer blank page margins omitted.
 - [Airframe photograph](outdoor/airframe.jpg): existing outdoor test image in this repository.
 
-## Source figure checksums
-
-| Original figure | SHA-256 |
-| --- | --- |
-| `station(alin).pdf` | `51f968b0850252f74ce87d3857c4caefc7bb8f42d868550c6db076d82f02fbda` |
-| `mapp(alin).pdf` | `a0b018ff63bc79d48d37bbfb8c450a2309456b0c2a4ea7df1ae2e22397fd463f` |
-| `drone(alin).pdf` | `551ec57432ca77cc02b5da8dca7d9b285178e7dfc6ded002ec3817a9155c5a0a` |
-
 ## Architecture diagrams
 
 | Diagram | Source reference |

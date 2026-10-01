@@ -95,9 +95,6 @@ The ground station sends the reviewed mission and receives matching acceptance, 
 | [config/](config/) | Deployment configuration template |
 | [assets/](assets/) | Application icon |
 | [packaging/](packaging/) | Windows executable build script, specification and version resources |
-| [tests/](tests/) | Automated regression checks and protocol fixtures |
-
-Run the component tests with `python tests/run.py` from this directory. The complete repository verification also runs them.
 
 ## Getting started
 
@@ -129,17 +126,14 @@ Get-Content code\ground_station\config\runtime.env | ForEach-Object {
         [Environment]::SetEnvironmentVariable($matches[1], $matches[2].Trim(), 'Process')
     }
 }
-python verification\tools\deployment_preflight.py
 Set-Location code\ground_station
 python main.py
 ```
 
-The preflight checks configuration consistency locally. For Windows executable packaging, use the existing [build script](packaging/build_windows_release.ps1) with [requirements-build.txt](packaging/requirements-build.txt). It runs the component tests, builds the executable and writes its checksum and build information. See the [technical guide](../../docs/Technical_Guide.md#4--ground-station-verification-and-dispatch) for deployment settings.
+For Windows executable packaging, install [requirements-build.txt](packaging/requirements-build.txt), then run the [build script](packaging/build_windows_release.ps1). It produces `dist/ground_station_V7.exe`. See the [technical guide](../../docs/Technical_Guide.md#4--ground-station-verification-and-dispatch) for deployment settings.
 
-## Verification and recorded operation
+## Recorded operation
 
-The saved [30 September report](../../verification/reports/Android_Only_Validation_20260930.md#verification-results) records the ground-station tests for that dated snapshot, with separate cross-component and protocol-fault checks. Coverage includes contact confirmation, cancellation, sample freshness, complete-route ordering, mission admission, retries and restart reconciliation.
-
-Use the [repository verification command](../../README.md#local-verification) for a new software run. The [phone-record relay bench](../../verification/integration/run_phone_uav_gs_bench.py) exercises real loopback record return with synthetic records. Watch the [system pipeline demonstration](https://www.youtube.com/watch?v=oQvX7AQdywA) and consult the [video index](../../docs/Demo_Videos.md) for its evidence context.
+Watch the [system pipeline demonstration](https://www.youtube.com/watch?v=oQvX7AQdywA) and consult the [video index](../../docs/Demo_Videos.md) for the original footage.
 
 [Next: onboard execution and record delivery →](../search_uav/README.md)

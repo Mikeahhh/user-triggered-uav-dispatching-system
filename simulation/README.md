@@ -4,7 +4,7 @@
 
 [System overview](../README.md) · [Mobile application](../code/mobile_application/README.md) · [Ground station](../code/ground_station/README.md) · [Search UAV](../code/search_uav/README.md)
 
-**Tools:** MATLAB R2025b · Python numerical checks · Mapzen / Tilezen Skadi elevation · ffmpeg for replay rendering
+**Tools:** MATLAB R2025b · Mapzen / Tilezen Skadi elevation · ffmpeg for replay rendering
 
 ## Mission view
 
@@ -77,15 +77,7 @@ run_all('video', fullfile(pwd, '..', 'local-results', 'video-01'))
 
 The default paper rendering writes to a new directory under `regenerated/`. Explicit result directories must be new. The existing `output/` folder remains the saved input/result archive.
 
-To check saved numerical outputs without MATLAB, use the repository Python verification environment and run from the repository root:
-
-```sh
-python simulation/verify_outputs.py
-```
-
-This prints the results without writing a report. To save a new report, add `--output local-results/simulation-check-01.json`. The [current validation report](../verification/reports/Android_Only_Validation_20260930.md#verification-results) records the separately rerun MATLAB/Python checks and 11 CSV outputs matching the saved numerical results byte for byte.
-
-## Files to inspect
+## Files and results
 
 | Material | Location |
 | --- | --- |
@@ -96,6 +88,5 @@ This prints the results without writing a report. To save a new report, add `--o
 | Settings and mission timings | [scenario_and_settings.json](output/scenario_and_settings.json) · [mission_summary.csv](output/mission_summary.csv) |
 | Saved workspace and GPS history | [three_mode_study.mat](output/three_mode_study.mat) · [synthetic_gps_history.csv](output/synthetic_gps_history.csv) |
 | Per-mode input/output tables | `output/mode*_mission_waypoints.csv` · `output/mode*_execution_trace.csv` |
-| Independent saved-output verifier | [verify_outputs.py](verify_outputs.py) |
 
 The 80 m terrain-following setting belongs to this study. Onboard ROS defaults and physical flight configuration are documented in the [UAV guide](../code/search_uav/README.md).

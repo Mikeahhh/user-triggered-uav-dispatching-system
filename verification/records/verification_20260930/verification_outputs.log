@@ -1,8 +1,0 @@
-test_default_run_preserves_archived_report_and_creates_no_report (test_verification_outputs.VerificationOutputTests.test_default_run_preserves_archived_report_and_creates_no_report) ... ok
-test_existing_output_is_rejected_and_preserved (test_verification_outputs.VerificationOutputTests.test_existing_output_is_rejected_and_preserved) ... ok
-test_explicit_output_records_checks_without_changing_archive (test_verification_outputs.VerificationOutputTests.test_explicit_output_records_checks_without_changing_archive) ... ok
-
-----------------------------------------------------------------------
-Ran 3 tests in 0.248s
-
-OK

@@ -6,7 +6,7 @@ if nargin<1 || isempty(out)
 end
 if nargin<2, mustBeNew=true; end
 out=char(java.io.File(char(out)).getCanonicalPath());
-reserved={'output','paper_current','data','reference','verification'};
+reserved={'output','paper_current','data'};
 for k=1:numel(reserved)
     protected=char(java.io.File(fullfile(root,reserved{k})).getCanonicalPath());
     assert(~strcmp(out,protected) && ~startsWith(out,[protected filesep]) ...

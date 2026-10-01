@@ -1,6 +1,0 @@
-customtkinter==5.2.2
-tkintermapview==1.29
-firebase-admin==7.4.0
-paho-mqtt==2.1.0
-PyYAML==6.0.3
-numpy==2.3.5

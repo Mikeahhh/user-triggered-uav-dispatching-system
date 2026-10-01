@@ -6,7 +6,7 @@
 
 **Stack:** React Native 0.80.2 · React 19.1 · TypeScript 5.0.4 · Kotlin · SQLite · Realtime Database
 
-[Interface](#interface) · [Service modes](#service-modes) · [Architecture](#application-architecture) · [Setup](#getting-started) · [Verification](#verification)
+[Interface](#interface) · [Service modes](#service-modes) · [Architecture](#application-architecture) · [Setup](#getting-started)
 
 ## Interface
 
@@ -57,8 +57,6 @@ The interface includes English and Chinese translations.
 | --- | --- |
 | [src/](src/) | Application entry component, pages, services and translations |
 | [android/](android/) | Native Android application and recording service |
-| [__tests__/](__tests__/) | Component tests, native checks and shared test fixtures |
-| [scripts/](scripts/) | Android build helpers and native verification commands |
 
 The root `package.json` and `package-lock.json` define and lock npm dependencies. `app.json` identifies the registered application, and `tsconfig.json` supplies the TypeScript configuration. These files stay at the application root for the standard toolchain commands.
 
@@ -70,7 +68,7 @@ Use Node.js 24 for the documented local workflow, plus the Android SDK and JDK r
 npm ci
 ```
 
-For local software checks, follow [repository preparation](../../README.md#local-verification). For a device build, supply the project’s client configuration using [firebaseConfig.example.ts](src/services/db/firebaseConfig.example.ts), the native Android service file and map credentials. Match the ground station’s database URL. Then start Metro and the Android build in separate terminals:
+For a device build, supply the project’s client configuration using [firebaseConfig.example.ts](src/services/db/firebaseConfig.example.ts), the native Android service file and map credentials. Match the ground station’s database URL. Then start Metro and the Android build in separate terminals:
 
 ```sh
 npm start
@@ -80,20 +78,7 @@ npm start
 npm run android
 ```
 
-Build helpers are documented in [ANDROID_RECORDING.md](../../docs/Android_Recording.md#local-verification). `npm run android:debug:safe` produces an isolated build with placeholder service configuration; it is a compile/validation artifact. The source and build targets in this repository support Android.
-
-## Verification
-
-After repository preparation and dependency installation:
-
-```sh
-npm run typecheck
-npm run lint
-npm test -- --runInBand
-npm run test:tracking-native
-```
-
-The native check uses cached compiler dependencies and local SQLite. The saved [30 September validation](../../verification/reports/Android_Only_Validation_20260930.md#verification-results) records that dated validation snapshot, including native Kotlin, SQLite and Android emulator checks. It includes page changes, backgrounding, Activity recreation, force-stop, resume and pending-operation persistence. Live cloud acknowledgement and physical-device behavior require their own validation.
+The source and build targets in this repository support Android. See [persistent Android recording](../../docs/Android_Recording.md) for the location-service lifecycle and synchronization behavior.
 
 ## Source map
 
@@ -105,6 +90,5 @@ The native check uses cached compiler dependencies and local SQLite. The saved [
 | Sampling, storage and synchronization | [Android tracking package](android/app/src/main/java/com/fypproject/tracking/) |
 | Local database access | [services/db/](src/services/db/) |
 | UAV transfer clients | [uavRescueClient.ts](src/services/uavRescueClient.ts) · [uavArrivalCaptureClient.ts](src/services/uavArrivalCaptureClient.ts) |
-| Component tests | [__tests__/](__tests__/) |
 
 [Next: ground-station verification and dispatch →](../ground_station/README.md)

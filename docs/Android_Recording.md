@@ -42,38 +42,3 @@ coordinates at different capture times. The native and JavaScript listPoints
 cursor interface reads the complete history in bounded pages.
 
 The application source and build targets support Android only.
-
-## Local verification
-
-`npm test -- --runInBand` runs page and bridge regressions.
-`npm run typecheck` validates TypeScript.
-`npm run test:tracking-native` runs the production Kotlin validation and REST
-decision code with synthetic responses, plus the production schema and queue
-query against local SQLite databases. The native checks use existing cached
-compiler dependencies and do not download packages or contact Firebase.
-
-`npm run android:debug:safe` builds an isolated, sanitized Android copy with
-Gradle offline mode. The production manifest is preserved, including the recording
-and synchronization services; only the API-key value is replaced. Set
-`MOBILE_BUILD_OUTPUT_DIR` to select a new output directory. The resulting
-APK uses placeholder configuration. Its `COMPILE-ONLY-NO-LIVE-FIREBASE` name
-identifies its placeholder service configuration.
-
-The 2026-09-30 local Android emulator run also installed this APK and loaded the
-JavaScript from the recorded validation snapshot through isolated local Metro
-with synthetic configuration.
-The emulator and its child processes were restricted to host loopback from
-startup. A separate ADB server was limited to the temporary emulator; no physical
-device or existing AVD was used. The actual Android runtime verified database
-initialization and file identity, location foreground-service startup, continued
-SQLite writes while Hermes JavaScript was paused, page changes, backgrounding,
-and Activity destruction/recreation. Force-stop ceased collection and reopening
-displayed the explicit Resume action. Resuming preserved the session and its
-sampling gap. Stop persisted END, and another process restart retained all 49
-positions and 51 pending START/POINT/END operations with a visible network error.
-
-See the [Android runtime results](../verification/reports/Android_Only_Validation_20260930.md#verification-results)
-and [APK checksum and validation snapshot](../verification/reports/Android_Only_Validation_20260930.json).
-These runtime checks exposed and verified fixes for result-returning SQLite
-PRAGMA execution and Android's database path aliases. Separate local
-synthetic-transport tests cover acknowledgements, retries and conflict decisions.

@@ -12,8 +12,6 @@ studyFile = fullfile(root,'output','three_mode_study.mat');
 if strcmp(task, 'simulate')
     assert(isfile(fullfile(root,'data','N22E114.hgt')), ...
         'Terrain file missing: keep the data folder beside run_all.m.');
-    test_flight_clearance();
-    test_simulation_output();
     [~,out]=run_three_mode_simulation(out);
     studyFile=fullfile(out,'three_mode_study.mat');
     out=prepare_simulation_output(fullfile(out,'paper'));

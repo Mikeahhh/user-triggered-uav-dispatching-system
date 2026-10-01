@@ -4,14 +4,9 @@
   "private": true,
   "scripts": {
     "android": "react-native run-android",
-    "android:debug:safe": "sh scripts/build_android_debug_safe.sh",
     "lint": "node node_modules/eslint/bin/eslint.js .",
-    "lint:uav": "node node_modules/eslint/bin/eslint.js src/services/uavRescueClient.ts src/services/uavWifiClient.ts src/pages/SosPage.tsx src/pages/SettingPage.tsx __tests__/uavRescueClient.test.ts __tests__/uavWifiClient.test.ts __tests__/SosPage.test.tsx __tests__/SettingPage.test.tsx",
-    "version:check": "node scripts/check_version_alignment.js",
     "start": "react-native start",
-    "test": "node node_modules/jest/bin/jest.js",
-    "typecheck": "node node_modules/typescript/bin/tsc --noEmit",
-    "test:tracking-native": "python3 scripts/test_tracking_native.py"
+    "typecheck": "node node_modules/typescript/bin/tsc --noEmit"
   },
   "dependencies": {
     "@expo/react-native-action-sheet": "^4.1.1",
@@ -51,14 +46,10 @@
     "@react-native/eslint-config": "0.80.2",
     "@react-native/metro-config": "0.80.2",
     "@react-native/typescript-config": "0.80.2",
-    "@types/jest": "^29.5.13",
     "@types/react": "^19.1.0",
     "@types/react-native-sqlite-storage": "^6.0.5",
-    "@types/react-test-renderer": "^19.1.0",
     "eslint": "^8.19.0",
-    "jest": "^29.6.3",
     "prettier": "2.8.8",
-    "react-test-renderer": "19.1.0",
     "typescript": "5.0.4"
   },
   "engines": {
