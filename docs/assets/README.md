@@ -1,6 +1,6 @@
 # Documentation images
 
-The component guides use existing manuscript figures and outdoor materials. Diagram files describe the current source and are editable SVGs.
+The component guides use existing manuscript figures and outdoor materials. The system architecture is reproduced directly from the paper. Additional component diagrams describe the current source and are editable SVGs.
 
 ## Ground station
 
@@ -21,7 +21,7 @@ The component guides use existing manuscript figures and outdoor materials. Diag
 
 | Diagram | Source reference |
 | --- | --- |
-| [System topology](diagrams/system-topology.svg) | [Technical guide](../Technical_Guide.md) and the three component sources |
+| [System architecture](diagrams/system-architecture.png) | Figure 1 of the manuscript (`Fig1.pdf`), rendered directly with its original text and connections |
 | [Android architecture](diagrams/mobile-architecture.svg) | [Persistent recording](../Android_Recording.md) |
 | [Ground-station architecture](diagrams/ground-station-architecture.svg) | [Ground station](../../code/ground_station/src/ground_station.py), event manager, repository and dispatch journal |
 | [Operator workflow](diagrams/operator-workflow.svg) | [Rescue event manager](../../code/ground_station/src/rescue_event_manager.py) and mission preparation |
@@ -30,4 +30,4 @@ The component guides use existing manuscript figures and outdoor materials. Diag
 | [Phone-record delivery](diagrams/record-delivery.svg) | [Receiver](../../code/search_uav/drone_system/receiver/phone_sos_receiver.py) and delivery eligibility |
 | [Simulation workflow](diagrams/simulation-workflow.svg) | [Simulation entry point](../../simulation/run_all.m) and saved scenario |
 
-The diagrams use white backgrounds, black text and simple connectors. Screenshots and photographs retain their original evidence scope.
+The additional SVG diagrams use white backgrounds, black text and simple connectors. The manuscript architecture figure retains its original colors on a white background. Screenshots and photographs retain their original evidence scope.

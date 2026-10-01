@@ -6,7 +6,7 @@
 
 **Platform:** Windows  |  **Stack:** Python · CustomTkinter 5.2.2 · tkintermapview 1.29 · Firebase Admin 7.4.0
 
-[Interface](#interface) · [Topology](#system-topology) · [Workflow](#operator-workflow) · [Architecture](#application-architecture) · [Setup](#getting-started)
+[Interface](#interface) · [System architecture](#system-architecture) · [Workflow](#operator-workflow) · [Application architecture](#application-architecture) · [Setup](#getting-started)
 
 ## Interface
 
@@ -39,11 +39,11 @@ These details are cropped directly from the same manuscript figure.
 
 The workflow below explains the current contact-verification and dispatch sequence. [Image source](../../docs/assets/README.md#ground-station).
 
-## System topology
+## System Architecture
 
-![System topology linking mobile records, the database, the ground station and the onboard mission stack](../../docs/assets/diagrams/system-topology.svg)
+![System architecture from the paper, showing mobile records, the shared database, operator-confirmed search and dispatch, and UAV execution and recording](../../docs/assets/diagrams/system-architecture.png)
 
-The ground station reads mobile records from the shared database and exchanges missions, status and collected records with the UAV over the deployment network. The operator retains the decision to confirm a search and dispatch its reviewed route.
+The figure is reproduced directly from the paper. The ground station reads mobile records from the shared database and exchanges missions, status and collected records with the UAV over the deployment network. The operator retains the decision to confirm a search and dispatch its reviewed route. [Open the original figure at full size](../../docs/assets/diagrams/system-architecture.png).
 
 ## Operator workflow
 

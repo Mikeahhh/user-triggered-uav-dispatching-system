@@ -19,15 +19,15 @@ This repository accompanies *A User-Triggered UAV Dispatching System for Precise
 | Component | What it does | Illustrated guide |
 | --- | --- | --- |
 | **Mobile application** | Creates trip records, persists timestamped GPS and submits SOS requests | [Screens, recording architecture and Android setup](code/mobile_application/README.md) |
-| **Windows ground station** | Verifies notices, creates search events, reviews routes and coordinates dispatch | [Interface, system topology and operator workflow](code/ground_station/README.md) |
+| **Windows ground station** | Verifies notices, creates search events, reviews routes and coordinates dispatch | [Interface, system architecture and operator workflow](code/ground_station/README.md) |
 | **Search UAV** | Receives missions, executes ordered targets, records video and relays collected phone records | [Airframe, onboard architecture and mission lifecycle](code/search_uav/README.md) |
 | **Terrain simulation** | Compares three complete missions over a shared terrain scenario | [Figures, parameters and reproduction](simulation/README.md) |
 
-## System topology
+## System Architecture
 
-![System topology: mobile records, shared database, operator ground station and onboard UAV](docs/assets/diagrams/system-topology.svg)
+![System architecture from the paper, showing user record tracking and search event creation, search mission scheduling, and UAV mission execution and recording](docs/assets/diagrams/system-architecture.png)
 
-The operator contacts the hiker or emergency contact and **explicitly confirms a search** before a dispatchable event is created. The selected event’s route is then prepared, reviewed and dispatched. UAV admission confirms the transition into execution. [Open the diagram at full size](docs/assets/diagrams/system-topology.svg).
+The figure is reproduced directly from the paper. The operator contacts the hiker or emergency contact and **explicitly confirms a search** before a dispatchable event is created. The selected event’s route is then prepared, reviewed and dispatched. UAV admission confirms the transition into execution. [Open the original figure at full size](docs/assets/diagrams/system-architecture.png).
 
 ## Three service modes
 
