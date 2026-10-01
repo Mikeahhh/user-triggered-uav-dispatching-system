@@ -1,10 +1,10 @@
-# Mountain Search UAV System Technical Guide
+# User-Triggered UAV Dispatching System Technical Guide
 
 This guide explains how to set up and operate the Android mobile application, Windows ground station and onboard UAV software. It also describes the three-mode MATLAB simulation, saved results and original system imagery.
 
 ## 1  Project Contents
 
-Mountain Search UAV System | Technical Guide | 1 October 2026
+User-Triggered UAV Dispatching System | Technical Guide | 1 October 2026
 Implementation baseline: UAV-SEARCH-20260928
 
 This archive contains the mobile application, ground station and UAV source code, together with MATLAB simulations of the three search modes and outdoor footage. All paths in this guide are relative to the archive root.

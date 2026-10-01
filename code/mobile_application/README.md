@@ -1,6 +1,6 @@
 # Mobile Application
 
-**The hiker’s entry point to Mountain Search UAV.** Plan a trip, record timestamped GPS positions or submit an SOS request. The Android application keeps records locally and shows their synchronization state while the ground station handles operator verification.
+**The hiker’s entry point to the User-Triggered UAV Dispatching System.** Plan a trip, record timestamped GPS positions or submit an SOS request. The Android application keeps records locally and shows their synchronization state while the ground station handles operator verification.
 
 [System overview](../../README.md) · [Ground station](../ground_station/README.md) · [Search UAV](../search_uav/README.md) · [Technical guide](../../docs/Technical_Guide.md)
 

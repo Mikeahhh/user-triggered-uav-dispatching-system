@@ -6,11 +6,11 @@
   <a href="docs/Technical_Guide.md">Technical guide</a>
 </p>
 
-# Mountain Search UAV
+# A User-Triggered UAV Dispatching System for Precise and Fast Mountain Search Missions
 
 A research system that connects hikers’ mobile records with UAV search missions confirmed by an operator. An Android application records planned trips, GPS history and SOS requests; the Windows ground station supports contact verification and route review; the onboard software executes the accepted mission and returns collected records.
 
-This repository accompanies *A User-Triggered UAV Dispatching System for Precise and Fast Mountain Search Missions*. It includes the three software components, MATLAB terrain simulation and existing outdoor test footage.
+This repository contains the three software components, MATLAB terrain simulation and existing outdoor test footage described in the paper.
 
 **Technology:** Android / React Native + Kotlin · Windows / Python + CustomTkinter · ROS Noetic + C++ · Wi-Fi · MATLAB
 

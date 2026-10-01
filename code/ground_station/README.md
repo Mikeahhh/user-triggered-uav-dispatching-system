@@ -1,6 +1,6 @@
 # Ground Station
 
-**The Windows operator application for Mountain Search UAV.** Review notices from hikers, record contact outcomes, confirm a search, inspect its route and dispatch it to the UAV. Execution status and returned phone records remain visible in the same desktop application.
+**The Windows operator application for the User-Triggered UAV Dispatching System.** Review notices from hikers, record contact outcomes, confirm a search, inspect its route and dispatch it to the UAV. Execution status and returned phone records remain visible in the same desktop application.
 
 [System overview](../../README.md) · [Mobile application](../mobile_application/README.md) · [Search UAV](../search_uav/README.md) · [Technical guide](../../docs/Technical_Guide.md)
 

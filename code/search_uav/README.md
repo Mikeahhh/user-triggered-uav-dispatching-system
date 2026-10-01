@@ -1,6 +1,6 @@
 # Search UAV
 
-**The onboard mission and data-collection component of Mountain Search UAV.** Receive an operator-confirmed mission, execute its ordered targets, return to launch, request landing and relay eligible phone records to the ground station. Onboard video supports human observation and post-flight review.
+**The onboard mission and data-collection component of the User-Triggered UAV Dispatching System.** Receive an operator-confirmed mission, execute its ordered targets, return to launch, request landing and relay eligible phone records to the ground station. Onboard video supports human observation and post-flight review.
 
 [System overview](../../README.md) · [Mobile application](../mobile_application/README.md) · [Ground station](../ground_station/README.md) · [Simulation](../../simulation/README.md)
 
