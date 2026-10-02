@@ -23,7 +23,7 @@ simulation/regenerated/
 simulation/frames/
 external/
 local-results/
-code/**/services/db/firebaseConfig.ts
+implementation/**/services/db/firebaseConfig.ts
 verification/
 **/tests/
 **/test/

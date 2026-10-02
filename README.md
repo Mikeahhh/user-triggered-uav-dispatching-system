@@ -1,7 +1,7 @@
 <p align="center">
-  <a href="code/mobile_application/README.md">Mobile application</a> ·
-  <a href="code/ground_station/README.md">Ground station</a> ·
-  <a href="code/search_uav/README.md">Search UAV</a> ·
+  <a href="implementation/mobile_application/README.md">Mobile application</a> ·
+  <a href="implementation/ground_station/README.md">Ground station</a> ·
+  <a href="implementation/search_uav/README.md">Search UAV</a> ·
   <a href="simulation/README.md">Simulation</a> ·
   <a href="docs/Technical_Guide.md">Technical guide</a>
 </p>
@@ -10,18 +10,23 @@
 
 A research system that connects hikers’ mobile records with UAV search missions confirmed by an operator. An Android application records planned trips, GPS history and SOS requests; the Windows ground station supports contact verification and route review; the onboard software executes the accepted mission and returns collected records.
 
-This repository contains the three software components, MATLAB terrain simulation and existing outdoor test footage described in the paper.
+The repository separates the running system in [`implementation/`](implementation/README.md) from the MATLAB search-mission study in [`simulation/`](simulation/README.md). Original interface images and outdoor footage accompany the component guides.
 
 **Technology:** Android / React Native + Kotlin · Windows / Python + CustomTkinter · ROS Noetic + C++ · Wi-Fi · MATLAB
 
-## Explore the components
+## System Implementation
+
+The three components implement the workflow in Section II and the prototype described in Section III-A of the paper. The [implementation overview](implementation/README.md) maps the three stages to their source files and setup guides.
 
 | Component | What it does | Illustrated guide |
 | --- | --- | --- |
-| **Mobile application** | Creates trip records, persists timestamped GPS and submits SOS requests | [Screens, recording architecture and Android setup](code/mobile_application/README.md) |
-| **Windows ground station** | Verifies notices, creates search events, reviews routes and coordinates dispatch | [Interface, system architecture and operator workflow](code/ground_station/README.md) |
-| **Search UAV** | Receives missions, executes ordered targets, records video and relays collected phone records | [Airframe, onboard architecture and mission lifecycle](code/search_uav/README.md) |
-| **Terrain simulation** | Compares three complete missions over a shared terrain scenario | [Figures, parameters and reproduction](simulation/README.md) |
+| **Mobile application** | Creates trip records, persists timestamped GPS and submits SOS requests | [Screens, recording architecture and Android setup](implementation/mobile_application/README.md) |
+| **Windows ground station** | Verifies notices, creates search events, reviews routes and coordinates dispatch | [Interface, system architecture and operator workflow](implementation/ground_station/README.md) |
+| **Search UAV** | Receives missions, executes ordered targets, records video and relays collected phone records | [Airframe, onboard architecture and mission lifecycle](implementation/search_uav/README.md) |
+
+## Simulation
+
+[`simulation/`](simulation/README.md) reproduces the search-mission study in Section III-B of the paper. It uses one terrain model, launch position and target to compute the three modes from takeoff through return and landing. The guide explains target sampling, synthetic route inputs, flight settings, run commands and saved results.
 
 ## System Architecture
 
@@ -43,7 +48,7 @@ All modes begin with the same event priority and use the same operator confirmat
 
 <table>
   <tr>
-    <td align="center" width="34%"><a href="code/search_uav/README.md"><img src="docs/assets/outdoor/airframe.jpg" alt="Existing outdoor test photograph of the UAV airframe" width="270"></a><br><strong>Physical prototype</strong><br>Existing outdoor test material</td>
+    <td align="center" width="34%"><a href="implementation/search_uav/README.md"><img src="docs/assets/outdoor/airframe.jpg" alt="Existing outdoor test photograph of the UAV airframe" width="270"></a><br><strong>Physical prototype</strong><br>Existing outdoor test material</td>
     <td align="center" width="66%"><a href="simulation/README.md"><img src="simulation/paper_current/terrain_missions.png" alt="Saved three-mode terrain mission figure" width="560"></a><br><strong>Shared terrain scenario</strong><br>Saved MATLAB trajectories</td>
   </tr>
 </table>
@@ -61,9 +66,9 @@ The [video index](docs/Demo_Videos.md) links each demonstration to its supportin
 | Goal | Entry point |
 | --- | --- |
 | Read the complete setup and behavior guide | [Markdown](docs/Technical_Guide.md) · [PDF](docs/Technical_Guide.pdf) · [Word](docs/Technical_Guide.docx) |
-| Install and use a component | [Android](code/mobile_application/README.md#getting-started) · [Ground station](code/ground_station/README.md#getting-started) · [UAV](code/search_uav/README.md#getting-started) |
+| Install and use a component | [Android](implementation/mobile_application/README.md#getting-started) · [Ground station](implementation/ground_station/README.md#getting-started) · [UAV](implementation/search_uav/README.md#getting-started) |
 | Find the implementation of each system function | [Implementation index](docs/Technical_Guide.md#8-implementation-index) |
-| Build the onboard ROS package | [UAV setup](code/search_uav/README.md#getting-started) |
+| Build the onboard ROS package | [UAV setup](implementation/search_uav/README.md#getting-started) |
 | Redraw or recompute the terrain study | [Simulation guide](simulation/README.md#reproduce-the-study) |
 
 ## Repository map
@@ -71,7 +76,7 @@ The [video index](docs/Demo_Videos.md) links each demonstration to its supportin
 Start with the three component guides or the simulation. [Documentation](docs/README.md) collects the manuals, architecture diagrams and original images.
 
 ```text
-code/
+implementation/             System implementation described in Section III-A
   mobile_application/       Android application
   ground_station/           Windows operator application
   search_uav/               Onboard UAV software

@@ -4,16 +4,16 @@ This guide explains how to set up and operate the Android mobile application, Wi
 
 ## 1  Project Contents
 
-User-Triggered UAV Dispatching System | Technical Guide | 1 October 2026
+User-Triggered UAV Dispatching System | Technical Guide | 2 October 2026
 Implementation baseline: UAV-SEARCH-20260928
 
-This archive contains the mobile application, ground station and UAV source code, together with MATLAB simulations of the three search modes and outdoor footage. All paths in this guide are relative to the archive root.
+The implementation directory contains the mobile application, ground station and UAV software described in Sections II and III-A of the paper. The separate simulation directory contains the MATLAB search-mission study from Section III-B. Original interface images and outdoor footage accompany the guides. All paths in this guide are relative to the repository root.
 
 ### File locations
 
 | Directory | Contents |
 | --- | --- |
-| code/ | Mobile application, ground station and onboard UAV software |
+| implementation/ | Mobile application, ground station and onboard UAV software |
 | simulation/ | MATLAB scripts, elevation data, trajectories, figures and animation |
 | docs/assets/outdoor/ | Original outdoor footage, ground-station footage and images |
 | docs/ | This guide in Word, PDF and Markdown formats |
@@ -24,9 +24,9 @@ This archive contains the mobile application, ground station and UAV source code
 M, G and U refer to the mobile, ground-station and UAV directories, respectively:
 
 ```
-code/mobile_application
-code/ground_station
-code/search_uav
+implementation/mobile_application
+implementation/ground_station
+implementation/search_uav
 ```
 
 ### Current behavior
@@ -41,7 +41,7 @@ Use Node.js 24 and the Android SDK/JDK for the mobile application, Python 3.12 w
 
 ### Android application
 
-From code/mobile_application, install the locked dependencies with npm ci. Copy src/services/db/firebaseConfig.example.ts to src/services/db/firebaseConfig.ts and fill the deployment values. Supply the native Android service configuration and map credentials. Start Metro with npm start and run npm run android in another terminal. The [mobile guide](../code/mobile_application/README.md#getting-started) describes the project structure and setup.
+From implementation/mobile_application, install the locked dependencies with npm ci. Copy src/services/db/firebaseConfig.example.ts to src/services/db/firebaseConfig.ts and fill the deployment values. Supply the native Android service configuration and map credentials. Start Metro with npm start and run npm run android in another terminal. The [mobile guide](../implementation/mobile_application/README.md#getting-started) describes the project structure and setup.
 
 ### Windows ground station
 
@@ -50,10 +50,10 @@ From the repository root in PowerShell, create and activate a Python environment
 ```
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install -r code\ground_station\requirements.txt
+python -m pip install -r implementation\ground_station\requirements.txt
 ```
 
-Fill code/ground_station/config/runtime.env using the adjacent example, then export its settings before launching the application. Section 4 gives the runtime settings and launch commands. To produce the executable, install code/ground_station/packaging/requirements-build.txt and run code/ground_station/packaging/build_windows_release.ps1.
+Fill implementation/ground_station/config/runtime.env using the adjacent example, then export its settings before launching the application. Section 4 gives the runtime settings and launch commands. To produce the executable, install implementation/ground_station/packaging/requirements-build.txt and run implementation/ground_station/packaging/build_windows_release.ps1.
 
 ### Onboard software and simulation
 
@@ -129,12 +129,12 @@ Use G/config/runtime.env.example as the template. Supply and export the actual v
 Copy the template to G/config/runtime.env and fill it locally. The application reads exported environment variables. From the repository root in PowerShell:
 
 ```
-Get-Content code\ground_station\config\runtime.env | ForEach-Object {
+Get-Content implementation\ground_station\config\runtime.env | ForEach-Object {
     if ($_ -match '^\s*([^#=\s]+)=(.*)$') {
         [Environment]::SetEnvironmentVariable($matches[1], $matches[2].Trim(), 'Process')
     }
 }
-Set-Location code\ground_station
+Set-Location implementation\ground_station
 python main.py
 ```
 
@@ -187,6 +187,16 @@ The simulation uses terrain near Pak Tam Chung, Sai Kung. The three modes share 
 | Waypoint hover duration | 5 s |
 | Mode 3 spiral | Initial side length: 30 m; increase by 30 m every two segments; stop at the first endpoint at least 200 m from the centre |
 
+### Target selection and route inputs
+
+MATLAB uses the Twister generator with seed 20260926. It samples target candidates uniformly between 1,500 and 4,000 m east and between 500 and 4,000 m north of launch. Candidates must be 2,000 to 4,500 m from launch and at 100 to 500 m terrain elevation. A 17 by 17 grid extending 240 m in each direction must stay at or above 40 m elevation. Terrain along mission and return segments must stay at or above 2 m, sampled at intervals no greater than 5 m. The first accepted candidate is used; the saved study accepts candidate 6. Flight clearance is checked separately after trajectories are generated.
+
+Mode 1 places three waypoints at 27%, 63% and 100% of the launch-to-target baseline, with lateral offsets of 210 m left, 150 m right and 0 m. Mode 2 uses 15 equally spaced baseline fractions from 27% to 100%, interpolates these offsets and adds a 210 m half-sine detour. Mode 3 visits the target centre followed by all 18 square-spiral endpoints. Route construction is deterministic after the target is selected.
+
+### Simulation timing
+
+The clock begins at takeoff. All input records are available before dispatch; overdue decisions, GPS update timeouts, SOS reception, operator verification and communication delays are outside the simulation clock. Each mission includes waypoint hovers, direct return, a final hover and landing. The model uses ideal terrain-following positions and speed limits, without aircraft dynamics, wind, radio coverage or automatic person detection.
+
 ### Run commands
 
 Set the MATLAB current folder to simulation and select the required entry point:
@@ -198,6 +208,8 @@ run_all('video', fullfile(pwd, '..', 'local-results', 'video-01'))
 ```
 
 paper redraws the figure from saved trajectories into a new directory under simulation/regenerated. simulate recomputes all modes into the selected output directory. video renders the saved trajectories into its selected directory and requires ffmpeg. Each output directory must be new; simulation/output remains the saved input and result archive. The renderers use Event Booking, Quick Start and SOS.
+
+The saved study records MATLAB R2025b Update 4. Recomputing prints the seed, accepted candidate and mission summary, writes settings, input and execution tables, and saves figures and a MATLAB workspace. The paper figure is also written under the new result directory's paper subdirectory. The [simulation guide](../simulation/README.md) gives the full sampling rules, input construction, command outputs and result-file descriptions.
 
 | Mode | Input waypoints | Target arrival / s | Landing complete / s |
 | --- | --- | --- | --- |

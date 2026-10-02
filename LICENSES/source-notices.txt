@@ -1,4 +1,4 @@
-File: code/mobile_application/android/gradlew
+File: implementation/mobile_application/android/gradlew
 
 Copyright © 2015-2021 the original authors.
 
@@ -17,7 +17,7 @@ limitations under the License.
 SPDX-License-Identifier: Apache-2.0
 
 
-File: code/mobile_application/android/gradlew.bat
+File: implementation/mobile_application/android/gradlew.bat
 
 Copyright (c) Meta Platforms, Inc. and affiliates.
 
@@ -41,7 +41,7 @@ limitations under the License.
 SPDX-License-Identifier: Apache-2.0
 
 
-File: code/mobile_application/android/app/src/main/res/drawable/rn_edit_text_material.xml
+File: implementation/mobile_application/android/app/src/main/res/drawable/rn_edit_text_material.xml
 
 Copyright (C) 2014 The Android Open Source Project
 

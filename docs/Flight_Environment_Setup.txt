@@ -14,7 +14,7 @@ git -C external/drone-platform checkout --detach b3ac1591b63d15270c9856e7b664da0
 Fast-Drone-250 is in external/drone-platform/Fast-Drone-250.
 For the original onboard directory layout, place it at /home/mike/Fast-Drone-250. Follow that pinned version's README for dependency installation, sensor parameters and flight-controller calibration.
 
-2. Copy code/search_uav/catkin_ws and code/search_uav/drone_system from this archive to the onboard directories.
+2. Copy implementation/search_uav/catkin_ws and implementation/search_uav/drone_system from this archive to the onboard directories.
 
 /home/mike/catkin_ws
 /home/mike/drone_system

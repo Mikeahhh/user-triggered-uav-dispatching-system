@@ -103,7 +103,7 @@ Run the operator application on **Windows**. From the repository root in PowerSh
 ```powershell
 py -3.12 -m venv .venv
 .\.venv\Scripts\Activate.ps1
-python -m pip install -r code\ground_station\requirements.txt
+python -m pip install -r implementation\ground_station\requirements.txt
 ```
 
 For normal operation, copy [runtime.env.example](config/runtime.env.example) to `config/runtime.env` and fill the deployment values:
@@ -118,15 +118,15 @@ For normal operation, copy [runtime.env.example](config/runtime.env.example) to 
 | `GS_STATE_DIR` | Durable dispatch state directory |
 | Communication endpoint | Shared address and port in the runtime template |
 
-Both time thresholds are unset in the template. Save the completed file as `code/ground_station/config/runtime.env`, then export its values into the PowerShell process before launch:
+Both time thresholds are unset in the template. Save the completed file as `implementation/ground_station/config/runtime.env`, then export its values into the PowerShell process before launch:
 
 ```powershell
-Get-Content code\ground_station\config\runtime.env | ForEach-Object {
+Get-Content implementation\ground_station\config\runtime.env | ForEach-Object {
     if ($_ -match '^\s*([^#=\s]+)=(.*)$') {
         [Environment]::SetEnvironmentVariable($matches[1], $matches[2].Trim(), 'Process')
     }
 }
-Set-Location code\ground_station
+Set-Location implementation\ground_station
 python main.py
 ```
 
