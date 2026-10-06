@@ -1,7 +1,9 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
-
-
+// Copy this template to firebaseConfig.ts (ignored by Git).
+// Replace EXTERNAL_* with the client configuration from your own Firebase project.
+// Copy the databaseURL from that project's Realtime Database console.
+// Service-account private keys and GitHub tokens do not belong in client code.
 const firebaseConfig = {
   apiKey: 'EXTERNAL_FIREBASE_API_KEY',
   authDomain: 'EXTERNAL_FIREBASE_AUTH_DOMAIN',

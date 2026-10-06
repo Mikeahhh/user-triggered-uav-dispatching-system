@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="895" viewBox="0 0 1120 895" role="img" aria-labelledby="title desc">
+  <title id="title">Shared database structure</title>
+  <desc id="desc">Firebase Realtime Database paths under users/{phone}. The phone writes profile, booked_events, QuickStartSessions and rescue_requests. The ground station maintains rescue_alerts, rescue_events and quick_start_monitoring. The phone's local SQLite database is separate.</desc>
+  <rect width="1120" height="895" fill="#ffffff"/>
+  <g font-family="Times New Roman, Times, serif" fill="#000000">
+    <text x="40" y="49" font-size="28">Shared database structure</text>
+    <text x="40" y="80" font-size="19">Firebase Realtime Database · source-defined paths and selected fields</text>
+    <rect x="370" y="108" width="380" height="56" fill="#ffffff" stroke="#000000" stroke-width="1.25"/>
+    <text x="560" y="143" text-anchor="middle" font-size="24">users/{phone}</text>
+    <path d="M560 164 V188 H296 V218 M560 188 H824 V218" fill="none" stroke="#000000" stroke-width="1.25"/>
+    <text x="56" y="248" font-size="23" font-weight="bold">Phone records</text>
+    <text x="588" y="248" font-size="23" font-weight="bold">Ground-station records</text>
+    <rect x="40" y="267" width="508" height="480" fill="none" stroke="#000000" stroke-width="1.25"/>
+    <rect x="572" y="267" width="508" height="480" fill="none" stroke="#000000" stroke-width="1.25"/>
+    <path d="M40 376 H548 M40 485 H548 M40 630 H548 M572 411 H1080 M572 562 H1080" fill="none" stroke="#000000" stroke-width="1"/>
+    <text x="60" y="300" font-size="22" font-weight="bold">profile</text>
+    <text x="60" y="330" font-size="19">first_name, last_name, phone, email</text>
+    <text x="60" y="356" font-size="19">medical_notes, emergency_contacts, …</text>
+    <text x="60" y="409" font-size="22" font-weight="bold">booked_events/{eventId} · Mode 1</text>
+    <text x="60" y="439" font-size="19">title, date, startTime, endDate, endTime</text>
+    <text x="60" y="465" font-size="19">waypoints, expectedEndAtMs, …</text>
+    <text x="60" y="518" font-size="22" font-weight="bold">QuickStartSessions/{sessionId} · Mode 2</text>
+    <text x="60" y="548" font-size="19">startTime, status, endTime (after stopping)</text>
+    <text x="80" y="581" font-size="20">└ points/point_{sequence}</text>
+    <text x="100" y="607" font-size="19">latitude, longitude, timestamp, timestampISO, …</text>
+    <text x="60" y="663" font-size="22" font-weight="bold">rescue_requests/{requestId} · Mode 3</text>
+    <text x="60" y="693" font-size="19">latitude, longitude, status, timestamp, device</text>
+    <text x="60" y="722" font-size="19">Initial status: PENDING</text>
+    <text x="592" y="300" font-size="22" font-weight="bold">rescue_alerts/{alertId}</text>
+    <text x="592" y="337" font-size="20">Verification status and triggering record</text>
+    <text x="592" y="367" font-size="20">Operator contact-check outcomes</text>
+    <text x="592" y="444" font-size="22" font-weight="bold">rescue_events/{eventId}</text>
+    <text x="592" y="481" font-size="20">Confirmed search linked to the source alert</text>
+    <text x="592" y="511" font-size="20">and original phone record</text>
+    <text x="592" y="541" font-size="19">search_confirmed_at_ms, …</text>
+    <text x="592" y="595" font-size="22" font-weight="bold">quick_start_monitoring/{sessionId}</text>
+    <text x="592" y="632" font-size="20">Per-session freshness and timeout state</text>
+    <text x="592" y="662" font-size="19">latest_sample_at_ms, effective_timeout_ms</text>
+    <text x="592" y="692" font-size="19">monitoring_status, …</text>
+    <text x="40" y="783" font-size="19">{phone}: profile phone number normalized to digits. Other braces denote record identifiers.</text>
+    <path d="M40 805 H1080" stroke="#000000" stroke-width="1"/>
+    <text x="40" y="839" font-size="21">Separate local storage: location_tracker.db (SQLite)</text>
+    <text x="40" y="869" font-size="19">The phone retains local records and pending uploads; local persistence does not establish cloud synchronization.</text>
+  </g>
+</svg>

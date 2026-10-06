@@ -62,6 +62,10 @@ The root `package.json` and `package-lock.json` define and lock npm dependencies
 
 ## Database structure
 
+![Firebase Realtime Database structure: phone records and ground-station verification records](../../docs/assets/diagrams/database-structure.svg)
+
+The diagram shows source-defined paths and selected fields, rather than a capture of the operational database. Braces denote record identifiers.
+
 The shared Firebase Realtime Database groups records under `users/{phone}`, where `{phone}` is the profile phone number with non-digit characters removed. The current application and ground station use these paths:
 
 ```text
@@ -101,7 +105,9 @@ Use Node.js 24 for the documented local workflow, plus the Android SDK and JDK r
 npm ci
 ```
 
-For a device build, supply the project’s client configuration using [firebaseConfig.example.ts](src/services/db/firebaseConfig.example.ts), the native Android service file and map credentials. Match the ground station’s database URL. Then start Metro and the Android build in separate terminals:
+For a device build, copy [firebaseConfig.example.ts](src/services/db/firebaseConfig.example.ts) to `src/services/db/firebaseConfig.ts`. Replace its `EXTERNAL_*` placeholders with the client configuration from your own Firebase project's settings. Copy the Realtime Database URL from that project's console; it must match the ground station's `GS_FIREBASE_DATABASE_URL`. Also supply the native Android service file and map credentials.
+
+The local `firebaseConfig.ts` and native `google-services.json` files are ignored by Git. Keep service-account private keys and GitHub access tokens out of the mobile application. The ground station loads its service-account file through `GS_FIREBASE_CREDENTIALS`; keep that file outside the repository. Then start Metro and the Android build in separate terminals:
 
 ```sh
 npm start

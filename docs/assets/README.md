@@ -23,6 +23,7 @@ The component guides use existing manuscript figures and outdoor materials. The 
 | --- | --- |
 | [System architecture](diagrams/system-architecture.png) | Figure 1 of the manuscript (`Fig1.pdf`), rendered directly with its original text and connections |
 | [Android architecture](diagrams/mobile-architecture.svg) | [Persistent recording](../Android_Recording.md) |
+| [Shared database structure](diagrams/database-structure.svg) | [Database paths and fields](../../implementation/mobile_application/README.md#database-structure), traced to the mobile writers and ground-station event handling; a schema illustration, not a console screenshot |
 | [Ground-station architecture](diagrams/ground-station-architecture.svg) | [Ground station](../../implementation/ground_station/src/ground_station.py), event manager, repository and dispatch journal |
 | [Operator workflow](diagrams/operator-workflow.svg) | [Rescue event manager](../../implementation/ground_station/src/rescue_event_manager.py) and mission preparation |
 | [UAV architecture](diagrams/uav-architecture.svg) | [Mission bridge](../../implementation/search_uav/catkin_ws/src/rescue_bridge/src/mqtt_bridge.py) and [flight setup](../Flight_Environment_Setup.txt) |
