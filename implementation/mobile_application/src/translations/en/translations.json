@@ -76,7 +76,8 @@
       "cancel": "Cancel",
       "wifiConfirmed": "I have joined the UAV Wi-Fi"
     },
-    "slogan": "Help is just a Ping Away"
+    "slogan": "Help is just a Ping Away",
+    "noPhoneStored": "Use Settings to sign in and ask your administrator to assign your own phone record."
   },
   "settingPage": {
     "title": "Settings",
@@ -205,7 +206,7 @@
       "startFailed": {
         "title": "Start Failed",
         "message": "Failed to create tracking route",
-        "missingPhone": "Please set your phone number in your profile first.",
+        "missingPhone": "Use Settings to sign in and ask your administrator to assign your own phone record.",
         "upload": "Unable to save the first location. Check your connection and try again."
       },
       "uploadFailed": {
@@ -268,7 +269,7 @@
       },
       "noPhone": {
         "title": "No Phone Number Set",
-        "message": "Please set your phone number in Profile first"
+        "message": "Use Settings to sign in and ask your administrator to assign your own phone record."
       },
       "validation": {
         "title": "Required",
@@ -374,7 +375,7 @@
       "syncSuccess": "Successfully synced latest data from cloud",
       "clearDatabase": {
         "title": "Confirm Clear Data?",
-        "message": "This will delete all local profile data (cloud data unaffected). Continue?"
+        "message": "Clear the local profile for this account? Other accounts, older unassigned profiles and cloud records will be retained."
       },
       "clearSuccess": {
         "title": "Cleared Successfully",
@@ -408,7 +409,27 @@
     "sync": {
       "PENDING": "Awaiting synchronization",
       "SYNCED": "All saved records synchronized",
-      "ERROR": "Synchronization needs attention"
+      "ERROR": "Synchronization needs attention",
+      "AUTH_REQUIRED": "Sign in and verify your account binding before synchronizing."
     }
+  },
+  "cloudAccount": {
+    "title": "Cloud account",
+    "SIGNED_OUT": "Sign in with your team Google account.",
+    "UNBOUND": "Signed in. An administrator must bind your account before cloud access is available.",
+    "BOUND": "Your account is bound to a phone record.",
+    "boundPhone": "Bound phone: {{phone}}",
+    "accountId": "Account UID (send to your administrator)",
+    "unavailable": "Account status is unavailable. Check the Android Firebase configuration.",
+    "operationFailed": "The operation did not complete. Check your connection and configuration, and stop any active recording before changing accounts.",
+    "signIn": "Sign in with Google",
+    "refresh": "Refresh account binding",
+    "signOut": "Sign out",
+    "signOutHint": "Stop recording before signing out. Unsynchronized records remain assigned to the account that created them.",
+    "bindingRequired": "Use Settings to sign in and ask your administrator to assign your own phone record.",
+    "cloudUnavailable": "The cloud profile could not be loaded. Any local profile is retained.",
+    "profileLocalOnly": "Saved on this device. Cloud synchronization did not complete; reconnect and tap Save again.",
+    "profileSynchronized": "The profile was saved on this device and synchronized to the cloud.",
+    "legacyHeld": "Older records without a verified account owner are retained locally and will not upload automatically."
   }
 }

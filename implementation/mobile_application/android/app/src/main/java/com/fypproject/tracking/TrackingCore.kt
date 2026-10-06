@@ -1,5 +1,6 @@
 package com.fypproject.tracking
 
+import com.fypproject.auth.AuthOwner
 import java.net.URI
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -8,7 +9,7 @@ import java.util.TimeZone
 
 object TrackingCore {
     const val DATABASE_NAME = "location_tracker.db"
-    const val SCHEMA_VERSION = 4
+    const val SCHEMA_VERSION = 5
     const val INTERVAL_MS = 5000L
     const val MAX_FIX_AGE_MS = 15000L
 
@@ -61,5 +62,5 @@ data class RecordedFix(
 
 data class PendingWrite(
     val id: Long, val group: String, val target: String, val path: String,
-    val kind: String, val payload: String, val attempts: Int
+    val kind: String, val payload: String, val attempts: Int, val owner: AuthOwner
 )

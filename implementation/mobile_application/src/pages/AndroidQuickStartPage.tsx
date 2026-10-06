@@ -1,16 +1,19 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useContext, useRef, useState } from 'react';
+import { CloudAccountContext, requireRenderedAccount } from '../services/cloudAccountContext';
 import { Alert, AppState, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import MapView, { Polyline } from 'react-native-maps';
-import { getDb, initDb } from '../services/db/initDb';
+import { initDb } from '../services/db/initDb';
 import {
   readTrackingSnapshot, resumePersistentTracking, retryPersistentSync,
   startPersistentTracking, stopPersistentTracking, TrackingSnapshot,
 } from '../services/persistentTracking';
+
 import { formatQuickStartTimestamp } from '../services/quickStartMetrics';
 
 const AndroidQuickStartPage = () => {
   const { t } = useTranslation();
+  const renderedAccount = useContext(CloudAccountContext);
   const [snapshot, setSnapshot] = useState<TrackingSnapshot | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -59,14 +62,12 @@ const AndroidQuickStartPage = () => {
 
   const start = async () => {
     await initDb();
-    const [result] = await getDb().executeSql('SELECT phone FROM user ORDER BY id DESC LIMIT 1');
-    const phone = result.rows.length ? String(result.rows.item(0).phone ?? '').replace(/[^0-9]/g, '') : '';
-    if (!phone) throw new Error(t('quickStartPage.alert.startFailed.missingPhone'));
-    await startPersistentTracking(phone);
+    const owner = await requireRenderedAccount(renderedAccount);
+    await startPersistentTracking(owner.phone, owner);
   };
 
   const session = snapshot?.session;
-  const interrupted = !!session && (session.state === 'INTERRUPTED' || !snapshot?.serviceRunning);
+  const interrupted = !!session && (session.state === 'INTERRUPTED' || session.state === 'AUTH_PAUSED' || !snapshot?.serviceRunning);
   const points = snapshot?.points ?? [];
   const stateKey = interrupted ? 'persistentTracking.interrupted' :
     session?.state === 'STARTING' ? 'quickStartPage.status.locating' :
@@ -87,17 +88,18 @@ const AndroidQuickStartPage = () => {
         <Text>{t('quickStartPage.stats.points')}: {snapshot?.totalPoints ?? 0}</Text>
         <Text>{t('persistentTracking.uploaded')}: {snapshot?.uploadedPoints ?? 0}</Text>
         <Text>{t('persistentTracking.pending')}: {snapshot?.pendingCount ?? 0}</Text>
+        {(snapshot?.authPendingCount ?? 0) > 0 && <Text>{t('cloudAccount.legacyHeld')}</Text>}
         {!!snapshot?.syncState && <Text>{t(`persistentTracking.sync.${snapshot.syncState}`)}</Text>}
       </View>
       {interrupted && (
         <TouchableOpacity testID="quick-start-resume" style={styles.button} disabled={busy}
-          onPress={() => perform(resumePersistentTracking)}>
+          onPress={() => perform(() => resumePersistentTracking(session!.session_id))}>
           <Text style={styles.buttonText}>{t('persistentTracking.resume')}</Text>
         </TouchableOpacity>
       )}
       <TouchableOpacity testID="quick-start-toggle"
         style={[styles.button, session && styles.stop]} disabled={busy || !snapshot}
-        onPress={() => perform(session ? stopPersistentTracking : start)}>
+        onPress={() => perform(session ? () => stopPersistentTracking(session.session_id) : start)}>
         <Text style={styles.buttonText}>
           {t(session ? 'quickStartPage.button.stop' : 'quickStartPage.button.start')}
         </Text>

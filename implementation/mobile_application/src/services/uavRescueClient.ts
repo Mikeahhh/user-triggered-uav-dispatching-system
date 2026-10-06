@@ -77,6 +77,7 @@ export interface QueueOptions {
 
 export interface FlushOptions extends SendOptions {
   nowMs?: number;
+  userId?: string;
 }
 
 export interface FlushResult {
@@ -582,6 +583,10 @@ export const flushPendingUavRescues = async (
 
 
     for (const item of items) {
+      if (options.userId !== undefined && item.payload.user_id !== options.userId) {
+        remaining.push(item);
+        continue;
+      }
       const expiryMs = Date.parse(item.expires_at);
       if (!Number.isFinite(expiryMs) || expiryMs <= nowMs) {
         expired += 1;
@@ -620,7 +625,8 @@ export const flushPendingUavRescues = async (
       expired,
       differentReceiver,
       differentWifi,
-      remaining: remaining.length,
+      remaining: options.userId === undefined ? remaining.length :
+        remaining.filter(item => item.payload.user_id === options.userId).length,
     };
   });
 };

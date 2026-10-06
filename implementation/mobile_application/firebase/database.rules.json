@@ -1,0 +1,26 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+    "mobile_account_bindings": {
+      "$uid": {
+        ".read": "auth != null && auth.uid === $uid && auth.token.firebase.sign_in_provider === 'google.com'",
+        ".write": false
+      }
+    },
+    "users": {
+      "$phone": {
+        "$recordGroup": {
+          ".read": "auth != null && auth.token.firebase.sign_in_provider === 'google.com' && $phone.matches(/^[0-9]{3,20}$/) && root.child('mobile_account_bindings').child(auth.uid).child('enabled').val() === true && root.child('mobile_account_bindings').child(auth.uid).child('phone').val() === $phone && ($recordGroup === 'profile' || $recordGroup === 'booked_events' || $recordGroup === 'QuickStartSessions' || $recordGroup === 'rescue_requests')",
+          ".write": "auth != null && auth.token.firebase.sign_in_provider === 'google.com' && $phone.matches(/^[0-9]{3,20}$/) && root.child('mobile_account_bindings').child(auth.uid).child('enabled').val() === true && root.child('mobile_account_bindings').child(auth.uid).child('phone').val() === $phone && ($recordGroup === 'profile' || $recordGroup === 'booked_events' || $recordGroup === 'QuickStartSessions' || $recordGroup === 'rescue_requests')"
+        }
+      }
+    },
+    "ground_station_users": {
+      "$uid": {
+        ".read": "auth != null && (auth.uid === $uid || root.child('ground_station_users').child(auth.uid).child('role').val() === 'admin')",
+        ".write": "auth != null && root.child('ground_station_users').child(auth.uid).child('role').val() === 'admin'"
+      }
+    }
+  }
+}

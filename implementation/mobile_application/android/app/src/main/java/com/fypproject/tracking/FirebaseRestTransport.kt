@@ -1,5 +1,8 @@
 package com.fypproject.tracking
 
+import android.content.Context
+import com.fypproject.auth.AuthOwner
+import com.fypproject.auth.MobileIdentity
 import org.json.JSONObject
 import java.net.URL
 import java.net.URLEncoder
@@ -9,17 +12,44 @@ import javax.net.ssl.HttpsURLConnection
 
 data class RestResult(val code: Int, val body: String, val etag: String?)
 
-open class FirebaseRestTransport {
-    open fun request(target: String, path: String, method: String, payload: String? = null, etag: String? = null): RestResult {
-        TrackingCore.requireTarget(target)
+open class FirebaseRestTransport(private val context: Context) {
+    private fun verify(owner: AuthOwner, path: String) {
+        TrackingCore.requireTarget(owner.target)
         TrackingCore.requirePath(path)
+        require(path.startsWith("users/${owner.phone}/")) { "The record account does not match" }
+        require(MobileIdentity.requireOwner(context, owner.phone, owner.target) == owner) {
+            "Account changed; synchronization is paused"
+        }
+    }
+
+    fun request(owner: AuthOwner, path: String, method: String, payload: String? = null, etag: String? = null): RestResult {
+        try {
+            require(method in setOf("GET", "PUT", "PATCH")) { "Unsupported database operation" }
+            for (attempt in 0..1) {
+                verify(owner, path)
+                val token = MobileIdentity.idTokenFor(context, owner, forceRefresh = attempt == 1)
+                verify(owner, path)
+                val response = exchange(owner.target, path, method, payload, etag, token)
+                verify(owner, path)
+                if (response.code != 401 || attempt == 1) return response
+            }
+            error("Synchronization is unavailable")
+        } catch (_: Exception) {
+            // Network exceptions may contain the URL and ID token: never retain their cause or message.
+            throw IllegalStateException("Synchronization paused; check your account and connection.")
+        }
+    }
+
+    protected open fun exchange(target: String, path: String, method: String, payload: String?, etag: String?, token: String): RestResult {
         val encoded = path.split('/').joinToString("/") { URLEncoder.encode(it, "UTF-8").replace("+", "%20") }
-        val connection = URL("$target/$encoded.json").openConnection() as HttpsURLConnection
+        val connection = URL("$target/$encoded.json?auth=${URLEncoder.encode(token, "UTF-8")}").openConnection() as HttpsURLConnection
         val deadline = deadlines.schedule({ connection.disconnect() }, 12000, TimeUnit.MILLISECONDS)
         try {
             connection.connectTimeout = 8000
             connection.readTimeout = 8000
             connection.instanceFollowRedirects = false
+            connection.useCaches = false
+            connection.setRequestProperty("Cache-Control", "no-store")
             connection.requestMethod = if (method == "PATCH") "POST" else method
             if (method == "PATCH") connection.setRequestProperty("X-HTTP-Method-Override", "PATCH")
             if (method == "GET") connection.setRequestProperty("X-Firebase-ETag", "true")
@@ -37,9 +67,11 @@ open class FirebaseRestTransport {
     }
 
     fun send(write: PendingWrite) {
+        require(write.target == write.owner.target) { "The saved database target does not match the account" }
+        verify(write.owner, write.path)
         val result = when (write.kind) {
             "START" -> {
-                val attempt = request(write.target, write.path, "PUT", write.payload, "null_etag")
+                val attempt = request(write.owner, write.path, "PUT", write.payload, "null_etag")
                 if (attempt.code != 412) attempt else {
                     val stored = JSONObject(attempt.body)
                     val expected = JSONObject(write.payload)
@@ -50,20 +82,20 @@ open class FirebaseRestTransport {
                     RestResult(200, attempt.body, attempt.etag)
                 }
             }
-            "END" -> request(write.target, write.path, "PATCH", write.payload)
+            "END" -> request(write.owner, write.path, "PATCH", write.payload)
             "RECORD", "DELETE" -> {
-                val previous = request(write.target, write.path, "GET")
+                val previous = request(write.owner, write.path, "GET")
                 require(previous.code in 200..299) { "Record lookup returned HTTP ${previous.code}" }
                 val remote = if (previous.body == "null") null else JSONObject(previous.body)
                 val revision = JSONObject(write.payload).getLong("_client_revision")
                 if (remote != null && remote.optLong("_client_revision", 0) >= revision) {
                     RestResult(200, previous.body, previous.etag)
                 } else {
-                    request(write.target, write.path, "PUT", write.payload, previous.etag ?: error("Missing database ETag"))
+                    request(write.owner, write.path, "PUT", write.payload, previous.etag ?: error("Missing database ETag"))
                 }
             }
             "POINT" -> {
-                val attempt = request(write.target, write.path, "PUT", write.payload, "null_etag")
+                val attempt = request(write.owner, write.path, "PUT", write.payload, "null_etag")
                 if (attempt.code != 412) attempt else {
                     require(sameObject(JSONObject(attempt.body), JSONObject(write.payload))) {
                         "The remote point conflicts with the saved original sample"
@@ -73,6 +105,7 @@ open class FirebaseRestTransport {
             }
             else -> error("Unknown queued operation")
         }
+        verify(write.owner, write.path)
         require(result.code in 200..299) { "Synchronization returned HTTP ${result.code}" }
     }
 

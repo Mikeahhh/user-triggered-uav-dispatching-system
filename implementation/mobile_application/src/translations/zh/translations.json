@@ -76,7 +76,8 @@
       "cancel": "取消",
       "wifiConfirmed": "我已接入無人機 Wi-Fi"
     },
-    "slogan": "Help is just a Ping Away"
+    "slogan": "Help is just a Ping Away",
+    "noPhoneStored": "請在設定頁登入，並請管理員綁定屬於您本人的電話記錄。"
   },
   "settingPage": {
     "title": "設定",
@@ -205,7 +206,7 @@
       "startFailed": {
         "title": "啟動失敗",
         "message": "無法建立追蹤路線",
-        "missingPhone": "請先在個人資料頁設定電話號碼。",
+        "missingPhone": "請在設定頁登入，並請管理員綁定屬於您本人的電話記錄。",
         "upload": "無法儲存首次定位，請檢查網路後重試。"
       },
       "uploadFailed": {
@@ -268,7 +269,7 @@
       },
       "noPhone": {
         "title": "未設定電話",
-        "message": "請先在個人資料頁設定電話號碼"
+        "message": "請在設定頁登入，並請管理員綁定屬於您本人的電話記錄。"
       },
       "validation": {
         "title": "提示",
@@ -374,7 +375,7 @@
       "syncSuccess": "已從雲端同步最新資料",
       "clearDatabase": {
         "title": "確認清除資料？",
-        "message": "這將刪除本地所有個人檔案資料（雲端不會受影響），確定繼續？"
+        "message": "清除此帳戶的本機個人資料？其他帳戶、尚未歸屬的舊資料及雲端記錄會保留。"
       },
       "clearSuccess": {
         "title": "清除成功",
@@ -408,7 +409,27 @@
     "sync": {
       "PENDING": "等待同步",
       "SYNCED": "已儲存記錄全部同步完成",
-      "ERROR": "同步需要處理"
+      "ERROR": "同步需要處理",
+      "AUTH_REQUIRED": "請先登入並確認帳戶綁定，再進行同步。"
     }
+  },
+  "cloudAccount": {
+    "title": "雲端帳戶",
+    "SIGNED_OUT": "請使用團隊的 Google 帳戶登入。",
+    "UNBOUND": "已登入。管理員完成帳戶綁定後，才能存取雲端記錄。",
+    "BOUND": "帳戶已綁定電話記錄。",
+    "boundPhone": "已綁定電話：{{phone}}",
+    "accountId": "帳戶 UID（請交給管理員）",
+    "unavailable": "無法取得帳戶狀態，請檢查 Android Firebase 設定。",
+    "operationFailed": "操作未完成。請檢查連線及設定；切換帳戶前請先停止記錄。",
+    "signIn": "使用 Google 登入",
+    "refresh": "重新讀取帳戶綁定",
+    "signOut": "登出",
+    "signOutHint": "登出前請先停止記錄。尚未同步的記錄仍屬於建立記錄的帳戶。",
+    "bindingRequired": "請在設定頁登入，並請管理員綁定屬於您本人的電話記錄。",
+    "cloudUnavailable": "未能讀取雲端個人資料；已有的本機資料會保留。",
+    "profileLocalOnly": "已儲存於本機。雲端同步尚未完成，請恢復連線後再次按儲存。",
+    "profileSynchronized": "個人資料已儲存於本機並同步至雲端。",
+    "legacyHeld": "沒有已驗證帳戶歸屬的舊記錄會保留於本機，不會自動上傳。"
   }
 }

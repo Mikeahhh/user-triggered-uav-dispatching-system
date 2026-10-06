@@ -18,6 +18,7 @@ class MainApplication : Application(), ReactApplication {
             PackageList(this).packages.apply {
               add(UavWifiPackage())
               add(com.fypproject.tracking.TrackingPackage())
+              add(com.fypproject.auth.AuthPackage())
             }
 
         override fun getJSMainModuleName(): String = "index"

@@ -23,7 +23,7 @@ object TrackingSync {
             var pending = true
             try {
                 val store = TrackingStore.get(context)
-                val transport = FirebaseRestTransport()
+                val transport = FirebaseRestTransport(context)
                 val deadline = System.currentTimeMillis() + 20000
                 while (System.currentTimeMillis() < deadline) {
                     val write = store.nextWrite(System.currentTimeMillis()) ?: break
@@ -31,10 +31,13 @@ object TrackingSync {
                         transport.send(write)
                         store.acknowledge(write, System.currentTimeMillis())
                     } catch (error: Exception) {
-                        store.failed(write, error.message ?: "Synchronization unavailable", System.currentTimeMillis())
+                        store.failed(write, System.currentTimeMillis())
                     }
                 }
                 pending = store.hasPending()
+            } catch (_: Exception) {
+                // An authentication transition pauses work without acknowledging or deleting it.
+                pending = TrackingStore.get(context).hasPending()
             } finally {
                 running.set(false)
                 if (pending && onDone == null) schedule(context)

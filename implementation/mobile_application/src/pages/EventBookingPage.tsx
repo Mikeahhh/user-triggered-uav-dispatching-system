@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useContext, useRef, useCallback } from 'react';
+import { CloudAccountContext, requireRenderedAccount } from '../services/cloudAccountContext';
 import {
   View,
   Text,
@@ -13,7 +14,7 @@ import MapView, { Marker, Polyline } from 'react-native-maps';
 import DatePicker from 'react-native-date-picker';
 import { persistCloudRecord, readPersistentRecords, refreshPersistentRecords } from '../services/persistentTracking';
 import { useTranslation } from 'react-i18next';
-import { initDb, getDb } from '../services/db/initDb';
+import { assertCloudIdentity } from '../services/mobileAuth';
 import {
   buildEventBookingRecord,
   estimateBookingTime,
@@ -61,6 +62,7 @@ const SHADOW_MD = {
 
 const EventBookingPage = () => {
   const { t } = useTranslation();
+  const renderedAccount = useContext(CloudAccountContext);
 
   const [events, setEvents] = useState<EventItem[]>([]);
   const [loading, setLoading] = useState(true);
@@ -77,29 +79,15 @@ const EventBookingPage = () => {
 
   const mapRef = useRef<MapView>(null);
 
-  const getUserPhone = useCallback(async () => {
-    try {
-      await initDb();
-      const db = getDb();
-      const result = await db.executeSql(
-        'SELECT phone FROM user ORDER BY id DESC LIMIT 1'
-      );
-
-      if (result[0].rows.length > 0) {
-        const phone = result[0].rows.item(0).phone;
-        return phone ? phone.replace(/[^0-9]/g, '') : null;
-      }
-      return null;
-    } catch (err) {
-      console.error('Error getting phone:', err);
-      return null;
-    }
-  }, []);
+  const getAccount = useCallback(async () => {
+    try { return await requireRenderedAccount(renderedAccount); } catch { return null; }
+  }, [renderedAccount]);
 
   const loadEventsFromFirebase = useCallback(async () => {
     try {
       setLoading(true);
-      const phone = await getUserPhone();
+      const owner = await getAccount();
+      const phone = owner?.phone;
       if (!phone) {
         Alert.alert(
           t('eventBookingPage.alert.noPhone.title'),
@@ -110,10 +98,10 @@ const EventBookingPage = () => {
         return;
       }
 
-      setEvents(await readPersistentRecords<EventItem>(phone, 'booked_events'));
+      setEvents(await readPersistentRecords<EventItem>(phone, 'booked_events', owner!));
       setLoading(false);
       try {
-        setEvents(await refreshPersistentRecords<EventItem>(phone, 'booked_events'));
+        setEvents(await refreshPersistentRecords<EventItem>(phone, 'booked_events', owner!));
       } catch {}
     } catch (err) {
       console.error('Failed to load events:', err);
@@ -124,7 +112,7 @@ const EventBookingPage = () => {
     } finally {
       setLoading(false);
     }
-  }, [getUserPhone, t]);
+  }, [getAccount, t]);
 
   useEffect(() => {
     loadEventsFromFirebase();
@@ -146,7 +134,8 @@ const EventBookingPage = () => {
       return;
     }
 
-    const phone = await getUserPhone();
+    const owner = await getAccount();
+    const phone = owner?.phone;
     if (!phone) {
       Alert.alert(
         t('eventBookingPage.alert.noPhone.title'),
@@ -180,9 +169,10 @@ const EventBookingPage = () => {
       createdAt,
       });
 
-      const response = { ok: (await persistCloudRecord(phone, 'booked_events', eventId, updatedEvent)).stored };
+      const response = { ok: (await persistCloudRecord(phone, 'booked_events', eventId, updatedEvent, false, owner!)).stored };
 
       if (response.ok) {
+        await assertCloudIdentity(owner!);
         setEvents(prev => {
           if (editingEventId) {
             return prev.map(e => (e.id === eventId ? { id: eventId, ...updatedEvent } : e));
@@ -210,6 +200,8 @@ const EventBookingPage = () => {
   };
 
   const deleteEvent = async (eventId: string) => {
+    const deleteOwner = await getAccount();
+    if (!deleteOwner) return;
     Alert.alert(
       t('eventBookingPage.alert.deleteConfirm.title'),
       t('eventBookingPage.alert.deleteConfirm.message'),
@@ -219,13 +211,13 @@ const EventBookingPage = () => {
           text: t('eventBookingPage.button.delete'),
           style: 'destructive',
           onPress: async () => {
-            const phone = await getUserPhone();
-            if (!phone) return;
+            const phone = deleteOwner.phone;
 
             try {
-              const response = { ok: (await persistCloudRecord(phone, 'booked_events', eventId, {}, true)).stored };
+              const response = { ok: (await persistCloudRecord(phone, 'booked_events', eventId, {}, true, deleteOwner)).stored };
 
               if (response.ok) {
+                await assertCloudIdentity(deleteOwner);
                 setEvents(prev => prev.filter(e => e.id !== eventId));
                 Alert.alert(
                   t('eventBookingPage.alert.deleteSuccess.title'),

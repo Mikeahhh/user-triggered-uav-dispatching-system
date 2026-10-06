@@ -17,7 +17,10 @@
       "session_id": "TEXT",
       "status": "TEXT DEFAULT 'active'",
       "owner_phone": "TEXT",
-      "binding_state": "TEXT NOT NULL DEFAULT 'LEGACY_UNBOUND'"
+      "binding_state": "TEXT NOT NULL DEFAULT 'LEGACY_UNBOUND'",
+      "owner_uid": "TEXT NOT NULL DEFAULT ''",
+      "owner_project": "TEXT NOT NULL DEFAULT ''",
+      "target": "TEXT NOT NULL DEFAULT ''"
     },
     "locations": {
       "route_id": "INTEGER",
@@ -31,13 +34,39 @@
       "sequence": "INTEGER"
     },
     "tracking_outbox": {
-      "last_error_at_ms": "INTEGER NOT NULL DEFAULT 0"
+      "last_error_at_ms": "INTEGER NOT NULL DEFAULT 0",
+      "owner_uid": "TEXT NOT NULL DEFAULT ''",
+      "owner_project": "TEXT NOT NULL DEFAULT ''",
+      "owner_phone": "TEXT NOT NULL DEFAULT ''"
+    },
+    "tracking_sessions": {
+      "owner_uid": "TEXT NOT NULL DEFAULT ''",
+      "owner_project": "TEXT NOT NULL DEFAULT ''"
+    },
+    "mobile_records": {
+      "owner_uid": "TEXT NOT NULL DEFAULT ''",
+      "owner_project": "TEXT NOT NULL DEFAULT ''",
+      "target": "TEXT NOT NULL DEFAULT ''"
+    },
+    "user": {
+      "owner_uid": "TEXT NOT NULL DEFAULT ''",
+      "owner_project": "TEXT NOT NULL DEFAULT ''",
+      "owner_target": "TEXT NOT NULL DEFAULT ''"
     }
   },
   "finish": [
     "CREATE INDEX IF NOT EXISTS idx_locations_route_id ON locations(route_id)",
     "CREATE INDEX IF NOT EXISTS idx_locations_timestamp ON locations(timestamp)",
     "CREATE UNIQUE INDEX IF NOT EXISTS tracking_point_sequence ON locations(session_id,sequence) WHERE session_id IS NOT NULL",
-    "UPDATE db_version SET version=4 WHERE id=1"
+    "CREATE INDEX IF NOT EXISTS tracking_outbox_owner ON tracking_outbox(owner_uid,owner_project,target,acknowledged_ms)",
+    "UPDATE db_version SET version=5 WHERE id=1"
+  ],
+  "migrate_owner_v5": [
+    "ALTER TABLE mobile_records RENAME TO mobile_records_pre_owner",
+    "CREATE TABLE mobile_records (path TEXT NOT NULL, phone TEXT NOT NULL, category TEXT NOT NULL, record_id TEXT NOT NULL, payload TEXT NOT NULL, deleted INTEGER NOT NULL DEFAULT 0, revision INTEGER NOT NULL, owner_uid TEXT NOT NULL DEFAULT '', owner_project TEXT NOT NULL DEFAULT '', target TEXT NOT NULL DEFAULT '', PRIMARY KEY(owner_uid,owner_project,target,path))",
+    "INSERT INTO mobile_records(path,phone,category,record_id,payload,deleted,revision,owner_uid,owner_project,target) SELECT path,phone,category,record_id,payload,deleted,revision,owner_uid,owner_project,target FROM mobile_records_pre_owner",
+    "DROP TABLE mobile_records_pre_owner",
+    "UPDATE tracking_sessions SET state='LEGACY_UNBOUND',last_error='This older session has no verified account owner and remains stored locally.' WHERE owner_uid='' AND state IN ('STARTING','ACTIVE','INTERRUPTED')",
+    "UPDATE routes SET binding_state='LEGACY_UNBOUND' WHERE owner_uid=''"
   ]
 }

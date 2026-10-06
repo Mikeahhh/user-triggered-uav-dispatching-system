@@ -9,6 +9,7 @@ import {
   TextInput,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import CloudAccount from '../components/CloudAccount';
 import {
   DEFAULT_UAV_BASE_URL,
   DEFAULT_UAV_WIFI_SSID,
@@ -127,6 +128,8 @@ const SettingPage: React.FC<Props> = ({ onSelectPage }) => {
           {t('settingPage.title')}
         </Text>
       </View>
+
+      <CloudAccount />
 
       <View style={styles.section}>
         <Text style={styles.sectionTitle}>{t('settingPage.uav.title')}</Text>

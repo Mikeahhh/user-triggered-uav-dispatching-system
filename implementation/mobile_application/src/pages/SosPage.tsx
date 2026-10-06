@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useContext, useRef, useState } from 'react';
+import { CloudAccountContext, requireRenderedAccount } from '../services/cloudAccountContext';
 import {
   View,
   Text,
@@ -13,7 +14,7 @@ import Geolocation from '@react-native-community/geolocation';
 import { useTranslation } from 'react-i18next';
 
 
-import { initDb, getDb } from '../services/db/initDb';
+import { assertCloudIdentity } from '../services/mobileAuth';
 import { persistCloudRecord } from '../services/persistentTracking';
 import { getPositionCaptureTime } from '../services/positionTimestamp';
 import { getCurrentSosRequest, restoreCurrentSosFromLegacy, saveCurrentSosRequest } from '../services/currentSosStore';
@@ -35,6 +36,7 @@ import {
 
 const SosPage = () => {
   const { t } = useTranslation();
+  const renderedAccount = useContext(CloudAccountContext);
   const [uavStatus, setUavStatus] = useState(t('sosPage.uav.notSent'));
   const [submitting, setSubmitting] = useState(false);
   const [retrying, setRetrying] = useState(false);
@@ -76,6 +78,7 @@ const SosPage = () => {
     submittingRef.current = true;
     setSubmitting(true);
     try {
+      const owner = await requireRenderedAccount(renderedAccount);
       if (!(await ensureLocationPermission())) {
         Alert.alert(
           t('sosPage.errorTitle') || 'Error',
@@ -92,25 +95,8 @@ const SosPage = () => {
         });
       });
 
-      await initDb();
-      const db = getDb();
-      const result = await db.executeSql(
-        'SELECT phone FROM user ORDER BY id DESC LIMIT 1',
-      );
-      if (result[0].rows.length === 0 || !result[0].rows.item(0).phone) {
-        Alert.alert(
-          t('sosPage.errorTitle') || '錯誤',
-          t('sosPage.noPhoneStored') || '請先在個人資料頁設定電話號碼',
-        );
-        return;
-      }
-
-      const phone = result[0].rows.item(0).phone;
-      const normalizedPhone = phone.replace(/[^0-9]/g, '');
-      if (!normalizedPhone) {
-        Alert.alert('錯誤', '電話號碼無效，請重新設定');
-        return;
-      }
+      await assertCloudIdentity(owner);
+      const normalizedPhone = owner.phone;
 
       const { latitude, longitude, accuracy } = position.coords;
       const timestampMs = Date.now();
@@ -125,7 +111,7 @@ const SosPage = () => {
       };
 
 
-      const cloudSave = persistCloudRecord(normalizedPhone, 'rescue_requests', timestampKey, rescueData)
+      const cloudSave = persistCloudRecord(normalizedPhone, 'rescue_requests', timestampKey, rescueData, false, owner)
         .then(saved => saved.stored)
         .catch(() => false);
 
@@ -155,6 +141,7 @@ const SosPage = () => {
         test_mode: false,
       };
 
+      await assertCloudIdentity(owner);
       const sourceAttempt = saveCurrentSosRequest(uavPayload).then(() => true).catch(() => false);
       const queueAttempt = config ? queueRescueForUav(uavPayload, { config })
         .then(() => true).catch(() => false) : Promise.resolve(false);
@@ -204,13 +191,8 @@ const SosPage = () => {
     let subscription: { remove: () => void } | null = null;
     let stage = 'preparing';
     try {
-      await initDb();
-      const rows = (await getDb().executeSql('SELECT phone FROM user ORDER BY id DESC LIMIT 1'))[0].rows;
-      const userId = rows.length ? String(rows.item(0).phone || '').replace(/[^0-9]/g, '') : '';
-      if (!userId) {
-        Alert.alert(t('sosPage.errorTitle'), t('sosPage.noPhoneStored'));
-        return;
-      }
+      const owner = await requireRenderedAccount(renderedAccount);
+      const userId = owner.phone;
       let source: UavRescuePayload | null = null;
       if (newCapture) {
         source = await getCurrentSosRequest(userId);
@@ -241,6 +223,7 @@ const SosPage = () => {
         });
         if (!confirmed) return;
       }
+      await assertCloudIdentity(owner);
       if (controller.signal.aborted) throw new UavCaptureTransferError('CANCELLED');
       const options = { wifiConfirmed: true, signal: controller.signal,
         onStage: (value: 'context' | 'location' | 'sending') => {
@@ -289,10 +272,12 @@ const SosPage = () => {
     setRetrying(true);
     let wifiRequestStarted = false;
     let wifiLossSubscription: { remove: () => void } | null = null;
-    let transferAbortController: AbortController | null = null;
+    const transferAbortController = new AbortController();
+    activeCaptureAbort.current = transferAbortController;
     let stage: 'preparing' | 'connecting' | 'sending' = 'preparing';
     try {
-      const pending = await getPendingUavRescues();
+      const owner = await requireRenderedAccount(renderedAccount);
+      const pending = (await getPendingUavRescues()).filter(item => item.payload.user_id === owner.phone);
       if (pending.length === 0) {
         setUavStatus(t('sosPage.uav.empty'));
         Alert.alert(t('sosPage.uav.resultTitle'), t('sosPage.uav.empty'));
@@ -312,17 +297,19 @@ const SosPage = () => {
         stage = 'connecting';
         setUavStatus(t('sosPage.uav.connectingWifi'));
         wifiRequestStarted = true;
-        transferAbortController = new AbortController();
         wifiLossSubscription = subscribeToUavWifiLoss(() => {
           transferAbortController?.abort();
         });
         await connectToUavWifi(config.wifiSsid);
       }
 
+      await assertCloudIdentity(owner);
+      if (transferAbortController.signal.aborted) return;
       stage = 'sending';
       setUavStatus(t('sosPage.uav.sending'));
       const result = await flushPendingUavRescues({
         config,
+        userId: owner.phone,
         signal: transferAbortController?.signal,
       });
       if (transferAbortController?.signal.aborted) {
@@ -380,6 +367,7 @@ const SosPage = () => {
           );
         }
       }
+      activeCaptureAbort.current = null;
       retryingRef.current = false;
       setRetrying(false);
     }

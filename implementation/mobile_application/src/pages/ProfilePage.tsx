@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useContext, useState } from 'react';
+import { CloudAccountContext, requireRenderedAccount } from '../services/cloudAccountContext';
 import {
   View,
   Text,
@@ -14,18 +15,28 @@ import {
 import { useTranslation } from 'react-i18next';
 
 
-import { initDb, getDb, resetDb } from '../services/db/initDb';
-import { buildRealtimeDatabaseRestUrl } from '../services/db/firebaseRealtimeDatabase';
+import { getCurrentUserProfile, saveCurrentUserProfile, LocalProfile, resetDb } from '../services/db/initDb';
+import { assertCloudIdentity, BoundCloudIdentity } from '../services/mobileAuth';
+import { readCloudProfile, writeCloudProfile } from '../services/persistentTracking';
+import CloudAccount from '../components/CloudAccount';
 
 interface EmergencyContact {
   name: string;
   phone: string;
 }
 
-const normalizePhoneForKey = (phone: string) => phone.replace(/[^0-9]/g, '');
+const contactsFrom = (value: unknown): EmergencyContact[] => {
+  try {
+    const parsed = typeof value === 'string' ? JSON.parse(value) : value;
+    return Array.isArray(parsed) ? parsed.filter(item => item && typeof item === 'object')
+      .map(item => ({ name: String(item.name ?? ''), phone: String(item.phone ?? '') }))
+      .filter(item => item.name.trim() || item.phone.trim()) : [];
+  } catch { return []; }
+};
 
 const ProfilePage = () => {
   const { t } = useTranslation();
+  const renderedAccount = useContext(CloudAccountContext);
 
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -39,131 +50,44 @@ const ProfilePage = () => {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [profileExists, setProfileExists] = useState(false);
-  const [profileId, setProfileId] = useState<number | null>(null);
+  const [owner, setOwner] = useState<BoundCloudIdentity | null>(null);
+  const [cloudNotice, setCloudNotice] = useState('');
 
   const loadProfile = useCallback(async () => {
     setLoading(true);
     try {
-      await initDb();
-      const db = getDb();
-
-      const result = await db.executeSql('SELECT * FROM user ORDER BY id DESC LIMIT 1');
-
-      let localData = null;
-      if (result[0].rows.length > 0) {
-        localData = result[0].rows.item(0);
-
-        setFirstName(localData.first_name || '');
-        setLastName(localData.last_name || '');
-        setGender(localData.gender || '');
-        setPhoneNumber(localData.phone || '');
-        setEmail(localData.email || '');
-        setMedicalNotes(localData.medical_notes || '');
-        setProfileId(localData.id);
-        setProfileExists(true);
-
-
-        let parsedContacts: EmergencyContact[] = [];
-        if (localData.emergency_contacts) {
-          try {
-            let raw = localData.emergency_contacts;
-            if (typeof raw === 'string') {
-              raw = JSON.parse(raw);
-            }
-            if (Array.isArray(raw)) {
-              parsedContacts = raw
-                .filter((item): item is Record<string, unknown> => typeof item === 'object' && item !== null)
-                .map((item) => ({
-                  name: String((item as Record<string, unknown>).name ?? ''),
-                  phone: String((item as Record<string, unknown>).phone ?? ''),
-                }))
-                .filter((c) => c.name.trim() || c.phone.trim());
-            }
-          } catch (e) {
-            console.warn('本地 emergency_contacts 解析失敗:', e);
-          }
-        }
-        setEmergencyContacts(parsedContacts);
-      } else {
-        setProfileExists(false);
-        setEmergencyContacts([]);
-      }
-
-
-      if (localData?.phone) {
-        const normalized = normalizePhoneForKey(localData.phone);
+      const identity = await requireRenderedAccount(renderedAccount);
+      setOwner(identity);
+      setPhoneNumber(identity.phone);
+      let data = await getCurrentUserProfile(identity);
+      // Retain an existing local profile until the user explicitly saves it again.
+      if (!data) {
         try {
-          const res = await fetch(
-            buildRealtimeDatabaseRestUrl('users', normalized, 'profile')
-          );
-
-          if (!res.ok) {
-            console.warn('Firebase fetch 失敗:', res.status);
-            return;
+          const remote = await readCloudProfile(identity);
+          if (remote && typeof remote === 'object' && !Array.isArray(remote)) {
+            const value = remote as Record<string, unknown>;
+            data = {
+              first_name: String(value.first_name ?? ''), last_name: String(value.last_name ?? ''),
+              gender: String(value.gender ?? ''), phone: identity.phone,
+              email: String(value.email ?? ''), medical_notes: String(value.medical_notes ?? ''),
+              emergency_contacts: JSON.stringify(contactsFrom(value.emergency_contacts)),
+            };
+            await saveCurrentUserProfile(data, identity);
           }
-
-          const fbData = await res.json();
-
-          if (fbData && typeof fbData === 'object') {
-
-            setFirstName(fbData.first_name || localData.first_name || '');
-            setLastName(fbData.last_name || localData.last_name || '');
-            setGender(fbData.gender || localData.gender || '');
-            setPhoneNumber(fbData.phone || localData.phone || '');
-            setEmail(fbData.email || localData.email || '');
-            setMedicalNotes(fbData.medical_notes || localData.medical_notes || '');
-
-
-            let fbContacts: EmergencyContact[] = [];
-            let fbEmergency = fbData.emergency_contacts;
-
-            if (typeof fbEmergency === 'string') {
-              try {
-                fbEmergency = JSON.parse(fbEmergency);
-              } catch (parseErr) {
-                console.warn('雲端 emergency_contacts 字串解析失敗:', parseErr);
-                fbEmergency = [];
-              }
-            }
-
-            if (Array.isArray(fbEmergency)) {
-              fbContacts = fbEmergency
-                .filter((item): item is Record<string, unknown> => typeof item === 'object' && item !== null)
-                .map((item) => ({
-                  name: String((item as Record<string, unknown>).name ?? ''),
-                  phone: String((item as Record<string, unknown>).phone ?? ''),
-                }))
-                .filter((c) => c.name.trim() || c.phone.trim());
-            }
-
-            setEmergencyContacts(fbContacts);
-
-
-            await db.executeSql(
-              `UPDATE user SET first_name=?, last_name=?, gender=?, phone=?, email=?, medical_notes=?, emergency_contacts=?, updated_at=datetime('now') WHERE id=?`,
-              [
-                fbData.first_name || localData.first_name,
-                fbData.last_name || localData.last_name,
-                fbData.gender || localData.gender,
-                fbData.phone || localData.phone,
-                fbData.email || localData.email,
-                fbData.medical_notes || localData.medical_notes,
-                JSON.stringify(fbContacts),
-                localData.id,
-              ]
-            );
-          }
-        } catch (err) {
-          console.warn('Firebase 同步失敗:', err);
-        }
+        } catch { setCloudNotice(t('cloudAccount.cloudUnavailable')); }
       }
-    } catch (error) {
-      console.error('loadProfile 失敗:', error);
-      Alert.alert(t('profilePage.alert.loadFailed.title'), t('profilePage.alert.loadFailed.message'));
-    } finally {
-      setLoading(false);
-    }
-  }, [t]);
+      await assertCloudIdentity(identity);
+      if (data) {
+        setFirstName(data.first_name || ''); setLastName(data.last_name || '');
+        setGender(data.gender || ''); setEmail(data.email || '');
+        setMedicalNotes(data.medical_notes || '');
+        setEmergencyContacts(contactsFrom(data.emergency_contacts));
+        setProfileExists(true);
+      }
+    } catch {
+      setOwner(null);
+    } finally { setLoading(false); }
+  }, [t, renderedAccount]);
 
   useEffect(() => {
     loadProfile();
@@ -194,8 +118,6 @@ const ProfilePage = () => {
 
     setSaving(true);
 
-    const normalizedPhone = normalizePhoneForKey(phoneNumber);
-
     const validContacts = emergencyContacts
       .map((c) => ({
         name: c.name.trim(),
@@ -205,11 +127,11 @@ const ProfilePage = () => {
 
     const contactsJson = JSON.stringify(validContacts);
 
-    const profileData = {
+    const profileData: LocalProfile = {
       first_name: firstName.trim(),
       last_name: lastName.trim(),
       gender: gender.trim(),
-      phone: phoneNumber.trim(),
+      phone: owner?.phone || '',
       email: email.trim(),
       medical_notes: medicalNotes.trim(),
       emergency_contacts: contactsJson,
@@ -217,66 +139,20 @@ const ProfilePage = () => {
     };
 
     try {
-      await initDb();
-      const db = getDb();
-
-      if (profileExists && profileId) {
-        await db.executeSql(
-          `UPDATE user SET first_name=?, last_name=?, gender=?, phone=?, email=?, medical_notes=?, emergency_contacts=?, updated_at=datetime('now') WHERE id=?`,
-          [
-            profileData.first_name,
-            profileData.last_name,
-            profileData.gender,
-            profileData.phone,
-            profileData.email,
-            profileData.medical_notes,
-            profileData.emergency_contacts,
-            profileId,
-          ]
-        );
-      } else {
-        const result = await db.executeSql(
-          `INSERT INTO user (first_name, last_name, gender, phone, email, medical_notes, emergency_contacts, created_at, updated_at)
-           VALUES (?, ?, ?, ?, ?, ?, ?, datetime('now'), datetime('now'))`,
-          [
-            profileData.first_name,
-            profileData.last_name,
-            profileData.gender,
-            profileData.phone,
-            profileData.email,
-            profileData.medical_notes,
-            profileData.emergency_contacts,
-          ]
-        );
-        setProfileId(result[0].insertId ?? null);
-        setProfileExists(true);
+      if (!owner) throw new Error('A bound account is required.');
+      await saveCurrentUserProfile(profileData, owner);
+      setProfileExists(true);
+      try {
+        await writeCloudProfile(owner, profileData);
+        setCloudNotice('');
+        Alert.alert(t('profilePage.alert.saveSuccess.title'), t('cloudAccount.profileSynchronized'));
+      } catch {
+        setCloudNotice(t('cloudAccount.profileLocalOnly'));
+        Alert.alert(t('profilePage.alert.saveSuccess.title'), t('cloudAccount.profileLocalOnly'));
       }
-
-      const fbRes = await fetch(
-        buildRealtimeDatabaseRestUrl('users', normalizedPhone, 'profile'),
-        {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(profileData),
-        }
-      );
-
-      if (!fbRes.ok) {
-        const errText = await fbRes.text();
-        console.warn('Firebase 上傳失敗:', fbRes.status, errText);
-        Alert.alert('警告', '本地儲存成功，但雲端同步失敗，請檢查網路');
-      }
-
-      Alert.alert(
-        t('profilePage.alert.saveSuccess.title'),
-        t('profilePage.alert.saveSuccess.message')
-      );
-    } catch (error: any) {
-      console.error('儲存失敗:', error);
+    } catch {
       Alert.alert(t('profilePage.alert.saveFailed.title'), t('profilePage.alert.saveFailed.message'));
-    } finally {
-      setSaving(false);
-    }
+    } finally { setSaving(false); }
   };
 
   const clearDatabase = async () => {
@@ -290,16 +166,18 @@ const ProfilePage = () => {
           style: 'destructive',
           onPress: async () => {
             try {
-              await resetDb();
+              if (!owner) return;
+              await resetDb(owner);
+              await assertCloudIdentity(owner);
               setFirstName('');
               setLastName('');
               setGender('');
-              setPhoneNumber('');
+              setPhoneNumber(owner.phone);
               setEmail('');
               setMedicalNotes('');
               setEmergencyContacts([]);
               setProfileExists(false);
-              setProfileId(null);
+
               Alert.alert(t('profilePage.alert.clearSuccess.title'));
             } catch (err) {
               Alert.alert(t('profilePage.alert.clearFailed.title'), t('profilePage.alert.clearFailed.message'));
@@ -319,6 +197,13 @@ const ProfilePage = () => {
     );
   }
 
+  if (!owner) {
+    return <SafeAreaView style={styles.safeArea}><ScrollView contentContainerStyle={styles.scrollContent}>
+      <CloudAccount />
+      <Text>{t('cloudAccount.bindingRequired')}</Text>
+    </ScrollView></SafeAreaView>;
+  }
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
@@ -330,6 +215,7 @@ const ProfilePage = () => {
             {profileExists ? t('profilePage.title.existing') : t('profilePage.title.new')}
           </Text>
 
+          {!!cloudNotice && <Text>{cloudNotice}</Text>}
           <View style={styles.sectionCard}>
             <Text style={styles.sectionTitle}>{t('profilePage.section.personal')}</Text>
 
@@ -361,6 +247,7 @@ const ProfilePage = () => {
               placeholder={t('profilePage.form.placeholder.phoneNumber')}
               value={phoneNumber}
               onChange={setPhoneNumber}
+              editable={false}
               keyboardType="phone-pad"
               required
             />
@@ -461,6 +348,7 @@ const Input = ({
   keyboardType = 'default',
   autoCapitalize = 'words',
   required = false,
+  editable = true,
 }: {
   label: string;
   placeholder?: string;
@@ -469,6 +357,7 @@ const Input = ({
   keyboardType?: 'default' | 'phone-pad' | 'email-address';
   autoCapitalize?: 'none' | 'words';
   required?: boolean;
+  editable?: boolean;
 }) => (
   <View style={styles.inputGroup}>
     <Text style={styles.inputLabel}>
@@ -483,6 +372,7 @@ const Input = ({
       onChangeText={onChange}
       keyboardType={keyboardType}
       autoCapitalize={autoCapitalize}
+      editable={editable}
     />
   </View>
 );

@@ -70,7 +70,7 @@ class TrackingService : Service() {
             foregroundReady = true
             running = true
         } catch (error: Exception) {
-            runCatching { TrackingStore.get(this).interrupt(error.message ?: "Background recording could not start", ownedSessionId) }
+            runCatching { TrackingStore.get(this).interrupt("Background recording could not start", ownedSessionId) }
             stopSelf()
         }
     }
@@ -79,12 +79,12 @@ class TrackingService : Service() {
         val store = TrackingStore.get(this)
         if (!foregroundReady) { stopSelf(); return START_NOT_STICKY }
         if (intent?.action == STOP) {
-            store.stop(System.currentTimeMillis())
+            runCatching { store.stop(System.currentTimeMillis(), ownedSessionId) }
             TrackingSync.kick(applicationContext)
             stopSelf()
             return START_NOT_STICKY
         }
-        if (store.currentSession() == null) {
+        if (store.currentSession() == null || (intent == null && store.currentSession()?.optString("state") == "AUTH_PAUSED")) {
             stopSelf()
             return START_NOT_STICKY
         }
@@ -95,20 +95,23 @@ class TrackingService : Service() {
         }
         if (!subscribed) {
             ownedSessionId = store.currentSession()?.getString("session_id")
-            store.resume()
+            if (runCatching { store.resume() }.getOrDefault(false) != true) {
+                stopSelf()
+                return START_NOT_STICKY
+            }
             try {
                 val request = LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, TrackingCore.INTERVAL_MS)
                     .setMinUpdateIntervalMillis(TrackingCore.INTERVAL_MS).setMaxUpdateDelayMillis(TrackingCore.INTERVAL_MS)
                     .setWaitForAccurateLocation(true).build()
                 client.requestLocationUpdates(request, callback, Looper.getMainLooper())
                     .addOnFailureListener { error ->
-                        store.interrupt(error.message ?: "Location updates are unavailable", ownedSessionId)
+                        store.interrupt("Location updates are unavailable", ownedSessionId)
                         stopSelf()
                     }
                 subscribed = true
                 handler.post(sync)
             } catch (error: Exception) {
-                store.interrupt(error.message ?: "Location updates are unavailable", ownedSessionId)
+                store.interrupt("Location updates are unavailable", ownedSessionId)
                 stopSelf()
             }
         }
@@ -126,7 +129,7 @@ class TrackingService : Service() {
             ), System.currentTimeMillis(), ownedSessionId)
             if (accepted) TrackingSync.kick(applicationContext)
         } catch (error: Exception) {
-            runCatching { TrackingStore.get(this).interrupt("Location could not be saved: ${error.message}", ownedSessionId) }
+            runCatching { TrackingStore.get(this).interrupt("Location could not be saved. Check your account and location permission.", ownedSessionId) }
             stopSelf()
         }
     }

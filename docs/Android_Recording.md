@@ -9,12 +9,19 @@ The database remains `location_tracker.db` in the Android application database
 directory. The JavaScript database entry point initializes the native schema
 and compares the SQLite main file's device and inode through Android `Os.stat`
 before using it. This accepts Android bind-mount aliases such as `/data/data`
-and `/data/user/0` only when they identify the same file. The additive version 4
-migration preserves existing rows and commits its version only after success.
-Older routes without a verified phone binding remain `LEGACY_UNBOUND`; they are
-not assigned to the current profile or uploaded automatically.
+and `/data/user/0` only when they identify the same file. The version 5 migration
+preserves existing rows, adds account ownership and rebuilds the mobile record
+cache with an owner-scoped key in one transaction. Pre-authentication records
+remain unassigned; older routes remain `LEGACY_UNBOUND`. These records are not
+assigned to the next signed-in account or uploaded automatically.
 
-Each new session stores its original phone and database target. Its durable
+Each new session stores its original Firebase UID, project, bound phone and
+database target. Google sign-in and an administrator-managed binding establish
+the owner; [team-test access](../implementation/mobile_application/firebase/README.md)
+describes setup. Uploads use Firebase ID tokens and retain their original owner
+across retries. Changing accounts does not transfer pending operations.
+An unavailable owner pauses recording as `AUTH_PAUSED`; its original account
+can explicitly resume or stop it after restoring its binding. Its durable
 queue orders START, POINT and END operations. START conditionally creates an
 absent session, POINT uses a stable key, and END changes only completion fields.
 Failed requests retain their original payload, capture time and identity.
@@ -25,7 +32,10 @@ the UI separately reports cloud operations awaiting confirmation.
 
 Booking and SOS records also enter the Android SQLite outbox before cloud
 synchronization. A local save is displayed as a queued record, not a confirmed
-cloud delivery. Existing SOS-to-UAV storage and transfer remain available.
+cloud delivery. The separate direct-to-UAV queue continues to use phone record
+identifiers and local receiver authentication; it is not a Firebase UID queue.
+The SOS screen limits transfers to the administrator-bound phone and cancels
+in-progress transfers when the account page is replaced.
 Deleting a booking writes a versioned cloud tombstone. Both record refresh and
 local lists hide tombstones, and a delayed earlier request cannot recreate the
 deleted booking. Outbox errors remain visible until synchronization succeeds.
