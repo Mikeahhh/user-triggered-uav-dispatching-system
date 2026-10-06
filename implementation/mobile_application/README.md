@@ -60,6 +60,39 @@ The interface includes English and Chinese translations.
 
 The root `package.json` and `package-lock.json` define and lock npm dependencies. `app.json` identifies the registered application, and `tsconfig.json` supplies the TypeScript configuration. These files stay at the application root for the standard toolchain commands.
 
+## Database structure
+
+The shared Firebase Realtime Database groups records under `users/{phone}`, where `{phone}` is the profile phone number with non-digit characters removed. The current application and ground station use these paths:
+
+```text
+users/{phone}/
+  profile
+  booked_events/{eventId}
+  QuickStartSessions/{sessionId}
+    points/point_{sequence}
+  rescue_requests/{requestId}
+  rescue_alerts/{alertId}
+  rescue_events/{eventId}
+  quick_start_monitoring/{sessionId}
+```
+
+| Record | Main fields and purpose |
+| --- | --- |
+| `profile` | `first_name`, `last_name`, `gender`, `phone`, `email`, `medical_notes`, `emergency_contacts` and `updated_at`. The current writer stores `emergency_contacts` as a JSON-encoded array of contact names and phone numbers. |
+| `booked_events` — Mode 1 | `title`, `date`, `startTime`, `endDate`, `endTime`, ordered `waypoints` and `createdAt`. New bookings also store `expectedEndAtMs`, `routeDistanceM`, `estimatedDurationMinutes`, `walkingSpeedKmh` and `estimationMethod` for the route-based end-time estimate. |
+| `QuickStartSessions` — Mode 2 | `startTime`, `status`, `points` and, after stopping, `endTime`. Each point records `latitude`, `longitude`, the original sample `timestamp` in Unix milliseconds and `timestampISO`; available sensor measurements include `accuracy`, `altitude`, `speed` and `heading`. Point keys retain their sequence. |
+| `rescue_requests` — Mode 3 | `latitude`, `longitude`, `status`, `timestamp` and `device`. The phone initially writes `status: PENDING`; the timestamp identifies the request time. |
+
+The Android queue adds `_client_revision` and `_deleted` to booking and SOS records. Deleting a booking retains a versioned deletion record so that a delayed upload cannot restore it.
+
+The ground station maintains three additional groups. `rescue_alerts` stores verification status, the triggering record and contact-check outcomes. `rescue_events` links a confirmed search to its source alert and original phone record, including `search_confirmed_at_ms`. `quick_start_monitoring` retains per-session freshness and timeout state, including `latest_sample_at_ms`, `effective_timeout_ms` and `monitoring_status`. These groups keep incoming phone records separate from operator-confirmed search events.
+
+The phone's local SQLite database, `location_tracker.db`, is separate from the shared cloud database. It retains local records and pending upload operations; a local save does not establish cloud synchronization. See [persistent Android recording](../../docs/Android_Recording.md).
+
+This repository documents the structure and provides configuration templates. The operational database and its user records are not included. Configure your own database and use the same database URL in the mobile application and ground station.
+
+Sources: [profile](src/pages/ProfilePage.tsx), [booking fields](src/services/eventBookingRecord.ts), [native storage and upload paths](android/app/src/main/java/com/fypproject/tracking/TrackingStore.kt), [SOS record](src/pages/SosPage.tsx), and [ground-station event handling](../ground_station/src/rescue_event_manager.py).
+
 ## Getting started
 
 Use Node.js 24 for the documented local workflow, plus the Android SDK and JDK required by the project’s Gradle configuration. Commands below start in this directory.

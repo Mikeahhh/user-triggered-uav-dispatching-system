@@ -6,8 +6,8 @@ original sample, its sequence and its pending upload in one SQLite transaction.
 The REST worker runs separately from location collection and UI commands.
 
 The database remains `location_tracker.db` in the Android application database
-directory. Both JavaScript database entry points initialize the native schema
-and compare the SQLite main file's device and inode through Android `Os.stat`
+directory. The JavaScript database entry point initializes the native schema
+and compares the SQLite main file's device and inode through Android `Os.stat`
 before using it. This accepts Android bind-mount aliases such as `/data/data`
 and `/data/user/0` only when they identify the same file. The additive version 4
 migration preserves existing rows and commits its version only after success.

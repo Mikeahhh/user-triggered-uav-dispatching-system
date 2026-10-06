@@ -5,6 +5,7 @@ Installation guides, system behavior and figures for the three software componen
 | Read | Purpose |
 | --- | --- |
 | [Technical guide](Technical_Guide.md) · [PDF](Technical_Guide.pdf) · [Word](Technical_Guide.docx) | Setup, configuration, service modes and implementation reference |
+| [Database structure](../implementation/mobile_application/README.md#database-structure) | Shared cloud record hierarchy, service-mode fields and ground-station records |
 | [Android recording](Android_Recording.md) | GPS sampling, durable storage, background synchronization |
 | [Flight environment](Flight_Environment_Setup.txt) | Onboard dependencies, hardware placement and flight-stack configuration |
 | [Recorded videos](Demo_Videos.md) | Existing system and outdoor footage |
