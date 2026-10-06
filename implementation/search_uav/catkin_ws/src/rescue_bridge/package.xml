@@ -4,7 +4,7 @@
   <version>1.2.0</version>
   <description>Rescue bridge package for GPS-based mission control via MQTT</description>
 
-  <maintainer email="user@todo.todo">Wang Mingyang</maintainer>
+  <maintainer email="s1465203@live.hkmu.edu.hk">Wang Mingyang</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>catkin</buildtool_depend>

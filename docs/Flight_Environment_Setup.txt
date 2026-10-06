@@ -31,11 +31,19 @@ cd /home/mike/catkin_ws
 catkin_make
 source devel/setup.bash
 
-4. Start the depth camera, MAVROS, VINS, planner and flight-control programs according to the external project instructions, then start the mission bridge.
+4. Configure the MQTT broker on the UAV computer, then start the flight programs and mission bridge.
 
-roslaunch rescue_bridge rescue_bridge.launch mqtt_broker:=BROKER_HOST
+The mission bridge currently connects without MQTT credentials. Use the local loopback listener for this component. The supplied rescue_bridge/config/mosquitto.lan-auth.example.conf configures one broker with a loopback listener and a separate authenticated LAN listener. Replace 192.0.2.10 with the UAV computer's actual LAN address and install the accompanying mosquitto.acl.example as /etc/mosquitto/rescue.acl. Use this combined configuration instead of loading it alongside mosquitto.conf, which defines the same loopback listener.
 
-Replace BROKER_HOST with the address reachable from both the ground station and UAV. Use localhost only when the broker runs on the same host as the mission bridge. Match the port and authentication settings to the deployment broker configuration.
+Create the broker password file interactively on the UAV computer:
+
+sudo mosquitto_passwd -c /etc/mosquitto/rescue.passwd ground_station_role
+
+Use -c only when creating a new password file; omit it when updating an existing file. Ensure the broker service can read its configuration, password and ACL files, then restart the service. The ground station connects to the UAV computer's LAN address on port 1883 with MQTT_USERNAME=ground_station_role and its corresponding MQTT_PASSWORD in the local runtime.env file. The ground station's localhost setting is only for a broker on that same computer; replace it for this onboard-broker layout.
+
+Start the depth camera, MAVROS, VINS, planner and flight-control programs according to the external project instructions, then start the mission bridge:
+
+roslaunch rescue_bridge rescue_bridge.launch mqtt_broker:=127.0.0.1
 
 Default bridge parameters are flight_alt=5.0, arrival_threshold=1.0 and data_timeout=5.0. The MATLAB simulation's 80 m above-ground altitude does not override these settings.
 
@@ -43,7 +51,7 @@ Default bridge parameters are flight_alt=5.0, arrival_threshold=1.0 and data_tim
 
 python3 /home/mike/drone_system/receiver/phone_sos_receiver.py --help
 
-Copy /home/mike/drone_system/config/rescue_receiver.env.example to rescue_receiver.env in the same directory. Fill the broker address, port, data directory and runtime token; configure broker credentials if used. The launcher exports this file before starting the receiver:
+Copy /home/mike/drone_system/config/rescue_receiver.env.example to rescue_receiver.env in the same directory. For the onboard-broker layout, set UAV_RESCUE_MQTT_BROKER=127.0.0.1 and UAV_RESCUE_MQTT_PORT=1883, and leave the MQTT username and password empty. Fill the data directory and runtime token. If the receiver instead uses the authenticated LAN listener, create a receiver_role account with mosquitto_passwd (without -c) and supply its credentials as UAV_RESCUE_MQTT_USERNAME and UAV_RESCUE_MQTT_PASSWORD. The launcher exports this file before starting the receiver:
 
 bash /home/mike/drone_system/bin/start_rescue_receiver.sh
 

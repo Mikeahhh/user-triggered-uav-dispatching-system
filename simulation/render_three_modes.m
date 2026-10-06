@@ -10,6 +10,7 @@ c=palette();cfg=study.config;t=study.terrain;
 set(groot,'defaultAxesFontName','Helvetica','defaultTextFontName','Helvetica');
 fig=figure('Visible','off','Color','w','Position',[40 40 2100 1450], ...
     'Name','Sai Kung - three complete missions','NumberTitle','off');
+if isprop(fig,'Theme'),fig.Theme='light';end
 annotation(fig,'textbox',[.02 .955 .94 .032],'String', ...
     'Three service modes over the same Sai Kung mountain terrain', ...
     'EdgeColor','none','FontSize',23,'FontWeight','bold','HorizontalAlignment','center');
@@ -166,6 +167,7 @@ end
 function renderProfiles(s,out,c)
 fig=figure('Visible','off','Color','w','Position',[50 50 2100 700], ...
     'Name','Complete mission altitude profiles','NumberTitle','off');
+if isprop(fig,'Theme'),fig.Theme='light';end
 layout=tiledlayout(fig,1,3,'TileSpacing','compact','Padding','compact');
 title(layout,'Terrain and aircraft height through takeoff, mission, return and landing','FontSize',19);
 subtitle(layout,'Same time and height scales; 80 m AGL during transit, route following, search and return','FontSize',12);
@@ -196,6 +198,7 @@ end
 function renderInputs(s,out,c)
 fig=figure('Visible','off','Color','w','Position',[40 40 1400 1050], ...
     'Name','Common scenario and synthetic user records','NumberTitle','off');
+if isprop(fig,'Theme'),fig.Theme='light';end
 ax=axes(fig,'Position',[.12 .1 .72 .8]);drawTerrain2(ax,s);
 p1=s.scenario.mode1_planned_route_en_m/1000;
 p2=s.scenario.mode2_history_route_en_m/1000;

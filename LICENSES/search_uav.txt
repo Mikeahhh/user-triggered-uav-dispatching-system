@@ -8,8 +8,9 @@ This MIT licence applies to the project's own code under:
   - `docs/`
   - the top-level `README.md`
 
-The `Fast-Drone-250/` subtree is a fork of HKUST FAST Lab's open-source flight
-stack and retains its upstream licences (see files inside that directory).
+The external Fast-Drone-250 flight workspace comes from ZJU FAST Lab
+and retains its upstream licenses and notices. For the pinned dependency,
+see docs/Flight_Environment_Setup.txt at the repository root.
 
 ----------------------------------------------------------------------
 

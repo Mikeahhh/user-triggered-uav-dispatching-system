@@ -3,6 +3,8 @@ user ground_station_role
 
 topic write alin1/mission/target_gps
 topic write alin1/mission/multi_waypoint
+topic write alin1/mission/transfer
+topic write alin1/mission/operator_retry
 topic write alin1/mission/abort
 topic write alin1/mission/operator_reset
 

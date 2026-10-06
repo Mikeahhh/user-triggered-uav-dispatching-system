@@ -14,6 +14,14 @@ The repository separates the running system in [`implementation/`](implementatio
 
 **Technology:** Android / React Native + Kotlin · Windows / Python + CustomTkinter · ROS Noetic + C++ · Wi-Fi · MATLAB
 
+## Project and paper
+
+This work grew from a final-year project (FYP) in the [School of Science and Technology, Hong Kong Metropolitan University](https://www.hkmu.edu.hk/st/). The repository brings together the mobile application, ground station, onboard UAV software and the simulation materials supporting the paper named above.
+
+**Authors:** Mingyang Wang, Yi Hong, Tungchak Lee, Ashwin Sundar, Yalin Liu and Kevin Hung. **Venue:** accepted for presentation at the TNI-Meta Workshop of IEEE MetaCom 2026, paper 79. A publication link will be added when available.
+
+The component origins are recorded in [Sources](docs/Sources.txt). The UAV implementation builds on [ZJU FAST Lab's Fast-Drone-250](https://github.com/ZJU-FAST-Lab/Fast-Drone-250); its external flight stack is described in the [flight environment guide](docs/Flight_Environment_Setup.txt). Existing component licenses and upstream attribution remain applicable.
+
 ## System Implementation
 
 The three components implement the workflow in Section II and the prototype described in Section III-A of the paper. The [implementation overview](implementation/README.md) maps the three stages to their source files and setup guides.
@@ -42,7 +50,7 @@ The figure is reproduced directly from the paper. The operator contacts the hike
 | **02 · Quick Start** | GPS positions with their original sample timestamps | Latest valid sample reaches the configured update timeout | Complete position history in time order |
 | **03 · SOS** | Request time and current position | A pending SOS request arrives | Expanding square around the SOS position |
 
-All modes begin with the same event priority and use the same operator confirmation process. Fresh samples at an unchanged position do not satisfy the current update-timeout rule. The separate emergency-call button opens the phone dialer; SOS uploads enter this system’s database and ground station.
+All modes begin with the same event priority and use the same operator confirmation process. A newer valid GPS timestamp refreshes Quick Start's location-update state even when the coordinates are unchanged. The separate emergency-call button opens the phone dialer; SOS uploads enter this system’s database and ground station.
 
 ## See the system
 

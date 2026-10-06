@@ -16,3 +16,12 @@ https://github.com/Mikeahhh/FYP_alin1_SmartUAVRescueSystem_Drone
 
 Ground-station upstream repository
 https://github.com/Mikeahhh/FYP_alin1_SmartUAVRescueSystem_Ground_Station
+
+External UAV flight stack
+ZJU FAST Lab, Fast-Drone-250.
+https://github.com/ZJU-FAST-Lab/Fast-Drone-250
+See Flight_Environment_Setup.txt for the pinned workspace and build order.
+
+Institution
+School of Science and Technology, Hong Kong Metropolitan University.
+https://www.hkmu.edu.hk/st/

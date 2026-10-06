@@ -81,10 +81,10 @@ source devel/setup.bash
 Once the flight-stack prerequisites and deployment configuration are ready, the mission bridge entry point is:
 
 ```sh
-roslaunch rescue_bridge rescue_bridge.launch mqtt_broker:=BROKER_HOST
+roslaunch rescue_bridge rescue_bridge.launch mqtt_broker:=127.0.0.1
 ```
 
-`BROKER_HOST` must be reachable by the UAV and ground station. Configure local installation paths, serial ports, sensor calibration, camera index and broker settings for the actual aircraft. Phone-record receiver settings are in [rescue_receiver.env.example](drone_system/config/rescue_receiver.env.example); the [receiver launcher](drone_system/bin/start_rescue_receiver.sh) exports the local configuration file.
+The documented broker runs on the UAV computer. The mission bridge uses its loopback listener; the ground station uses the authenticated LAN listener. Configure both listeners and the ground-station credentials as described in the [flight environment setup](../../docs/Flight_Environment_Setup.txt). Configure local installation paths, serial ports, sensor calibration, camera index and broker settings for the actual aircraft. Phone-record receiver settings are in [rescue_receiver.env.example](drone_system/config/rescue_receiver.env.example); the [receiver launcher](drone_system/bin/start_rescue_receiver.sh) exports the local configuration file.
 
 ## Source map
 

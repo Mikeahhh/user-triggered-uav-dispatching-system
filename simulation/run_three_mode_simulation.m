@@ -88,6 +88,7 @@ cfg.horizontal_speed_limit_mps = 15;
 cfg.vertical_speed_limit_mps = 3;
 cfg.hover_seconds = 5;
 cfg.integration_step_m = 5;
+% Nominal subdivision interval; terrain-limited trace segments can take longer.
 cfg.max_output_time_step_s = 0.5;
 cfg.spiral_spacing_m = 30;
 cfg.spiral_generation_threshold_m = 200;
